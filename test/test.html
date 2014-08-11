@@ -1,0 +1,34 @@
+<!-- <script src="../dist/utils.min.js"></script> -->
+<script src="../build/build.js"></script>
+<script>
+var utils = require('utils');
+var utils  = require('utils'),
+    assert = require('assert');
+
+assert.strictEqual(utils.sliceRel('http://lokua.net/music/'), 'music');
+assert.strictEqual(utils.sliceRel('http://lokua.net/music/', false, false), 'music');
+assert.strictEqual(utils.sliceRel('http://lokua.net/music/', true, true), '/music/');
+assert.strictEqual(utils.sliceRel('http://lokua.net/music/', false, true), 'music/');
+assert.strictEqual(utils.sliceRel('http://lokua.net/music/', true, false), '/music');
+
+assert.strictEqual(utils.repeat('-', 2), '--');
+assert.strictEqual(utils.repeat('-', 9), '---------');
+
+assert.strictEqual(utils.endsWith('peachy', 'y'), true);
+assert.strictEqual(utils.endsWith('peachy', 'puzastik'), false);
+
+assert.strictEqual(utils.formatTime(65), '00:01:05');
+
+var o = {a:1,b:2,c:3};
+assert.strictEqual(utils.propCount(o), 3);
+
+function con() {
+  this.hello = 'hello';
+  return this;
+}
+con.prototype.protoMethod = function() {
+  return 'hello from protoMethod';
+}
+assert.strictEqual(utils.objectCreate(con).prototype.protoMethod(), 'hello from protoMethod');
+
+</script>

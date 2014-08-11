@@ -1,0 +1,36 @@
+{
+  "name": "utils",
+  "version": "0.0.3",
+  "description": "general javascript utility functions",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "grunt": "~0.4.5"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-shell": "~0.7.0",
+    "grunt-contrib-uglify": "~0.5.1",
+    "grunt-contrib-copy": "~0.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lokua/utils"
+  },
+  "keywords": [
+    "general",
+    "utility",
+    "util",
+    "utils"
+  ],
+  "author": "Joshua Kleckner <dev@lokua.net> (http://lokua.net/)",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/lokua/utils/issues"
+  }
+}
