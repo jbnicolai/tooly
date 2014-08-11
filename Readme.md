@@ -10,7 +10,8 @@
     $ component install lokua/utils
 
 ## Browser usage
-After including either [dist/utils.js](https://github.com/Lokua/utils/blob/master/dist/utils.js) 
-or [dist/utils.min.js](https://github.com/Lokua/utils/blob/master/dist/utils.js) in your script tags:
+Including either [dist/utils.js](https://github.com/Lokua/utils/blob/master/dist/utils.js) 
+or [dist/utils.min.js](https://github.com/Lokua/utils/blob/master/dist/utils.js) in your script tags, and:
 
     var utils = require('utils');
+    // do stuff
