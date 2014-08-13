@@ -29,6 +29,9 @@ function con() {
 con.prototype.protoMethod = function() {
   return 'hello from protoMethod';
 }
-assert.strictEqual(utils.objectCreate(con).prototype.protoMethod(), 'hello from protoMethod');
+var conn = utils.objectCreate(con);
+assert.strictEqual(conn.prototype.protoMethod(), 'hello from protoMethod');
+console.log(conn.prototype.protoMethod());
 
+console.log(utils.format('{0} world{1}', 'hello', '!'));
 </script>

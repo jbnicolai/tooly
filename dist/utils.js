@@ -206,7 +206,21 @@ require.register("utils/index.js", function(exports, require, module){
  * @namespace  utils
  * @type {Object}
  */
-module.exports = { /** @lends utils */
+module.exports = {
+
+  /**
+   * Function version of String.format / sprintf
+   * @see  http://stackoverflow.com/a/4673436/2416000
+   * @param  {String} format
+   * @return {String} 
+   * @memberOf utils
+   */
+  format: function(format) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return format.replace(/{(\d+)}/g, function(match, number) { 
+      return typeof args[number] != 'undefined' ? args[number] : match;
+    });
+  },
 
   /**
    * scale a number from one range to another
