@@ -1,21 +1,11 @@
 'use strict';
 
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
-
-    banner: 
-      '/**\n' +
-      ' * <%= pkg.name %> - version <%= pkg.version %> ' +
-      '(built: <%= grunt.template.today("yyyy-mm-dd") %>)\n' +
-      ' * <%= pkg.description %>\n' + 
-      ' * <%= pkg.repository.url %>\n' + 
-      ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-      ' * Licensed under the <%= pkg.license.type %> license.\n' +
-      ' * <%= pkg.license.url %>\n' +
-      ' */\n',
 
     mochaTest: {
       test: {
@@ -47,7 +37,7 @@ module.exports = function(grunt) {
     usebanner: {
       options: {
         position: 'top',
-        banner: '<%= banner %>',
+        banner: require('./banner'),
         linebreak: true
       },
       build: {
