@@ -1,37 +1,36 @@
-<!-- <script src="../dist/utils.min.js"></script> -->
-<script src="../build/build.js"></script>
-<script>
-var utils = require('utils');
-var utils  = require('utils'),
-    assert = require('assert');
+<html>
+<head>
+  <title>TEST</title>
+  <script src="../dist/tooly.js"></script>
+</head>
 
-assert.strictEqual(utils.sliceRel('http://lokua.net/music/'), 'music');
-assert.strictEqual(utils.sliceRel('http://lokua.net/music/', false, false), 'music');
-assert.strictEqual(utils.sliceRel('http://lokua.net/music/', true, true), '/music/');
-assert.strictEqual(utils.sliceRel('http://lokua.net/music/', false, true), 'music/');
-assert.strictEqual(utils.sliceRel('http://lokua.net/music/', true, false), '/music');
+<body>
 
-assert.strictEqual(utils.repeat('-', 2), '--');
-assert.strictEqual(utils.repeat('-', 9), '---------');
+  <div id="idee">TESTING...</div>
+  <div class="klass">a</div>
+  <div class="klass">b</div>
+  <div class="klass">c</div>
 
-assert.strictEqual(utils.endsWith('peachy', 'y'), true);
-assert.strictEqual(utils.endsWith('peachy', 'puzastik'), false);
+  <div id="res"></div>
 
-assert.strictEqual(utils.formatTime(65), '00:01:05');
+  <script>
 
-var o = {a:1,b:2,c:3};
-assert.strictEqual(utils.propCount(o), 3);
+    var log = console.log;
 
-function con() {
-  this.hello = 'hello';
-  return this;
-}
-con.prototype.protoMethod = function() {
-  return 'hello from protoMethod';
-}
-var conn = utils.objectCreate(con);
-assert.strictEqual(conn.prototype.protoMethod(), 'hello from protoMethod');
-console.log(conn.prototype.protoMethod());
+    var idee = tooly.select('#idee');
+    console.log(idee);
+    console.log(tooly.repeat('-', 13));
 
-console.log(utils.format('{0} world{1}', 'hello', '!'));
-</script>
+    var klass = tooly.selectAll('.klass');
+    console.log(klass);
+    console.log(tooly.repeat('-', 13));
+
+    tooly.html('__:)(:__', klass);
+    tooly.append('...peaches', klass).prepend('0000', klass);
+    tooly.append('!!!', klass[1]);
+    tooly.html('<h1>HELLO HTML!</h1>', klass[2]);
+
+  </script>
+
+</body>
+</html>

@@ -6,46 +6,75 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    shell: {
-      dev: {
-        command: 'component build --dev'
-      },
-      build: {
-        command: 'component build'
+    banner: 
+      '/**\n' +
+      ' * <%= pkg.name %> - version <%= pkg.version %> ' +
+      '(built: <%= grunt.template.today("yyyy-mm-dd") %>)\n' +
+      ' * <%= pkg.description %>\n' + 
+      ' * <%= pkg.repository.url %>\n' + 
+      ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+      ' * Licensed under the <%= pkg.license.type %> license.\n' +
+      ' * <%= pkg.license.url %>\n' +
+      ' */\n',
+
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'list',
+          colors: true
+        },
+        src: ['test/*.js']
       }
     },
 
-    copy: {
+    umd: {
       build: {
-        src: 'build/build.js',
-        dest: 'dist/utils.js'
+        src: 'src/tooly.js',
+        dest: 'dist/tooly.js',
+        objectToExport: 'tooly',
+        amdModuleId: 'tooly',
+        indent: '  '
       }
     },
 
     uglify: {
       build: {
-        src: 'dist/utils.js',
-        dest: 'dist/utils.min.js'
+        src: 'dist/tooly.js',
+        dest: 'dist/tooly.min.js'
+      }
+    },
+
+    usebanner: {
+      options: {
+        position: 'top',
+        banner: '<%= banner %>',
+        linebreak: true
+      },
+      build: {
+        files: {
+          src: ['dist/tooly.js']
+        }
+      },
+      post: {
+        files: {
+          src: ['dist/tooly.min.js']
+        }
       }
     },
 
     watch: {
-      dev: {
-        files: ['index.js'],
-        tasks: ['shell:dev']
-      },
-      build: {
-        files: ['index.js'],
-        tasks: ['shell:build']
-      }
+      files: ['src/tooly.js'],
+      tasks: ['build']
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-shell');
+  
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-banner');
+  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-umd');
 
-  grunt.registerTask('default', ['shell:dev']);
-  grunt.registerTask('build', ['shell:build', 'copy:build', 'uglify:build']);
+  grunt.registerTask('build', ['umd:build', 'usebanner:build', 'uglify:build', 'usebanner:post']);
+  grunt.registerTask('test', ['mochaTest:test']);
 };
