@@ -1,3 +1,3 @@
-# utils
+# tooly
 
   general javascript utility functions
