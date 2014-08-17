@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.1 (built: 2014-08-16)
+ * tooly - version 0.0.1 (built: 2014-08-17)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -210,6 +210,27 @@
      */
     fromProto: function(prototype, object) {
       return tooly.fromPrototype(prototype, object);
+    },
+  
+  
+    /**
+     * note - overwrites original child.prototype
+     * note - the child's constructor needs to call `parent.call(this)`
+     * 
+     * @param  {Function} parent
+     * @param  {Function} child  
+     * @param  {Object} extend additional methods to add to prototype
+     */
+    inherit: function(parent, child, extend) {
+  
+      child.prototype = new parent();
+      child.prototype.constructor = child;
+  
+      for (var prop in extend) {
+        if (extend.hasOwnProperty(prop)) {
+          child.prototype[prop] = extend[prop];
+        }
+      }
     },
   
     /**

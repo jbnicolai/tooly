@@ -187,6 +187,27 @@ var tooly = {
     return tooly.fromPrototype(prototype, object);
   },
 
+
+  /**
+   * note - overwrites original child.prototype
+   * note - the child's constructor needs to call `parent.call(this)`
+   * 
+   * @param  {Function} parent
+   * @param  {Function} child  
+   * @param  {Object} extend additional methods to add to prototype
+   */
+  inherit: function(parent, child, extend) {
+
+    child.prototype = new parent();
+    child.prototype.constructor = child;
+
+    for (var prop in extend) {
+      if (extend.hasOwnProperty(prop)) {
+        child.prototype[prop] = extend[prop];
+      }
+    }
+  },
+
   /**
    * function version of ECMA5 Object.create
    * 

@@ -1,1 +1,1 @@
-mocha -c -u bdd -R spec ./test/test.js
+mocha -c -u bdd -R spec ./test/*.js
