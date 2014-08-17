@@ -3,11 +3,8 @@ var tooly  = require('../dist/tooly.js'),
     chai   = require('chai'),
     expect = chai.expect;
 
-// goal:
-// add prototype methods of Handler to prototype of Bird
-
-describe('#inherit', function() {
-  it('...', function() {
+describe('--- tooly(cont)', function() {
+  describe('#inherit', function() {
 
     function Bird() {
       this.n = 0;
@@ -23,15 +20,20 @@ describe('#inherit', function() {
       return this;
     }
 
-    Bird.prototype.init = function() {
-      this.exec('init');
-    };
+    tooly.inherit(Handler, Bird, {
+      init: function() {
+        this.exec('init');
+      }
+    });
 
     var bird = new Bird();
-    expect(bird.n).to.equal(1);
-    bird.init();
-    expect(bird.n).to.equal(2);
 
-
+    it('should increment n', function() {
+      expect(bird.n).to.equal(1);
+    });
+    it('should increment n', function() {
+      bird.init();
+      expect(bird.n).to.equal(2);
+    });
   });
 });
