@@ -58,11 +58,11 @@
      * fill DOM element `el` with `content`.
      * *note - replaces existing content
      * 
-     * @param  {String|Element} content
+     * @param  {(String|Element)} content
      * @param  {Element} el      
      * @return {Object} tooly for chaining
      */
-    html: function(content, el) {
+    html: function(el, content) {
       el = el || document;
       if (tooly.toType(el) === 'array') {
         for (var i = 0, len = el.length; i < len; i++) {
