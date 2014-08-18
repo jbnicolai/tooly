@@ -27,11 +27,11 @@ module.exports = function(grunt) {
 
     umd: {
       main: {
-        src: 'dist/temp.js',
+        src: 'dist/tooly-raw.js',
         dest: 'dist/tooly.js',
         objectToExport: 'tooly',
-        amdModuleId: 'tooly',
-        indent: '  '
+        amdModuleId: 'tooly'/*,
+        indent: '  '*/
       }
     },
 
