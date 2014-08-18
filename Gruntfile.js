@@ -1,5 +1,8 @@
 'use strict';
 
+var parser = require('nomnom');
+
+var customDest = '';
 
 module.exports = function(grunt) {
 
@@ -7,19 +10,24 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'list',
-          colors: true
-        },
-        src: ['test/*.js']
+    exec: {
+      custom: {
+        cmd: function() {
+          var args = Array.prototype.slice.call(arguments, 0);
+          return 'node bin/build '  + args.join(' ');
+        }
+      }
+    },
+
+    shell: {
+      main: {
+        command: 'bin/build-main.sh'
       }
     },
 
     umd: {
-      build: {
-        src: 'src/tooly.js',
+      main: {
+        src: 'dist/temp.js',
         dest: 'dist/tooly.js',
         objectToExport: 'tooly',
         amdModuleId: 'tooly',
@@ -28,7 +36,7 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      build: {
+      main: {
         src: 'dist/tooly.js',
         dest: 'dist/tooly.min.js'
       }
@@ -40,7 +48,7 @@ module.exports = function(grunt) {
         banner: require('./banner'),
         linebreak: true
       },
-      build: {
+      main: {
         files: {
           src: ['dist/tooly.js']
         }
@@ -54,7 +62,7 @@ module.exports = function(grunt) {
 
     watch: {
       files: ['src/tooly.js'],
-      tasks: ['build']
+      tasks: ['main']
     }
   });
 
@@ -62,9 +70,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-banner');
-  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-umd');
 
-  grunt.registerTask('build', ['umd:build', 'usebanner:build', 'uglify:build', 'usebanner:post']);
-  grunt.registerTask('test', ['mochaTest:test']);
+  grunt.registerTask('build', ['shell:main']);
+  grunt.registerTask('custom', ['shell:custom']);
+  grunt.registerTask('main', ['umd:main', 'usebanner:main', 'uglify:main', 'usebanner:post']);
 };

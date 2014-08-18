@@ -4,33 +4,54 @@
   <script src="../dist/tooly.js"></script>
 </head>
 
-<body>
+<body style="padding:32px">
 
-  <div id="idee">TESTING...</div>
+  <div id="idee" class="some-class">id test</div>
+
   <div class="klass">a</div>
   <div class="klass">b</div>
   <div class="klass">c</div>
 
   <div id="res"></div>
 
-  <script>
+<script>
 
-    var log = console.log;
+  function test1() {
+    function __() {
+      console.log(tooly.repeat('-', 13));
+    }
 
     var idee = tooly.select('#idee');
+    console.log('tooly.select(\'#idee\') >>');
     console.log(idee);
-    console.log(tooly.repeat('-', 13));
+    __();
 
     var klass = tooly.selectAll('.klass');
+    console.log('tooly.selectAll(\'.klass\') >>');
     console.log(klass);
-    console.log(tooly.repeat('-', 13));
+    __();
 
-    tooly.html('__:)(:__', klass);
-    tooly.append('...peaches', klass).prepend('0000', klass);
-    tooly.append('!!!', klass[1]);
-    tooly.html('<h1>HELLO HTML!</h1>', klass[2]);
+    tooly.append(klass, '__(append)')
+    tooly.prepend(klass, '(prepend)__')
+    tooly.append(klass[1], '__(append to class b)')
+    tooly.html(klass[2], '<b>(HTML replace class c)</b>');
 
-  </script>
+    console.log('tooly.hasClass(idee, \'some-class\') ? ' + 
+      tooly.hasClass(idee, 'some-class')
+    );
+    __();
+  }
+
+  function test2() {
+    var divs = tooly.selectAll('.klass');
+    tooly.addClass(divs, 'new-class');
+    tooly.removeClass(divs, 'new-class');
+  }
+
+  test1();
+  test2();
+
+</script>
 
 </body>
 </html>

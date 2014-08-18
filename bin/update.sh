@@ -1,3 +1,4 @@
+#!/bin/bash
 grunt build
 git add -A
 
