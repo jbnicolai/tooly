@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 
     shell: {
       main: {
-        command: 'bin/build-main.sh'
+        command: './bin/build-main.sh'
       }
     },
 
