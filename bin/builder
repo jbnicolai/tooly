@@ -8,7 +8,7 @@ var parser = require('nomnom'),
     modules = {},   // { <file name sans `.js`> : <file contents> }
     includes = {},  // flags which modules to include / exclude
     output = '',    // final output string
-    choices = ['core', 'dom', 'object'],
+    choices = ['core', 'dom', 'object', 'xhr'],
     _ = require('underscore'),
     path = require('path'),
     dest = './dist/tooly-custom.js',
@@ -124,9 +124,10 @@ output += (includeWhat('dom')) ? modules['dom_priv'] : '';
 
 // public modules
 output += returnHeader;
-output += (includeWhat('dom'))    ? modules['dom']     : '';
-output += (includeWhat('object')) ? modules['object']  : '';
-output += (includeWhat('core'))   ? modules['core']    : '';
+output += (includeWhat('dom'))    ? modules['dom']    : '';
+output += (includeWhat('object')) ? modules['object'] : '';
+output += (includeWhat('xhr'))    ? modules['xhr']    : '';
+output += (includeWhat('core'))   ? modules['core']   : '';
 
 // close return statement and IIFE wrap
 output += modules['_footer'];

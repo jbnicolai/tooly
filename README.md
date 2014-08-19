@@ -13,6 +13,6 @@ create a custom build of particular modules:
     $ cd path_to/node_modules/tooly
     $ bin/custom include dom object
 
-Available modules include `core`, `dom`, and `object`. 
+Available modules include `core`, `dom`, `xhr`, and `object`. 
 The custom build will be located at `./dist/tooly-custom.js`.
 
