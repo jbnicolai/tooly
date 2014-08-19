@@ -214,7 +214,7 @@ var tooly = (function() {
       return els;
     },
 // --- end dom module
-//         /**
+        /**
      * copy properties from source object to target
      * 
      * @param  {Object} target the destination object
