@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+node bin/builder include dom core object -o dist/tooly-raw.js --nocomment
+grunt main

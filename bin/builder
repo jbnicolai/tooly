@@ -1,6 +1,8 @@
+#!/usr/bin/env node
 var parser = require('nomnom'),
     fs = require('fs'),
     colors = require('colors'),
+    format = require('util').format,
     moddir = './src/modules/',
     fileNames = fs.readdirSync(moddir),
     modules = {},   // { <file name sans `.js`> : <file contents> }
@@ -9,7 +11,8 @@ var parser = require('nomnom'),
     choices = ['core', 'dom', 'object'],
     _ = require('underscore'),
     path = require('path'),
-    dest = './dist/tooly-custom.js';
+    dest = './dist/tooly-custom.js',
+    nocomment = false;
 
 parser.option('output', {
   abbr: 'o',
@@ -17,10 +20,18 @@ parser.option('output', {
   default: dest,
   help: 'specify output file',
   callback: function(arg) {
-    // TODO: validate
     dest = arg;
   }
-});    
+});
+
+parser.option('nocomment', {
+  abbr: 'n',
+  flag: true,
+  help: 'omit `custom build...` comment from output',
+  callback: function(arg) {
+    nocomment = arg;
+  }
+});
 
 parser.command('include')
   .option('modules', {
@@ -33,7 +44,7 @@ parser.command('include')
     validate(args._.slice(1));
     getIncludes(args._);
   })
-  .help('include only the following list of modules in the build.');
+  .help('include only a proceeding list of modules in the build.');
 
 parser.command('exclude')
   .option('modules', {
@@ -48,7 +59,7 @@ parser.command('exclude')
     args.push('include');
     getIncludes(args);
   })
-  .help('build with all modules EXCEPT those in the following list.');
+  .help('build with all modules except those in a proceeding list.');
 
 parser.parse();
 
@@ -92,24 +103,37 @@ function includeWhat(key) {
 
 var returnHeader = '\n  return {\n\n';
 
+if (!nocomment) {
+  // compose a list of included modules for the output header
+  var mess = format('%s%s%s%s',
+    '\n/**\n * CUSTOM BUILD.\n',
+    (includes.include) ? ' * Includes ' : ' * Excludes ',
+    'modules: ' + _.each(_.keys(_.omit(includes, 'include')), function(el, i, arr) {
+      arr[i] = format('`%s`%s', el, (i === arr.length-1) ? '' : ', ');
+    }).join(''),
+    '\n */\n\n'
+  );
+  output += mess;
+}
+
 // start the declaration
 output += modules['__header'];
 
 // private modules
-output += (includeWhat('dom'))  ? modules['dom_priv'] : '';
+output += (includeWhat('dom')) ? modules['dom_priv'] : '';
 
 // public modules
 output += returnHeader;
-output += (includeWhat('dom')) ? modules['dom']  : '';
+output += (includeWhat('dom'))    ? modules['dom']     : '';
 output += (includeWhat('object')) ? modules['object']  : '';
-output += (includeWhat('core')) ? modules['core'] : '';
+output += (includeWhat('core'))   ? modules['core']    : '';
 
 // close return statement and IIFE wrap
 output += modules['_footer'];
 
 fs.writeFile(dest, output, function() {
 
-  console.log('\n%s\n%s %s',
+  console.log('\n%s\n%s %s\n',
     'Custom build completed successfully.'.green,
     'File saved to:',
     (path.resolve(__dirname, '..', dest)).cyan

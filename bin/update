@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 grunt build
 git add -A
 
