@@ -330,7 +330,8 @@ var tooly = (function() {
         }
       }
       return props;
-    },    /**
+    },    
+    /**
      * perform a get xhr request for JSON file
      * 
      * @param  {String}   jsonFile  url
