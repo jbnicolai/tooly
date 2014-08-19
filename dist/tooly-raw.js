@@ -13,7 +13,7 @@ var tooly = (function() {
 
   /** @private */
   function _between(str) {
-    return new RegExp('\s*' + str + '\s*(?!\W\w)', 'g');
+    return new RegExp('\s*' + str + '\s*(?!\W|\w)', 'g');
   }
 
   /** @private */
