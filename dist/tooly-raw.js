@@ -43,6 +43,8 @@ var tooly = (function() {
   
   return {
 
+
+// --- begin dom module    
     /**
      * check if an element has a css class
      * 
@@ -186,7 +188,8 @@ var tooly = (function() {
       }
       return els;
     },
-        /**
+// --- end dom module
+//         /**
      * copy properties from source object to target
      * 
      * @param  {Object} target the destination object
@@ -306,6 +309,7 @@ var tooly = (function() {
       }
       return props;
     },
+// --- begin xhr module
     /**
      * perform a get xhr request for JSON file
      * 
@@ -327,7 +331,7 @@ var tooly = (function() {
       };
       req.send();
     },
-
+// --- end xhr module
     /**
      * Function version of ECMAScript6 String.prototype.endsWith
      * @param  {String} str    the string to check

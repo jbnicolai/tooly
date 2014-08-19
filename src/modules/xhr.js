@@ -1,4 +1,5 @@
 
+// --- begin xhr module
     /**
      * perform a get xhr request for JSON file
      * 
@@ -20,4 +21,4 @@
       };
       req.send();
     },
-
+// --- end xhr module
