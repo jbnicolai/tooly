@@ -37,7 +37,7 @@ var tooly = (function() {
   var _ws = /\s+/;
 
   /** @private */
-  function _between(str) {
+  function _re(str) {
     return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
   }
 
@@ -80,7 +80,7 @@ var tooly = (function() {
       if (!el) return false;      
       if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
-        var re = _between(klass),
+        var re = _re(klass),
             classes = el.className.split(_ws),
             len = classes.length,
             i = 0;
@@ -121,7 +121,7 @@ var tooly = (function() {
 
       _proc_1(el, klass, tooly.removeClass);
       if (el.nodeType === 1) {
-        el.className = el.className.replace(_between(klass), ' ');
+        el.className = el.className.replace(_re(klass), ' ');
       }
       return tooly;
     },

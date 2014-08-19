@@ -2,7 +2,7 @@
   var _ws = /\s+/;
 
   /** @private */
-  function _between(str) {
+  function _re(str) {
     return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
   }
 
