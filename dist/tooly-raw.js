@@ -313,7 +313,6 @@ var tooly = (function() {
 // --- end object module    
 
 // --- begin xhr module
-// 
     /**
      * perform a get xhr request for JSON file
      * 
@@ -325,7 +324,7 @@ var tooly = (function() {
      */
     getJSON: function(jsonFile, success, async) {
       var req = new XMLHttpRequest();
-      req.open('get', jsonFile, async || true);
+      req.open('get', jsonFile, arguments.length === 2 ? true : async);
       req.reponseType = 'json';
       req.onreadystatechange = function() {
         if (req.readyState == 4) { // done
