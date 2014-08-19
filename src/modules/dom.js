@@ -7,6 +7,7 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
+      if (!el) return false;      
       if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
         var re = _between(klass),
@@ -31,6 +32,8 @@
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
+      if (!el) return tooly;
+
       _proc_1(el, klass, tooly.addClass);
       if (el.nodeType === 1) {
         el.className += ' ' + klass;
@@ -46,6 +49,8 @@
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
+      if (!el) return tooly;
+
       _proc_1(el, klass, tooly.removeClass);
       if (el.nodeType === 1) {
         el.className = el.className.replace(_between(klass), ' ');
@@ -61,6 +66,8 @@
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
+      if (!el) return tooly;
+
       _proc_2(el, content, tooly.prepend);
       if (el.nodeType === 1 || el.nodeType === 9) {
         el.innerHTML = content + el.innerHTML;
@@ -76,6 +83,8 @@
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
+      if (!el) return tooly;
+
       _proc_2(el, content, tooly.append);
       if (el.nodeType === 1 || el.nodeType === 9) {
         el.innerHTML += content;
@@ -92,7 +101,8 @@
      * @return {Object|String} tooly for chaining, or el.innerHTML, or undefined if el is null
      */
     html: function(el, content) {
-      if (el == null) return;
+      if (!el) return tooly;
+
       if (arguments.length === 1)  {
         return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
       }
