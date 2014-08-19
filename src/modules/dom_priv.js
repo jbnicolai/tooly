@@ -7,8 +7,8 @@
   }
 
   /** @private */
-  function _procArray(el, args, callback) {
-    if (_type(arg) === 'array') {
+  function _proc_1(el, args, callback) {
+    if (_type(args) === 'array') {
       var ret, 
           i = 0, 
           len = el.length
@@ -16,6 +16,18 @@
         ret = callback(el[i], args);
       }
       return ret;
+    }
+  }
+
+  /** @private */
+  function _proc_2(el, content, callback) {
+    if (_type(el) === 'array') {
+      var ret, 
+          i = 0, 
+          len = el.length
+      for (; i < len; i++) {
+        callback(el[i], content);
+      }
     }
   }
   

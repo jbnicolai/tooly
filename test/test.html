@@ -8,9 +8,9 @@
 
   <div id="idee" class="some-class">id test</div>
 
-  <div class="klass">a</div>
-  <div class="klass">b</div>
-  <div class="klass">c</div>
+  <div class="klass one">a</div>
+  <div class="klass two">b</div>
+  <div class="klass tre">c</div>
 
   <div id="res"></div>
 
@@ -46,10 +46,29 @@
     var divs = tooly.selectAll('.klass');
     tooly.addClass(divs, 'new-class');
     tooly.removeClass(divs, 'new-class');
+
+    tooly.prepend(divs, '_peachynooshka_');
   }
 
-  test1();
-  test2();
+  function test3() {
+
+    var el = tooly.selectAll('.klass')[2],
+        html = tooly.html(el);
+    console.log(html);
+
+    var body = tooly.select('body');
+    console.log(body);
+    tooly.html(body, '<hr>');
+  }
+
+  function test4() {
+    console.log(tooly.hasClass('.klass', 'two'));
+  }
+
+  // test1();
+  // test2();
+  // test3();
+  test4();
 
 </script>
 

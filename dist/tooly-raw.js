@@ -1,29 +1,4 @@
 /**
- * tooly - version 0.0.1 (built: 2014-08-19)
- * js utility functions
- * https://github.com/Lokua/tooly.git
- * Copyright (c) 2014 Joshua Kleckner
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/MIT
- */
-
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define('tooly', [], function () {
-      return (root.returnExportsGlobal = factory());
-    });
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
-    // like Node.
-    module.exports = factory();
-  } else {
-    root['tooly'] = factory();
-  }
-}(this, function () {
-
-/**
  * @namespace  tooly
  * @type {Object}
  */
@@ -447,9 +422,3 @@ var tooly = (function() {
 
   };  // end return statement
 })(); // end IIFE
-
-
-return tooly;
-
-
-}));

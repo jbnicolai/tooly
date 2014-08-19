@@ -8,16 +8,11 @@
 
 ## custom build
   
-create a custom build of particular modules using grunt:
+create a custom build of particular modules:
 
-    $ cd path/to/node_modules/tooly
-    $ grunt custom include dom object
+    $ cd path_to/node_modules/tooly
+    $ bin/custom include dom object
 
 Available modules include `core`, `dom`, and `object`. 
-A custom file can be specified with:
-    
-    -o path/to/dest.js
-
-Otherwise, the custom build will be located at `./dist/tooly-custom.js`.
-
+The custom build will be located at `./dist/tooly-custom.js`.
 

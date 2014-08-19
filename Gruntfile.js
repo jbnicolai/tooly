@@ -21,6 +21,7 @@ module.exports = function(grunt) {
 
     shell: {
       main: {
+        // doesn't work here or when placed as exec task. what gives?
         command: './bin/build-main.sh'
       }
     },
@@ -32,6 +33,11 @@ module.exports = function(grunt) {
         objectToExport: 'tooly',
         amdModuleId: 'tooly'/*,
         indent: '  '*/
+      },
+      custom: {
+        src: 'dist/tooly-custom.js',
+        objectToExport: 'tooly',
+        amdModuleId: 'tooly'
       }
     },
 
@@ -39,6 +45,10 @@ module.exports = function(grunt) {
       main: {
         src: 'dist/tooly.js',
         dest: 'dist/tooly.min.js'
+      },
+      custom: {
+        src: '<%= umd.custom.src %>',
+        dest: 'dist/tooly-custom.min.js',
       }
     },
 
@@ -56,6 +66,16 @@ module.exports = function(grunt) {
       post: {
         files: {
           src: ['dist/tooly.min.js']
+        }
+      },
+      custom: {
+        files: {
+          src: ['<%= umd.custom.src %>']
+        }
+      },
+      customPost: {
+        files: {
+          src: ['<%= uglify.custom.dest %>']
         }
       }
     },
@@ -75,6 +95,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-umd');
 
   grunt.registerTask('build', ['shell:main']);
-  grunt.registerTask('custom', ['shell:custom']);
+  grunt.registerTask('custom', [
+    'umd:custom', 'usebanner:custom', 'uglify:custom', 'usebanner:customPost'
+  ]);
   grunt.registerTask('main', ['umd:main', 'usebanner:main', 'uglify:main', 'usebanner:post']);
 };

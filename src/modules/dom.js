@@ -7,25 +7,19 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-
-      if (_procArray(el, klass, tooly.hasClass)) return true;
-
+      if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
-
         var re = _between(klass),
             classes = el.className.split(_ws),
             len = classes.length,
             i = 0;
-
         for (; i < len; i++) {
           if (classes[i].match(re) == klass) {
             return true;
           }
         }
-
         return false;
       }
-
       throw new TypeError(el + ' must be of nodeType: 1');
     },
 
@@ -37,7 +31,7 @@
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      _procArray(el, klass, tooly.addClass);
+      _proc_1(el, klass, tooly.addClass);
       if (el.nodeType === 1) {
         el.className += ' ' + klass;
       }
@@ -52,7 +46,7 @@
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      _procArray(el, klass, tooly.removeClass);
+      _proc_1(el, klass, tooly.removeClass);
       if (el.nodeType === 1) {
         el.className = el.className.replace(_between(klass), ' ');
       }
@@ -67,20 +61,10 @@
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      el = el || document;
-      if (_type(el) === 'array') {
-        for (var i = 0, len = el.length; i < len; i++) {
-          if (el[i].nodeType === 1) {
-            el[i].innerHTML = content + el[i].innerHTML;
-          }
-        }
-        return tooly
+      _proc_2(el, content, tooly.prepend);
+      if (el.nodeType === 1 || el.nodeType === 9) {
+        el.innerHTML = content + el.innerHTML;
       }
-      // if node is not ELEMENT_NODE or DOCUMENT_NODE, do nothing
-      if (el.nodeType !== 1 && el.nodeType !== 9) {
-        return tooly
-      }
-      el.innerHTML = content + el.innerHTML;
       return tooly
     },
 
@@ -92,46 +76,29 @@
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      el = el || document;
-      if (_type(el) === 'array') {
-        for (var i = 0, len = el.length; i < len; i++) {
-          if (el[i].nodeType === 1) {
-            el[i].innerHTML += content;
-          }
-        }
-        return tooly;
+      _proc_2(el, content, tooly.append);
+      if (el.nodeType === 1 || el.nodeType === 9) {
+        el.innerHTML += content;
       }
-      // if node is not ELEMENT_NODE or DOCUMENT_NODE, do nothing
-      if (el.nodeType !== 1 && el.nodeType !== 9) {
-        return tooly;
-      }
-      el.innerHTML += content;
       return tooly;
     },
 
     /**
-     * fill DOM element `el` with `content`.
-     * *note - replaces existing content
+     * fill DOM element `el` with `content`. Replaces existing content.
+     * If called with 1 arg, th elements innerHTML is returned
      * 
      * @param  {(String|Object)} content
      * @param  {Element} el      
-     * @return {Object} tooly for chaining
+     * @return {Object|String} tooly for chaining, or el.innerHTML
      */
     html: function(el, content) {
-      el = el || document;
-      if (_type(el) === 'array') {
-        for (var i = 0, len = el.length; i < len; i++) {
-          if (el[i].nodeType === 1) {
-            el[i].innerHTML = content;
-          }
-        }
-        return tooly
+      if (arguments.length === 1)  {
+        return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
       }
-      // if node is not ELEMENT_NODE or DOCUMENT_NODE, do nothing
-      if (el.nodeType !== 1 && el.nodeType !== 9) {
-        return tooly
+      _proc_1(el, content, tooly.html);
+      if (el.nodeType === 1 || el.nodeType === 9) {
+        el.innerHTML = content;
       }
-      el.innerHTML = content;
       return tooly
     },
 
