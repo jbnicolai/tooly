@@ -15,9 +15,7 @@
             len = classes.length,
             i = 0;
         for (; i < len; i++) {
-          if (classes[i].match(re) == klass) {
-            return true;
-          }
+          if (classes[i].match(re) == klass) return true;
         }
         return false;
       }

@@ -38,7 +38,7 @@ var tooly = (function() {
 
   /** @private */
   function _between(str) {
-    return new RegExp('\s*' + str + '\s*', 'g');
+    return new RegExp('\s*' + str + '\s*(?!\W\w)', 'g');
   }
 
   /** @private */
@@ -85,9 +85,7 @@ var tooly = (function() {
             len = classes.length,
             i = 0;
         for (; i < len; i++) {
-          if (classes[i].match(re) == klass) {
-            return true;
-          }
+          if (classes[i].match(re) == klass) return true;
         }
         return false;
       }
