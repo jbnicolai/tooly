@@ -330,7 +330,7 @@ var tooly = (function() {
         }
       }
       return props;
-    },    
+    },
     /**
      * perform a get xhr request for JSON file
      * 
@@ -351,7 +351,9 @@ var tooly = (function() {
         }
       };
       req.send();
-    },    /**
+    },
+
+    /**
      * Function version of ECMAScript6 String.prototype.endsWith
      * @param  {String} str    the string to check
      * @param  {String} suffix the "endWith" we are seeking
