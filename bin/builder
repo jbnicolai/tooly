@@ -124,10 +124,10 @@ output += (includeWhat('dom')) ? modules['dom_priv'] : '';
 
 // public modules
 output += returnHeader;
-output += (includeWhat('dom'))    ? modules['dom']    : '';
-output += (includeWhat('object')) ? modules['object'] : '';
-output += (includeWhat('xhr'))    ? modules['xhr']    : '';
-output += (includeWhat('core'))   ? modules['core']   : '';
+output += (includeWhat('dom'))    ? modules['dom']    + '\n\n' : '';
+output += (includeWhat('object')) ? modules['object'] + '\n\n' : '';
+output += (includeWhat('xhr'))    ? modules['xhr']    + '\n\n' : '';
+output += (includeWhat('core'))   ? modules['core']   + '\n\n' : '';
 
 // close return statement and IIFE wrap
 output += modules['_footer'];

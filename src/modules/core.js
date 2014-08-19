@@ -1,3 +1,4 @@
+// --- begin core module    
     /**
      * Function version of ECMAScript6 String.prototype.endsWith
      * @param  {String} str    the string to check
@@ -121,3 +122,4 @@
     toType: function(obj) {
       return _type(obj);
     }
+// --- end core module

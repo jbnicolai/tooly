@@ -1,4 +1,3 @@
-
 // --- begin xhr module
     /**
      * perform a get xhr request for JSON file

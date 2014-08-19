@@ -1,3 +1,4 @@
+// --- begin object module    
     /**
      * copy properties from source object to target
      * 
@@ -118,3 +119,4 @@
       }
       return props;
     },
+// --- end object module    
