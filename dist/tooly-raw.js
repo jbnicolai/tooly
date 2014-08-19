@@ -134,9 +134,10 @@ var tooly = (function() {
      * 
      * @param  {(String|Object)} content
      * @param  {Element} el      
-     * @return {Object|String} tooly for chaining, or el.innerHTML
+     * @return {Object|String} tooly for chaining, or el.innerHTML, or undefined if el is null
      */
     html: function(el, content) {
+      if (el == null) return;
       if (arguments.length === 1)  {
         return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
       }
