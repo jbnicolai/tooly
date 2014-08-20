@@ -289,7 +289,7 @@ var tooly = (function() {
               }
 
               // Never move original objects, clone them
-              target[name] = extend(deep, clone, copy);
+              target[name] = tooly.extend(deep, clone, copy);
 
             // Don't bring in undefined values
             } else if (typeof copy !== 'undefined') {
