@@ -189,7 +189,20 @@ var tooly = (function() {
     },
 // --- end dom module
 
-// --- begin object module    
+// --- begin object module
+    /**
+     * @param  {Function} ctor 
+     * @param  {Object|Array} args 
+     * @return {Object}      
+     */
+    construct: function(ctor, args) {
+      function F() {
+        return (_type(args) === 'array') ? 
+          ctor.apply(this, args) : ctor.call(this, args);
+      }
+      F.prototype = ctor.prototype;
+      return new F();
+    },    
     /**
      * quick and dirty port of node.extend by dreamerslab <ben@dreamerslab.com>
      * https://github.com/dreamerslab/node.extend
@@ -240,7 +253,8 @@ var tooly = (function() {
             }
 
             // Recurse if we're merging plain objects or arrays
-            if (deep && copy && (tooly.isHash(copy) || (copy_is_array = _type(copy) === 'array'))) {
+            if (deep && copy && 
+                (tooly.isHash(copy) || (copy_is_array = _type(copy) === 'array'))) {
               if (copy_is_array) {
                 copy_is_array = false;
                 clone = src && _type(src) === 'array' ? src : [];
@@ -265,8 +279,8 @@ var tooly = (function() {
 
     /**
      * Object literal assignment results in creating an an object with Object.prototype
-     * as the prototype. This allows us to assign a different prototype while keeping the convenience
-     * of literal literation.
+     * as the prototype. This allows us to assign a different prototype while keeping 
+     * the convenience of literal literation.
      * 
      * @param  {Object} prototype
      * @param  {Object} object    
