@@ -5,12 +5,13 @@
      * @return {Object}      
      */
     construct: function(ctor, args) {
-      function F() {
+      // the stupid name leads to more revealing output in logs
+      function ToolySurrogateConstructor() {
         return (_type(args) === 'array') ? 
           ctor.apply(this, args) : ctor.call(this, args);
       }
-      F.prototype = ctor.prototype;
-      return new F();
+      ToolySurrogateConstructor.prototype = ctor.prototype;
+      return new ToolySurrogateConstructor();
     },    
     /**
      * quick and dirty port of node.extend by dreamerslab <ben@dreamerslab.com>
