@@ -1,25 +1,74 @@
 // --- begin object module    
     /**
-     * copy properties from source object to target
+     * quick and dirty port of node.extend by dreamerslab <ben@dreamerslab.com>
+     * https://github.com/dreamerslab/node.extend
      * 
-     * @param  {Object} target the destination object
-     * @param  {Object} source the object we are copying
-     * @return {Obect} target
+     * which is in turn a port of jQuery.extend
+     * Copyright 2011, John Resig
+     * Dual licensed under the MIT or GPL Version 2 licenses.
+     * http://jquery.org/license
+     *
+     * slightly modified for tooly compatibility.
+     * @see  http://api.jquery.com/jquery.extend/ for usage info
      */     
-    extend: function(target, source) {
-      target = target || {};
+    extend: function() {
+      var target = arguments[0] || {},
+          i = 1,
+          length = arguments.length,
+          deep = false,
+          options, name, src, copy, copy_is_array, clone;
 
-      for (var prop in source) {
-        if (source.hasOwnProperty(prop)) {
+      // Handle a deep copy situation
+      if (_type(target) === 'boolean') {
+        deep = target;
+        target = arguments[1] || {};
+        // skip the boolean and the target
+        i = 2;
+      }
 
-          if (tooly.toType(prop) === 'object') {
-            target[prop] = extend(target[prop] = source[prop]);
-          } else {
-            target[prop] = source[prop];
+      // Handle case when target is a string or something (possible in deep copy)
+      if (_type(target) !== 'object' && _type(target) !== 'function') {
+        target = {};
+      }
+
+      for (; i < length; i++) {
+        // Only deal with non-null/undefined values
+        options = arguments[i]
+        if (options != null) {
+          if (_type(options) === 'string') {
+            options = options.split('');
+          }
+          // Extend the base object
+          for (name in options) {
+            src = target[name];
+            copy = options[name];
+
+            // Prevent never-ending loop
+            if (target === copy) {
+              continue;
+            }
+
+            // Recurse if we're merging plain objects or arrays
+            if (deep && copy && (tooly.isHash(copy) || (copy_is_array = _type(copy) === 'array'))) {
+              if (copy_is_array) {
+                copy_is_array = false;
+                clone = src && _type(src) === 'array' ? src : [];
+              } else {
+                clone = src && tooly.isHash(src) ? src : {};
+              }
+
+              // Never move original objects, clone them
+              target[name] = extend(deep, clone, copy);
+
+            // Don't bring in undefined values
+            } else if (typeof copy !== 'undefined') {
+              target[name] = copy;
+            }
           }
         }
       }
-      
+
+      // Return the modified object
       return target;
     },
 
@@ -73,6 +122,22 @@
         }
       }
     },
+
+    /**
+     * port of is.hash
+     * 
+     * Test if `value` is a hash - a plain object literal.
+     *
+     * @param {Mixed} value value to test
+     * @return {Boolean} true if `value` is a hash, false otherwise
+     * @see https://github.com/enricomarino/is/blob/master/index.js
+     * @author Enrico Marino
+     */
+    isHash: function(val) {
+      return _type(val) === 'object' && val.constructor === Object && 
+        !val.nodeType && !val.setInterval;
+    },
+
 
     /**
      * function version of ECMA5 Object.create
