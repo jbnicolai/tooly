@@ -81,7 +81,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: ['src/tooly.js'],
+      files: ['src/modules/*.js'],
       tasks: ['main']
     }
   });

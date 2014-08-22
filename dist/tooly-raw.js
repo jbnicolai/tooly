@@ -4,7 +4,6 @@
  */
 var tooly = (function() {
 
-  /** @private */
   function _type(o) {
     return ({}).toString.call(o).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
   }
@@ -39,7 +38,7 @@ var tooly = (function() {
   }
 
   function _node(el) {
-    return el && (el.nodeType === 1 || el.nodeType === 9);
+    return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
   
   var _slice = Array.prototype.slice;
@@ -88,9 +87,9 @@ var tooly = (function() {
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!_node()) return false;
+      if (!_node(el)) return false;
       if (_proc_1(el, klass, tooly.hasClass)) return true;
-      if (el.nodeType === 1) {
+      // if (el.nodeType === 1) {
         var re = _re(klass),
             classes = el.className.split(_ws),
             len = classes.length,
@@ -99,7 +98,7 @@ var tooly = (function() {
           if (classes[i].match(re) == klass) return true;
         }
         return false;
-      }
+      // }
     },
 
     /**
@@ -110,7 +109,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_1(el, klass, tooly.addClass);
       el.className += ' ' + klass;
       return tooly;
@@ -124,7 +123,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_1(el, klass, tooly.removeClass);
       el.className = el.className.replace(_re(klass), ' ');
       return tooly;
@@ -138,7 +137,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_2(el, content, tooly.prepend);
       el.innerHTML = content + el.innerHTML;
       return tooly
@@ -152,7 +151,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_2(el, content, tooly.append);
       el.innerHTML += content;
       return tooly;
@@ -167,7 +166,7 @@ var tooly = (function() {
      * @return {Object|String} tooly for chaining, or el.innerHTML, or undefined if el is null
      */
     html: function(el, content) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       if (arguments.length === 1)  {
         return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
       }
@@ -475,7 +474,7 @@ var tooly = (function() {
      * @memberOf tooly
      */
     format: function(format) {
-      var args = Array.prototype.slice.call(arguments, 1);
+      var args = _slice.call(arguments, 1);
       return format.replace(/{(\d+)}/g, function(match, number) { 
         return typeof args[number] != 'undefined' ? args[number] : match;
       });

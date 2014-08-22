@@ -68,7 +68,19 @@
   // test1();
   // test2();
   // test3();
-  test4();
+  // test4();
+  
+
+  (function() {
+
+    tooly.logger.traceAnonymous = false;
+
+    var klass = tooly.selectAll('.klass');
+    tooly.debug(klass[0]);
+    tooly.trace(tooly.hasClass(klass[0], 'one'));
+
+  })();
+  
 
 </script>
 

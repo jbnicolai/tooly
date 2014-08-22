@@ -8,9 +8,9 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!_node()) return false;
+      if (!_node(el)) return false;
       if (_proc_1(el, klass, tooly.hasClass)) return true;
-      if (el.nodeType === 1) {
+      // if (el.nodeType === 1) {
         var re = _re(klass),
             classes = el.className.split(_ws),
             len = classes.length,
@@ -19,7 +19,7 @@
           if (classes[i].match(re) == klass) return true;
         }
         return false;
-      }
+      // }
     },
 
     /**
@@ -30,7 +30,7 @@
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_1(el, klass, tooly.addClass);
       el.className += ' ' + klass;
       return tooly;
@@ -44,7 +44,7 @@
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_1(el, klass, tooly.removeClass);
       el.className = el.className.replace(_re(klass), ' ');
       return tooly;
@@ -58,7 +58,7 @@
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_2(el, content, tooly.prepend);
       el.innerHTML = content + el.innerHTML;
       return tooly
@@ -72,7 +72,7 @@
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       _proc_2(el, content, tooly.append);
       el.innerHTML += content;
       return tooly;
@@ -87,7 +87,7 @@
      * @return {Object|String} tooly for chaining, or el.innerHTML, or undefined if el is null
      */
     html: function(el, content) {
-      if (!_node()) return tooly;
+      if (!_node(el)) return tooly;
       if (arguments.length === 1)  {
         return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
       }
