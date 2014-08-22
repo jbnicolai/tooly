@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.1 (built: 2014-08-20)
+ * tooly - version 0.0.1 (built: 2014-08-21)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -81,8 +81,13 @@ var tooly = (function() {
       if (!el) return false;      
       if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
+        var classes;
+        if (el.className) {
+          classes = el.className.split(_ws);
+        } else {
+          return false;
+        }
         var re = _re(klass),
-            classes = el.className.split(_ws),
             len = classes.length,
             i = 0;
         for (; i < len; i++) {
