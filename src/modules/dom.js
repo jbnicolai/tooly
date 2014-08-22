@@ -8,7 +8,7 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!el || el.nodeType !== 1) return false;      
+      if (!_node()) return false;
       if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
         var re = _re(klass),
@@ -30,11 +30,9 @@
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!el) return tooly;
+      if (!_node()) return tooly;
       _proc_1(el, klass, tooly.addClass);
-      if (el.nodeType === 1) {
-        el.className += ' ' + klass;
-      }
+      el.className += ' ' + klass;
       return tooly;
     },
 
@@ -46,11 +44,9 @@
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!el) return tooly;
+      if (!_node()) return tooly;
       _proc_1(el, klass, tooly.removeClass);
-      if (el.nodeType === 1) {
-        el.className = el.className.replace(_re(klass), ' ');
-      }
+      el.className = el.className.replace(_re(klass), ' ');
       return tooly;
     },
 
@@ -62,11 +58,9 @@
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!el) return tooly;
+      if (!_node()) return tooly;
       _proc_2(el, content, tooly.prepend);
-      if (el.nodeType === 1 || el.nodeType === 9) {
-        el.innerHTML = content + el.innerHTML;
-      }
+      el.innerHTML = content + el.innerHTML;
       return tooly
     },
 
@@ -78,11 +72,9 @@
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!el) return tooly;
+      if (!_node()) return tooly;
       _proc_2(el, content, tooly.append);
-      if (el.nodeType === 1 || el.nodeType === 9) {
-        el.innerHTML += content;
-      }
+      el.innerHTML += content;
       return tooly;
     },
 
@@ -95,14 +87,12 @@
      * @return {Object|String} tooly for chaining, or el.innerHTML, or undefined if el is null
      */
     html: function(el, content) {
-      if (!el) return tooly;
+      if (!_node()) return tooly;
       if (arguments.length === 1)  {
         return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
       }
       _proc_1(el, content, tooly.html);
-      if (el.nodeType === 1 || el.nodeType === 9) {
-        el.innerHTML = content;
-      }
+      el.innerHTML = content;
       return tooly
     },
 

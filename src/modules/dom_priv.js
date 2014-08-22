@@ -29,6 +29,6 @@
   }
 
   function _node(el) {
-    return el && el.nodeType === 1;
+    return el && (el.nodeType === 1 || el.nodeType === 9);
   }
   
