@@ -1,12 +1,10 @@
 
   var _ws = /\s+/;
 
-  /** @private */
   function _re(str) {
     return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
   }
 
-  /** @private */
   function _proc_1(el, args, callback) {
     if (_type(args) === 'array') {
       var ret, 
@@ -19,7 +17,6 @@
     }
   }
 
-  /** @private */
   function _proc_2(el, content, callback) {
     if (_type(el) === 'array') {
       var ret, 
@@ -29,5 +26,9 @@
         callback(el[i], content);
       }
     }
+  }
+
+  function _node(el) {
+    return el && el.nodeType === 1;
   }
   

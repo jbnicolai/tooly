@@ -8,7 +8,7 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!el) return false;      
+      if (!el || el.nodeType !== 1) return false;      
       if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
         var re = _re(klass),
@@ -20,7 +20,6 @@
         }
         return false;
       }
-      throw new TypeError(el + ' must be of nodeType: 1');
     },
 
     /**

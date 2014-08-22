@@ -11,12 +11,10 @@ var tooly = (function() {
   
   var _ws = /\s+/;
 
-  /** @private */
   function _re(str) {
     return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
   }
 
-  /** @private */
   function _proc_1(el, args, callback) {
     if (_type(args) === 'array') {
       var ret, 
@@ -29,7 +27,6 @@ var tooly = (function() {
     }
   }
 
-  /** @private */
   function _proc_2(el, content, callback) {
     if (_type(el) === 'array') {
       var ret, 
@@ -39,6 +36,10 @@ var tooly = (function() {
         callback(el[i], content);
       }
     }
+  }
+
+  function _node(el) {
+    return el && el.nodeType === 1;
   }
   
   return {
@@ -53,7 +54,7 @@ var tooly = (function() {
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!el) return false;      
+      if (!el || el.nodeType !== 1) return false;      
       if (_proc_1(el, klass, tooly.hasClass)) return true;
       if (el.nodeType === 1) {
         var re = _re(klass),
@@ -65,7 +66,6 @@ var tooly = (function() {
         }
         return false;
       }
-      throw new TypeError(el + ' must be of nodeType: 1');
     },
 
     /**
