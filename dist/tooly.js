@@ -467,7 +467,7 @@ var tooly = (function() {
      * levels: 0:off, 1:trace, 2:debug, 3:info, 4:warn, 5:error
      * @type {Object}
      */
-    logger = {
+    logger: {
       level: 1,
       traceAnonymous: true
     },
