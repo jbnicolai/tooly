@@ -56,7 +56,7 @@ var tooly = (function() {
   }
 
   function _log(level, caller, args) {
-    if (level < tooly.logger.level) return;
+    if (level === 0 || level < tooly.logger.level) return;
 
     var logger = tooly.logger,
         args = _slice.call(args, 0),
