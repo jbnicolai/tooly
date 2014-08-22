@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.1 (built: 2014-08-21)
+ * tooly - version 0.0.1 (built: 2014-08-22)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
