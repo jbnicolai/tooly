@@ -1,4 +1,6 @@
-// --- begin logger module
+//    +---------------+
+//    | LOGGER MODULE |
+//    +---------------+
     /**
      * configuration options for logging methods.
      * levels: 0:off, 1:trace, 2:debug, 3:info, 4:warn, 5:error
@@ -14,4 +16,3 @@
     info : function() { _log(3, _checkCaller(arguments), arguments); },
     warn : function() { _log(4, _checkCaller(arguments), arguments); },
     error: function() { _log(5, _checkCaller(arguments), arguments); },
-// --- end logger module

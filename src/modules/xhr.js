@@ -1,4 +1,6 @@
-// --- begin xhr module
+//    +------------+
+//    | XHR MODULE |
+//    +------------+
     /**
      * perform a get xhr request for JSON file
      * 
@@ -10,7 +12,7 @@
      */
     getJSON: function(jsonFile, success, async) {
       var req = new XMLHttpRequest();
-      req.open('get', jsonFile, arguments.length === 2 ? true : async);
+      req.open('get', jsonFile, (arguments.length === 2) ? true : async);
       req.reponseType = 'json';
       req.onreadystatechange = function() {
         if (req.readyState == 4) { // done
@@ -21,4 +23,19 @@
       };
       req.send();
     },
-// --- end xhr module
+
+    getJSON2: function(jsonFile, success, async) {
+      tooly.get(jsonFile, 'json', success, async);
+    },
+
+    get: function(url, respType, success, async) {
+      var req = new XMLHttpRequest();
+      req.open('get', url, (arguments.length === 3) ? true : async);
+      req.reponseType = respType;
+      req.onload = function() {
+        if (req.readyState == 4) { // done
+          if (req.status == 200) success(req.response);
+        }
+      };
+      req.send();
+    },

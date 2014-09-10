@@ -1,4 +1,6 @@
-// --- begin dom module    
+//    +------------+
+//    | DOM MODULE |
+//    +------------+    
     /**
      * check if an element has a css class
      * 
@@ -126,4 +128,3 @@
       }
       return els;
     },
-// --- end dom module

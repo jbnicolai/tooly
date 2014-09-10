@@ -1,4 +1,13 @@
 /**
+ * tooly - version 0.0.1 (built: 2014-09-10)
+ * js utility functions
+ * https://github.com/Lokua/tooly.git
+ * Copyright (c) 2014 Joshua Kleckner
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/MIT
+ */
+
+/**
  * @namespace  tooly
  * @type {Object}
  */
@@ -77,7 +86,9 @@ var tooly = (function() {
 
   return {
 
-// --- begin dom module    
+//    +------------+
+//    | DOM MODULE |
+//    +------------+    
     /**
      * check if an element has a css class
      * 
@@ -205,9 +216,11 @@ var tooly = (function() {
       }
       return els;
     },
-// --- end dom module
 
-// --- begin object module
+
+//    +---------------+
+//    | OBJECT MODULE |
+//    +---------------+
     /**
      * @param  {Function} ctor 
      * @param  {Object|Array} args 
@@ -408,9 +421,11 @@ var tooly = (function() {
       }
       return props;
     },
-// --- end object module    
 
-// --- begin xhr module
+
+//    +------------+
+//    | XHR MODULE |
+//    +------------+
     /**
      * perform a get xhr request for JSON file
      * 
@@ -422,7 +437,7 @@ var tooly = (function() {
      */
     getJSON: function(jsonFile, success, async) {
       var req = new XMLHttpRequest();
-      req.open('get', jsonFile, arguments.length === 2 ? true : async);
+      req.open('get', jsonFile, (arguments.length === 2) ? true : async);
       req.reponseType = 'json';
       req.onreadystatechange = function() {
         if (req.readyState == 4) { // done
@@ -433,9 +448,27 @@ var tooly = (function() {
       };
       req.send();
     },
-// --- end xhr module
 
-// --- begin logger module
+    getJSON2: function(jsonFile, success, async) {
+      tooly.get(jsonFile, 'json', success, async);
+    },
+
+    get: function(url, respType, success, async) {
+      var req = new XMLHttpRequest();
+      req.open('get', url, (arguments.length === 3) ? true : async);
+      req.reponseType = respType;
+      req.onload = function() {
+        if (req.readyState == 4) { // done
+          if (req.status == 200) success(req.response);
+        }
+      };
+      req.send();
+    },
+
+
+//    +---------------+
+//    | LOGGER MODULE |
+//    +---------------+
     /**
      * configuration options for logging methods.
      * levels: 0:off, 1:trace, 2:debug, 3:info, 4:warn, 5:error
@@ -451,9 +484,11 @@ var tooly = (function() {
     info : function() { _log(3, _checkCaller(arguments), arguments); },
     warn : function() { _log(4, _checkCaller(arguments), arguments); },
     error: function() { _log(5, _checkCaller(arguments), arguments); },
-// --- end logger module
 
-// --- begin core module    
+
+//    +-------------+
+//    | CORE MODULE |
+//    +-------------+
     /**
      * Function version of ECMAScript6 String.prototype.endsWith
      * @param  {String} str    the string to check
@@ -577,7 +612,7 @@ var tooly = (function() {
     toType: function(obj) {
       return _type(obj);
     }
-// --- end core module
+
 
 
   };  // end return statement

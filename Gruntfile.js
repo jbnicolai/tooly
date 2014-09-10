@@ -65,7 +65,7 @@ module.exports = function(grunt) {
       },
       post: {
         files: {
-          src: ['dist/tooly.min.js']
+          src: ['dist/tooly.min.js', 'dist/tooly-raw.js']
         }
       },
       custom: {

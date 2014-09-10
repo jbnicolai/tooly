@@ -1,0 +1,1 @@
+these scripts should only be called from the project root

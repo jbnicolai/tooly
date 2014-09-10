@@ -1,4 +1,6 @@
-// --- begin object module
+//    +---------------+
+//    | OBJECT MODULE |
+//    +---------------+
     /**
      * @param  {Function} ctor 
      * @param  {Object|Array} args 
@@ -199,4 +201,3 @@
       }
       return props;
     },
-// --- end object module    
