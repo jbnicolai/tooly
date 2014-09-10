@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # mocha -c -u bdd -R spec ./test/extend_test.js
-mocha -c -u bdd -R spec ./test/re_test.js
+# mocha -c -u bdd -R spec ./test/re_test.js
+mocha -c -u bdd -R spec ./test/handler-test.js

@@ -8,7 +8,7 @@ var parser = require('nomnom'),
     modules = {},   // { <file name sans `.js`> : <file contents> }
     includes = {},  // flags which modules to include / exclude
     output = '',    // final output string
-    choices = ['core', 'dom', 'object', 'xhr', 'logger'],
+    choices = ['core', 'dom', 'handler', 'object', 'xhr', 'logger'],
     _ = require('underscore'),
     path = require('path'),
     dest = './dist/tooly-custom.js',
@@ -95,7 +95,7 @@ function getIncludes(args) {
 }
 
 function includeWhat(key) {
-  if (includes[key] && includes.include || !includes[key] && !includes.include) {
+  if ((includes[key] && includes.include) || (!includes[key] && !includes.include)) {
     return true;
   }
   return false;
@@ -106,11 +106,16 @@ var returnHeader = '\n  return {\n\n';
 if (!nocomment) {
   // compose a list of included modules for the output header
   var mess = format('%s%s%s%s',
+
     '\n/**\n * CUSTOM BUILD.\n',
+
     (includes.include) ? ' * Includes ' : ' * Excludes ',
-    'modules: ' + _.each(_.keys(_.omit(includes, 'include')), function(el, i, arr) {
+
+    'modules: ' + 
+    _.each(_.keys(_.omit(includes, 'include')), function(el, i, arr) {
       arr[i] = format('`%s`%s', el, (i === arr.length-1) ? '' : ', ');
     }).join(''),
+
     '\n */\n\n'
   );
   output += mess;
@@ -125,21 +130,26 @@ output += (includeWhat('logger')) ? modules['logger_priv'] : '';
 
 // public modules
 output += returnHeader;
-output += (includeWhat('dom'))    ? modules['dom']    + '\n\n' : '';
-output += (includeWhat('object')) ? modules['object'] + '\n\n' : '';
-output += (includeWhat('xhr'))    ? modules['xhr']    + '\n\n' : '';
-output += (includeWhat('xhr'))    ? modules['logger'] + '\n\n' : '';
-output += (includeWhat('core'))   ? modules['core']   + '\n\n' : '';
+output += (includeWhat('dom'))     ? modules['dom']     + '\n\n' : '';
+output += (includeWhat('object'))  ? modules['object']  + '\n\n' : '';
+output += (includeWhat('xhr'))     ? modules['xhr']     + '\n\n' : '';
+output += (includeWhat('logger'))  ? modules['logger']  + '\n\n' : '';
+output += (includeWhat('core'))    ? modules['core']    + '\n\n' : '';
+output += (includeWhat('handler')) 
+  ? modules['handler-constructor'] + '\n\n' 
+  : '';
 
 // close return statement and IIFE wrap
-output += modules['_footer'];
+output += '  };\n})();\n\n'
+
+output += (includeWhat('handler')) 
+  ? modules['handler-prototype'] + '\n\n' 
+  : '' ;
 
 fs.writeFile(dest, output, function() {
-
   console.log('\n%s\n%s %s\n',
     'Custom build completed successfully.'.green,
     'File saved to:',
     (path.resolve(__dirname, '..', dest)).cyan
   );
-
 });

@@ -123,4 +123,4 @@
      */
     toType: function(obj) {
       return _type(obj);
-    }
+    },
