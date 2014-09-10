@@ -11,23 +11,19 @@
      * @param {Boolean}   async     defaults to true
      */
     getJSON: function(jsonFile, success, async) {
-      var req = new XMLHttpRequest();
-      req.open('get', jsonFile, (arguments.length === 2) ? true : async);
-      req.reponseType = 'json';
-      req.onreadystatechange = function() {
-        if (req.readyState == 4) { // done
-          if (req.status == 200) {
-            success(req.response);
-          }
-        }
-      };
-      req.send();
-    },
-
-    getJSON2: function(jsonFile, success, async) {
       tooly.get(jsonFile, 'json', success, async);
     },
 
+    /**
+     * perform a get xhr request
+     * 
+     * @param  {String}   url       url to resource
+     * @param  {String}   respType  the request responseType
+     * @param  {callback} success   function to operate on response data
+     *                              if the request is successful. If so, success
+     *                              takes a single data parameter (the response).
+     * @param {Boolean}   async     defaults to true
+     */
     get: function(url, respType, success, async) {
       var req = new XMLHttpRequest();
       req.open('get', url, (arguments.length === 3) ? true : async);
