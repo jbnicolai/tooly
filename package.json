@@ -2,7 +2,7 @@
   "name": "tooly",
   "version": "0.0.1",
   "description": "js utility functions",
-  "main": "src/tooly.js",
+  "main": "dist/tooly.js",
   "scripts": {
     "build": "bin/build.js",
     "main": "bin/main"
