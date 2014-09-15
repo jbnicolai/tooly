@@ -8,7 +8,7 @@
      */
     logger: {
       level: 1,
-      traceAnonymous: true
+      traceAnonymous: false
     },
 
     trace: function() { _log(1, _checkCaller(arguments), arguments); },

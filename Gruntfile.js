@@ -22,7 +22,7 @@ module.exports = function(grunt) {
     shell: {
       main: {
         // doesn't work here or when placed as exec task. what gives?
-        command: './bin/build-main.sh'
+        command: 'bin/main'
       }
     },
 
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 
     watch: {
       files: ['src/modules/*.js'],
-      tasks: ['main']
+      tasks: ['shell:main']
     }
   });
 
@@ -94,7 +94,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-umd');
 
-  grunt.registerTask('build', ['shell:main']);
+  // grunt.registerTask('build', ['shell:main']);
   grunt.registerTask('custom', [
     'umd:custom', 'usebanner:custom', 'uglify:custom', 'usebanner:customPost'
   ]);

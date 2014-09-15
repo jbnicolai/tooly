@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.1 (built: 2014-09-14)
+ * tooly - version 0.0.1 (built: 2014-09-15)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -39,11 +39,13 @@ var tooly = (function() {
     return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
   }
 
+  /**
+   * loop over args array
+   */
   function _proc_1(el, args, callback) {
     if (_type(args) === 'array') {
       var ret, 
-          i = 0, 
-          len = el.length
+          i = 0, len = el.length;
       for (; i < len; i++) {
         ret = callback(el[i], args);
       }
@@ -51,11 +53,13 @@ var tooly = (function() {
     }
   }
 
+  /**
+   * loop over el array
+   */
   function _proc_2(el, content, callback) {
     if (_type(el) === 'array') {
       var ret, 
-          i = 0, 
-          len = el.length
+          i = 0, len = el.length;
       for (; i < len; i++) {
         callback(el[i], content);
       }
@@ -70,12 +74,8 @@ var tooly = (function() {
 
   function _checkCaller(args) {
     var name = args.callee.caller.name;
-    if (!name) {
-      var ret = '<anonymous>';
-      if (tooly.logger.traceAnonymous) {
-        return  ret + ' ' + args.callee.caller + '\n';
-      }
-      return ret;
+    if (!name && tooly.logger.traceAnonymous) {
+      return  '<anonymous> '+ args.callee.caller + '\n';
     }
     return name;
   }
@@ -84,10 +84,11 @@ var tooly = (function() {
     if (tooly.logger.level === 0 || level < tooly.logger.level) return;
 
     var logger = tooly.logger,
-        args = _slice.call(args, 0),
-        caller = caller + ' \t',
-        s = '%c%s%c%s%o',
-        callerCSS = 'color: #0080FF; font-style: italic';
+        args = args.length > 1 ? _slice.call(args, 0) : args[0],
+        caller = (caller.replace(_ws, '') === '') ? '' : caller + ' \t',
+        s = '%c%s%c%s%' + (args.length > 1 ? 'o' : 's'),
+        callerCSS = 'color: #0080FF; font-style: italic',
+        caller = '';
 
     switch(level) {
       case 0: return;
@@ -119,8 +120,7 @@ var tooly = (function() {
       // if (el.nodeType === 1) {
         var re = _re(klass),
             classes = el.className.split(_ws),
-            len = classes.length,
-            i = 0;
+            i = 0, len = classes.length;
         for (; i < len; i++) {
           if (classes[i].match(re) == klass) return true;
         }
@@ -195,7 +195,9 @@ var tooly = (function() {
     html: function(el, content) {
       if (!_node(el)) return tooly;
       if (arguments.length === 1)  {
-        return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
+        return (_type(el) === 'array') 
+          ? el[i].innerHTML 
+          : el.innerHTML;
       }
       _proc_1(el, content, tooly.html);
       el.innerHTML = content;
@@ -231,6 +233,30 @@ var tooly = (function() {
         els[i] = list[i];
       }
       return els;
+    },
+
+    /**
+     * @example
+     * // as key val pair (key must also be a string)<br>
+     * var el = tooly.select('#main'); <br>
+     * tooly.css(el, 'background', 'red'); <br>
+     * // or as hash (notice that hyphenated keys must be quoted)<br>
+     * tooly.css(el, {width: '100px', background: 'red', 'font-size': '24px'});
+     * @param  {Object}         el     the dom element
+     * @param  {String|Object}  styles either a single comma separated key value pair of strings,
+     *                                 or object hash
+     * @return {Object}         el
+     */
+    css: function(el, styles) {
+      if (!_node(el)) return el;
+      if (arguments.length === 3) {
+        el.style[arguments[1]] = arguments[2];
+      } else {
+        for (var key in styles) {
+          el.style[key] = styles[key];
+        }
+      }
+      return el;
     },
 
 
@@ -488,7 +514,7 @@ var tooly = (function() {
      */
     logger: {
       level: 1,
-      traceAnonymous: true
+      traceAnonymous: false
     },
 
     trace: function() { _log(1, _checkCaller(arguments), arguments); },

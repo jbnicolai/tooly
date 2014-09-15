@@ -15,8 +15,7 @@
       // if (el.nodeType === 1) {
         var re = _re(klass),
             classes = el.className.split(_ws),
-            len = classes.length,
-            i = 0;
+            i = 0, len = classes.length;
         for (; i < len; i++) {
           if (classes[i].match(re) == klass) return true;
         }
@@ -91,7 +90,9 @@
     html: function(el, content) {
       if (!_node(el)) return tooly;
       if (arguments.length === 1)  {
-        return (_type(el) === 'array') ? el[i].innerHTML : el.innerHTML;
+        return (_type(el) === 'array') 
+          ? el[i].innerHTML 
+          : el.innerHTML;
       }
       _proc_1(el, content, tooly.html);
       el.innerHTML = content;
@@ -127,4 +128,28 @@
         els[i] = list[i];
       }
       return els;
+    },
+
+    /**
+     * @example
+     * // as key val pair (key must also be a string)<br>
+     * var el = tooly.select('#main'); <br>
+     * tooly.css(el, 'background', 'red'); <br>
+     * // or as hash (notice that hyphenated keys must be quoted)<br>
+     * tooly.css(el, {width: '100px', background: 'red', 'font-size': '24px'});
+     * @param  {Object}         el     the dom element
+     * @param  {String|Object}  styles either a single comma separated key value pair of strings,
+     *                                 or object hash
+     * @return {Object}         el
+     */
+    css: function(el, styles) {
+      if (!_node(el)) return el;
+      if (arguments.length === 3) {
+        el.style[arguments[1]] = arguments[2];
+      } else {
+        for (var key in styles) {
+          el.style[key] = styles[key];
+        }
+      }
+      return el;
     },

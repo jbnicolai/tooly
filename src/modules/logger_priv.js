@@ -3,12 +3,8 @@
 
   function _checkCaller(args) {
     var name = args.callee.caller.name;
-    if (!name) {
-      var ret = '<anonymous>';
-      if (tooly.logger.traceAnonymous) {
-        return  ret + ' ' + args.callee.caller + '\n';
-      }
-      return ret;
+    if (!name && tooly.logger.traceAnonymous) {
+      return  '<anonymous> '+ args.callee.caller + '\n';
     }
     return name;
   }
@@ -17,10 +13,11 @@
     if (tooly.logger.level === 0 || level < tooly.logger.level) return;
 
     var logger = tooly.logger,
-        args = _slice.call(args, 0),
-        caller = caller + ' \t',
-        s = '%c%s%c%s%o',
-        callerCSS = 'color: #0080FF; font-style: italic';
+        args = args.length > 1 ? _slice.call(args, 0) : args[0],
+        caller = (caller.replace(_ws, '') === '') ? '' : caller + ' \t',
+        s = '%c%s%c%s%' + (args.length > 1 ? 'o' : 's'),
+        callerCSS = 'color: #0080FF; font-style: italic',
+        caller = '';
 
     switch(level) {
       case 0: return;

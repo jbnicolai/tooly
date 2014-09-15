@@ -80,6 +80,23 @@
     tooly.trace(tooly.hasClass(klass[0], 'one'));
 
   }
+
+  // test5();
+
+  function test6() {
+    tooly.logger.traceAnonymous = false;
+    tooly.debug('test 6...');
+    tooly.css(tooly.select('.two'), 'background', 'green');
+    tooly.css(tooly.select('.tre'), {
+      color: 'red', 
+      background: 'gray',
+      width: '50%',
+      height: '300px',
+      padding: '42px'
+    });
+  }
+  
+  test6();
   
 
 </script>
