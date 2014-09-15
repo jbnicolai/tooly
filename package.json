@@ -20,9 +20,7 @@
     "grunt-exec": "~0.4.6",
     "grunt-mocha-test": "~0.11.0",
     "grunt-umd": "~2.0.0",
-    "mocha": "*",
-    "nomnom": "~1.8.0",
-    "underscore": "~1.6.0"
+    "mocha": "*"
   },
   "repository": {
     "type": "git",

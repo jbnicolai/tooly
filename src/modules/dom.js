@@ -81,22 +81,35 @@
 
     /**
      * fill DOM element `el` with `content`. Replaces existing content.
-     * If called with 1 arg, th elements innerHTML is returned
+     * If called with 1 arg, the first matched element's innerHTML is returned
      * 
      * @param  {(String|Object)} content
      * @param  {Element} el      
-     * @return {Object|String} tooly for chaining, or el.innerHTML, or undefined if el is null
+     * @return {String} content or the first matched el's innerHTML if content is not passed
      */
     html: function(el, content) {
-      if (!_node(el)) return tooly;
+      // get
       if (arguments.length === 1)  {
-        return (_type(el) === 'array') 
-          ? el[i].innerHTML 
-          : el.innerHTML;
+        if (_type(el) === 'array' && _node(el[0])) {
+          return  el[0].innerHTML;
+        } else if (_node(el)) {
+          return el.innerHTML;
+        } else {
+          return;
+        }
       }
-      _proc_1(el, content, tooly.html);
+
+      // set each in
+      if (!_node(el) && _type(el) === 'array') {
+        for (var i = 0; i < el.length; i++) {
+          if (_node(el[i])) el[i].innerHTML = content;
+        }
+        return content;
+      }
+
+      // set
       el.innerHTML = content;
-      return tooly
+      return content;
     },
 
     /**
@@ -108,8 +121,14 @@
      * @return {Element|null}     the first matched element or null if no match
      */
     select: function(selector, context) {
-      context = context || document;
-      return context.querySelector(selector);
+      return (context || document).querySelector(selector);
+    },
+
+    /**
+     * alias for #select
+     */
+    sel: function(s, c) {
+      return tooly.select(s, c);
     },
 
     /**
@@ -128,6 +147,13 @@
         els[i] = list[i];
       }
       return els;
+    },
+
+    /**
+     * alias for #selectAll
+     */
+    selAll: function(s, c) {
+      return tooly.selectAll(s, c);
     },
 
     /**
