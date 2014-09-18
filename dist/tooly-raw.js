@@ -97,19 +97,18 @@ var tooly = (function() {
      * @param  {String}   klass   the css class to add
      * @return {Boolean} true if `el` has `klass`
      * @throws {TypeError} If el is not of nodeType: 1
+     * @memberOf tooly
      */
     hasClass: function(el, klass) {
       if (!_node(el)) return false;
       if (_proc_1(el, klass, tooly.hasClass)) return true;
-      // if (el.nodeType === 1) {
-        var re = _re(klass),
-            classes = el.className.split(_ws),
-            i = 0, len = classes.length;
-        for (; i < len; i++) {
-          if (classes[i].match(re) == klass) return true;
-        }
-        return false;
-      // }
+      var re = _re(klass),
+          classes = el.className.split(_ws),
+          i = 0, len = classes.length;
+      for (; i < len; i++) {
+        if (classes[i].match(re) == klass) return true;
+      }
+      return false;
     },
 
     /**

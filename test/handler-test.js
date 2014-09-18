@@ -22,4 +22,4 @@ tooly.inherit(tooly.Handler, Klass, (function() {
 })());
 
 var klass = new Klass();
-klass.inc();
+klass.inc(); //=> klass.value === 100
