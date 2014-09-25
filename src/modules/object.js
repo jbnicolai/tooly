@@ -176,8 +176,8 @@
      * @memberOf tooly
      */
     propCount: function(obj) {
-      var count = 0;
-      for (var o in obj) {
+      var count = 0, o;
+      for (o in obj) {
         if (obj.hasOwnProperty(o)) {
           count++;
         }
@@ -193,8 +193,8 @@
      * @memberOf tooly
      */
     propsOf: function(obj) {
-      var props = [];
-      for (var o in obj) {
+      var props = [], o;
+      for (o in obj) {
         if (obj.hasOwnProperty(o)) {
           props.push(o);
         }

@@ -15,7 +15,7 @@
     var logger = tooly.logger,
         args = args.length > 1 ? _slice.call(args, 0) : args[0],
         caller = (caller.replace(_ws, '') === '') ? '' : caller + ' \t',
-        s = '%c%s%c%s%' + (args.length > 1 ? 'o' : 's'),
+        s = '%c%s%c%s' + (_type(args) !== 'string' ? '%o' : '%s'),
         callerCSS = 'color: #0080FF; font-style: italic',
         caller = '';
 

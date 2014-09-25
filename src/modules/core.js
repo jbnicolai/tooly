@@ -54,8 +54,8 @@
      * @memberOf tooly
      */
     repeat: function(str, n) {
-      var s = '';
-      for (var i = 0; i < n; i++) {
+      var s = '', i = 0;
+      for (; i < n; i++) {
         s += str;
       }
       return s;

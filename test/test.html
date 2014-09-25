@@ -12,6 +12,12 @@
   <div class="klass two">b</div>
   <div class="klass tre">c</div>
 
+  <div class="peachy">
+    <div class="nooshka"></div>
+    <div class="nooshka"></div>
+    <div class="nooshka"></div>
+  </div>
+
   <div id="res"></div>
 
 <script>
@@ -96,7 +102,31 @@
     });
   }
   
-  test6();
+  // test6();
+  
+  function context() {
+    // should fail
+    var $ = tooly.select('.tre', '.peachy');
+    console.log($);
+  }
+
+  // context(); 
+
+  function parent() {
+    tooly.debug('about to select parent of .nooshka');
+    tooly.info.(tooly.parent('.nooshka'));
+
+    tooly.debug('about to pass a non-existent selector string');
+    tooly.info(tooly.parent('.non'));
+
+    tooly.debug('about to pass html, body, document');
+    tooly.info(tooly.parent('html'));
+    tooly.info(tooly.parent('body'));
+    tooly.info(tooly.parent('document'));
+  }
+
+  parent();
+  
   
 
 </script>

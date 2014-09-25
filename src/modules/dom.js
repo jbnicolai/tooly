@@ -4,35 +4,34 @@
     /**
      * check if an element has a css class
      * 
-     * @param  {(Object|Array)} el  such that el or each index of el has nodeType === 1
+     * @param  {Object|Array<Element>} el  the dom node or array of dom nodes to check for 
+     *                                     existence of `klass`
      * @param  {String}   klass   the css class to add
      * @return {Boolean} true if `el` has `klass`
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
       if (!_node(el)) return false;
-      if (_proc_1(el, klass, tooly.hasClass)) return true;
-      // if (el.nodeType === 1) {
-        var re = _re(klass),
-            classes = el.className.split(_ws),
-            i = 0, len = classes.length;
-        for (; i < len; i++) {
-          if (classes[i].match(re) == klass) return true;
-        }
-        return false;
-      // }
+      if (_procArgs(el, klass, tooly.hasClass)) return true;
+      var re = _re(klass),
+          classes = el.className.split(_ws),
+          i = 0, len = classes.length;
+      for (; i < len; i++) {
+        if (classes[i].match(re) == klass) return true;
+      }
+      return false;
     },
 
     /**
      * add a css class to element
      * 
-     * @param  {(Object|Array)} el  such that el or each index of el has nodeType === 1
+     * @param  {Object|Array} el  such that el or each index of el has nodeType === 1
      * @param {String} klass the css class to add
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
       if (!_node(el)) return tooly;
-      _proc_1(el, klass, tooly.addClass);
+      _procArgs(el, klass, tooly.addClass);
       el.className += ' ' + klass;
       return tooly;
     },
@@ -40,13 +39,13 @@
     /**
      * remove a css class from an element
      * 
-     * @param  {(Object|Array)} el  such that el or each index of el has nodeType === 1
+     * @param  {Object|Array} el  such that el or each index of el has nodeType === 1
      * @param  {String} klass   the css class to remove
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
       if (!_node(el)) return tooly;
-      _proc_1(el, klass, tooly.removeClass);
+      _procArgs(el, klass, tooly.removeClass);
       el.className = el.className.replace(_re(klass), ' ');
       return tooly;
     },
@@ -60,7 +59,7 @@
      */
     prepend: function(el, content) {
       if (!_node(el)) return tooly;
-      _proc_2(el, content, tooly.prepend);
+      _procEls(el, content, tooly.prepend);
       el.innerHTML = content + el.innerHTML;
       return tooly
     },
@@ -74,7 +73,7 @@
      */
     append: function(el, content) {
       if (!_node(el)) return tooly;
-      _proc_2(el, content, tooly.append);
+      _procEls(el, content, tooly.append);
       el.innerHTML += content;
       return tooly;
     },
@@ -83,9 +82,10 @@
      * fill DOM element `el` with `content`. Replaces existing content.
      * If called with 1 arg, the first matched element's innerHTML is returned
      * 
-     * @param  {(String|Object)} content
+     * @param  {String|Object} content
      * @param  {Element} el      
      * @return {String} content or the first matched el's innerHTML if content is not passed
+     * @memberOf  tooly
      */
     html: function(el, content) {
       // get
@@ -95,16 +95,26 @@
         } else if (_node(el)) {
           return el.innerHTML;
         } else {
-          return;
+          return tooly.select(el).innerHTML;
         }
       }
 
-      // set each in
-      if (!_node(el) && _type(el) === 'array') {
-        for (var i = 0; i < el.length; i++) {
-          if (_node(el[i])) el[i].innerHTML = content;
+      if (!_node(el)) {
+        if (_type(el) === 'array') {
+          var i = 0, len = el.length;
+          for (; i < len; i++) {
+            if (_node(el[i])) {
+              el[i].innerHTML = content;
+            } else {
+              el[i] = tooly.select(el[i]);
+              el[i].innerHTML = content;
+            }
+          }
+          return content;
+        } else {
+          tooly.select(el).innerHTML = content;
+          return content;
         }
-        return content;
       }
 
       // set
@@ -115,16 +125,18 @@
     /**
      * wrapper for HTML5 `querySelector`
      * 
-     * @param  {String} selector
-     * @param  {Object} context,  the parent element to start searching from 
+     * @param  {String}  selector valid css selector string
+     * @param  {Element} context  the parent element to start searching from 
      *                            defaults to document if blank 
-     * @return {Element|null}     the first matched element or null if no match
+     * @return {Element|null} the first matched element or null if no match
+     * @alias sel
+     * @memberOf  tooly
      */
     select: function(selector, context) {
       return (context || document).querySelector(selector);
     },
 
-    /**
+    /*!
      * alias for #select
      */
     sel: function(s, c) {
@@ -137,7 +149,7 @@
      * @param  {String} selector
      * @param  {Object} context,      the parent element to start searching from 
      *                                defaults to document if blank 
-     * @return {Array.<Element>|null} an array of matched elements or an empty array if no match
+     * @return {Array<Node>} an array of matched elements or an empty array if no match
      */
     selectAll: function(selector, context) {
       var list = (context || document).querySelectorAll(selector),
@@ -150,6 +162,20 @@
     },
 
     /**
+     * select the parent element of `selector`.
+     * 
+     * @param  {Node|String} selector the node element or valid css selector string
+     *                                representing the element whose parent will be selected
+     * @return {Node|null} the parent element of `selector` or null if no parent is found
+     */
+    parent: function(selector) {
+      if (!_node(selector)) {
+        selector = tooly.select(selector);
+      }
+      return selector != null ? selector.parentNode : null;
+    },
+
+    /*!
      * alias for #selectAll
      */
     selAll: function(s, c) {
@@ -158,24 +184,32 @@
 
     /**
      * @example
-     * // as key val pair (key must also be a string)<br>
-     * var el = tooly.select('#main'); <br>
-     * tooly.css(el, 'background', 'red'); <br>
+     * // as key val pair (key must also be a string)
+     * var el = tooly.select('#main');
+     * tooly.css(el, 'background', 'red');
      * // or as hash (notice that hyphenated keys must be quoted)<br>
      * tooly.css(el, {width: '100px', background: 'red', 'font-size': '24px'});
-     * @param  {Object}         el     the dom element
-     * @param  {String|Object}  styles either a single comma separated key value pair of strings,
-     *                                 or object hash
-     * @return {Object}         el
+     *
+     * // also can take valid css selector string in place of element
+     * // below will match the document's first div
+     * tooly.css('div', 'border', '2px solid red');
+     * 
+     * @param  {Element|String}  el     the dom element or valid selector string
+     * @param  {String|Object}  styles  either a single comma separated key value pair of strings,
+     *                                  or object hash
+     * @return {Object} tooly for chaining
+     * @memberOf  tooly
      */
     css: function(el, styles) {
-      if (!_node(el)) return el;
+      if (!_node(el)) el = tooly.select(el);
       if (arguments.length === 3) {
         el.style[arguments[1]] = arguments[2];
       } else {
         for (var key in styles) {
-          el.style[key] = styles[key];
+          if (styles.hasOwnProperty(key)) {
+            el.style[key] = styles[key];
+          }
         }
       }
-      return el;
+      return tooly;
     },
