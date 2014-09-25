@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.1 (built: 2014-09-25)
+ * tooly - version 0.0.2 (built: 2014-09-25)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -216,7 +216,6 @@ var tooly = (function() {
         }
       }
 
-      // set
       el.innerHTML = content;
       return content;
     },
@@ -246,14 +245,13 @@ var tooly = (function() {
      * wrapper for HTML5 `querySelectorAll`
      * 
      * @param  {String} selector
-     * @param  {Object} context,      the parent element to start searching from 
+     * @param  {Object} context       the parent element to start searching from 
      *                                defaults to document if blank 
      * @return {Array<Node>} an array of matched elements or an empty array if no match
      */
     selectAll: function(selector, context) {
       var list = (context || document).querySelectorAll(selector),
-          els = [],
-          i = 0, len = list.length;
+          els = [], i = 0, len = list.length;
       for (; i < len; i++) {
         els[i] = list[i];
       }
@@ -261,17 +259,42 @@ var tooly = (function() {
     },
 
     /**
-     * select the parent element of `selector`.
+     * select the parent element of `el`.
      * 
-     * @param  {Node|String} selector the node element or valid css selector string
-     *                                representing the element whose parent will be selected
-     * @return {Node|null} the parent element of `selector` or null if no parent is found
+     * @param  {Element|String} el the node element or valid css selector string
+     *                             representing the element whose parent will be selected
+     * @return {Element|null} the parent element of `selector` or null if no parent is found
      */
-    parent: function(selector) {
-      if (!_node(selector)) {
-        selector = tooly.select(selector);
-      }
-      return selector != null ? selector.parentNode : null;
+    parent: function(el) {
+      if (!_node(el)) el = tooly.select(el);
+      return el != null ? el.parentNode : null;
+    },
+
+    /**
+     * select all first-generation child elements of `el`.
+     *     
+     * @param  {Element|String} el the element or valid css selector string representing
+     *                             the element whose children will be returned 
+     * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
+     *                                  or null if `el` has no children
+     */
+    children: function(el) {
+      if (!_node(el)) el = tooly.select(el);
+      // var childs = el.children, converted = [];
+      // if (childs != null) {
+        // for (var i = 0, len = childs.length; i < len; i++) {
+          // converted.push(childs.item(i));
+        // }
+      // }
+      return el != null 
+        ? (function() {
+            var childs = el.children, converted = [], i = 0, len = childs.length;
+            for (; i < len; i++) {
+              converted.push(childs.item(i));
+            }
+            return converted;
+          })()
+        : null;
     },
 
     /*!
