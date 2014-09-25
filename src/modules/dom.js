@@ -147,7 +147,7 @@
      * wrapper for HTML5 `querySelectorAll`
      * 
      * @param  {String} selector
-     * @param  {Object} context,      the parent element to start searching from 
+     * @param  {Object} context       the parent element to start searching from 
      *                                defaults to document if blank 
      * @return {Array<Node>} an array of matched elements or an empty array if no match
      */
