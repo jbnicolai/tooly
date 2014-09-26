@@ -17,7 +17,6 @@
     "grunt-contrib-concat": "~0.5.0",
     "grunt-contrib-uglify": "~0.5.1",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-doxx": "^0.1.1",
     "grunt-exec": "~0.4.6",
     "grunt-jsdoc": "^0.5.7",
     "grunt-mocha-test": "~0.11.0",

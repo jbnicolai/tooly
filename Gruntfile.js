@@ -1,24 +1,10 @@
 'use strict';
 
-var parser = require('nomnom');
-
-var customDest = '';
-
 module.exports = function(grunt) {
 
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
-
-    doxx: {
-      all: {
-        src: './dist/tooly-raw.js',
-        target: './doc',
-        options: {
-          title: 'Tooly'
-        }
-      }
-    },
 
     exec: {
       custom: {
@@ -65,7 +51,7 @@ module.exports = function(grunt) {
     usebanner: {
       options: {
         position: 'top',
-        banner: require('./banner'),
+        banner: require('src/banner'),
         linebreak: true
       },
       main: {
@@ -100,7 +86,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-banner');
-  grunt.loadNpmTasks('grunt-doxx');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-shell');
