@@ -29,9 +29,8 @@ tooly.Handler.prototype = {
    */
   executeHandler: function(fn) {
     var handler = this.handlers[fn] || [],
-        len = handler.length,
-        i;
-    for (i = 0; i < len; i++) {
+        i = 0, len = handler.length;
+    for (; i < len; i++) {
       handler[i].apply(this.context, []);
     }
     return this;
@@ -59,9 +58,9 @@ tooly.Handler.prototype = {
    * @method
    */
   registerCallbacks: function(callbacks) {
-    var t = this;
+    var t = this, h = {};
     if (callbacks !== undefined) {
-      for (var h in callbacks) {
+      for (h in callbacks) {
         if (callbacks.hasOwnProperty(h)) {
           t.on(h, callbacks[h]);
         }

@@ -8,7 +8,7 @@ var parser = require('nomnom'),
     modules = {},   // { <file name sans `.js`> : <file contents> }
     includes = {},  // flags which modules to include / exclude
     output = '',    // final output string
-    choices = ['core', 'dom', 'handler', 'object', 'xhr', 'logger'],
+    choices = ['core', 'dom', 'handler', 'object', 'xhr', 'logger', 'timer'],
     _ = require('underscore'),
     path = require('path'),
     dest = './dist/tooly-custom.js',
@@ -138,6 +138,9 @@ output += (includeWhat('core'))    ? modules['core']    + '\n\n' : '';
 output += (includeWhat('handler')) 
   ? modules['handler-constructor'] + '\n\n' 
   : '';
+output += (includeWhat('timer')) 
+  ? modules['timer-constructor'] + '\n\n' 
+  : '';  
 
 // close return statement and IIFE wrap
 output += '  };\n})();\n\n'
@@ -145,6 +148,9 @@ output += '  };\n})();\n\n'
 output += (includeWhat('handler')) 
   ? modules['handler-prototype'] + '\n\n' 
   : '' ;
+output += (includeWhat('timer')) 
+  ? modules['timer-prototype'] + '\n\n' 
+  : '' ;  
 
 fs.writeFile(dest, output, function() {
   console.log('\n%s\n%s %s\n',

@@ -39,16 +39,25 @@
 <script>
   window.onload = function() {
 
-    tooly.debug('hello from tooly.js');
-
+    tooly.debug('about to set first box red');
     var a = tooly.select('.a');
     tooly.css(a, 'background', 'red');
 
+    tooly.debug('about to set the other boxes green and blue');
     [tooly.select('.b'), tooly.select('.c')].forEach(function(el, i) {
       tooly.css(el, {background: i % 2 === 0 ? 'green' : 'blue'});
     });
 
-    tooly.css(tooly.select('.c'), {'box-shadow': '0px 1px 4px 0px yellow'});
+    tooly.debug('about to add box-shadow, padding, border-bottom');
+    var css = {
+      'box-shadow': '0px 1px 4px 0px yellow',
+      'padding': '12px',
+      'border-bottom': '4px solid magenta'
+    };
+    tooly.css(tooly.select('.c'), css);
+
+    tooly.debug('attempting to pass non-node as first arg');
+    tooly.css('.b', css);
   }
 </script>
 

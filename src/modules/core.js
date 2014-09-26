@@ -54,8 +54,8 @@
      * @memberOf tooly
      */
     repeat: function(str, n) {
-      var s = '';
-      for (var i = 0; i < n; i++) {
+      var s = '', i = 0;
+      for (; i < n; i++) {
         s += str;
       }
       return s;
@@ -110,16 +110,74 @@
     },
 
     /**
+     * get the extension of a file, url, or anything after the last `.` in a string.
+     *
+     * @param {String} str the string
+     * @return {String}
+     *
+     * @alias ext
+     */
+    extension: function(str) {
+      return str.substring(str.lastIndexOf('.')+1);
+    },
+
+    /*!
+     * alias for extension
+     */
+    ext: function(str) {
+      return tooly.extension(str);
+    },
+
+    /**
+     * Get a copy of `str` without file extension, or anything after the last `.`
+     * (does not change the original string)
+     * 
+     * @param  {String} str the string to copy and strip
+     * @return {String}     the copied string with file extension removed
+     *
+     * @alias stripExt
+     */
+    stripExtension: function(str) {
+      return str.substring(0, str.lastIndexOf('.'));
+    },
+
+    /*!
+     * alias for stripExtension
+     */
+    stripExt: function(str) {
+      return stripExtension(str);
+    },
+
+    /**
+     * Inorant error message to ease my frustrations
+     * @param  {String} mess additional error message details to add
+     *
+     * @memberOf tooly
+     * @module core
+     * @static
+     */
+    shit: function(mess) {
+      var shitasticness = 
+        'shitError - something is fucking shit up: ' + mess;
+      if (tooly.logger.enabled) {
+        tooly.error(shitasticness);
+        return;
+      }
+      console.error(shitasticness);
+    },
+
+    /**
      * a more useful alternative to the typeof operator
      * 
      * @param  {Object} obj the object
      * @return {String}     the type of object
+     * 
      * @author Angus Croll
-     * @see  <a href=
-     * "http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/">
-     * related article
-     * </a>
+     * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
+     * 
      * @memberOf tooly
+     * @module core
+     * @static
      */
     toType: function(obj) {
       return _type(obj);
