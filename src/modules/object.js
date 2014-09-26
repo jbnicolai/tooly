@@ -1,31 +1,40 @@
 //    +---------------+
 //    | OBJECT MODULE |
 //    +---------------+
+    
     /**
      * @param  {Function} ctor 
      * @param  {Object|Array} args 
-     * @return {Object}      
+     * @return {Object}
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static      
      */
     construct: function(ctor, args) {
       // the stupid name leads to more revealing output in logs
       function ToolySurrogateConstructor() {
-        return (_type(args) === 'array') ? 
-          ctor.apply(this, args) : ctor.call(this, args);
+        return (_type(args) === 'array') 
+          ? ctor.apply(this, args) 
+          : ctor.call(this, args);
       }
       ToolySurrogateConstructor.prototype = ctor.prototype;
       return new ToolySurrogateConstructor();
-    },    
+    },
+
     /**
-     * quick and dirty port of node.extend by dreamerslab <ben@dreamerslab.com>
+     * quick and dirty port of node.extend
      * https://github.com/dreamerslab/node.extend
-     * 
-     * which is in turn a port of jQuery.extend
+     * which is in turn a port of jQuery.extend, slightly modified for tooly compatibility.
      * Copyright 2011, John Resig
      * Dual licensed under the MIT or GPL Version 2 licenses.
      * http://jquery.org/license
-     *
-     * slightly modified for tooly compatibility.
+     * 
      * @see  http://api.jquery.com/jquery.extend/ for usage info
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */     
     extend: function() {
       var target = arguments[0] || {},
@@ -97,23 +106,25 @@
      * @param  {Object} prototype
      * @param  {Object} object    
      * @return {Object}
+     * 
      * @author Yehuda Katz (slightly modified)
-     * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/ 
+     * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static 
      */
     fromPrototype: function(prototype, object) {
-      var newObject = tooly.objectCreate(prototype),
-          prop;
-     
+      var newObject = tooly.objectCreate(prototype), prop;
       for (prop in object) {
         if (object.hasOwnProperty(prop)) {
           newObject[prop] = object[prop];      
         }
       }
-     
       return newObject;
     },
 
-    /**
+    /*!
      * alias for #fromPrototype
      */
     fromProto: function(prototype, object) {
@@ -121,18 +132,32 @@
     },
 
     /**
-     * note - overwrites original child.prototype
-     * note - the child's constructor needs to call `parent.call(this)`
+     * Helper to perform prototypal inheritance.
+     * Note that this method overwrites the child's original prototype.
+     * Also note that the child's constructor needs to call `parent.call(this)`
+     *
+     * @example
+     * ```js
+     * function Parent() {}
+     * Parent.prototype.b = 2;
+     * function Child() { Parent.call(this); } // this is a must
+     * tooly.inherit(Parent, Child, { a: 1 });
+     * var child = new Child();
+     * console.log(child.a + child.b); //=> 3
+     * ```
+     * for a more practical example see the {@link tooly#Handler} documentation.
      * 
      * @param  {Function} parent
      * @param  {Function} child  
-     * @param  {Object} extend additional methods to add to prototype
+     * @param  {Mixed} extend additional members to the Child's prototype 
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     inherit: function(parent, child, extend) {
-
       child.prototype = new parent();
       child.prototype.constructor = child;
-
       for (var prop in extend) {
         if (extend.hasOwnProperty(prop)) {
           child.prototype[prop] = extend[prop];
@@ -147,8 +172,13 @@
      *
      * @param {Mixed} value value to test
      * @return {Boolean} true if `value` is a hash, false otherwise
+     * 
      * @see https://github.com/enricomarino/is/blob/master/index.js
-     * @author Enrico Marino
+     * @author Enrico Marino (with minor edits)
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     isHash: function(val) {
       return _type(val) === 'object' && val.constructor === Object && 
@@ -161,6 +191,10 @@
      * 
      * @param  {Object} o  the object/base prototype
      * @return {Object}    new object based on o prototype
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     objectCreate: function(o) {
       var F = function() {};
@@ -173,7 +207,10 @@
      * 
      * @param  {Object} obj the object whose ownProperties we are counting
      * @return {number}     the number of "ownProperties" in the object
-     * @memberOf tooly
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     propCount: function(obj) {
       var count = 0, o;
@@ -190,7 +227,10 @@
      * 
      * @param  {Object} obj     the object of interest
      * @return {Array.<Object>} the "hasOwnProperties" of obj
-     * @memberOf tooly
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     propsOf: function(obj) {
       var props = [], o;

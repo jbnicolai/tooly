@@ -1,14 +1,26 @@
 //    +---------------+
 //    | LOGGER MODULE |
 //    +---------------+
+
     /**
      * configuration options for logging methods.
-     * levels: 0:off, 1:trace, 2:debug, 3:info, 4:warn, 5:error
+     * 
+     * levels 
+     * - 0: off
+     * - 1: trace
+     * - 2: debug 
+     * - 3: info 
+     * - 4: warn 
+     * - 5: error
+     *
      * @type {Object}
      */
     logger: {
       level: 1,
-      traceAnonymous: false
+      traceAnonymous: false,
+      enabled: function() { 
+        return tooly.logger.level > 0; 
+      }
     },
 
     trace: function() { _log(1, _checkCaller(arguments), arguments); },

@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.2 (built: 2014-09-25)
+ * tooly - version 0.0.2 (built: 2014-09-26)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -280,12 +280,6 @@ var tooly = (function() {
      */
     children: function(el) {
       if (!_node(el)) el = tooly.select(el);
-      // var childs = el.children, converted = [];
-      // if (childs != null) {
-        // for (var i = 0, len = childs.length; i < len; i++) {
-          // converted.push(childs.item(i));
-        // }
-      // }
       return el != null 
         ? (function() {
             var childs = el.children, converted = [], i = 0, len = childs.length;
@@ -340,31 +334,40 @@ var tooly = (function() {
 //    +---------------+
 //    | OBJECT MODULE |
 //    +---------------+
+    
     /**
      * @param  {Function} ctor 
      * @param  {Object|Array} args 
-     * @return {Object}      
+     * @return {Object}
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static      
      */
     construct: function(ctor, args) {
       // the stupid name leads to more revealing output in logs
       function ToolySurrogateConstructor() {
-        return (_type(args) === 'array') ? 
-          ctor.apply(this, args) : ctor.call(this, args);
+        return (_type(args) === 'array') 
+          ? ctor.apply(this, args) 
+          : ctor.call(this, args);
       }
       ToolySurrogateConstructor.prototype = ctor.prototype;
       return new ToolySurrogateConstructor();
-    },    
+    },
+
     /**
-     * quick and dirty port of node.extend by dreamerslab <ben@dreamerslab.com>
+     * quick and dirty port of node.extend
      * https://github.com/dreamerslab/node.extend
-     * 
-     * which is in turn a port of jQuery.extend
+     * which is in turn a port of jQuery.extend, slightly modified for tooly compatibility.
      * Copyright 2011, John Resig
      * Dual licensed under the MIT or GPL Version 2 licenses.
      * http://jquery.org/license
-     *
-     * slightly modified for tooly compatibility.
+     * 
      * @see  http://api.jquery.com/jquery.extend/ for usage info
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */     
     extend: function() {
       var target = arguments[0] || {},
@@ -436,23 +439,25 @@ var tooly = (function() {
      * @param  {Object} prototype
      * @param  {Object} object    
      * @return {Object}
+     * 
      * @author Yehuda Katz (slightly modified)
-     * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/ 
+     * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static 
      */
     fromPrototype: function(prototype, object) {
-      var newObject = tooly.objectCreate(prototype),
-          prop;
-     
+      var newObject = tooly.objectCreate(prototype), prop;
       for (prop in object) {
         if (object.hasOwnProperty(prop)) {
           newObject[prop] = object[prop];      
         }
       }
-     
       return newObject;
     },
 
-    /**
+    /*!
      * alias for #fromPrototype
      */
     fromProto: function(prototype, object) {
@@ -460,18 +465,32 @@ var tooly = (function() {
     },
 
     /**
-     * note - overwrites original child.prototype
-     * note - the child's constructor needs to call `parent.call(this)`
+     * Helper to perform prototypal inheritance.
+     * Note that this method overwrites the child's original prototype.
+     * Also note that the child's constructor needs to call `parent.call(this)`
+     *
+     * @example
+     * ```js
+     * function Parent() {}
+     * Parent.prototype.b = 2;
+     * function Child() { Parent.call(this); } // this is a must
+     * tooly.inherit(Parent, Child, { a: 1 });
+     * var child = new Child();
+     * console.log(child.a + child.b); //=> 3
+     * ```
+     * for a more practical example see the {@link tooly#Handler} documentation.
      * 
      * @param  {Function} parent
      * @param  {Function} child  
-     * @param  {Object} extend additional methods to add to prototype
+     * @param  {Mixed} extend additional members to the Child's prototype 
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     inherit: function(parent, child, extend) {
-
       child.prototype = new parent();
       child.prototype.constructor = child;
-
       for (var prop in extend) {
         if (extend.hasOwnProperty(prop)) {
           child.prototype[prop] = extend[prop];
@@ -486,8 +505,13 @@ var tooly = (function() {
      *
      * @param {Mixed} value value to test
      * @return {Boolean} true if `value` is a hash, false otherwise
+     * 
      * @see https://github.com/enricomarino/is/blob/master/index.js
-     * @author Enrico Marino
+     * @author Enrico Marino (with minor edits)
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     isHash: function(val) {
       return _type(val) === 'object' && val.constructor === Object && 
@@ -500,6 +524,10 @@ var tooly = (function() {
      * 
      * @param  {Object} o  the object/base prototype
      * @return {Object}    new object based on o prototype
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     objectCreate: function(o) {
       var F = function() {};
@@ -512,7 +540,10 @@ var tooly = (function() {
      * 
      * @param  {Object} obj the object whose ownProperties we are counting
      * @return {number}     the number of "ownProperties" in the object
-     * @memberOf tooly
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     propCount: function(obj) {
       var count = 0, o;
@@ -529,7 +560,10 @@ var tooly = (function() {
      * 
      * @param  {Object} obj     the object of interest
      * @return {Array.<Object>} the "hasOwnProperties" of obj
-     * @memberOf tooly
+     * 
+     * @memberOf  tooly
+     * @module  object
+     * @static
      */
     propsOf: function(obj) {
       var props = [], o;
@@ -584,14 +618,26 @@ var tooly = (function() {
 //    +---------------+
 //    | LOGGER MODULE |
 //    +---------------+
+
     /**
      * configuration options for logging methods.
-     * levels: 0:off, 1:trace, 2:debug, 3:info, 4:warn, 5:error
+     * 
+     * levels 
+     * - 0: off
+     * - 1: trace
+     * - 2: debug 
+     * - 3: info 
+     * - 4: warn 
+     * - 5: error
+     *
      * @type {Object}
      */
     logger: {
       level: 1,
-      traceAnonymous: false
+      traceAnonymous: false,
+      enabled: function() { 
+        return tooly.logger.level > 0; 
+      }
     },
 
     trace: function() { _log(1, _checkCaller(arguments), arguments); },
@@ -713,16 +759,74 @@ var tooly = (function() {
     },
 
     /**
+     * get the extension of a file, url, or anything after the last `.` in a string.
+     *
+     * @param {String} str the string
+     * @return {String}
+     *
+     * @alias ext
+     */
+    extension: function(str) {
+      return str.substring(str.lastIndexOf('.')+1);
+    },
+
+    /*!
+     * alias for extension
+     */
+    ext: function(str) {
+      return tooly.extension(str);
+    },
+
+    /**
+     * Get a copy of `str` without file extension, or anything after the last `.`
+     * (does not change the original string)
+     * 
+     * @param  {String} str the string to copy and strip
+     * @return {String}     the copied string with file extension removed
+     *
+     * @alias stripExt
+     */
+    stripExtension: function(str) {
+      return str.substring(0, str.lastIndexOf('.'));
+    },
+
+    /*!
+     * alias for stripExtension
+     */
+    stripExt: function(str) {
+      return stripExtension(str);
+    },
+
+    /**
+     * Inorant error message to ease my frustrations
+     * @param  {String} mess additional error message details to add
+     *
+     * @memberOf tooly
+     * @module core
+     * @static
+     */
+    shit: function(mess) {
+      var shitasticness = 
+        'shitError - something is fucking shit up: ' + mess;
+      if (tooly.logger.enabled) {
+        tooly.error(shitasticness);
+        return;
+      }
+      console.error(shitasticness);
+    },
+
+    /**
      * a more useful alternative to the typeof operator
      * 
      * @param  {Object} obj the object
      * @return {String}     the type of object
+     * 
      * @author Angus Croll
-     * @see  <a href=
-     * "http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/">
-     * related article
-     * </a>
+     * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
+     * 
      * @memberOf tooly
+     * @module core
+     * @static
      */
     toType: function(obj) {
       return _type(obj);
@@ -750,6 +854,20 @@ var tooly = (function() {
       return this;
     },
     
+
+//    +-------+
+//    | TIMER |
+//    +-------+
+
+    Timer: function(name) {
+      // enable instantiation without new
+      if (!(this instanceof tooly.Timer)) {
+        return new tooly.Timer(name);
+      }
+      this.name = name || 'Timer_instance_' + Date.now();
+      return this; 
+    },
+
 
   };
 })();
@@ -830,4 +948,65 @@ tooly.Handler.prototype = {
   }
 };
 
+
+tooly.Timer.prototype = (function() {
+
+  var _start, _end, _elapsed;
+
+  return {
+
+    /**
+     * Start the timer
+     *
+     * @memberOf  Timer
+     * @instance
+     * @module Timer
+     */
+    start: function() { 
+      _start = Date.now(); 
+    },
+
+    /**
+     * Stop the timer
+     * 
+     * @return {Number} the time elapsed in milliseconds
+     *
+     * @memberOf  Timer
+     * @instance
+     * @module Timer
+     */
+    stop: function() { 
+      _end = Date.now();
+      _elapsed = _end - _start;
+      return _elapsed; 
+    },
+
+    /**
+     * Stop the timer and log the results to the console.
+     * Equivalent of calling #stop then #log
+     * 
+     * @return {Number} the time elapsed in milliseconds
+     *
+     * @memberOf  Timer
+     * @instance
+     * @module Timer
+     */
+    end: function() {
+      this.stop();
+      this.log();
+      return _elapsed;
+    },
+
+    /**
+     * log results to the console
+     *
+     * @memberOf  Timer
+     * @instance
+     * @module Timer
+     */
+    log: function() {
+      console.log(this.name + ' ' + _elapsed);
+    }
+  }
+})();
 

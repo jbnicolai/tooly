@@ -1,11 +1,17 @@
 # tooly
 
-  General javascript utility functions, many of which shamelessly scraped from stackoverflow or 
-  elsewhere. Compatible with node (excluding the `dom` module), amd, and the browser.
+  Tooly, as in a gun that gets things done. Just enough to ditch jQuery, higher than
+  underscore; another javascript utility library covering everything from dom selection and css manipulation,
+  object inheritance and extension, logging, event handling, string formatting, etc. Basically everything
+  that I usually want/need at my fingertips for any given project, aimed for modern browsers.
+  Compatible with node, amd, and the browser. 7kb min. 
 
 ## install
 
     $ npm install git+https://git@github.com/Lokua/tooly.git
+
+## Documentation
+(in progress - see [dist/tooly.js](dist/tooly.js))
 
 ## custom build
   
@@ -17,8 +23,8 @@ You can create a custom build of particular modules.
     # run the custom build script and `include` command, passing as arguments modules you want included 
     $ bin/custom include dom object
 
-Available modules include `core`, `dom`, `xhr`, `object`, and `logger`. None of them are 
-dependent on each other and each should be pretty self-explanatory, however `core` is just
-another name for random "don't belong anywhere else" functions.
+Available modules include `core`, `dom`, `xhr`, `object`, `logger`, and `timer`. None of them are 
+dependent on each other and each should be pretty self-explanatory (`core` is just
+another name for random "don't belong anywhere else" functions).
 The custom build will be located at `./dist/tooly-custom.js`.
 
