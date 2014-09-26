@@ -794,7 +794,7 @@ var tooly = (function() {
      * alias for stripExtension
      */
     stripExt: function(str) {
-      return stripExtension(str);
+      return tooly.stripExtension(str);
     },
 
     /**

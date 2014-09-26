@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     usebanner: {
       options: {
         position: 'top',
-        banner: require('src/banner'),
+        banner: require('./src/banner'),
         linebreak: true
       },
       main: {
