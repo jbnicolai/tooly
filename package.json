@@ -43,5 +43,7 @@
   "bugs": {
     "url": "https://github.com/Lokua/tooly/issues"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chalk": "^0.5.1"
+  }
 }
