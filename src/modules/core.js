@@ -181,7 +181,7 @@
     },
 
     /*! @alias for #toType */
-    type:   function (o) { return _type(0); },
+    type:   function (o) { return _type(o); },
 
     /*! @alias for #toType */
-    typeof: function (o) { return _type(0); },
+    typeof: function (o) { return _type(o); },
