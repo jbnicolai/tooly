@@ -126,30 +126,39 @@ output += modules['__header'];
 
 // private modules
 output += (includeWhat('dom'))    ? modules['dom_priv']    : '';
-output += (includeWhat('logger')) ? modules['logger_priv'] : '';
+// output += (includeWhat('logger')) ? modules['logger_priv'] : '';
 
-// public modules
+// tooly.<method>
 output += returnHeader;
 output += (includeWhat('dom'))     ? modules['dom']     + '\n\n' : '';
 output += (includeWhat('object'))  ? modules['object']  + '\n\n' : '';
 output += (includeWhat('xhr'))     ? modules['xhr']     + '\n\n' : '';
-output += (includeWhat('logger'))  ? modules['logger']  + '\n\n' : '';
+// output += (includeWhat('logger'))  ? modules['logger']  + '\n\n' : '';
 output += (includeWhat('core'))    ? modules['core']    + '\n\n' : '';
+
+// tooly.<class>
 output += (includeWhat('handler')) 
   ? modules['handler-constructor'] + '\n\n' 
   : '';
 output += (includeWhat('timer')) 
   ? modules['timer-constructor'] + '\n\n' 
   : '';  
+output += (includeWhat('logger')) 
+  ? modules['logger-constructor'] + '\n\n' 
+  : '';    
 
 // close return statement and IIFE wrap
 output += '  };\n})();\n\n'
 
+// tooly.<class>.<prototype>
 output += (includeWhat('handler')) 
   ? modules['handler-prototype'] + '\n\n' 
   : '' ;
 output += (includeWhat('timer')) 
   ? modules['timer-prototype'] + '\n\n' 
+  : '' ;  
+output += (includeWhat('logger')) 
+  ? modules['logger-prototype'] + '\n\n' 
   : '' ;  
 
 fs.writeFile(dest, output, function() {

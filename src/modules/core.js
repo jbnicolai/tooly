@@ -150,6 +150,7 @@
 
     /**
      * Inorant error message to ease my frustrations
+     * 
      * @param  {String} mess additional error message details to add
      *
      * @memberOf tooly
@@ -157,13 +158,7 @@
      * @static
      */
     shit: function(mess) {
-      var shitasticness = 
-        'shitError - something is fucking shit up: ' + mess;
-      if (tooly.logger.enabled) {
-        tooly.error(shitasticness);
-        return;
-      }
-      console.error(shitasticness);
+      console.error('shitError - something is fucking shit up: ' + mess);
     },
 
     /**
@@ -171,6 +166,8 @@
      * 
      * @param  {Object} obj the object
      * @return {String}     the type of object
+     *
+     * @alias type, typeof
      * 
      * @author Angus Croll
      * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
@@ -182,3 +179,9 @@
     toType: function(obj) {
       return _type(obj);
     },
+
+    /*! @alias for #toType */
+    type:   function (o) { return _type(0); },
+
+    /*! @alias for #toType */
+    typeof: function (o) { return _type(0); },

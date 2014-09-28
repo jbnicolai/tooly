@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.2 (built: 2014-09-26)
+ * tooly - version 0.0.2 (built: 2014-09-28)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -80,37 +80,6 @@ var tooly = (function() {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
   
-  var _slice = Array.prototype.slice;
-
-  function _checkCaller(args) {
-    var name = args.callee.caller.name;
-    if (!name && tooly.logger.traceAnonymous) {
-      return  '<anonymous> '+ args.callee.caller + '\n';
-    }
-    return name;
-  }
-
-  function _log(level, caller, args) {
-    if (tooly.logger.level === 0 || level < tooly.logger.level) return;
-
-    var logger = tooly.logger,
-        args = args.length > 1 ? _slice.call(args, 0) : args[0],
-        caller = (caller.replace(_ws, '') === '') ? '' : caller + ' \t',
-        s = '%c%s%c%s' + (_type(args) !== 'string' ? '%o' : '%s'),
-        callerCSS = 'color: #0080FF; font-style: italic',
-        caller = '';
-
-    switch(level) {
-      case 0: return;
-      case 1: console.trace(s, 'color: #800080;', '[TRACE] ', callerCSS, caller, args); break;
-      case 2: console.log  (s, 'color: #008000;', '[DEBUG] ', callerCSS, caller, args); break;
-      case 3: console.info (s, 'color: #0000FF;', '[INFO] ',  callerCSS, caller, args); break;      
-      case 4: console.warn (s, 'color: #FFA500;', '[WARN] ',  callerCSS, caller, args); break;
-      case 5: console.error(s, 'color: #FF0000;', '[ERROR] ', callerCSS, caller, args); break;
-      default: return; // level = 0 = off
-    }
-  }
-
   return {
 
 //    +------------+
@@ -631,38 +600,6 @@ var tooly = (function() {
     },
 
 
-//    +---------------+
-//    | LOGGER MODULE |
-//    +---------------+
-
-    /**
-     * configuration options for logging methods.
-     * 
-     * levels 
-     * - 0: off
-     * - 1: trace
-     * - 2: debug 
-     * - 3: info 
-     * - 4: warn 
-     * - 5: error
-     *
-     * @type {Object}
-     */
-    logger: {
-      level: 1,
-      traceAnonymous: false,
-      enabled: function() { 
-        return tooly.logger.level > 0; 
-      }
-    },
-
-    trace: function() { _log(1, _checkCaller(arguments), arguments); },
-    debug: function() { _log(2, _checkCaller(arguments), arguments); },
-    info : function() { _log(3, _checkCaller(arguments), arguments); },
-    warn : function() { _log(4, _checkCaller(arguments), arguments); },
-    error: function() { _log(5, _checkCaller(arguments), arguments); },
-
-
 //    +-------------+
 //    | CORE MODULE |
 //    +-------------+
@@ -815,6 +752,7 @@ var tooly = (function() {
 
     /**
      * Inorant error message to ease my frustrations
+     * 
      * @param  {String} mess additional error message details to add
      *
      * @memberOf tooly
@@ -822,13 +760,7 @@ var tooly = (function() {
      * @static
      */
     shit: function(mess) {
-      var shitasticness = 
-        'shitError - something is fucking shit up: ' + mess;
-      if (tooly.logger.enabled) {
-        tooly.error(shitasticness);
-        return;
-      }
-      console.error(shitasticness);
+      console.error('shitError - something is fucking shit up: ' + mess);
     },
 
     /**
@@ -836,6 +768,8 @@ var tooly = (function() {
      * 
      * @param  {Object} obj the object
      * @return {String}     the type of object
+     *
+     * @alias type, typeof
      * 
      * @author Angus Croll
      * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
@@ -847,6 +781,12 @@ var tooly = (function() {
     toType: function(obj) {
       return _type(obj);
     },
+
+    /*! @alias for #toType */
+    type:   function (o) { return _type(0); },
+
+    /*! @alias for #toType */
+    typeof: function (o) { return _type(0); },
 
 
 //    +----------------+
@@ -882,6 +822,26 @@ var tooly = (function() {
       }
       this.name = name || 'Timer_instance_' + Date.now();
       return this; 
+    },
+
+
+//    +--------+
+//    | LOGGER |
+//    +--------+
+
+    Logger: function(level, name) {
+      // enable instantiation without new
+      if (!(this instanceof tooly.Logger)) {
+        return new tooly.Logger(level, name);
+      }
+      this.level = (level !== undefined) ? level : 2;
+      if (name) this.name = name;
+
+      // automatically set this false as its only 
+      // for emergency "must track anonymous function location" purposes
+      this.traceAnonymous = false;
+      
+      return this;
     },
 
 
@@ -1024,6 +984,107 @@ tooly.Timer.prototype = (function() {
       console.log(this.name + ' ' + _elapsed);
     }
   }
+})();
+
+tooly.Logger.prototype = (function() {
+
+  var _cjs = typeof exports === 'object',
+      _slice = Array.prototype.slice;
+  
+  function _log(instance, level, caller, args) {
+    // test:
+    // console.log(arguments);
+    // console.log('_cjs? ' + _cjs);
+    
+    if (instance.level === -1 || level < instance.level) return;
+
+    var format = '%s%s'; // name, level
+
+    if (_cjs) {
+      if (tooly.type(args) === 'array') {
+        args = (args.length > 1) ? _slice.call(args, 0) : args[0];
+        // check if first arg is format string
+        if (args[0].match(/\%(s|j|d)/g)) {
+          format += args[0];
+          args = args.shift();
+        }
+      }
+      switch (level) {
+        case 0: console.log(arguments[3]); break;
+        case 1: console.trace(format, _name(instance), _level(level), args); break;
+        case 2: console.log  (format, _name(instance), _level(level), args); break;
+        case 3: console.info (format, _name(instance), _level(level), args); break;
+        case 4: console.warn (format, _name(instance), _level(level), args); break;
+        case 5: console.error(format, _name(instance), _level(level), args); break;
+        case -1:
+        default: return; // level = -1 = off
+      }
+    } else { // window
+      args = (args.length > 1) ? _slice.call(args, 0) : args[0];
+      var caller = (caller.replace(_ws, '') === '') ? '' : caller + ' \t',
+          format = '%c%s%s%c%s' + (tooly.type(args) !== 'string' ? '%o' : '%s'),
+          callerCSS = 'color: #0080FF; font-style: italic',
+          caller = '';
+      switch (level) {
+        case 0: console.log(arguments[3]); break;
+        case 1: console.trace(format, 'color: #800080;', _name(instance), _level(level), callerCSS, caller, args); break;
+        case 2: console.log  (format, 'color: #008000;', _name(instance), _level(level), callerCSS, caller, args); break;
+        case 3: console.info (format, 'color: #0000FF;', _name(instance), _level(level), callerCSS, caller, args); break;      
+        case 4: console.warn (format, 'color: #FFA500;', _name(instance), _level(level), callerCSS, caller, args); break;
+        case 5: console.error(format, 'color: #FF0000;', _name(instance), _level(level), callerCSS, caller, args); break;
+        case -1:
+        default: return; // level = 0 = off
+      }          
+    }
+  }
+
+  function _checkCaller(args) {
+    var name = args.callee.caller.name;
+    if (!name && this.traceAnonymous) {
+      return  '<anonymous> ' + args.callee.caller + '\n';
+    }
+    return name;
+  }
+
+  // helper
+  function _name(instance) {
+    return instance.name || '';
+  }
+
+  // helper
+  function _level(level) {
+    var now = new Date().toLocaleTimeString();
+    switch (level) {
+      case 1: return ' [TRACE] ' + '[' + now + ']';
+      case 2: return ' [DEBUG] ' + '[' + now + ']';
+      case 3: return ' [INFO] '  + '[' + now + ']';
+      case 4: return ' [WARN] '  + '[' + now + ']';
+      case 5: return ' [ERROR] ' + '[' + now + ']';
+    }
+  }
+
+  // public API
+  return (function() {
+    if (_cjs) {
+      return {
+        log:   function() { _log(this, 0, '', arguments); },
+        trace: function() { _log(this, 1, '', arguments); },
+        debug: function() { _log(this, 2, '', arguments); },
+        info:  function() { _log(this, 3, '', arguments); },
+        warn:  function() { _log(this, 4, '', arguments); },
+        error: function() { _log(this, 5, '', arguments); }
+      };
+    }
+    // window
+    return {
+      log:   function() { _log(this, 0, _checkCaller(arguments), arguments); },
+      trace: function() { _log(this, 1, _checkCaller(arguments), arguments); },
+      debug: function() { _log(this, 2, _checkCaller(arguments), arguments); },
+      info : function() { _log(this, 3, _checkCaller(arguments), arguments); },
+      warn : function() { _log(this, 4, _checkCaller(arguments), arguments); },
+      error: function() { _log(this, 5, _checkCaller(arguments), arguments); }
+    };
+  })();
 })();
 
 

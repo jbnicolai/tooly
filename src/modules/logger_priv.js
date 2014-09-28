@@ -4,7 +4,7 @@
   function _checkCaller(args) {
     var name = args.callee.caller.name;
     if (!name && tooly.logger.traceAnonymous) {
-      return  '<anonymous> '+ args.callee.caller + '\n';
+      return  '<anonymous> ' + args.callee.caller + '\n';
     }
     return name;
   }
