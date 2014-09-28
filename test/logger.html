@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>test</title>
+  <script src="../dist/tooly.js"></script>
+</head>
+
+<style>
+
+  body {
+    width: 62;
+    padding: 32px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #a, #b, #c {
+    display: inline-block;
+    width: 25%;
+    color: #666;
+    border: 1px solid #ccc;
+  }
+
+  .d, .e, .f {
+    padding: 16px;
+    font-size: 24px;
+  }
+
+  .d { background: rgba(255, 0, 0, 0.25); }
+  .e { background: rgba(0, 0, 255, 0.25); }
+  .f { background: rgba(0, 255, 0, 0.25); }
+
+  .g {
+    border: 4px solid #888;
+  }
+
+  .hidden {
+    display: none;
+  }
+  
+</style>
+
+<body>
+
+  <main id="main">
+
+    <div id="a">
+      <h2>#a</h2>
+      <div class="d g">.d .g</div>
+    </div>
+
+    <div id="b">
+      <h2>#b</h2>
+      <div class="e g">.e .g</div>
+    </div>
+
+    <div id="c">
+      <h2>#c</h2>
+      <div class="f g">.f .g</div>
+    </div>
+
+  </main>
+
+<script>
+  window.onload = function() {
+    var logger = new tooly.Logger(0, 'TOOLY');
+    console.log('%s%o', 'hello world', {name:'peach'});
+    logger.log('%s%o', 'hello world', {name:'peach'});
+    logger.trace('%s%o', 'hello world', {name:'peach'});
+    logger.debug('%s%o', 'hello world', {name:'peach'});
+    logger.info('%s%o', 'hello world', {name:'peach'});
+    logger.warn('%s%o', 'hello world', {name:'peach'});
+    logger.error('%s%o', 'hello world', {name:'peach'});
+  }
+</script>
+
+</body>
+</html>

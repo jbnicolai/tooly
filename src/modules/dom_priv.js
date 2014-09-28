@@ -15,8 +15,7 @@
    */
   function _procArgs(el, args, callback) {
     if (_type(args) === 'array') {
-      var ret, 
-          i = 0, len = el.length;
+      var ret, i = 0, len = el.length;
       for (; i < len; i++) {
         ret = callback(el[i], args);
       }
@@ -31,8 +30,7 @@
    */
   function _procEls(el, content, callback) {
     if (_type(el) === 'array') {
-      var ret, 
-          i = 0, len = el.length;
+      var ret, i = 0, len = el.length;
       for (; i < len; i++) {
         callback(el[i], content);
       }
