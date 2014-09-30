@@ -3,8 +3,8 @@
   A gun that gets things done. Just enough to ditch jQuery, yet higher level than
   underscore; another javascript utility library covering everything from dom selection and css manipulation,
   object inheritance and extension, logging, event handling, string formatting, etc. Basically everything
-  that I usually want/need at my fingertips for any given project, aimed for modern browsers.
-  Compatible with node, amd, and the browser. 7kb min. 
+  that I usually want/need at my fingertips for any given project.
+  Compatible with node, amd, and modern browsers. 7kb min. 
 
 ## install
 
