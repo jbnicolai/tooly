@@ -13,7 +13,7 @@
      *                            instance, pass a context such that context.handlers is an array.
      */
     Handler: function(context) {
-      if (!(this instanceof Handler)) {
+      if (!(this instanceof tooly.Handler)) {
         return new tooly.Handler(context);
       }
       this.context = context || this;

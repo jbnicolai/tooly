@@ -4,7 +4,7 @@ var tooly  = require('../dist/tooly.js'),
 
 chai.config.stackTrace = false;
 
-describe('--- tooly', function() {
+describe('tooly', function() {
 
   describe('#endsWith()', function() {
     expect(tooly.endsWith('lokua.net', 'a.net')).to.be.ok;

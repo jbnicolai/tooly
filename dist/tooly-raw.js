@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.2 (built: 2014-09-30)
+ * tooly - version 0.0.3 (built: 2014-09-30)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -77,7 +77,7 @@ var tooly = (function() {
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!_node(el)) return false;
+      if (!_node(el)) el = tooly.select(el);
       if (_procArgs(el, klass, tooly.hasClass)) return true;
       var re = _re(klass),
           classes = el.className.split(_ws),
@@ -96,7 +96,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procArgs(el, klass, tooly.addClass);
       el.className += ' ' + klass;
       return tooly;
@@ -110,7 +110,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procArgs(el, klass, tooly.removeClass);
       el.className = el.className.replace(_re(klass), ' ');
       return tooly;
@@ -124,7 +124,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procEls(el, content, tooly.prepend);
       el.innerHTML = content + el.innerHTML;
       return tooly
@@ -138,7 +138,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procEls(el, content, tooly.append);
       el.innerHTML += content;
       return tooly;
@@ -150,7 +150,8 @@ var tooly = (function() {
      * 
      * @param  {String|Object} content
      * @param  {Element} el      
-     * @return {String} content or the first matched el's innerHTML if content is not passed
+     * @return {String|Object} the first matched el's innerHTML of null when in get mode,
+     *                             otherwise `tooly` for chaining
      * @memberOf  tooly
      */
     html: function(el, content) {
@@ -176,15 +177,15 @@ var tooly = (function() {
               el[i].innerHTML = content;
             }
           }
-          return content;
+          return tooly;
         } else {
           tooly.select(el).innerHTML = content;
-          return content;
+          return tooly;
         }
       }
 
       el.innerHTML = content;
-      return content;
+      return tooly;
     },
 
     /**
@@ -605,7 +606,7 @@ var tooly = (function() {
      * @memberOf tooly
      */
     format: function(format) {
-      var args = _slice.call(arguments, 1);
+      var args = Array.prototype.slice.call(arguments, 1);
       return format.replace(/{(\d+)}/g, function(match, number) { 
         return typeof args[number] != 'undefined' ? args[number] : match;
       });
@@ -786,7 +787,7 @@ var tooly = (function() {
      *                            instance, pass a context such that context.handlers is an array.
      */
     Handler: function(context) {
-      if (!(this instanceof Handler)) {
+      if (!(this instanceof tooly.Handler)) {
         return new tooly.Handler(context);
       }
       this.context = context || this;

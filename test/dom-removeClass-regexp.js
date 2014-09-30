@@ -1,5 +1,4 @@
 var tooly = require('../dist/tooly.js'),
-    Handler = require('handler/dist/handler'),
     chai = require('chai'),
     expect = chai.expect;
 

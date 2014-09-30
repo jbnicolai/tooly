@@ -11,7 +11,7 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!_node(el)) return false;
+      if (!_node(el)) el = tooly.select(el);
       if (_procArgs(el, klass, tooly.hasClass)) return true;
       var re = _re(klass),
           classes = el.className.split(_ws),
@@ -30,7 +30,7 @@
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procArgs(el, klass, tooly.addClass);
       el.className += ' ' + klass;
       return tooly;
@@ -44,7 +44,7 @@
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procArgs(el, klass, tooly.removeClass);
       el.className = el.className.replace(_re(klass), ' ');
       return tooly;
@@ -58,7 +58,7 @@
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procEls(el, content, tooly.prepend);
       el.innerHTML = content + el.innerHTML;
       return tooly
@@ -72,7 +72,7 @@
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!_node(el)) return tooly;
+      if (!_node(el)) el = tooly.select(el);
       _procEls(el, content, tooly.append);
       el.innerHTML += content;
       return tooly;
@@ -84,7 +84,8 @@
      * 
      * @param  {String|Object} content
      * @param  {Element} el      
-     * @return {String} content or the first matched el's innerHTML if content is not passed
+     * @return {String|Object} the first matched el's innerHTML of null when in get mode,
+     *                             otherwise `tooly` for chaining
      * @memberOf  tooly
      */
     html: function(el, content) {
@@ -110,15 +111,15 @@
               el[i].innerHTML = content;
             }
           }
-          return content;
+          return tooly;
         } else {
           tooly.select(el).innerHTML = content;
-          return content;
+          return tooly;
         }
       }
 
       el.innerHTML = content;
-      return content;
+      return tooly;
     },
 
     /**
