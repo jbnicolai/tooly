@@ -30,9 +30,14 @@
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!_node(el)) el = tooly.select(el);
+      if (_type(el, 'array')) {
+        _procEls(el, klass, tooly.addClass);
+      } else if (!_node(el)) {
+        el = tooly.select(el);
+      } else {
+        el.className += ' ' + klass;
+      }
       _procArgs(el, klass, tooly.addClass);
-      el.className += ' ' + klass;
       return tooly;
     },
 
@@ -44,9 +49,14 @@
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!_node(el)) el = tooly.select(el);
+      if (_type(el, 'array')) {
+        _procEls(el, klass, tooly.removeClass);
+      } else if (!_node(el)) {
+        el = tooly.select(el);
+      } else {
+        el.className = el.className.replace(_re(klass), ' ');
+      }
       _procArgs(el, klass, tooly.removeClass);
-      el.className = el.className.replace(_re(klass), ' ');
       return tooly;
     },
 

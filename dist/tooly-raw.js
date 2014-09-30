@@ -13,8 +13,12 @@
  */
 var tooly = (function() {
 
-  function _type(o) {
-    return ({}).toString.call(o).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+  function _type(o, klass) {
+    o = ({}).toString.call(o).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+    if (klass) {
+      return o === klass.toLowerCase();
+    }
+    return o;
   }
   
   var _ws = /\s+/;
@@ -23,7 +27,8 @@ var tooly = (function() {
    * @private
    */
   function _re(str) {
-    return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
+    // return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
+    return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
 
   /**
@@ -96,9 +101,14 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     addClass: function(el, klass) {
-      if (!_node(el)) el = tooly.select(el);
+      if (_type(el, 'array')) {
+        _procEls(el, klass, tooly.addClass);
+      } else if (!_node(el)) {
+        el = tooly.select(el);
+      } else {
+        el.className += ' ' + klass;
+      }
       _procArgs(el, klass, tooly.addClass);
-      el.className += ' ' + klass;
       return tooly;
     },
 
@@ -110,9 +120,16 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     removeClass: function(el, klass) {
-      if (!_node(el)) el = tooly.select(el);
+      if (_type(el, 'array')) {
+        _procEls(el, klass, tooly.removeClass);
+      } else if (!_node(el)) {
+        el = tooly.select(el);
+      } else {
+        console.log(el.className + ', ' + el.className.replace(_re(klass), ' ') + 
+          ', ' + _re(klass));
+        el.className = el.className.replace(_re(klass), ' ');
+      }
       _procArgs(el, klass, tooly.removeClass);
-      el.className = el.className.replace(_re(klass), ' ');
       return tooly;
     },
 
@@ -747,10 +764,15 @@ var tooly = (function() {
     },
 
     /**
-     * a more useful alternative to the typeof operator
+     * A more useful alternative to the typeof operator.
+     * If only the `obj` argument is passed, the class of that object is returned.
+     * If the second argument `klass` is passed, a boolean indicating whether `obj`
+     * is of class `klass` or not is returned.
      * 
-     * @param  {Object} obj the object
-     * @return {String}     the type of object
+     * @param  {Object} obj     the object
+     * @param  {String} klass   object class to compare to
+     * @return {String|Boolean} the type of object if only `obj` is passed or 
+     *                              true if `obj` is of class `klass`, false otherwise
      *
      * @alias type, typeof
      * 
@@ -761,15 +783,15 @@ var tooly = (function() {
      * @module core
      * @static
      */
-    toType: function(obj) {
-      return _type(obj);
+    toType: function() {
+      return _type(arguments);
     },
 
     /*! @alias for #toType */
-    type:   function (o) { return _type(o); },
+    type:   function () { return _type(arguments); },
 
     /*! @alias for #toType */
-    typeof: function (o) { return _type(o); },
+    typeof: function () { return _type(arguments); },
 
 
 //    +----------------+
@@ -1029,14 +1051,14 @@ tooly.Logger.prototype = (function() {
       // _colors = {'800080','008000','0000FF','FFA500','FF0000'};
       
   function _log(instance, level, caller, args) {
-    if (instance.level === -1 || level < instance.level || instance.level) return;
+    if (instance.level === -1 || level < instance.level || instance.level > 5) return;
 
     args = _slice.call(args);
     var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
         pargs = []; // final args for console call
 
     if (_cjs) {
-      if (args[0].match(/\%(s|j|d)/g)) {
+      if (tooly.typeof(args[0]) === 'string' && args[0].match(/\%(s|j|d)/g)) {
         format += args.shift();
       }
       pargs.unshift(format, _name(instance), _level(level));
@@ -1046,7 +1068,7 @@ tooly.Logger.prototype = (function() {
       // format %s the same way
       
       format = '%c%s%c%s%c%s';
-      if (args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
+      if (tooly.typeof(args[0]) === 'string' && args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
         format += args.shift();
         // format.replace(/\%(c|s|o|O|d|i|f)/g, function(m) {
         //   for (var i = 0; i < m.length; i++) {

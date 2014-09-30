@@ -5,7 +5,8 @@
    * @private
    */
   function _re(str) {
-    return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
+    // return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
+    return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
 
   /**

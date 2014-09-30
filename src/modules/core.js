@@ -162,10 +162,15 @@
     },
 
     /**
-     * a more useful alternative to the typeof operator
+     * A more useful alternative to the typeof operator.
+     * If only the `obj` argument is passed, the class of that object is returned.
+     * If the second argument `klass` is passed, a boolean indicating whether `obj`
+     * is of class `klass` or not is returned.
      * 
-     * @param  {Object} obj the object
-     * @return {String}     the type of object
+     * @param  {Object} obj     the object
+     * @param  {String} klass   object class to compare to
+     * @return {String|Boolean} the type of object if only `obj` is passed or 
+     *                              true if `obj` is of class `klass`, false otherwise
      *
      * @alias type, typeof
      * 
@@ -176,12 +181,12 @@
      * @module core
      * @static
      */
-    toType: function(obj) {
-      return _type(obj);
+    toType: function() {
+      return _type(arguments);
     },
 
     /*! @alias for #toType */
-    type:   function (o) { return _type(o); },
+    type:   function () { return _type(arguments); },
 
     /*! @alias for #toType */
-    typeof: function (o) { return _type(o); },
+    typeof: function () { return _type(arguments); },

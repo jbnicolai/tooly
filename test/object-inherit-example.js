@@ -1,8 +1,11 @@
 var tooly = require('../dist/tooly');
+var expect = require('chai').expect;
 
-function Parent() {}
-Parent.prototype.b = 2;
-function Child() { Parent.call(this); } // this is a must
-tooly.inherit(Parent, Child, { a: 1 });
-var child = new Child();
-console.log(child.a + child.b); //=> 3
+describe('inherit', function() {
+  function Parent() {}
+  Parent.prototype.b = 2;
+  function Child() { Parent.call(this); }
+  tooly.inherit(Parent, Child, { a: 1 });
+  var child = new Child();
+  expect(child.a + child.b).to.equal(3);
+});

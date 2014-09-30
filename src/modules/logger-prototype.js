@@ -16,14 +16,14 @@ tooly.Logger.prototype = (function() {
       // _colors = {'800080','008000','0000FF','FFA500','FF0000'};
       
   function _log(instance, level, caller, args) {
-    if (instance.level === -1 || level < instance.level || instance.level) return;
+    if (instance.level === -1 || level < instance.level || instance.level > 5) return;
 
     args = _slice.call(args);
     var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
         pargs = []; // final args for console call
 
     if (_cjs) {
-      if (args[0].match(/\%(s|j|d)/g)) {
+      if (tooly.typeof(args[0]) === 'string' && args[0].match(/\%(s|j|d)/g)) {
         format += args.shift();
       }
       pargs.unshift(format, _name(instance), _level(level));
@@ -33,7 +33,7 @@ tooly.Logger.prototype = (function() {
       // format %s the same way
       
       format = '%c%s%c%s%c%s';
-      if (args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
+      if (tooly.typeof(args[0]) === 'string' && args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
         format += args.shift();
         // format.replace(/\%(c|s|o|O|d|i|f)/g, function(m) {
         //   for (var i = 0; i < m.length; i++) {

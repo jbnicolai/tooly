@@ -3,7 +3,7 @@
 
 <head>
   <title>#css test</title>
-  <script src="../dist/tooly-raw.js"></script>
+  <script src="../dist/tooly.js"></script>
 </head>
 
 <body style="width: 62%; margin: 0 auto; background: black; color: yellow;">
@@ -39,16 +39,18 @@
 <script>
   window.onload = function() {
 
-    tooly.debug('about to set first box red');
+    var logger = tooly.Logger(2, 'CSS-LOG');
+
+    logger.debug('about to set first box red');
     var a = tooly.select('.a');
     tooly.css(a, 'background', 'red');
 
-    tooly.debug('about to set the other boxes green and blue');
+    logger.debug('about to set the other boxes green and blue');
     [tooly.select('.b'), tooly.select('.c')].forEach(function(el, i) {
       tooly.css(el, {background: i % 2 === 0 ? 'green' : 'blue'});
     });
 
-    tooly.debug('about to add box-shadow, padding, border-bottom');
+    logger.debug('about to add box-shadow, padding, border-bottom');
     var css = {
       'box-shadow': '0px 1px 4px 0px yellow',
       'padding': '12px',
@@ -56,8 +58,18 @@
     };
     tooly.css(tooly.select('.c'), css);
 
-    tooly.debug('attempting to pass non-node as first arg');
+    logger.debug('attempting to pass non-node as first arg');
     tooly.css('.b', css);
+
+    logger.debug('selecting all p');
+    var $ = tooly.selectAll('p');
+    logger.info($);
+    logger.debug('about to add class to p');
+    tooly.addClass($, 'purple');
+    logger.info($);
+    logger.debug('about to remove all .a from p');
+    tooly.removeClass($, 'a');
+    logger.info($);
   }
 </script>
 
