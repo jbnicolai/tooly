@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.2 (built: 2014-09-28)
+ * tooly - version 0.0.2 (built: 2014-09-30)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -1030,9 +1030,10 @@ tooly.Logger.prototype = (function() {
 
   var _cjs = typeof exports === 'object',
       _slice = Array.prototype.slice,
+      _push = Array.prototype.push,
       _chalk = _cjs ? require('chalk') : null
       _levels = ['dummy','trace','debug','info','warn','error'],
-      _colors = ['dummy',
+      _colors = ['gray', // dummy
         'gray',
         'green',
         _cjs ? 'cyan' : 'blue',
@@ -1043,30 +1044,44 @@ tooly.Logger.prototype = (function() {
       // _colors = {'800080','008000','0000FF','FFA500','FF0000'};
       
   function _log(instance, level, caller, args) {
-    if (instance.level === -1 || level < instance.level) return;
+    if (instance.level === -1 || level < instance.level || instance.level) return;
 
+    args = _slice.call(args);
     var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
         pargs = []; // final args for console call
 
     if (_cjs) {
-      if (tooly.type(args) === 'array') {
-        args = (args.length > 1) ? _slice.call(args, 0) : args[0];
-        if (args[0].match(/\%(s|j|d)/g)) {
-          format += args.shift();
-        }
-        Array.prototype.push.apply(pargs, args);
-      } else {
-        pargs.push(args);
+      if (args[0].match(/\%(s|j|d)/g)) {
+        format += args.shift();
       }
       pargs.unshift(format, _name(instance), _level(level));
 
     } else { // window
-      args = (args.length > 1) ? _slice.call(args, 0) : args[0];
-      format = '%c%s%c%s%c%s' + (tooly.type(args) !== 'string' ? '%o' : '%s');
-      var caller = (caller.replace(/\s+/, '') === '') ? '' : caller + ' \t',
-          color = 'color:' + _colors[level] + ';';
-      pargs = [format, 'color:purple', _name(instance), color, _level(level), 'color:black', caller, args];
+      // TODO: string output in Chrome is more readable within array,  
+      // format %s the same way
+      
+      format = '%c%s%c%s%c%s';
+      if (args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
+        format += args.shift();
+        // format.replace(/\%(c|s|o|O|d|i|f)/g, function(m) {
+        //   for (var i = 0; i < m.length; i++) {
+        //     if (i > 5) {
+        //       if (m === '%s') {
+        //         return '\"' + args[i] + '\"';
+        //       } else if (m === '%o') {
+        //         return JSON.stringify(args[i]);
+        //       }
+        //     }
+        //   }
+        // }); 
+      }
+      caller = (caller.replace(/\s+/, '') === '') ? '' : caller + ' \t';
+      var color = 'color:' + _colors[level] + ';',
+          purple = 'color:purple', black = 'color:black';
+      pargs = [format, purple, _name(instance), color, _level(level), black, caller];
     }
+
+    _push.apply(pargs, args);
 
     switch (level) {
       case -1: 
@@ -1086,20 +1101,9 @@ tooly.Logger.prototype = (function() {
         // http://stackoverflow.com/
         // questions/8159233/typeerror-illegal-invocation-on-console-log-apply
         try {
-          console[ _levels[level] ].apply(console, pargs); 
+          console[ _levels[level] ].apply(console, pargs);
         } catch(e) {
-          // console.error(e.name, _levels[level]);
-          // try {
-          //   console[ _levels[level] ].apply(null, pargs); 
-          // } catch(e) {
-          //   console.error('error 2');
-          //   try {
-          //    console[ _levels[level] ].bind(console);
-          //    console[ _levels[level] ].apply(null, pargs);
-          //   } catch(e) {
-          //     console.log('error 3');
-          //   }
-          // }
+          console.log('[Logger (recovery mode)] ', pargs);
         }
         break;
     }
@@ -1121,21 +1125,21 @@ tooly.Logger.prototype = (function() {
 
   // helper
   function _level(level) {
-    var now = _chalkify(6, '[' + new Date().toLocaleTimeString() + ']');
-    return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') + now + ' ';
+    return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') +
+      _chalkify(6, '[' + new Date().toLocaleTimeString() + '] ');
   }
 
   // use chalk if node.js
-  function _chalkify(which, str) {
-    if (!_chalk) return str;
-    return _chalk[ _colors[which] ](str);
-    return str;
+  function _chalkify(level, str) {
+    return (!_chalk) ? str : _chalk[ _colors[level] ](str);
   }
 
   // send either string|number or array to _log
   function _parseArgs(args) {
-    if (args.length === 1) return args[0];
-    return Array['slice'] ? Array.slice : _slice.call(args, 0);
+    console.log('_parseArgs >>');
+    console.log(args[0]);
+    console.log(_slice(args, 0));
+    return (args.length === 1) ? args[0] : _slice(args, 0);
   }
 
   // public API

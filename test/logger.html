@@ -65,13 +65,16 @@
 <script>
   window.onload = function() {
     var logger = new tooly.Logger(0, 'TOOLY');
-    console.log('%s%o', 'hello world', {name:'peach'});
-    logger.log('%s%o', 'hello world', {name:'peach'});
-    logger.trace('%s%o', 'hello world', {name:'peach'});
-    logger.debug('%s%o', 'hello world', {name:'peach'});
-    logger.info('%s%o', 'hello world', {name:'peach'});
-    logger.warn('%s%o', 'hello world', {name:'peach'});
-    logger.error('%s%o', 'hello world', {name:'peach'});
+    var str = 'str';
+    var arr = ['a', 'b', 'c'];
+    var obj = {name: 'peach', color: 'turquoise'};
+    console.log('%s, %o,  %o', str, obj, arr);
+    logger.log('%s, %o,  %o', str, obj, arr);
+    logger.trace('%s, %o,  %o', str, obj, arr);
+    logger.debug('%s, %o,  %o', str, obj, arr);
+    logger.info('%s, %o,  %o', str, obj, arr);
+    logger.warn('%s, %o,  %o', str, obj, arr);
+    logger.error('%s, %o,  %o', str, obj, arr);
   }
 </script>
 

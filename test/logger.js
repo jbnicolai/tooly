@@ -1,12 +1,11 @@
 var tooly = require('../dist/tooly');
 
-var logger = new tooly.Logger(2, 'test-logger');
+var logger = new tooly.Logger(0, 'test-logger');
 var goats = {a: 'djkrush', b: 'djshadow'};
 
-logger.log(goats);
-logger.trace(goats);
-logger.debug('%d%j%s', 99, goats, 'hello world');
-logger.debug('hello world');
-// logger.info('%d, %j, %s', 99, goats, '...');
-// logger.warn(goats);
-// logger.error(goats);
+logger.log('%d, %j, %s', 99, goats, 'hello world');
+logger.trace('%d, %j, %s', 99, goats, 'hello world');
+logger.debug('%d, %j, %s', 99, goats, 'hello world');
+logger.info('%d, %j, %s', 99, goats, 'hello world');
+logger.warn('%d, %j, %s', 99, goats, 'hello world');
+logger.error('%d, %j, %s', 99, goats, 'hello world');
