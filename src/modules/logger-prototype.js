@@ -23,7 +23,7 @@ tooly.Logger.prototype = (function() {
         pargs = []; // final args for console call
 
     if (_cjs) {
-      if (tooly.typeof(args[0]) === 'string' && args[0].match(/\%(s|j|d)/g)) {
+      if (tooly.type(args[0], 'string') && args[0].match(/\%(s|j|d)/g)) {
         format += args.shift();
       }
       pargs.unshift(format, _name(instance), _level(level));
@@ -33,19 +33,8 @@ tooly.Logger.prototype = (function() {
       // format %s the same way
       
       format = '%c%s%c%s%c%s';
-      if (tooly.typeof(args[0]) === 'string' && args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
+      if (tooly.type(args[0], 'string') && args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
         format += args.shift();
-        // format.replace(/\%(c|s|o|O|d|i|f)/g, function(m) {
-        //   for (var i = 0; i < m.length; i++) {
-        //     if (i > 5) {
-        //       if (m === '%s') {
-        //         return '\"' + args[i] + '\"';
-        //       } else if (m === '%o') {
-        //         return JSON.stringify(args[i]);
-        //       }
-        //     }
-        //   }
-        // }); 
       }
       caller = (caller.replace(/\s+/, '') === '') ? '' : caller + ' \t';
       var color = 'color:' + _colors[level] + ';',
@@ -104,14 +93,6 @@ tooly.Logger.prototype = (function() {
   // use chalk if node.js
   function _chalkify(level, str) {
     return (!_chalk) ? str : _chalk[ _colors[level] ](str);
-  }
-
-  // send either string|number or array to _log
-  function _parseArgs(args) {
-    console.log('_parseArgs >>');
-    console.log(args[0]);
-    console.log(_slice(args, 0));
-    return (args.length === 1) ? args[0] : _slice(args, 0);
   }
 
   // public API
