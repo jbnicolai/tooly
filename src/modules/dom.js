@@ -4,11 +4,9 @@
     /**
      * check if an element has a css class
      * 
-     * @param  {Object|Array<Element>} el  the dom node or array of dom nodes to check for 
-     *                                     existence of `klass`
-     * @param  {String}   klass   the css class to add
+     * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
+     * @param  {String}   klass   the css class to compare
      * @return {Boolean} true if `el` has `klass`
-     * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -24,7 +22,7 @@
     /**
      * add a css class to element
      * 
-     * @param  {Object|Array} el  such that el or each index of el has nodeType === 1
+     * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param {String} klass the css class to add
      * @return {Object} `tooly` for chaining
      */
@@ -43,7 +41,7 @@
     /**
      * remove a css class from an element
      * 
-     * @param  {Object|Array} el  such that el or each index of el has nodeType === 1
+     * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param  {String} klass   the css class to remove
      * @return {Object} `tooly` for chaining
      */
@@ -262,4 +260,56 @@
         _keyInStyles(el, styles);
       }
       return tooly;
+    },
+
+    /**
+     * The Selector class provides a jQuery style wrapper around all 
+     * tooly#dom methods except for #select and #selectAll. 
+     * Selection instead is done on the Selector constructor, which will keep
+     * an internal reference to a selectAll query on the passed `el`. All dom
+     * methods that can be called directly from tooly can instead be called
+     * from the Selector instance without their first argument, for example:
+     * `tooly.css('.myDiv', {color:'red'})` and 
+     * `tooly.Selector('.myDiv').css({color:'red'})` are equivalent. It is also
+     * important to note that all methods return the instance for easy chainability,
+     * expect when either `css()` or `html()` are called without any arguments, which makes
+     * them getters. Methods `parent` and `children` will return the instance as well, 
+     * instead setting the internal selection reference to the parents or children of the 
+     * previous selection, for example, with markup `<div><p></p></div>`, 
+     * tooly.Selector('p').parent().css('background', 'orange');` would change the div's 
+     * background orange.
+     * 
+     * 
+     * Another usage example:
+     * @example
+     * ```js
+     * // alias the selector namespace
+     * var $ = tooly.Selector;
+     * var $divs = $(divs);
+     * $divs.css({color:'green'});
+     * // multiple yet separate selectors must be comma separated
+     * $('div, p')
+     *   .addClass('purple')
+     *   .addClass('yellow')
+     *   .removeClass('g')
+     *   .css({'border-radius':'4px'})
+     *   .prepend('<h1>---</h1>')
+     *   .append('<h1>+++</h1>')
+     *   .html('H T M L');
+     *     
+     * ```
+     * @param {Element} el valid css selector string, can contain multiple 
+     *                     selectors separated my commas (see the example)
+     * @constructor
+     * @class Selector
+     * @module  dom
+     * @memberOf  tooly
+     * @static                    
+     */
+    Selector: function(el) {
+      if (!(this instanceof tooly.Selector)) {
+        return new tooly.Selector(el);
+      }
+      this.el = tooly.selectAll(el);
+      return this;
     },
