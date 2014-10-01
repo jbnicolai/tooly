@@ -49,6 +49,16 @@
     return false;
   }
 
+  function _prepend(el, content) {
+    if (!_node(el)) el = tooly.select(el);
+    el.innerHTML = content + el.innerHTML;
+  }
+
+  function _append(el, content) {
+    if (!_node(el)) el = tooly.select(el);
+    el.innerHTML += content;
+  }
+
   /**
    * @private
    */

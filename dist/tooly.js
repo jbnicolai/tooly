@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.3 (built: 2014-09-30)
+ * tooly - version 0.0.3 (built: 2014-10-01)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -87,6 +87,16 @@ var tooly = (function() {
     return false;
   }
 
+  function _prepend(el, content) {
+    if (!_node(el)) el = tooly.select(el);
+    el.innerHTML = content + el.innerHTML;
+  }
+
+  function _append(el, content) {
+    if (!_node(el)) el = tooly.select(el);
+    el.innerHTML += content;
+  }
+
   /**
    * @private
    */
@@ -165,10 +175,12 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!_node(el)) el = tooly.select(el);
-      _procEls(el, content, tooly.prepend);
-      el.innerHTML = content + el.innerHTML;
-      return tooly
+      if (_type(el, 'array')) {
+        _procEls(el, content, _prepend);
+        return tooly
+      } 
+      _prepend(el, content);
+      return tooly;
     },
 
     /**
@@ -179,9 +191,11 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!_node(el)) el = tooly.select(el);
-      _procEls(el, content, tooly.append);
-      el.innerHTML += content;
+      if (_type(el, 'array')) {
+        _procEls(el, content, _append);
+        return tooly
+      } 
+      _append(el, content);
       return tooly;
     },
 
@@ -267,6 +281,13 @@ var tooly = (function() {
       return els;
     },
 
+    /*!
+     * alias for #selectAll
+     */
+    selAll: function(s, c) {
+      return tooly.selectAll(s, c);
+    },    
+
     /**
      * select the parent element of `el`.
      * 
@@ -298,13 +319,6 @@ var tooly = (function() {
             return converted;
           })()
         : null;
-    },
-
-    /*!
-     * alias for #selectAll
-     */
-    selAll: function(s, c) {
-      return tooly.selectAll(s, c);
     },
 
     /**
@@ -957,10 +971,23 @@ tooly.Handler.prototype = {
     return this;
   },
 
+  /**
+   * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
+   */
   removeAll: function() {
     this.handlers = {};
   },
 
+  /**
+   * Remove all handler's attached to `fn`. All subsequent calls to 
+   * #executeHandler(`fn`) will no longer have an effect.
+   * 
+   * @param  {Function} fn the named function that executes handler(s)
+   * @memberOf Handler
+   * @module  Handler
+   * @instance
+   * @alias #off
+   */
   remove: function(fn) {
     if (this.handlers[fn] !== undefined) {
       this.handlers[fn].length = 0;
@@ -975,7 +1002,23 @@ tooly.Handler.prototype = {
   },
 
   /**
-   * executes all handlers attached to the name function.
+   * executes all handlers attached to the named function.
+   * @example
+   * var value = 0;
+   * var handler = new tooly.Handler();
+   * 
+   * function inc() { 
+   *   value += 10; 
+   *   handler.executeHandler('inc');
+   * }
+   * 
+   * function jump() {
+   *   this.value *= 2;
+   * }
+   *
+   * handler.on('inc', announce);
+   * inc();
+   * value; //=> 20;
    * 
    * @param  {(String|Object)} fn the name of the method to execute
    * @return {Object} `this` for chaining
@@ -1010,8 +1053,8 @@ tooly.Handler.prototype = {
 
   /**
    * Add callbacks to the list of handlers. The callbacks must be an object collection of 
-   * key-value pairs where the identifier key is the name of a function that calls the executeHandler
-   * method with the same name as the key, while the value is the callback 
+   * key-value pairs where the identifier key is the name of a function that calls the 
+   * #executeHandler method with the same name as the key, while the value is the callback 
    * function itself. This method should not be used if only registering a single callback, 
    * for that use {@link #on}.
    * 

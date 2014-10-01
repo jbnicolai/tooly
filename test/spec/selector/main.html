@@ -2,8 +2,9 @@
 <html>
 
 <head>
-  <title>test</title>
+  <title>tooly#Selector</title>
   <script src="../../../dist/tooly.js"></script>
+  <script src="main.js"></script>
 </head>
 
 <style>
@@ -42,6 +43,10 @@
   .purple {
     background: purple;
   }
+
+  .yellow {
+    color: yellow;
+  }
   
 </style>
 
@@ -69,30 +74,19 @@
 <script>
   window.onload = function() {
     var logger = tooly.Logger(0, 'main');
-
-    tooly.Selector = function(el) {
-      if (!(this instanceof tooly.Selector)) {
-        return new tooly.Selector(el);
-      }
-      this.el = tooly.selectAll(el);
-      return this;
-    }
-
-    tooly.Selector.prototype = {
-      hasClass: function(klass) {
-        return tooly.hasClass(this.el, klass);
-      },
-      addClass: function(klass) {
-        return tooly.addClass(this.el, klass);
-      }
-    };
-
     var $ = tooly.Selector;
-    var $el = $('.g');
-    logger.debug($el);
 
-    $el.addClass('purple');
+    var $elems = $('.d, .e, .f');
+    logger.debug($elems);
 
+    $elems
+      .addClass('purple')
+      .addClass('yellow')
+      .removeClass('g')
+      .css({'border-radius':'4px'})
+      .prepend('<h1>---</h1>')
+      .append('<h1>+++</h1>')
+      .html('H T M L');
   }
 </script>
 

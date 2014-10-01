@@ -56,7 +56,7 @@ tooly.Handler.prototype = {
    * 
    * function inc() { 
    *   value += 10; 
-   *   handler.trigger('inc');
+   *   handler.executeHandler('inc');
    * }
    * 
    * function jump() {

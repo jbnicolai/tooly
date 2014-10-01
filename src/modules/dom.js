@@ -67,10 +67,12 @@
      * @return {Object} `tooly` for chaining
      */
     prepend: function(el, content) {
-      if (!_node(el)) el = tooly.select(el);
-      _procEls(el, content, tooly.prepend);
-      el.innerHTML = content + el.innerHTML;
-      return tooly
+      if (_type(el, 'array')) {
+        _procEls(el, content, _prepend);
+        return tooly
+      } 
+      _prepend(el, content);
+      return tooly;
     },
 
     /**
@@ -81,9 +83,11 @@
      * @return {Object} `tooly` for chaining
      */
     append: function(el, content) {
-      if (!_node(el)) el = tooly.select(el);
-      _procEls(el, content, tooly.append);
-      el.innerHTML += content;
+      if (_type(el, 'array')) {
+        _procEls(el, content, _append);
+        return tooly
+      } 
+      _append(el, content);
       return tooly;
     },
 
@@ -169,6 +173,13 @@
       return els;
     },
 
+    /*!
+     * alias for #selectAll
+     */
+    selAll: function(s, c) {
+      return tooly.selectAll(s, c);
+    },    
+
     /**
      * select the parent element of `el`.
      * 
@@ -200,13 +211,6 @@
             return converted;
           })()
         : null;
-    },
-
-    /*!
-     * alias for #selectAll
-     */
-    selAll: function(s, c) {
-      return tooly.selectAll(s, c);
     },
 
     /**
