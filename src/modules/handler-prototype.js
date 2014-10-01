@@ -19,13 +19,61 @@ tooly.Handler.prototype = {
   },
 
   /**
-   * executes all handlers attached to the name function.
+   * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
+   */
+  removeAll: function() {
+    this.handlers = {};
+  },
+
+  /**
+   * Remove all handler's attached to `fn`. All subsequent calls to 
+   * #executeHandler(`fn`) will no longer have an effect.
+   * 
+   * @param  {Function} fn the named function that executes handler(s)
+   * @memberOf Handler
+   * @module  Handler
+   * @instance
+   * @alias #off
+   */
+  remove: function(fn) {
+    if (this.handlers[fn] !== undefined) {
+      this.handlers[fn].length = 0;
+    }
+  },
+
+  /*!
+   * alias for #remove
+   */
+  off: function(fn) {
+    this.remove(fn);
+  },
+
+  /**
+   * executes all handlers attached to the named function.
+   * @example
+   * var value = 0;
+   * var handler = new tooly.Handler();
+   * 
+   * function inc() { 
+   *   value += 10; 
+   *   handler.trigger('inc');
+   * }
+   * 
+   * function jump() {
+   *   this.value *= 2;
+   * }
+   *
+   * handler.on('inc', announce);
+   * inc();
+   * value; //=> 20;
    * 
    * @param  {(String|Object)} fn the name of the method to execute
    * @return {Object} `this` for chaining
+   * 
    * @memberOf  Handler
    * @instance
    * @method
+   * @alias #exec #trigger
    */
   executeHandler: function(fn) {
     var handler = this.handlers[fn] || [],
@@ -36,18 +84,24 @@ tooly.Handler.prototype = {
     return this;
   },
 
-  /**
+  /*!
    * alias for #executeHandler
-   * @see  #executeHandler
    */
   exec: function(fn) {
     return this.executeHandler(fn);
   },
 
+  /*!
+   * alias for #executeHandler
+   */
+  trigger: function(fn) {
+    return this.executeHandler(fn);
+  },
+
   /**
    * Add callbacks to the list of handlers. The callbacks must be an object collection of 
-   * key-value pairs where the identifier key is the name of a function that calls the executeHandler
-   * method with the same name as the key, while the value is the callback 
+   * key-value pairs where the identifier key is the name of a function that calls the 
+   * #executeHandler method with the same name as the key, while the value is the callback 
    * function itself. This method should not be used if only registering a single callback, 
    * for that use {@link #on}.
    * 

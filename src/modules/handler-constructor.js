@@ -17,8 +17,7 @@
         return new tooly.Handler(context);
       }
       this.context = context || this;
-      this.context.handlers = [];
-      this.handlers = this.context.handlers;
+      this.handlers = this.context.handlers = {};
       return this;
     },
     

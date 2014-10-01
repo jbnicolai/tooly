@@ -856,8 +856,7 @@ var tooly = (function() {
         return new tooly.Handler(context);
       }
       this.context = context || this;
-      this.context.handlers = [];
-      this.handlers = this.context.handlers;
+      this.handlers = this.context.handlers = {};
       return this;
     },
     
@@ -958,14 +957,33 @@ tooly.Handler.prototype = {
     return this;
   },
 
+  removeAll: function() {
+    this.handlers = {};
+  },
+
+  remove: function(fn) {
+    if (this.handlers[fn] !== undefined) {
+      this.handlers[fn].length = 0;
+    }
+  },
+
+  /*!
+   * alias for #remove
+   */
+  off: function(fn) {
+    this.remove(fn);
+  },
+
   /**
    * executes all handlers attached to the name function.
    * 
    * @param  {(String|Object)} fn the name of the method to execute
    * @return {Object} `this` for chaining
+   * 
    * @memberOf  Handler
    * @instance
    * @method
+   * @alias #exec #trigger
    */
   executeHandler: function(fn) {
     var handler = this.handlers[fn] || [],
@@ -976,11 +994,17 @@ tooly.Handler.prototype = {
     return this;
   },
 
-  /**
+  /*!
    * alias for #executeHandler
-   * @see  #executeHandler
    */
   exec: function(fn) {
+    return this.executeHandler(fn);
+  },
+
+  /*!
+   * alias for #executeHandler
+   */
+  trigger: function(fn) {
     return this.executeHandler(fn);
   },
 
