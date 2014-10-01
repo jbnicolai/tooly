@@ -11,14 +11,13 @@
      * @throws {TypeError} If el is not of nodeType: 1
      */
     hasClass: function(el, klass) {
-      if (!_node(el)) el = tooly.select(el);
-      if (_procArgs(el, klass, tooly.hasClass)) return true;
-      var re = _re(klass),
-          classes = el.className.split(_ws),
-          i = 0, len = classes.length;
-      for (; i < len; i++) {
-        if (classes[i].match(re) == klass) return true;
-      }
+      if (_type(el, 'array')) {
+        var re = _re(klass), i = 0, len = el.length;
+        for (; i < len; i++) {
+          var _el = _node(el[i]) ? el[i] : tooly.select(el[i]);
+          if (_hasClass(_el, klass, re)) return true;
+        }
+      } 
       return false;
     },
 

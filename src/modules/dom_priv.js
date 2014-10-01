@@ -38,6 +38,17 @@
     }
   }
 
+  function _hasClass(el, klass, re) {
+    var classes = el.className.split(_ws),
+        i = 0, len = classes.length;
+    for (; i < len; i++) {
+      if (classes[i].match(re) == klass) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * @private
    */

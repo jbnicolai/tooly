@@ -41,25 +41,25 @@
 
     var logger = tooly.Logger(2, 'CSS-LOG');
 
-    logger.debug('about to set first box red');
-    var a = tooly.select('.a');
-    tooly.css(a, 'background', 'red');
+    // logger.debug('about to set first box red');
+    // var a = tooly.select('.a');
+    // tooly.css(a, 'background', 'red');
 
-    logger.debug('about to set the other boxes green and blue');
-    [tooly.select('.b'), tooly.select('.c')].forEach(function(el, i) {
-      tooly.css(el, {background: i % 2 === 0 ? 'green' : 'blue'});
-    });
+    // logger.debug('about to set the other boxes green and blue');
+    // [tooly.select('.b'), tooly.select('.c')].forEach(function(el, i) {
+    //   tooly.css(el, {background: i % 2 === 0 ? 'green' : 'blue'});
+    // });
 
-    logger.debug('about to add box-shadow, padding, border-bottom');
-    var css = {
-      'box-shadow': '0px 1px 4px 0px yellow',
-      'padding': '12px',
-      'border-bottom': '4px solid magenta'
-    };
-    tooly.css(tooly.select('.c'), css);
+    // logger.debug('about to add box-shadow, padding, border-bottom');
+    // var css = {
+    //   'box-shadow': '0px 1px 4px 0px yellow',
+    //   'padding': '12px',
+    //   'border-bottom': '4px solid magenta'
+    // };
+    // tooly.css(tooly.select('.c'), css);
 
-    logger.debug('attempting to pass non-node as first arg');
-    tooly.css('.b', css);
+    // logger.debug('attempting to pass non-node as first arg');
+    // tooly.css('.b', css);
 
     logger.debug('selecting all p');
     var $ = tooly.selectAll('p');
@@ -70,6 +70,8 @@
     logger.debug('about to remove all .a from p');
     tooly.removeClass($, 'a');
     logger.info($);
+    logger.debug('checking has class for selected-all');
+    logger.debug(tooly.hasClass($, 'c'));
   }
 </script>
 
