@@ -7,6 +7,10 @@
      * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param  {String}   klass   the css class to compare
      * @return {Boolean} true if `el` has `klass`
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     hasClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -25,6 +29,10 @@
      * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param {String} klass the css class to add
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     addClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -44,6 +52,10 @@
      * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param  {String} klass   the css class to remove
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     removeClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -63,6 +75,10 @@
      * @param  {Object}  el         the element(s) to prepend content to
      * @param  {String}  content    the content to prepend
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     prepend: function(el, content) {
       if (_type(el, 'array')) {
@@ -79,6 +95,10 @@
      * @param  {Object}  el         the element(s) to append content to
      * @param  {String}  content    the content to append
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     append: function(el, content) {
       if (_type(el, 'array')) {
@@ -98,6 +118,8 @@
      * @return {String|Object} the first matched el's innerHTML of null when in get mode,
      *                             otherwise `tooly` for chaining
      * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     html: function(el, content) {
       // get
@@ -140,8 +162,11 @@
      * @param  {Element} context  the parent element to start searching from 
      *                            defaults to document if blank 
      * @return {Element|null} the first matched element or null if no match
+     * 
      * @alias sel
      * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     select: function(selector, context) {
       return (context || document).querySelector(selector);
@@ -161,6 +186,10 @@
      * @param  {Object} context       the parent element to start searching from 
      *                                defaults to document if blank 
      * @return {Array<Node>} an array of matched elements or an empty array if no match
+     * 
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     selectAll: function(selector, context) {
       var list = (context || document).querySelectorAll(selector),
@@ -184,6 +213,10 @@
      * @param  {Element|String} el the node element or valid css selector string
      *                             representing the element whose parent will be selected
      * @return {Element|null} the parent element of `selector` or null if no parent is found
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     parent: function(el) {
       if (!_node(el)) el = tooly.select(el);
@@ -197,6 +230,9 @@
      *                             the element whose children will be returned 
      * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
      *                                  or null if `el` has no children
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     children: function(el) {
       if (!_node(el)) el = tooly.select(el);
@@ -227,7 +263,10 @@
      * @param  {String|Object}  styles  either a single comma separated key value pair of strings,
      *                                  or object hash
      * @return {Object} tooly for chaining
+     * 
      * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     css: function(el, styles) {
       var _keyInStyles = function(el, styles) {
@@ -276,13 +315,12 @@
      * them getters. Methods `parent` and `children` will return the instance as well, 
      * instead setting the internal selection reference to the parents or children of the 
      * previous selection, for example, with markup `<div><p></p></div>`, 
-     * tooly.Selector('p').parent().css('background', 'orange');` would change the div's 
+     * `tooly.Selector('p').parent().css('background', 'orange');` would change the div's 
      * background orange.
      * 
      * 
      * Another usage example:
      * @example
-     * ```js
      * // alias the selector namespace
      * var $ = tooly.Selector;
      * var $divs = $(divs);
@@ -296,8 +334,7 @@
      *   .prepend('<h1>---</h1>')
      *   .append('<h1>+++</h1>')
      *   .html('H T M L');
-     *     
-     * ```
+     *   
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)
      * @constructor

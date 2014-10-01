@@ -137,15 +137,13 @@
      * Also note that the child's constructor needs to call `parent.call(this)`
      *
      * @example
-     * ```js
      * function Parent() {}
      * Parent.prototype.b = 2;
      * function Child() { Parent.call(this); } // this is a must
      * tooly.inherit(Parent, Child, { a: 1 });
      * var child = new Child();
      * console.log(child.a + child.b); //=> 3
-     * ```
-     * for a more practical example see the {@link tooly#Handler} documentation.
+     * // for a more practical example see the tooly.Handler documentation.
      * 
      * @param  {Function} parent
      * @param  {Function} child  
@@ -226,7 +224,7 @@
      * get an array of an object's "ownProperties"
      * 
      * @param  {Object} obj     the object of interest
-     * @return {Array.<Object>} the "hasOwnProperties" of obj
+     * @return {Array[Object]} the "hasOwnProperties" of obj
      * 
      * @memberOf  tooly
      * @module  object

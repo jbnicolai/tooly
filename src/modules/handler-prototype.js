@@ -6,6 +6,7 @@ tooly.Handler.prototype = {
    * @param  {(String|Function)} fn   the function that will call the handler when executed
    * @param  {callback}   handler the handler that we be called by the named function
    * @return {Object} `this` for chaining
+   * 
    * @memberOf  Handler
    * @instance
    * @method
@@ -20,6 +21,10 @@ tooly.Handler.prototype = {
 
   /**
    * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
+   *
+   * @memberOf Handler
+   * @module  Handler
+   * @instance
    */
   removeAll: function() {
     this.handlers = {};
@@ -27,9 +32,10 @@ tooly.Handler.prototype = {
 
   /**
    * Remove all handler's attached to `fn`. All subsequent calls to 
-   * #executeHandler(`fn`) will no longer have an effect.
+   * `executeHandler(fn)` will no longer have an effect.
    * 
    * @param  {Function} fn the named function that executes handler(s)
+   * 
    * @memberOf Handler
    * @module  Handler
    * @instance
@@ -101,12 +107,13 @@ tooly.Handler.prototype = {
   /**
    * Add callbacks to the list of handlers. The callbacks must be an object collection of 
    * key-value pairs where the identifier key is the name of a function that calls the 
-   * #executeHandler method with the same name as the key, while the value is the callback 
+   * `executeHandler` method with the same name as the key, while the value is the callback 
    * function itself. This method should not be used if only registering a single callback, 
    * for that use {@link #on}.
    * 
    * @param  {Object} handlers  collection of callback functions
    * @return {Object} `this` for chaining
+   * 
    * @memberOf  Handler
    * @instance
    * @method
@@ -123,6 +130,12 @@ tooly.Handler.prototype = {
     return t;
   },
 
+  /**
+   * @return {String}
+   * @memberOf Handler
+   * @module  Handler
+   * @instance
+   */
   toString: function() { 
     return "[Handler ' " + this + " ']"; 
   }

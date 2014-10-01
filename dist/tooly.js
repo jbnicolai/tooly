@@ -99,6 +99,10 @@ var tooly = (function() {
      * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param  {String}   klass   the css class to compare
      * @return {Boolean} true if `el` has `klass`
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     hasClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -117,6 +121,10 @@ var tooly = (function() {
      * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param {String} klass the css class to add
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     addClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -136,6 +144,10 @@ var tooly = (function() {
      * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
      * @param  {String} klass   the css class to remove
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     removeClass: function(el, klass) {
       if (_type(el, 'array')) {
@@ -155,6 +167,10 @@ var tooly = (function() {
      * @param  {Object}  el         the element(s) to prepend content to
      * @param  {String}  content    the content to prepend
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     prepend: function(el, content) {
       if (_type(el, 'array')) {
@@ -171,6 +187,10 @@ var tooly = (function() {
      * @param  {Object}  el         the element(s) to append content to
      * @param  {String}  content    the content to append
      * @return {Object} `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     append: function(el, content) {
       if (_type(el, 'array')) {
@@ -190,6 +210,8 @@ var tooly = (function() {
      * @return {String|Object} the first matched el's innerHTML of null when in get mode,
      *                             otherwise `tooly` for chaining
      * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     html: function(el, content) {
       // get
@@ -232,8 +254,11 @@ var tooly = (function() {
      * @param  {Element} context  the parent element to start searching from 
      *                            defaults to document if blank 
      * @return {Element|null} the first matched element or null if no match
+     * 
      * @alias sel
      * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     select: function(selector, context) {
       return (context || document).querySelector(selector);
@@ -253,6 +278,10 @@ var tooly = (function() {
      * @param  {Object} context       the parent element to start searching from 
      *                                defaults to document if blank 
      * @return {Array<Node>} an array of matched elements or an empty array if no match
+     * 
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     selectAll: function(selector, context) {
       var list = (context || document).querySelectorAll(selector),
@@ -276,6 +305,10 @@ var tooly = (function() {
      * @param  {Element|String} el the node element or valid css selector string
      *                             representing the element whose parent will be selected
      * @return {Element|null} the parent element of `selector` or null if no parent is found
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     parent: function(el) {
       if (!_node(el)) el = tooly.select(el);
@@ -289,6 +322,9 @@ var tooly = (function() {
      *                             the element whose children will be returned 
      * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
      *                                  or null if `el` has no children
+     * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     children: function(el) {
       if (!_node(el)) el = tooly.select(el);
@@ -319,7 +355,10 @@ var tooly = (function() {
      * @param  {String|Object}  styles  either a single comma separated key value pair of strings,
      *                                  or object hash
      * @return {Object} tooly for chaining
+     * 
      * @memberOf  tooly
+     * @module  dom
+     * @static
      */
     css: function(el, styles) {
       var _keyInStyles = function(el, styles) {
@@ -368,13 +407,12 @@ var tooly = (function() {
      * them getters. Methods `parent` and `children` will return the instance as well, 
      * instead setting the internal selection reference to the parents or children of the 
      * previous selection, for example, with markup `<div><p></p></div>`, 
-     * tooly.Selector('p').parent().css('background', 'orange');` would change the div's 
+     * `tooly.Selector('p').parent().css('background', 'orange');` would change the div's 
      * background orange.
      * 
      * 
      * Another usage example:
      * @example
-     * ```js
      * // alias the selector namespace
      * var $ = tooly.Selector;
      * var $divs = $(divs);
@@ -388,8 +426,7 @@ var tooly = (function() {
      *   .prepend('<h1>---</h1>')
      *   .append('<h1>+++</h1>')
      *   .html('H T M L');
-     *     
-     * ```
+     *   
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)
      * @constructor
@@ -546,15 +583,13 @@ var tooly = (function() {
      * Also note that the child's constructor needs to call `parent.call(this)`
      *
      * @example
-     * ```js
      * function Parent() {}
      * Parent.prototype.b = 2;
      * function Child() { Parent.call(this); } // this is a must
      * tooly.inherit(Parent, Child, { a: 1 });
      * var child = new Child();
      * console.log(child.a + child.b); //=> 3
-     * ```
-     * for a more practical example see the {@link tooly#Handler} documentation.
+     * // for a more practical example see the tooly.Handler documentation.
      * 
      * @param  {Function} parent
      * @param  {Function} child  
@@ -635,7 +670,7 @@ var tooly = (function() {
      * get an array of an object's "ownProperties"
      * 
      * @param  {Object} obj     the object of interest
-     * @return {Array.<Object>} the "hasOwnProperties" of obj
+     * @return {Array[Object]} the "hasOwnProperties" of obj
      * 
      * @memberOf  tooly
      * @module  object
@@ -1043,6 +1078,7 @@ tooly.Handler.prototype = {
    * @param  {(String|Function)} fn   the function that will call the handler when executed
    * @param  {callback}   handler the handler that we be called by the named function
    * @return {Object} `this` for chaining
+   * 
    * @memberOf  Handler
    * @instance
    * @method
@@ -1057,6 +1093,10 @@ tooly.Handler.prototype = {
 
   /**
    * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
+   *
+   * @memberOf Handler
+   * @module  Handler
+   * @instance
    */
   removeAll: function() {
     this.handlers = {};
@@ -1064,9 +1104,10 @@ tooly.Handler.prototype = {
 
   /**
    * Remove all handler's attached to `fn`. All subsequent calls to 
-   * #executeHandler(`fn`) will no longer have an effect.
+   * `executeHandler(fn)` will no longer have an effect.
    * 
    * @param  {Function} fn the named function that executes handler(s)
+   * 
    * @memberOf Handler
    * @module  Handler
    * @instance
@@ -1138,12 +1179,13 @@ tooly.Handler.prototype = {
   /**
    * Add callbacks to the list of handlers. The callbacks must be an object collection of 
    * key-value pairs where the identifier key is the name of a function that calls the 
-   * #executeHandler method with the same name as the key, while the value is the callback 
+   * `executeHandler` method with the same name as the key, while the value is the callback 
    * function itself. This method should not be used if only registering a single callback, 
    * for that use {@link #on}.
    * 
    * @param  {Object} handlers  collection of callback functions
    * @return {Object} `this` for chaining
+   * 
    * @memberOf  Handler
    * @instance
    * @method
@@ -1160,6 +1202,12 @@ tooly.Handler.prototype = {
     return t;
   },
 
+  /**
+   * @return {String}
+   * @memberOf Handler
+   * @module  Handler
+   * @instance
+   */
   toString: function() { 
     return "[Handler ' " + this + " ']"; 
   }
