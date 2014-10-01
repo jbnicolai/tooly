@@ -310,15 +310,34 @@ var tooly = (function() {
      * @memberOf  tooly
      */
     css: function(el, styles) {
-      if (!_node(el)) el = tooly.select(el);
-      if (arguments.length === 3) {
-        el.style[arguments[1]] = arguments[2];
-      } else {
+      var _keyInStyles = function(el, styles) {
         for (var key in styles) {
           if (styles.hasOwnProperty(key)) {
             el.style[key] = styles[key];
-          }
+          } 
         }
+      };
+
+      if (_type(el, 'array')) {
+        if (arguments.length === 3) {
+          for (var i = 0, len = el.length; i < len; i++) {
+            el[i].style[arguments[1]] = arguments[2];
+          }
+          return tooly;
+        } else {
+          for (var i = 0, len = el.length; i < len; i++) {
+            _keyInStyles(el[i], styles);
+          }
+          return tooly;
+        }
+      } else if (!_node(el)) {
+        el = tooly.select(el);
+      }
+
+      if (arguments.length === 3) {
+        el.style[arguments[1]] = arguments[2];
+      } else {
+        _keyInStyles(el, styles);
       }
       return tooly;
     },
