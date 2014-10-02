@@ -9,6 +9,15 @@ tooly.Selector.prototype = {
     return new tooly.Selector(this.el[i], this.parent());
   },
 
+  /**
+   * Check if this Selector's `el` member is populated
+   * 
+   * @return {Boolean} true if the el member is null, undefined, or empty
+   */
+  zilch: function() {
+    return this.el.length === 0;
+  },
+
   hasClass: function(klass) {
     tooly.hasClass(this.el, klass);
     return this;
