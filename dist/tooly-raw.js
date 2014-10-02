@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.3 (built: 2014-10-01)
+ * tooly - version 0.0.3 (built: 2014-10-02)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -245,6 +245,9 @@ var tooly = (function() {
      * @static
      */
     select: function(selector, context) {
+      if (context instanceof tooly.Selector) {
+        context = context.eq(0);
+      }
       return (context || document).querySelector(selector);
     },
 
@@ -268,6 +271,9 @@ var tooly = (function() {
      * @static
      */
     selectAll: function(selector, context) {
+      if (context instanceof tooly.Selector) {
+        context = context.eq(0);
+      }
       var list = (context || document).querySelectorAll(selector),
           els = [], i = 0, len = list.length;
       for (; i < len; i++) {
@@ -419,11 +425,11 @@ var tooly = (function() {
      * @memberOf  tooly
      * @static                    
      */
-    Selector: function(el) {
+    Selector: function(el, context) {
       if (!(this instanceof tooly.Selector)) {
         return new tooly.Selector(el);
       }
-      this.el = tooly.selectAll(el);
+      this.el = tooly.selectAll(el, context);
       return this;
     },
 
@@ -531,7 +537,7 @@ var tooly = (function() {
     /**
      * Object literal assignment results in creating an an object with Object.prototype
      * as the prototype. This allows us to assign a different prototype while keeping 
-     * the convenience of literal literation.
+     * the convenience of literal declaration.
      * 
      * @param  {Object} prototype
      * @param  {Object} object    
@@ -1006,6 +1012,10 @@ var tooly = (function() {
 
 tooly.Selector.prototype = {
 
+  eq: function(i) {
+    return this.el[i];
+  },
+
   hasClass: function(klass) {
     tooly.hasClass(this.el, klass);
     return this;
@@ -1022,12 +1032,12 @@ tooly.Selector.prototype = {
   },
 
   prepend: function(content) {
-    tooly.prepend(this.el);
+    tooly.prepend(this.el, content);
     return this;
   },
 
   append: function(content) {
-    tooly.append(this.el);
+    tooly.append(this.el, content);
     return this;
   },
 

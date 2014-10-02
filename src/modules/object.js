@@ -101,7 +101,7 @@
     /**
      * Object literal assignment results in creating an an object with Object.prototype
      * as the prototype. This allows us to assign a different prototype while keeping 
-     * the convenience of literal literation.
+     * the convenience of literal declaration.
      * 
      * @param  {Object} prototype
      * @param  {Object} object    

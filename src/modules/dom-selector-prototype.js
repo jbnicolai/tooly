@@ -1,5 +1,9 @@
 tooly.Selector.prototype = {
 
+  eq: function(i) {
+    return this.el[i];
+  },
+
   hasClass: function(klass) {
     tooly.hasClass(this.el, klass);
     return this;
@@ -16,12 +20,12 @@ tooly.Selector.prototype = {
   },
 
   prepend: function(content) {
-    tooly.prepend(this.el);
+    tooly.prepend(this.el, content);
     return this;
   },
 
   append: function(content) {
-    tooly.append(this.el);
+    tooly.append(this.el, content);
     return this;
   },
 

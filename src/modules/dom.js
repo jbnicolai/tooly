@@ -169,6 +169,9 @@
      * @static
      */
     select: function(selector, context) {
+      if (context instanceof tooly.Selector) {
+        context = context.eq(0);
+      }
       return (context || document).querySelector(selector);
     },
 
@@ -192,6 +195,9 @@
      * @static
      */
     selectAll: function(selector, context) {
+      if (context instanceof tooly.Selector) {
+        context = context.eq(0);
+      }
       var list = (context || document).querySelectorAll(selector),
           els = [], i = 0, len = list.length;
       for (; i < len; i++) {
@@ -343,10 +349,10 @@
      * @memberOf  tooly
      * @static                    
      */
-    Selector: function(el) {
+    Selector: function(el, context) {
       if (!(this instanceof tooly.Selector)) {
         return new tooly.Selector(el);
       }
-      this.el = tooly.selectAll(el);
+      this.el = tooly.selectAll(el, context);
       return this;
     },
