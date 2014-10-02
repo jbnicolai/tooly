@@ -181,12 +181,12 @@
      * @module core
      * @static
      */
-    toType: function() {
-      return _type(arguments);
+    toType: function(obj, klass) {
+      return _type(obj, klass);
     },
 
     /*! @alias for #toType */
-    type:   function () { return _type(arguments); },
+    type:   function(o, k) { return _type(o, k); },
 
     /*! @alias for #toType */
-    typeof: function () { return _type(arguments); },
+    typeof: function(o, k) { return _type(o, k); },
