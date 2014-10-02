@@ -1028,8 +1028,13 @@ var tooly = (function() {
 
 tooly.Selector.prototype = {
 
-  eq: function(i) {
+  get: function(i) {
     return this.el[i];
+  },
+
+  eq: function(i) {
+    // TODO: test parent vs document
+    return new tooly.Selector(this.el[i], this.parent());
   },
 
   hasClass: function(klass) {
