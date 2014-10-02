@@ -1043,7 +1043,6 @@ tooly.Selector.prototype = {
    * @return {Boolean} true if the el member is null, undefined, or empty
    */
   zilch: function() {
-    console.log(this.el);
     return this.el.length === 0;
   },
 
