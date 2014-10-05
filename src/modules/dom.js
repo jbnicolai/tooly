@@ -169,8 +169,8 @@
      * @static
      */
     select: function(selector, context) {
-      if (context instanceof tooly.Selector) {
-        context = context.eq(0);
+      if (tooly.isPopulatedSelector(context)) {
+        context = context.get(0);
       }
       return (context || document).querySelector(selector);
     },
@@ -195,8 +195,8 @@
      * @static
      */
     selectAll: function(selector, context) {
-      if (context instanceof tooly.Selector) {
-        context = context.eq(0);
+      if (tooly.isPopulatedSelector(context)) {
+        context = context.get(0);
       }
       var list = (context || document).querySelectorAll(selector),
           els = [], i = 0, len = list.length;
@@ -305,6 +305,17 @@
         _keyInStyles(el, styles);
       }
       return tooly;
+    },
+
+    /**
+     * Check if `el` is an instance of Selector and that the instance's
+     * inner el member is populated (contains actual elements).
+     * 
+     * @param  {Object}  el the object to check
+     * @return {Boolean}    true if el is an instance of Selector with elements
+     */
+    isPopulatedSelector: function(el) {
+      return el && el instanceof tooly.Selector && el.el.length > 0;
     },
 
     /**
