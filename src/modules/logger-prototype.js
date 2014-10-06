@@ -36,7 +36,7 @@ tooly.Logger.prototype = (function() {
       if (tooly.type(args[0], 'string') && args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
         format += args.shift();
       }
-      caller = (caller.replace(/\s+/, '') === '') ? '' : caller + ' \t';
+      caller = (caller !== undefined && caller.replace(/\s+/, '') === '') ? '' : caller;
       var color = 'color:' + _colors[level] + ';',
           purple = 'color:purple', black = 'color:black';
       pargs = [format, purple, _name(instance), color, _level(level), black, caller];
@@ -71,11 +71,15 @@ tooly.Logger.prototype = (function() {
   }
 
   function _checkCaller(args) {
-    var name = args.callee.caller.name;
+    var name = ''; 
+    try { 
+      name = args.callee.caller.name; 
+    } catch(ignored) {
+    }
     if (!name && this.traceAnonymous) {
       return  '<anonymous> ' + args.callee.caller + '\n';
     }
-    return name;
+    return '<'+name+'> ';
   }
 
   // helper

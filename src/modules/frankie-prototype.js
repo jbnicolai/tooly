@@ -1,4 +1,4 @@
-tooly.Selector.prototype = {
+tooly.Frankie.prototype = {
 
   get: function(i) {
     return this.el[i];
@@ -6,11 +6,11 @@ tooly.Selector.prototype = {
 
   eq: function(i) {
     // TODO: test parent vs document
-    return new tooly.Selector(this.el[i], this.parent());
+    return new tooly.Frankie(this.el[i], this.parent());
   },
 
   /**
-   * Check if this Selector's `el` member is populated
+   * Check if this Frankie's `el` member is populated
    * 
    * @return {Boolean} true if the el member is null, undefined, or empty
    */
@@ -60,7 +60,7 @@ tooly.Selector.prototype = {
   
   css: function() {
     var args = [this.el];
-    Array.prototype.push.apply(args, arguments);
+    [].push.apply(args, arguments);
     tooly.css.apply(null, args);
     return this;
   }

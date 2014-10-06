@@ -6,22 +6,6 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    exec: {
-      custom: {
-        cmd: function() {
-          var args = Array.prototype.slice.call(arguments, 0);
-          return 'node bin/build '  + args.join(' ');
-        }
-      }
-    },
-
-    shell: {
-      main: {
-        // doesn't work here or when placed as exec task. what gives?
-        command: 'bin/main'
-      }
-    },
-
     umd: {
       main: {
         src: 'dist/tooly-raw.js',
@@ -78,7 +62,7 @@ module.exports = function(grunt) {
 
     watch: {
       files: ['src/modules/*.js'],
-      tasks: ['shell:main']
+      tasks: ['bin']
     }
   });
 
@@ -86,14 +70,19 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-banner');
-  grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-jsdoc');
-  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-umd');
 
-  // grunt.registerTask('build', ['shell:main']);
   grunt.registerTask('custom', [
-    'umd:custom', 'usebanner:custom', 'uglify:custom', 'usebanner:customPost'
+    'umd:custom',
+    'usebanner:custom',
+    'uglify:custom',
+    'usebanner:customPost'
   ]);
-  grunt.registerTask('main', ['umd:main', 'usebanner:main', 'uglify:main', 'usebanner:post']);
+  grunt.registerTask('main', [
+    'umd:main',
+    'usebanner:main',
+    'uglify:main',
+    'usebanner:post'
+  ]);
 };

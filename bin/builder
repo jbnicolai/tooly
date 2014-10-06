@@ -14,6 +14,8 @@ var parser = require('nomnom'),
     dest = './dist/tooly-custom.js',
     nocomment = false;
 
+console.log('\nRunning tooly builder...'.green);    
+
 parser.option('output', {
   abbr: 'o',
   metavar: 'FILE',
@@ -137,23 +139,24 @@ output += (includeWhat('xhr'))     ? modules['xhr']     + '\n\n' : '';
 output += (includeWhat('core'))    ? modules['core']    + '\n\n' : '';
 
 // tooly.<class>
-output += (includeWhat('handler')) ? modules['handler-constructor']    + '\n\n' : '';
-output += (includeWhat('timer'))   ? modules['timer-constructor']      + '\n\n' : '';  
-output += (includeWhat('logger'))  ? modules['logger-constructor']     + '\n\n' : '';    
+output += (includeWhat('handler')) ? modules['handler-constructor'] + '\n\n' : '';
+output += (includeWhat('timer'))   ? modules['timer-constructor']   + '\n\n' : '';  
+output += (includeWhat('logger'))  ? modules['logger-constructor']  + '\n\n' : '';    
 
 // close return statement and IIFE wrap
 output += '  };\n})();\n\n'
 
 // tooly.<class>.<prototype>
-output += (includeWhat('dom'))     ? modules['dom-selector-prototype'] + '\n\n' : '';
-output += (includeWhat('handler')) ? modules['handler-prototype']      + '\n\n' : '';
-output += (includeWhat('timer'))   ? modules['timer-prototype']        + '\n\n' : '';  
-output += (includeWhat('logger'))  ? modules['logger-prototype']       + '\n\n' : '';  
+output += (includeWhat('dom'))     ? modules['frankie-prototype'] + '\n\n' : '';
+output += (includeWhat('handler')) ? modules['handler-prototype'] + '\n\n' : '';
+output += (includeWhat('timer'))   ? modules['timer-prototype']   + '\n\n' : '';  
+output += (includeWhat('logger'))  ? modules['logger-prototype']  + '\n\n' : '';  
 
 fs.writeFile(dest, output, function() {
-  console.log('\n%s\n%s %s\n',
+  console.log('%s\n%s %s\n%s\n',
     'Custom build completed successfully.'.green,
     'File saved to:',
-    (path.resolve(__dirname, '..', dest)).cyan
+    (path.resolve(__dirname, '..', dest)).cyan,
+    'Goodbye.'.green
   );
 });

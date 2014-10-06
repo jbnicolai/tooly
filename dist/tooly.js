@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.3 (built: 2014-10-02)
+ * tooly - version 0.0.3 (built: 2014-10-06)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -40,7 +40,6 @@ var tooly = (function() {
   var _ws = /\s+/;
 
   function _re(str) {
-    // return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
     return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
 
@@ -63,15 +62,29 @@ var tooly = (function() {
     }
   }
 
+  function _toArray(obj) {
+    return [].map.call(obj, function(el) { 
+      return el; 
+    });
+  }
+
   function _hasClass(el, klass, re) {
-    var classes = el.className.split(_ws),
-        i = 0, len = classes.length;
-    for (; i < len; i++) {
-      if (classes[i].match(re) == klass) {
-        return true;
-      }
+    var classes = el.className.split(_ws);
+    return classes.some(function(c) {
+      return c.match(re) == klass;
+    });
+  }
+
+  function _addToClassName(el, klasses) {
+    if (!el.className) {
+      el.className += klasses ? ' ' + klasses : '';
+      return;
     }
-    return false;
+    var names = el.className;
+    // guard against duplicates
+    el.className += ' ' + klasses.split().filter(function(n) {
+      return names.indexOf(n) === -1;
+    }).join(' ');
   }
 
   function _prepend(el, content) {
@@ -87,7 +100,11 @@ var tooly = (function() {
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
-  
+
+  function _isPopulatedFrankie(el) {
+    return el && el instanceof tooly.Frankie && !el.zilch();
+  }
+
   return {
 
 //    +------------+
@@ -105,21 +122,31 @@ var tooly = (function() {
      * @static
      */
     hasClass: function(el, klass) {
+      if (el instanceof tooly.Frankie) {
+        el = el.el;
+      } else if (_type(el, 'string')) {
+        el = tooly.selectAll(el);
+      } else if (_type(el, 'nodelist')) {
+        el = _toArray(el);
+      }
+
+      if (_node(el)) {
+        return _hasClass(el, klass, _re(klass));
+      }
       if (_type(el, 'array')) {
-        var re = _re(klass), i = 0, len = el.length;
-        for (; i < len; i++) {
-          var _el = _node(el[i]) ? el[i] : tooly.select(el[i]);
-          if (_hasClass(_el, klass, re)) return true;
-        }
-      } 
+        var re = _re(klass);
+        return el.some(function(l, i, r) {
+          return _hasClass(r[i], klass, re);
+        });
+      }
       return false;
     },
 
     /**
      * add a css class to element
      * 
-     * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
-     * @param {String} klass the css class to add
+     * @param  {Object|Array[Element]|String} el  the node, array of nodes, or valid css selector
+     * @param {String|Array[String]} klass the css class(es) to add
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
@@ -127,14 +154,24 @@ var tooly = (function() {
      * @static
      */
     addClass: function(el, klass) {
-      if (_type(el, 'array')) {
-        _procEls(el, klass, tooly.addClass);
-      } else if (!_node(el)) {
-        el = tooly.select(el);
-      } else {
-        el.className += ' ' + klass;
+      if (el instanceof tooly.Frankie) {
+        el = el.el;
+      } else if (_type(el, 'string')) {
+        el = tooly.selectAll(el);
+      } else if (_type(el, 'nodelist')) {
+        el = _toArray(el);
       }
-      _procArgs(el, klass, tooly.addClass);
+
+      if (_node(el)) {
+        _addToClassName(el, klass);
+        // el.className = (el.className  + ' ' + klass).trim();
+      } else if (_type(el, 'array')) {
+        el.forEach(function(el, i, arr) {
+          _addToClassName(el, klass);
+          // arr[i].className += ' ' + klass; 
+          // el.className = (el.className + ' ' + klass).trim();
+        });
+      }
       return tooly;
     },
 
@@ -150,14 +187,31 @@ var tooly = (function() {
      * @static
      */
     removeClass: function(el, klass) {
-      if (_type(el, 'array')) {
-        _procEls(el, klass, tooly.removeClass);
-      } else if (!_node(el)) {
-        el = tooly.select(el);
-      } else {
-        el.className = el.className.replace(_re(klass), ' ');
+
+      if (el instanceof tooly.Frankie) {
+        el = el.el;
+      } else if (_type(el, 'string')) {
+        el = tooly.selectAll(el);
+      } else if (_type(el, 'nodelist')) {
+        el = _toArray(el);
       }
-      _procArgs(el, klass, tooly.removeClass);
+
+      if (_node(el)) {
+        el.className = el.className.replace(_re(klass), ' ');
+      } else if (_type(el, 'array')) {
+        el.forEach(function(el, i, arr) {
+          arr[i].className = el.className.replace(_re(klass), ' ');
+        });
+      }
+
+      // if (_type(el, 'array')) {
+        // _procEls(el, klass, tooly.removeClass);
+      // } else if (!_node(el)) {
+        // el = tooly.select(el);
+      // } else {
+        // el.className = el.className.replace(_re(klass), ' ');
+      // }
+      // _procArgs(el, klass, tooly.removeClass);
       return tooly;
     },
 
@@ -261,8 +315,8 @@ var tooly = (function() {
      * @static
      */
     select: function(selector, context) {
-      if (context instanceof tooly.Selector) {
-        context = context.eq(0);
+      if (_isPopulatedFrankie(context)) {
+        context = context.get(0);
       }
       return (context || document).querySelector(selector);
     },
@@ -287,15 +341,16 @@ var tooly = (function() {
      * @static
      */
     selectAll: function(selector, context) {
-      if (context instanceof tooly.Selector) {
-        context = context.eq(0);
+      if (_isPopulatedFrankie(context)) {
+        context = context.get(0);
       }
-      var list = (context || document).querySelectorAll(selector),
-          els = [], i = 0, len = list.length;
-      for (; i < len; i++) {
-        els[i] = list[i];
-      }
-      return els;
+      // var list = (context || document).querySelectorAll(selector),
+      //     els = [], i = 0, len = list.length;
+      // for (; i < len; i++) {
+      //   els[i] = list[i];
+      // }
+      // return els;
+      return _toArray((context || document).querySelectorAll(selector));
     },
 
     /*!
@@ -400,27 +455,28 @@ var tooly = (function() {
     },
 
     /**
-     * The Selector class provides a jQuery style wrapper around all 
+     * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest) 
+     * _selectors_ of all time ;) - provides a jQuery style wrapper around most
      * tooly#dom methods except for #select and #selectAll. 
-     * Selection instead is done on the Selector constructor, which will keep
+     * Selection instead is done through the Frankie constructor, which will keep
      * an internal reference to a selectAll query on the passed `el`. All dom
      * methods that can be called directly from tooly can instead be called
-     * from the Selector instance without their first argument, for example:
+     * from the Frankie instance without their first argument, for example:
      * `tooly.css('.myDiv', {color:'red'})` and 
-     * `tooly.Selector('.myDiv').css({color:'red'})` are equivalent. It is also
+     * `tooly.Frankie('.myDiv').css({color:'red'})` are equivalent. It is also
      * important to note that all methods return the instance for easy chainability,
      * expect when either `css()` or `html()` are called without any arguments, which makes
      * them getters. Methods `parent` and `children` will return the instance as well, 
      * instead setting the internal selection reference to the parents or children of the 
      * previous selection, for example, with markup `<div><p></p></div>`, 
-     * `tooly.Selector('p').parent().css('background', 'orange');` would change the div's 
+     * `tooly.Frankie('p').parent().css('background', 'orange');` would change the div's 
      * background orange.
      * 
      * 
      * Another usage example:
      * @example
-     * // alias the selector namespace
-     * var $ = tooly.Selector;
+     * // alias the Frankie namespace
+     * var $ = tooly.Frankie;
      * var $divs = $(divs);
      * $divs.css({color:'green'});
      * // multiple yet separate selectors must be comma separated
@@ -436,14 +492,14 @@ var tooly = (function() {
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)
      * @constructor
-     * @class Selector
+     * @class Frankie
      * @module  dom
      * @memberOf  tooly
      * @static                    
      */
-    Selector: function(el, context) {
-      if (!(this instanceof tooly.Selector)) {
-        return new tooly.Selector(el);
+    Frankie: function(el, context) {
+      if (!(this instanceof tooly.Frankie)) {
+        return new tooly.Frankie(el);
       }
       this.el = tooly.selectAll(el, context);
       return this;
@@ -1026,7 +1082,7 @@ var tooly = (function() {
   };
 })();
 
-tooly.Selector.prototype = {
+tooly.Frankie.prototype = {
 
   get: function(i) {
     return this.el[i];
@@ -1034,11 +1090,11 @@ tooly.Selector.prototype = {
 
   eq: function(i) {
     // TODO: test parent vs document
-    return new tooly.Selector(this.el[i], this.parent());
+    return new tooly.Frankie(this.el[i], this.parent());
   },
 
   /**
-   * Check if this Selector's `el` member is populated
+   * Check if this Frankie's `el` member is populated
    * 
    * @return {Boolean} true if the el member is null, undefined, or empty
    */
@@ -1088,7 +1144,7 @@ tooly.Selector.prototype = {
   
   css: function() {
     var args = [this.el];
-    Array.prototype.push.apply(args, arguments);
+    [].push.apply(args, arguments);
     tooly.css.apply(null, args);
     return this;
   }
@@ -1337,7 +1393,7 @@ tooly.Logger.prototype = (function() {
       if (tooly.type(args[0], 'string') && args[0].match(/\%(c|s|o|O|d|i|f)/g)) {
         format += args.shift();
       }
-      caller = (caller.replace(/\s+/, '') === '') ? '' : caller + ' \t';
+      caller = (caller !== undefined && caller.replace(/\s+/, '') === '') ? '' : caller;
       var color = 'color:' + _colors[level] + ';',
           purple = 'color:purple', black = 'color:black';
       pargs = [format, purple, _name(instance), color, _level(level), black, caller];
@@ -1372,11 +1428,15 @@ tooly.Logger.prototype = (function() {
   }
 
   function _checkCaller(args) {
-    var name = args.callee.caller.name;
+    var name = ''; 
+    try { 
+      name = args.callee.caller.name; 
+    } catch(ignored) {
+    }
     if (!name && this.traceAnonymous) {
       return  '<anonymous> ' + args.callee.caller + '\n';
     }
-    return name;
+    return '<'+name+'> ';
   }
 
   // helper

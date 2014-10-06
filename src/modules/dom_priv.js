@@ -2,7 +2,6 @@
   var _ws = /\s+/;
 
   function _re(str) {
-    // return new RegExp('\\s*' + str + '\\s*(?![\\w\\W])', 'g');
     return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
 
@@ -25,15 +24,29 @@
     }
   }
 
+  function _toArray(obj) {
+    return [].map.call(obj, function(el) { 
+      return el; 
+    });
+  }
+
   function _hasClass(el, klass, re) {
-    var classes = el.className.split(_ws),
-        i = 0, len = classes.length;
-    for (; i < len; i++) {
-      if (classes[i].match(re) == klass) {
-        return true;
-      }
+    var classes = el.className.split(_ws);
+    return classes.some(function(c) {
+      return c.match(re) == klass;
+    });
+  }
+
+  function _addToClassName(el, klasses) {
+    if (!el.className) {
+      el.className += klasses ? ' ' + klasses : '';
+      return;
     }
-    return false;
+    var names = el.className;
+    // guard against duplicates
+    el.className += ' ' + klasses.split().filter(function(n) {
+      return names.indexOf(n) === -1;
+    }).join(' ');
   }
 
   function _prepend(el, content) {
@@ -49,4 +62,17 @@
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
-  
+
+  function _isPopulatedFrankie(el) {
+    return el && el instanceof tooly.Frankie && !el.zilch();
+  }
+
+  function _prepEl(el) {
+    if (el instanceof tooly.Frankie) {
+      el = el.el;
+    } else if (_type(el, 'string')) {
+      el = tooly.selectAll(el);
+    } else if (_type(el, 'nodelist')) {
+      el = _toArray(el);
+    }
+  }
