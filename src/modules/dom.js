@@ -13,7 +13,7 @@
      * @static
      */
     hasClass: function(el, klass) {
-      _prepEl(el);
+      el = _prepEl(el);
       if (_node(el)) {
         return _hasClass(el, klass, _re(klass));
       }
@@ -38,7 +38,7 @@
      * @static
      */
     addClass: function(el, klass) {
-      _prepEl(el);
+      el = _prepEl(el);
       if (_node(el)) {
         _addToClassName(el, klass);
       } else if (_type(el, 'array')) {
@@ -61,23 +61,14 @@
      * @static
      */
     removeClass: function(el, klass) {
-      _prepEl(el);
+      el = _prepEl(el);
       if (_node(el)) {
-        el.className = el.className.replace(_re(klass), ' ');
+        el.className = el.className.replace(_re(klass), ' ').trim();
       } else if (_type(el, 'array')) {
         el.forEach(function(el, i, arr) {
-          arr[i].className = el.className.replace(_re(klass), ' ');
+          el.className = el.className.replace(_re(klass), ' ').trim();
         });
       }
-
-      // if (_type(el, 'array')) {
-        // _procEls(el, klass, tooly.removeClass);
-      // } else if (!_node(el)) {
-        // el = tooly.select(el);
-      // } else {
-        // el.className = el.className.replace(_re(klass), ' ');
-      // }
-      // _procArgs(el, klass, tooly.removeClass);
       return tooly;
     },
 

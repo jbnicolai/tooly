@@ -69,10 +69,11 @@
 
   function _prepEl(el) {
     if (el instanceof tooly.Frankie) {
-      el = el.el;
+      return el.el;
     } else if (_type(el, 'string')) {
-      el = tooly.selectAll(el);
+      return tooly.selectAll(el);
     } else if (_type(el, 'nodelist')) {
-      el = _toArray(el);
+      return _toArray(el);
     }
+    return el;
   }

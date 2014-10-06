@@ -39,7 +39,8 @@
   var heading = 'color: #800080; font-size: 18px';
   function run() {
     hasClass();
-    addClass();
+    addClass(); // conflicts when removeClass is being used
+    removeClass(); // deps on addClass
   }
 
   function hasClass() {
@@ -96,6 +97,24 @@
 
     logger.info('no duplicate classes should be added');
     tooly.addClass('*', 'remove');
+
+    logger.info('all remove should have .also');
+    var removes = tooly.selectAll('.remove');
+    tooly.addClass(removes, 'also');
+
+    logger.info('all li and z should have .multi');
+    $('li, .z').addClass('multi');
+
+
+    console.groupEnd();
+  }
+
+  function removeClass() {
+    console.group();
+    logger.info('%c#removeClass -> (must be web inspected)', heading);
+
+    logger.info('remove should be gone');
+    tooly.removeClass('*', 'remove');
 
     console.groupEnd();
   }

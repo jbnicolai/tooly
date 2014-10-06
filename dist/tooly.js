@@ -105,6 +105,17 @@ var tooly = (function() {
     return el && el instanceof tooly.Frankie && !el.zilch();
   }
 
+  function _prepEl(el) {
+    if (el instanceof tooly.Frankie) {
+      return el.el;
+    } else if (_type(el, 'string')) {
+      return tooly.selectAll(el);
+    } else if (_type(el, 'nodelist')) {
+      return _toArray(el);
+    }
+    return el;
+  }
+
   return {
 
 //    +------------+
@@ -122,14 +133,7 @@ var tooly = (function() {
      * @static
      */
     hasClass: function(el, klass) {
-      if (el instanceof tooly.Frankie) {
-        el = el.el;
-      } else if (_type(el, 'string')) {
-        el = tooly.selectAll(el);
-      } else if (_type(el, 'nodelist')) {
-        el = _toArray(el);
-      }
-
+      el = _prepEl(el);
       if (_node(el)) {
         return _hasClass(el, klass, _re(klass));
       }
@@ -154,22 +158,12 @@ var tooly = (function() {
      * @static
      */
     addClass: function(el, klass) {
-      if (el instanceof tooly.Frankie) {
-        el = el.el;
-      } else if (_type(el, 'string')) {
-        el = tooly.selectAll(el);
-      } else if (_type(el, 'nodelist')) {
-        el = _toArray(el);
-      }
-
+      el = _prepEl(el);
       if (_node(el)) {
         _addToClassName(el, klass);
-        // el.className = (el.className  + ' ' + klass).trim();
       } else if (_type(el, 'array')) {
         el.forEach(function(el, i, arr) {
           _addToClassName(el, klass);
-          // arr[i].className += ' ' + klass; 
-          // el.className = (el.className + ' ' + klass).trim();
         });
       }
       return tooly;
@@ -187,20 +181,12 @@ var tooly = (function() {
      * @static
      */
     removeClass: function(el, klass) {
-
-      if (el instanceof tooly.Frankie) {
-        el = el.el;
-      } else if (_type(el, 'string')) {
-        el = tooly.selectAll(el);
-      } else if (_type(el, 'nodelist')) {
-        el = _toArray(el);
-      }
-
+      el = _prepEl(el);
       if (_node(el)) {
-        el.className = el.className.replace(_re(klass), ' ');
+        el.className = el.className.replace(_re(klass), ' ').trim();
       } else if (_type(el, 'array')) {
         el.forEach(function(el, i, arr) {
-          arr[i].className = el.className.replace(_re(klass), ' ');
+          el.className = el.className.replace(_re(klass), ' ').trim();
         });
       }
 
