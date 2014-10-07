@@ -78,6 +78,18 @@ var tooly = (function() {
     }).join(' ');
   }
 
+  // http://jsperf.com/insertadjacenthtml-perf/14
+  function _pend(html) {
+    return {
+      pre: function(el) {
+        el.insertAdjacentHTML('afterbegin', html);
+      },
+      app: function(el) {
+        el.insertAdjacentHTML('beforeend', html);
+      }
+    };
+  }
+
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
@@ -189,9 +201,7 @@ var tooly = (function() {
      */
     prepend: function(element, html) {
       var el = _prepEl(element), parent;
-      function prepend(el) {
-        el.insertAdjacentHTML('afterbegin', html);
-      }
+      var prepend = _pend(html).prepend;
       if (_node(el)) {
         prepend(el);
       } else if (_type(el, 'array')) {
@@ -213,10 +223,7 @@ var tooly = (function() {
      */
     append: function(element, html) {
       var el = _prepEl(element), parent;
-      function append(el) {
-        // http://jsperf.com/insertadjacenthtml-perf/14
-        el.insertAdjacentHTML('beforeend', html);
-      }
+      var append = _pend(html).append;
       if (_node(el)) {
         append(el);
       } else if (_type(el, 'array')) {
