@@ -52,28 +52,9 @@ var tooly = (function() {
   // }
   var _ws = /\s+/;
 
-  function _re(str) {
+  function _classReg(str) {
     return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
-
-  // function _procArgs(el, args, callback) {
-  //   if (_type(args) === 'array') {
-  //     var ret, i = 0, len = el.length;
-  //     for (; i < len; i++) {
-  //       ret = callback(el[i], args);
-  //     }
-  //     return ret;
-  //   }
-  // }
-
-  // function _procEls(el, content, callback) {
-  //   if (_type(el) === 'array') {
-  //     var ret, i = 0, len = el.length;
-  //     for (; i < len; i++) {
-  //       callback(el[i], content);
-  //     }
-  //   }
-  // }
 
   function _hasClass(el, klass, re) {
     var classes = el.className.split(_ws);
@@ -98,10 +79,6 @@ var tooly = (function() {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
 
-  // function _isPopulatedFrankie(el) {
-  //   return el && el instanceof tooly.Frankie && !el.zilch();
-  // }
-
   function _prepEl(el) {
     if (el instanceof tooly.Frankie) {
       return el.el;
@@ -118,6 +95,81 @@ var tooly = (function() {
 //    +------------+
 //    | DOM MODULE |
 //    +------------+    
+
+    /**
+     * wrapper for HTML5 `querySelector`
+     * 
+     * @param  {String}  selector valid css selector string
+     * @param  {Element} context  the parent element to start searching from 
+     *                            defaults to document if blank 
+     * @return {Element|null} the first matched element or null if no match
+     * 
+     * @alias sel
+     * @memberOf  tooly
+     * @module  dom
+     * @static
+     */
+    select: function(selector, context) {
+      return (_node(context) ? context : document).querySelector(selector);
+    },
+
+    /**
+     * wrapper for HTML5 `querySelectorAll`
+     * 
+     * @param  {String}  selector
+     * @param  {Element} context   the parent element to start searching from 
+     *                             defaults to document if blank 
+     * @return {Array<Node>} an array of matched elements or an empty array if no match
+     * 
+     * @memberOf  tooly
+     * @module  dom
+     * @static
+     */
+    selectAll: function(selector, context) {
+      return _toArray((_node(context) ? context : document).querySelectorAll(selector));
+    },
+
+    /**
+     * select the parent element of `el`.
+     * 
+     * @param  {Element|String} el the node element or valid css selector string
+     *                             representing the element whose parent will be selected
+     * @return {Element|null} the parent element of `selector` or null if no parent is found
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
+     */
+    parent: function(el) {
+      if (!_node(el)) el = tooly.select(el);
+      return el != null ? el.parentNode : null;
+    },
+
+    /**
+     * select all first-generation child elements of `el`.
+     *     
+     * @param  {Element|String} el the element or valid css selector string representing
+     *                             the element whose children will be returned 
+     * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
+     *                                  or null if `el` has no children
+     * @memberOf  tooly
+     * @module  dom
+     * @static
+     */
+    children: function(el) {
+      if (!_node(el)) el = tooly.select(el);
+      return el != null 
+        ? /*(function() {
+            var childs = el.children, converted = [], i = 0, len = childs.length;
+            for (; i < len; i++) {
+              converted.push(childs.item(i));
+            }
+            return converted;
+          })()*/
+          _toArray(el.children)
+        : null;
+    },    
+
     /**
      * check if an element has a css class
      * 
@@ -132,10 +184,10 @@ var tooly = (function() {
     hasClass: function(element, klass) {
       var el = _prepEl(element);
       if (_node(el)) {
-        return _hasClass(el, klass, _re(klass));
+        return _hasClass(el, klass, _classReg(klass));
       }
       if (_type(el, 'array')) {
-        var re = _re(klass);
+        var re = _classReg(klass);
         return el.some(function(l, i, r) {
           return _hasClass(r[i], klass, re);
         });
@@ -182,7 +234,7 @@ var tooly = (function() {
       // "or-ize" for multiple klasses match in regexp
       klass = '(' + klass.split(_ws).join('|') + ')';
       function replace(el) {
-        el.className = el.className.replace(_re(klass), ' ').trim();
+        el.className = el.className.replace(_classReg(klass), ' ').trim();
       };
       if (_node(el)) {
         replace(el);
@@ -265,6 +317,7 @@ var tooly = (function() {
         }
       }
 
+      // set
       if (!_node(el)) {
         if (_type(el) === 'array') {
           var i = 0, len = el.length;
@@ -283,96 +336,9 @@ var tooly = (function() {
         }
       }
 
+      // el is node
       el.innerHTML = content;
       return tooly;
-    },
-
-    /**
-     * wrapper for HTML5 `querySelector`
-     * 
-     * @param  {String}  selector valid css selector string
-     * @param  {Element} context  the parent element to start searching from 
-     *                            defaults to document if blank 
-     * @return {Element|null} the first matched element or null if no match
-     * 
-     * @alias sel
-     * @memberOf  tooly
-     * @module  dom
-     * @static
-     */
-    select: function(selector, context) {
-      return (context || document).querySelector(selector);
-    },
-
-    /*!
-     * alias for #select
-     */
-    sel: function(s, c) {
-      return tooly.select(s, c);
-    },
-
-    /**
-     * wrapper for HTML5 `querySelectorAll`
-     * 
-     * @param  {String} selector
-     * @param  {Object} context       the parent element to start searching from 
-     *                                defaults to document if blank 
-     * @return {Array<Node>} an array of matched elements or an empty array if no match
-     * 
-     * @memberOf  tooly
-     * @module  dom
-     * @static
-     */
-    selectAll: function(selector, context) {
-      return _toArray((context || document).querySelectorAll(selector));
-    },
-
-    /*!
-     * alias for #selectAll
-     */
-    selAll: function(s, c) {
-      return tooly.selectAll(s, c);
-    },    
-
-    /**
-     * select the parent element of `el`.
-     * 
-     * @param  {Element|String} el the node element or valid css selector string
-     *                             representing the element whose parent will be selected
-     * @return {Element|null} the parent element of `selector` or null if no parent is found
-     *
-     * @memberOf  tooly
-     * @module  dom
-     * @static
-     */
-    parent: function(el) {
-      if (!_node(el)) el = tooly.select(el);
-      return el != null ? el.parentNode : null;
-    },
-
-    /**
-     * select all first-generation child elements of `el`.
-     *     
-     * @param  {Element|String} el the element or valid css selector string representing
-     *                             the element whose children will be returned 
-     * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
-     *                                  or null if `el` has no children
-     * @memberOf  tooly
-     * @module  dom
-     * @static
-     */
-    children: function(el) {
-      if (!_node(el)) el = tooly.select(el);
-      return el != null 
-        ? /*(function() {
-            var childs = el.children, converted = [], i = 0, len = childs.length;
-            for (; i < len; i++) {
-              converted.push(childs.item(i));
-            }
-            return converted;
-          })()*/
-          _toArray(el.children)
-        : null;
     },
 
     /**
@@ -474,9 +440,9 @@ var tooly = (function() {
      */
     Frankie: function(el, context) {
       if (!(this instanceof tooly.Frankie)) {
-        return new tooly.Frankie(el);
+        return new tooly.Frankie(el, context);
       }
-      this.el = tooly.selectAll(el, context);
+      this.el = _node(el) ? [el] : tooly.selectAll(el, context);
       return this;
     },
 
@@ -1103,8 +1069,13 @@ tooly.Frankie.prototype = {
   },
 
   html: function(content) {
-    tooly.html(this.el, content);
-    return this;
+    // set
+    if (content) {
+      tooly.html(this.el, content);
+      return this;
+    }
+    // get
+    return tooly.html(this.el);
   },
 
   parent: function() {

@@ -44,8 +44,13 @@ tooly.Frankie.prototype = {
   },
 
   html: function(content) {
-    tooly.html(this.el, content);
-    return this;
+    // set
+    if (content) {
+      tooly.html(this.el, content);
+      return this;
+    }
+    // get
+    return tooly.html(this.el);
   },
 
   parent: function() {

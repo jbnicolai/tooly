@@ -16,6 +16,7 @@
   .red { color: red; }
   .green { color: green; }
   .yellow { color: yellow; }
+  .blue { color: blue; }
 </style>
 <body>
 <div class="container remove">
@@ -43,6 +44,7 @@
     // removeClass(); // deps on addClass
     // prepend();
     // append();
+    html();
   }
 
   function hasClass() {
@@ -200,7 +202,21 @@
     console.group();
     logger.info('%c#html -> (check element view)', heading);    
     
-    
+    logger.debug('adding red to first .z');
+    var z = tooly.select('.z', '.container');
+    logger.debug('z: %o, tooly.type(z): %o', z, tooly.type(z));
+    tooly.html(z, '<div class="red">RED HTML</div>');
+
+    logger.debug('adding green to all .z');
+    z = $('.z');
+    logger.debug('z: %o', z);
+    var html = z.html();
+    // logger.debug(html, tooly.type(html));
+    // z.html(html + '<div class="green">GREEN HTML</div>');
+
+    // logger.debug('adding blue to last z');
+    // logger.debug(z.get(2), tooly.type(z.get(2)));
+    // $(z.get(2)).html('<div class="blue">BLUE HTML</div>');
 
     console.groupEnd();
   }

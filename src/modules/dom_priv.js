@@ -1,28 +1,9 @@
 
   var _ws = /\s+/;
 
-  function _re(str) {
+  function _classReg(str) {
     return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
-
-  // function _procArgs(el, args, callback) {
-  //   if (_type(args) === 'array') {
-  //     var ret, i = 0, len = el.length;
-  //     for (; i < len; i++) {
-  //       ret = callback(el[i], args);
-  //     }
-  //     return ret;
-  //   }
-  // }
-
-  // function _procEls(el, content, callback) {
-  //   if (_type(el) === 'array') {
-  //     var ret, i = 0, len = el.length;
-  //     for (; i < len; i++) {
-  //       callback(el[i], content);
-  //     }
-  //   }
-  // }
 
   function _hasClass(el, klass, re) {
     var classes = el.className.split(_ws);
@@ -46,10 +27,6 @@
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
-
-  // function _isPopulatedFrankie(el) {
-  //   return el && el instanceof tooly.Frankie && !el.zilch();
-  // }
 
   function _prepEl(el) {
     if (el instanceof tooly.Frankie) {
