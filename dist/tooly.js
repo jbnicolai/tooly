@@ -56,24 +56,24 @@ var tooly = (function() {
     return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }
 
-  function _procArgs(el, args, callback) {
-    if (_type(args) === 'array') {
-      var ret, i = 0, len = el.length;
-      for (; i < len; i++) {
-        ret = callback(el[i], args);
-      }
-      return ret;
-    }
-  }
+  // function _procArgs(el, args, callback) {
+  //   if (_type(args) === 'array') {
+  //     var ret, i = 0, len = el.length;
+  //     for (; i < len; i++) {
+  //       ret = callback(el[i], args);
+  //     }
+  //     return ret;
+  //   }
+  // }
 
-  function _procEls(el, content, callback) {
-    if (_type(el) === 'array') {
-      var ret, i = 0, len = el.length;
-      for (; i < len; i++) {
-        callback(el[i], content);
-      }
-    }
-  }
+  // function _procEls(el, content, callback) {
+  //   if (_type(el) === 'array') {
+  //     var ret, i = 0, len = el.length;
+  //     for (; i < len; i++) {
+  //       callback(el[i], content);
+  //     }
+  //   }
+  // }
 
   function _hasClass(el, klass, re) {
     var classes = el.className.split(_ws);
