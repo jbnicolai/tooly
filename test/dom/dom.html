@@ -38,11 +38,11 @@
   var css = 'color: #0080FF;';
   var heading = 'color: #800080; font-size: 18px';
   function run() {
-    hasClass();
-    addClass(); // conflicts when removeClass is being used
+    // hasClass();
+    // addClass(); // conflicts when removeClass is being used
     // removeClass(); // deps on addClass
-    prepend();
-    append();
+    // prepend();
+    // append();
   }
 
   function hasClass() {
@@ -192,6 +192,15 @@
 
     logger.debug('all divs some color');
     $divs.append('<div style="color:blue;">BLUE</div>');
+
+    console.groupEnd();
+  }
+
+  function html() {
+    console.group();
+    logger.info('%c#html -> (check element view)', heading);    
+    
+    
 
     console.groupEnd();
   }
