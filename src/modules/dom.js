@@ -12,8 +12,8 @@
      * @module  dom
      * @static
      */
-    hasClass: function(el, klass) {
-      el = _prepEl(el);
+    hasClass: function(element, klass) {
+      var el = _prepEl(element);
       if (_node(el)) {
         return _hasClass(el, klass, _re(klass));
       }
@@ -29,7 +29,7 @@
     /**
      * add a css class to element
      * 
-     * @param  {Object|Array[Element]|String} el  the node, array of nodes, or valid css selector
+     * @param  {Object|Array[Element]|String} element  the node, array of nodes, or valid css selector
      * @param {String|Array[String]} klass the css class(es) to add
      * @return {Object} `tooly` for chaining
      *
@@ -37,13 +37,13 @@
      * @module  dom
      * @static
      */
-    addClass: function(el, klass) {
-      el = _prepEl(el);
+    addClass: function(element, klass) {
+      el = _prepEl(element);
       if (_node(el)) {
         _addToClassName(el, klass);
       } else if (_type(el, 'array')) {
-        el.forEach(function(el, i, arr) {
-          _addToClassName(el, klass);
+        el.forEach(function(el) { 
+          _addToClassName(el, klass); 
         });
       }
       return tooly;
@@ -52,7 +52,7 @@
     /**
      * remove a css class from an element
      * 
-     * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
+     * @param  {Object|Array<Element>|String} element  the node, array of nodes, or valid css selector
      * @param  {String} klass   the css class to remove
      * @return {Object} `tooly` for chaining
      *
@@ -60,8 +60,8 @@
      * @module  dom
      * @static
      */
-    removeClass: function(el, klass) {
-      el = _prepEl(el);
+    removeClass: function(element, klass) {
+      el = _prepEl(element);
       if (_node(el)) {
         el.className = el.className.replace(_re(klass), ' ').trim();
       } else if (_type(el, 'array')) {
@@ -172,9 +172,6 @@
      * @static
      */
     select: function(selector, context) {
-      if (_isPopulatedFrankie(context)) {
-        context = context.get(0);
-      }
       return (context || document).querySelector(selector);
     },
 
@@ -198,15 +195,6 @@
      * @static
      */
     selectAll: function(selector, context) {
-      if (_isPopulatedFrankie(context)) {
-        context = context.get(0);
-      }
-      // var list = (context || document).querySelectorAll(selector),
-      //     els = [], i = 0, len = list.length;
-      // for (; i < len; i++) {
-      //   els[i] = list[i];
-      // }
-      // return els;
       return _toArray((context || document).querySelectorAll(selector));
     },
 
@@ -247,13 +235,14 @@
     children: function(el) {
       if (!_node(el)) el = tooly.select(el);
       return el != null 
-        ? (function() {
+        ? /*(function() {
             var childs = el.children, converted = [], i = 0, len = childs.length;
             for (; i < len; i++) {
               converted.push(childs.item(i));
             }
             return converted;
-          })()
+          })()*/
+          _toArray(el.children)
         : null;
     },
 

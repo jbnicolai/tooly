@@ -24,12 +24,6 @@
     }
   }
 
-  function _toArray(obj) {
-    return [].map.call(obj, function(el) { 
-      return el; 
-    });
-  }
-
   function _hasClass(el, klass, re) {
     var classes = el.className.split(_ws);
     return classes.some(function(c) {
@@ -75,5 +69,5 @@
     } else if (_type(el, 'nodelist')) {
       return _toArray(el);
     }
-    return el;
+    return _clone(el);
   }
