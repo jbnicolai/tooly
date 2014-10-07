@@ -78,16 +78,6 @@ var tooly = (function() {
     }).join(' ');
   }
 
-  function _prepend(el, content) {
-    if (!_node(el)) el = tooly.select(el);
-    el.innerHTML = content + el.innerHTML;
-  }
-
-  function _append(el, content) {
-    if (!_node(el)) el = tooly.select(el);
-    el.innerHTML += content;
-  }
-
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
@@ -187,42 +177,51 @@ var tooly = (function() {
     },
 
     /**
-     * prepend content to HTML element(s)
+     * prepend `html` to HTML element(s)
      * 
-     * @param  {Object}  el         the element(s) to prepend content to
-     * @param  {String}  content    the content to prepend
+     * @param  {Object}  element  the element(s) to prepend `html` to
+     * @param  {String}  html  the html to prepend
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
      * @module  dom
      * @static
      */
-    prepend: function(el, content) {
-      if (_type(el, 'array')) {
-        _procEls(el, content, _prepend);
-        return tooly
+    prepend: function(element, html) {
+      var el = _prepEl(element), parent;
+      function prepend(el) {
+        el.insertAdjacentHTML('afterbegin', html);
+      }
+      if (_node(el)) {
+        prepend(el);
+      } else if (_type(el, 'array')) {
+        el.forEach(prepend); 
       } 
-      _prepend(el, content);
       return tooly;
     },
 
     /**
-     * append content to HTML element(s)
+     * append `html` to HTML element(s)
      *
-     * @param  {Object}  el         the element(s) to append content to
-     * @param  {String}  content    the content to append
+     * @param  {Object}  element  the element(s) to append content to
+     * @param  {String}  html     the content to append
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
      * @module  dom
      * @static
      */
-    append: function(el, content) {
-      if (_type(el, 'array')) {
-        _procEls(el, content, _append);
-        return tooly
+    append: function(element, html) {
+      var el = _prepEl(element), parent;
+      function append(el) {
+        // http://jsperf.com/insertadjacenthtml-perf/14
+        el.insertAdjacentHTML('beforeend', html);
+      }
+      if (_node(el)) {
+        append(el);
+      } else if (_type(el, 'array')) {
+        el.forEach(append); 
       } 
-      _append(el, content);
       return tooly;
     },
 

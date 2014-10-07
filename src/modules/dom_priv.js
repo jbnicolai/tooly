@@ -43,16 +43,6 @@
     }).join(' ');
   }
 
-  function _prepend(el, content) {
-    if (!_node(el)) el = tooly.select(el);
-    el.innerHTML = content + el.innerHTML;
-  }
-
-  function _append(el, content) {
-    if (!_node(el)) el = tooly.select(el);
-    el.innerHTML += content;
-  }
-
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
