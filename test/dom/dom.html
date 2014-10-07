@@ -73,36 +73,36 @@
 
   function addClass() {
     console.group();
-    logger.info('%c#addClass -> (must be web inspected)', heading);
+    logger.info('%c#addClass -> (check element view)', heading);
 
-    logger.info('.z.c should have class XXX');
+    logger.info('%c.z.c should have class XXX', css);
     tooly.addClass('.z.c', 'XXX');
 
-    logger.info('container should have classes QQQ, WWW, and EEE');
+    logger.info('%ccontainer should have classes QQQ, WWW, and EEE', css);
     tooly.addClass('div.container', 'QQQ WWW EEE');
 
-    logger.info('ul should have class RRR');
+    logger.info('%cul should have class RRR', css);
     tooly.addClass('ul', 'RRR');
 
-    logger.info('each li should have classes TTT YYY UUU');
+    logger.info('%ceach li should have classes TTT YYY UUU', css);
     tooly.addClass('li', 'TTT YYY UUU');
 
-    logger.info('each li should have class peach');
+    logger.info('%ceach li should have class peach', css);
     var $li = tooly.selectAll('li');
     tooly.addClass($li, 'peach');
 
-    logger.info('only the 1st li should have class peachynooshka');
+    logger.info('%conly the 1st li should have class peachynooshka', css);
     $li = tooly.select('li');
     tooly.addClass($li, 'peachynooshka');
 
-    logger.info('no duplicate classes should be added');
+    logger.info('%cno duplicate classes should be added', css);
     tooly.addClass('*', 'remove');
 
-    logger.info('all remove should have .also');
+    logger.info('%call remove should have .also', css);
     var removes = tooly.selectAll('.remove');
     tooly.addClass(removes, 'also');
 
-    logger.info('all li and z should have .multi');
+    logger.info('%call li and z should have .multi', css);
     $('li, .z').addClass('multi');
 
 
@@ -111,10 +111,29 @@
 
   function removeClass() {
     console.group();
-    logger.info('%c#removeClass -> (must be web inspected)', heading);
+    logger.info('%c#removeClass -> (check element view)', heading);
 
-    logger.info('remove should be gone');
+    logger.info('%c.remove should be gone', css);
     tooly.removeClass('*', 'remove');
+
+    logger.info('%c.z.c should remove class XXX', css);
+    tooly.removeClass('.z.c', 'XXX');
+
+    logger.info('%c.container should have no extra classes', css);
+    tooly.removeClass(tooly.select(".container"), 'QQQ also EEE WWW');
+
+    logger.info('%cno div should have .also', css);
+    tooly.removeClass(tooly.selectAll("div"), 'also');
+
+    logger.info('%cshould fail gracefully', css);
+    tooly.removeClass(tooly.selectAll("*"), 'maniac');
+
+    logger.info('%cscripts should not have .also', css);
+    $('script').removeClass('also');
+
+    logger.info('%chtml, head, body should not have .also', css);
+    $('html, head, body').removeClass('also');
+
 
     console.groupEnd();
   }

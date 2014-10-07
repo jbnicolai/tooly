@@ -20,8 +20,8 @@ var tooly = (function() {
     });
   }
 
-  // deep clone, more performant than jQuery extend, yet with many issues
-  // see http://stackoverflow.com/q/122102/2416000
-  function _clone(old, new) {
-    return JSON.parse(JSON.stringify(obj));
-  }
+  // // deep clone, more performant than jQuery extend, yet with many issues
+  // // see http://stackoverflow.com/q/122102/2416000
+  // function _clone(obj) {
+  //   return JSON.parse(JSON.stringify(obj));
+  // }

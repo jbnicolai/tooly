@@ -1,5 +1,5 @@
 /**
- * tooly - version 0.0.3 (built: 2014-10-06)
+ * tooly - version 0.0.3 (built: 2014-10-07)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -36,7 +36,20 @@ var tooly = (function() {
     }
     return o;
   }
-  
+ 
+  // convert object or array-like object (arguments, NodeList, HTMLCollection, etc.) 
+  // into proper primitive array 
+  function _toArray(obj) {
+    return [].map.call(obj, function(el) { 
+      return el; 
+    });
+  }
+
+  // // deep clone, more performant than jQuery extend, yet with many issues
+  // // see http://stackoverflow.com/q/122102/2416000
+  // function _clone(obj) {
+  //   return JSON.parse(JSON.stringify(obj));
+  // }
   var _ws = /\s+/;
 
   function _re(str) {
@@ -62,12 +75,6 @@ var tooly = (function() {
     }
   }
 
-  function _toArray(obj) {
-    return [].map.call(obj, function(el) { 
-      return el; 
-    });
-  }
-
   function _hasClass(el, klass, re) {
     var classes = el.className.split(_ws);
     return classes.some(function(c) {
@@ -82,7 +89,7 @@ var tooly = (function() {
     }
     var names = el.className;
     // guard against duplicates
-    el.className += ' ' + klasses.split().filter(function(n) {
+    el.className += ' ' + klasses.split(_ws).filter(function(n) {
       return names.indexOf(n) === -1;
     }).join(' ');
   }
@@ -101,9 +108,9 @@ var tooly = (function() {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
 
-  function _isPopulatedFrankie(el) {
-    return el && el instanceof tooly.Frankie && !el.zilch();
-  }
+  // function _isPopulatedFrankie(el) {
+  //   return el && el instanceof tooly.Frankie && !el.zilch();
+  // }
 
   function _prepEl(el) {
     if (el instanceof tooly.Frankie) {
@@ -132,8 +139,8 @@ var tooly = (function() {
      * @module  dom
      * @static
      */
-    hasClass: function(el, klass) {
-      el = _prepEl(el);
+    hasClass: function(element, klass) {
+      var el = _prepEl(element);
       if (_node(el)) {
         return _hasClass(el, klass, _re(klass));
       }
@@ -149,7 +156,7 @@ var tooly = (function() {
     /**
      * add a css class to element
      * 
-     * @param  {Object|Array[Element]|String} el  the node, array of nodes, or valid css selector
+     * @param  {Object|Array[Element]|String} element  the node, array of nodes, or valid css selector
      * @param {String|Array[String]} klass the css class(es) to add
      * @return {Object} `tooly` for chaining
      *
@@ -157,13 +164,13 @@ var tooly = (function() {
      * @module  dom
      * @static
      */
-    addClass: function(el, klass) {
-      el = _prepEl(el);
+    addClass: function(element, klass) {
+      var el = _prepEl(element);
       if (_node(el)) {
         _addToClassName(el, klass);
       } else if (_type(el, 'array')) {
-        el.forEach(function(el, i, arr) {
-          _addToClassName(el, klass);
+        el.forEach(function(el) { 
+          _addToClassName(el, klass); 
         });
       }
       return tooly;
@@ -172,7 +179,7 @@ var tooly = (function() {
     /**
      * remove a css class from an element
      * 
-     * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
+     * @param  {Object|Array<Element>|String} element  the node, array of nodes, or valid css selector
      * @param  {String} klass   the css class to remove
      * @return {Object} `tooly` for chaining
      *
@@ -180,24 +187,18 @@ var tooly = (function() {
      * @module  dom
      * @static
      */
-    removeClass: function(el, klass) {
-      el = _prepEl(el);
-      if (_node(el)) {
+    removeClass: function(element, klass) {
+      var el = _prepEl(element);
+      // "or-ize" for multiple klasses match in regexp
+      klass = '(' + klass.split(_ws).join('|') + ')';
+      function replace(el) {
         el.className = el.className.replace(_re(klass), ' ').trim();
+      };
+      if (_node(el)) {
+        replace(el);
       } else if (_type(el, 'array')) {
-        el.forEach(function(el, i, arr) {
-          el.className = el.className.replace(_re(klass), ' ').trim();
-        });
+        el.forEach(replace);
       }
-
-      // if (_type(el, 'array')) {
-        // _procEls(el, klass, tooly.removeClass);
-      // } else if (!_node(el)) {
-        // el = tooly.select(el);
-      // } else {
-        // el.className = el.className.replace(_re(klass), ' ');
-      // }
-      // _procArgs(el, klass, tooly.removeClass);
       return tooly;
     },
 
@@ -301,9 +302,6 @@ var tooly = (function() {
      * @static
      */
     select: function(selector, context) {
-      if (_isPopulatedFrankie(context)) {
-        context = context.get(0);
-      }
       return (context || document).querySelector(selector);
     },
 
@@ -327,15 +325,6 @@ var tooly = (function() {
      * @static
      */
     selectAll: function(selector, context) {
-      if (_isPopulatedFrankie(context)) {
-        context = context.get(0);
-      }
-      // var list = (context || document).querySelectorAll(selector),
-      //     els = [], i = 0, len = list.length;
-      // for (; i < len; i++) {
-      //   els[i] = list[i];
-      // }
-      // return els;
       return _toArray((context || document).querySelectorAll(selector));
     },
 
@@ -376,13 +365,14 @@ var tooly = (function() {
     children: function(el) {
       if (!_node(el)) el = tooly.select(el);
       return el != null 
-        ? (function() {
+        ? /*(function() {
             var childs = el.children, converted = [], i = 0, len = childs.length;
             for (; i < len; i++) {
               converted.push(childs.item(i));
             }
             return converted;
-          })()
+          })()*/
+          _toArray(el.children)
         : null;
     },
 
@@ -462,7 +452,7 @@ var tooly = (function() {
      * Another usage example:
      * @example
      * // alias the Frankie namespace
-     * var $ = tooly.Frankie;
+     * var $ = tooly.Frankie.bind(this);
      * var $divs = $(divs);
      * $divs.css({color:'green'});
      * // multiple yet separate selectors must be comma separated

@@ -38,7 +38,7 @@
      * @static
      */
     addClass: function(element, klass) {
-      el = _prepEl(element);
+      var el = _prepEl(element);
       if (_node(el)) {
         _addToClassName(el, klass);
       } else if (_type(el, 'array')) {
@@ -61,13 +61,16 @@
      * @static
      */
     removeClass: function(element, klass) {
-      el = _prepEl(element);
-      if (_node(el)) {
+      var el = _prepEl(element);
+      // "or-ize" for multiple klasses match in regexp
+      klass = '(' + klass.split(_ws).join('|') + ')';
+      function replace(el) {
         el.className = el.className.replace(_re(klass), ' ').trim();
+      };
+      if (_node(el)) {
+        replace(el);
       } else if (_type(el, 'array')) {
-        el.forEach(function(el, i, arr) {
-          el.className = el.className.replace(_re(klass), ' ').trim();
-        });
+        el.forEach(replace);
       }
       return tooly;
     },
@@ -322,7 +325,7 @@
      * Another usage example:
      * @example
      * // alias the Frankie namespace
-     * var $ = tooly.Frankie;
+     * var $ = tooly.Frankie.bind(this);
      * var $divs = $(divs);
      * $divs.css({color:'green'});
      * // multiple yet separate selectors must be comma separated

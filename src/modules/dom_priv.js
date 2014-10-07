@@ -38,7 +38,7 @@
     }
     var names = el.className;
     // guard against duplicates
-    el.className += ' ' + klasses.split().filter(function(n) {
+    el.className += ' ' + klasses.split(_ws).filter(function(n) {
       return names.indexOf(n) === -1;
     }).join(' ');
   }
@@ -57,9 +57,9 @@
     return  el && (el.nodeType === 1 || el.nodeType === 9);
   }
 
-  function _isPopulatedFrankie(el) {
-    return el && el instanceof tooly.Frankie && !el.zilch();
-  }
+  // function _isPopulatedFrankie(el) {
+  //   return el && el instanceof tooly.Frankie && !el.zilch();
+  // }
 
   function _prepEl(el) {
     if (el instanceof tooly.Frankie) {
@@ -69,5 +69,5 @@
     } else if (_type(el, 'nodelist')) {
       return _toArray(el);
     }
-    return _clone(el);
+    return el;
   }
