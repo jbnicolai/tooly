@@ -45,6 +45,26 @@ var tooly = (function() {
     });
   }
 
+  // http://stackoverflow.com/a/9229821/2416000
+  function _unique(obj) {
+    var prims = { 'boolean': {}, 'number': {}, 'string': {} }, 
+        objs = [];
+    return obj.filter(function(item) {
+      var type = typeof item;
+      return (type in prims) 
+        ? prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true)
+        : objs.indexOf(item) >= 0 ? false : objs.push(item);
+    });
+  }
+
+  // modified from http://stackoverflow.com/a/9229821/2416000
+  // TODO: this modifies original arr, find unaltering way
+  function _sortUnique(arr) {
+    return arr.sort().filter(function(item, pos) {
+      return !pos || item != arr[pos-1];
+    });
+  }
+
   // // deep clone, more performant than jQuery extend, yet with many issues
   // // see http://stackoverflow.com/q/122102/2416000
   // function _clone(obj) {
@@ -130,44 +150,53 @@ var tooly = (function() {
     },
 
     /**
-     * select the parent element of `el`.
+     * select all parents element of `elements`.
      * 
-     * @param  {Element|String} el the node element or valid css selector string
+     * @param  {Element|String} elements the node element or valid css selector string
      *                             representing the element whose parent will be selected
-     * @return {Element|null} the parent element of `selector` or null if no parent is found
+     * @return {Element|undefined} the parent element of `selector` or 
+     *                                 undefined if no parent is found
      *
      * @memberOf  tooly
      * @module  dom
      * @static
      */
-    parent: function(el) {
-      if (!_node(el)) el = tooly.select(el);
-      return el != null ? el.parentNode : null;
+    parent: function(elements) {
+      var el = _prepEl(elements),
+          parents = [];
+      if (_node(el)) {
+        return el.parentNode;
+      } else if (_type(el, 'array')) {
+        return _sortUnique(
+          el.map(function(l) { 
+            return l.parentNode; 
+          })
+        );
+      }
+      return;
     },
 
     /**
-     * select all first-generation child elements of `el`.
+     * select all first-generation child elements of `elements`.
      *     
-     * @param  {Element|String} el the element or valid css selector string representing
+     * @param  {Element|String} elements the element or valid css selector string representing
      *                             the element whose children will be returned 
-     * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
-     *                                  or null if `el` has no children
+     * @return {Array<Element>|undefined} an array of child elements or undefined 
+     *                                       if `elements` has no children
      * @memberOf  tooly
      * @module  dom
      * @static
      */
-    children: function(el) {
-      if (!_node(el)) el = tooly.select(el);
-      return el != null 
-        ? /*(function() {
-            var childs = el.children, converted = [], i = 0, len = childs.length;
-            for (; i < len; i++) {
-              converted.push(childs.item(i));
-            }
-            return converted;
-          })()*/
-          _toArray(el.children)
-        : null;
+    children: function(elements) {
+      var el = _prepEl(elements);
+      if (_node(el)) {
+        return el.children;
+      } else if (_type(el, 'array')) {
+        return el.map(function(l) {
+          return l.children;
+        });
+      }
+      return;
     },    
 
     /**
@@ -362,37 +391,49 @@ var tooly = (function() {
      * @module  dom
      * @static
      */
-    css: function(el, styles) {
-      var _keyInStyles = function(el, styles) {
-        for (var key in styles) {
-          if (styles.hasOwnProperty(key)) {
-            el.style[key] = styles[key];
-          } 
-        }
+    css: function(/*mixed*/) {
+      var keyInStyles = function(el, styles) {
+        // for (var key in styles) {
+        //   if (styles.hasOwnProperty(key)) {
+        //     console.log(el + ', ' + el.style);
+        //     el.style[key] = styles[key];
+        //     console.log(el + ', ' + el.style);
+        //   }
+        // }
+        [].forEach.call(styles, (function(key, i) { 
+          el.style[key] = styles[key]; 
+        }));
       };
 
-      if (_type(el, 'array')) {
-        if (arguments.length === 3) {
-          for (var i = 0, len = el.length; i < len; i++) {
-            el[i].style[arguments[1]] = arguments[2];
-          }
-          return tooly;
+      var el = _prepEl(arguments[0]),
+          argsLen = arguments.length,
+          styles = {}, 
+          isNode = true;
+
+      if (argsLen > 1) {
+        // single comma sep key-value pair
+        if (argsLen === 3) {
+          styles[arguments[1]] = arguments[2];
+          // hash
         } else {
-          for (var i = 0, len = el.length; i < len; i++) {
-            _keyInStyles(el[i], styles);
-          }
-          return tooly;
+          styles = arguments[1];
         }
-      } else if (!_node(el)) {
-        el = tooly.select(el);
       }
 
-      if (arguments.length === 3) {
-        el.style[arguments[1]] = arguments[2];
-      } else {
-        _keyInStyles(el, styles);
+      // set
+      if (styles) {
+        if (_node(el)) {
+          keyInStyles(el, styles);
+          return tooly;
+        } else if (_type(el, 'array')) {
+          isNode = false;
+          el.forEach(function(el) { keyInStyles(el, styles); });
+          return tooly;
+        }
       }
-      return tooly;
+
+      // get
+      return isNode ? el.style : el[0].style || undefined;
     },
 
     /**
@@ -1043,6 +1084,24 @@ tooly.Frankie.prototype = {
     return this.el.length === 0;
   },
 
+  parent: function() {
+    var parents = tooly.parent(this.el),
+        frankie = new tooly.Frankie();
+    if (parents instanceof Array) {
+      frankie.el = parents;
+    }
+    return frankie;
+  },
+
+  children: function() {
+    var children = tooly.children(this.el),
+        frankie = new tooly.Frankie();
+    if (children instanceof Array) {
+      frankie.el = children;
+    }
+    return frankie;
+  },  
+
   hasClass: function(klass) {
     tooly.hasClass(this.el, klass);
     return this;
@@ -1076,16 +1135,6 @@ tooly.Frankie.prototype = {
     }
     // get
     return tooly.html(this.el);
-  },
-
-  parent: function() {
-    tooly.parent(this.el);
-    return this;
-  },
-
-  children: function() {
-    tooly.children(this.el);
-    return this;
   },
   
   css: function() {

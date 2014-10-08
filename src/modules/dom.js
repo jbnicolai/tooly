@@ -36,44 +36,53 @@
     },
 
     /**
-     * select the parent element of `el`.
+     * select all parents element of `elements`.
      * 
-     * @param  {Element|String} el the node element or valid css selector string
+     * @param  {Element|String} elements the node element or valid css selector string
      *                             representing the element whose parent will be selected
-     * @return {Element|null} the parent element of `selector` or null if no parent is found
+     * @return {Element|undefined} the parent element of `selector` or 
+     *                                 undefined if no parent is found
      *
      * @memberOf  tooly
      * @module  dom
      * @static
      */
-    parent: function(el) {
-      if (!_node(el)) el = tooly.select(el);
-      return el != null ? el.parentNode : null;
+    parent: function(elements) {
+      var el = _prepEl(elements),
+          parents = [];
+      if (_node(el)) {
+        return el.parentNode;
+      } else if (_type(el, 'array')) {
+        return _sortUnique(
+          el.map(function(l) { 
+            return l.parentNode; 
+          })
+        );
+      }
+      return;
     },
 
     /**
-     * select all first-generation child elements of `el`.
+     * select all first-generation child elements of `elements`.
      *     
-     * @param  {Element|String} el the element or valid css selector string representing
+     * @param  {Element|String} elements the element or valid css selector string representing
      *                             the element whose children will be returned 
-     * @return {Array<Element>|null} an array of children (converted from HTMLCollection) 
-     *                                  or null if `el` has no children
+     * @return {Array<Element>|undefined} an array of child elements or undefined 
+     *                                       if `elements` has no children
      * @memberOf  tooly
      * @module  dom
      * @static
      */
-    children: function(el) {
-      if (!_node(el)) el = tooly.select(el);
-      return el != null 
-        ? /*(function() {
-            var childs = el.children, converted = [], i = 0, len = childs.length;
-            for (; i < len; i++) {
-              converted.push(childs.item(i));
-            }
-            return converted;
-          })()*/
-          _toArray(el.children)
-        : null;
+    children: function(elements) {
+      var el = _prepEl(elements);
+      if (_node(el)) {
+        return el.children;
+      } else if (_type(el, 'array')) {
+        return el.map(function(l) {
+          return l.children;
+        });
+      }
+      return;
     },    
 
     /**
@@ -268,37 +277,44 @@
      * @module  dom
      * @static
      */
-    css: function(el, styles) {
-      var _keyInStyles = function(el, styles) {
+    css: function(/*mixed*/) {
+      var eachStyle = function(el, styles) {
         for (var key in styles) {
           if (styles.hasOwnProperty(key)) {
             el.style[key] = styles[key];
-          } 
+          }
         }
       };
 
-      if (_type(el, 'array')) {
-        if (arguments.length === 3) {
-          for (var i = 0, len = el.length; i < len; i++) {
-            el[i].style[arguments[1]] = arguments[2];
-          }
-          return tooly;
+      var el = _prepEl(arguments[0]),
+          argsLen = arguments.length,
+          styles = {}, 
+          isNode = true;
+
+      if (argsLen > 1) {
+        // single comma sep key-value pair
+        if (argsLen === 3) {
+          styles[arguments[1]] = arguments[2];
+          // hash
         } else {
-          for (var i = 0, len = el.length; i < len; i++) {
-            _keyInStyles(el[i], styles);
-          }
-          return tooly;
+          styles = arguments[1];
         }
-      } else if (!_node(el)) {
-        el = tooly.select(el);
       }
 
-      if (arguments.length === 3) {
-        el.style[arguments[1]] = arguments[2];
-      } else {
-        _keyInStyles(el, styles);
+      // set
+      if (styles) {
+        if (_node(el)) {
+          eachStyle(el, styles);
+          return tooly;
+        } else if (_type(el, 'array')) {
+          isNode = false;
+          el.forEach(function(el) { eachStyle(el, styles); });
+          return tooly;
+        }
       }
-      return tooly;
+
+      // get
+      return isNode ? el.style : el[0].style || undefined;
     },
 
     /**

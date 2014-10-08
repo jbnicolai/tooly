@@ -20,6 +20,26 @@ var tooly = (function() {
     });
   }
 
+  // http://stackoverflow.com/a/9229821/2416000
+  function _unique(obj) {
+    var prims = { 'boolean': {}, 'number': {}, 'string': {} }, 
+        objs = [];
+    return obj.filter(function(item) {
+      var type = typeof item;
+      return (type in prims) 
+        ? prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true)
+        : objs.indexOf(item) >= 0 ? false : objs.push(item);
+    });
+  }
+
+  // modified from http://stackoverflow.com/a/9229821/2416000
+  // TODO: this modifies original arr, find unaltering way
+  function _sortUnique(arr) {
+    return arr.sort().filter(function(item, pos) {
+      return !pos || item != arr[pos-1];
+    });
+  }
+
   // // deep clone, more performant than jQuery extend, yet with many issues
   // // see http://stackoverflow.com/q/122102/2416000
   // function _clone(obj) {

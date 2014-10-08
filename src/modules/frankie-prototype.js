@@ -18,6 +18,24 @@ tooly.Frankie.prototype = {
     return this.el.length === 0;
   },
 
+  parent: function() {
+    var parents = tooly.parent(this.el),
+        frankie = new tooly.Frankie();
+    if (parents instanceof Array) {
+      frankie.el = parents;
+    }
+    return frankie;
+  },
+
+  children: function() {
+    var children = tooly.children(this.el),
+        frankie = new tooly.Frankie();
+    if (children instanceof Array) {
+      frankie.el = children;
+    }
+    return frankie;
+  },  
+
   hasClass: function(klass) {
     tooly.hasClass(this.el, klass);
     return this;
@@ -51,16 +69,6 @@ tooly.Frankie.prototype = {
     }
     // get
     return tooly.html(this.el);
-  },
-
-  parent: function() {
-    tooly.parent(this.el);
-    return this;
-  },
-
-  children: function() {
-    tooly.children(this.el);
-    return this;
   },
   
   css: function() {

@@ -20,6 +20,7 @@
     "grunt-jsdoc": "^0.5.7",
     "grunt-mocha-test": "~0.11.0",
     "grunt-umd": "~2.0.0",
+    "jquery": "^2.1.1",
     "lodash": "^2.4.1",
     "mocha": "*",
     "shelljs": "^0.3.0"
