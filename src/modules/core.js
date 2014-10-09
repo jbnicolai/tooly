@@ -3,6 +3,7 @@
 //    +-------------+
     /**
      * Function version of ECMAScript6 String.prototype.endsWith
+     * 
      * @param  {String} str    the string to check
      * @param  {String} suffix the "endWith" we are seeking
      * @return {Boolean}       true if str ends with suffix
@@ -15,6 +16,7 @@
 
     /**
      * Function version of String.format / sprintf
+     * 
      * @see  http://stackoverflow.com/a/4673436/2416000
      * @param  {String} format
      * @return {String} 
@@ -159,4 +161,6 @@
     },
 
     /*! @alias for #toType */
-    type:   function(o, k) { return _type(o, k); },
+    type: function(o, k) { 
+      return _type(o, k); 
+    },

@@ -31,9 +31,7 @@ var tooly = (function() {
 
   function _type(o, klass) {
     o = ({}).toString.call(o).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
-    if (klass) {
-      return o === klass.toLowerCase();
-    }
+    if (klass) return o === klass.toLowerCase();
     return o;
   }
  
@@ -46,16 +44,16 @@ var tooly = (function() {
   }
 
   // http://stackoverflow.com/a/9229821/2416000
-  function _unique(obj) {
-    var prims = { 'boolean': {}, 'number': {}, 'string': {} }, 
-        objs = [];
-    return obj.filter(function(item) {
-      var type = typeof item;
-      return (type in prims) 
-        ? prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true)
-        : objs.indexOf(item) >= 0 ? false : objs.push(item);
-    });
-  }
+  // function _unique(obj) {
+  //   var prims = { 'boolean': {}, 'number': {}, 'string': {} }, 
+  //       objs = [];
+  //   return obj.filter(function(item) {
+  //     var type = typeof item;
+  //     return (type in prims) 
+  //       ? prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true)
+  //       : objs.indexOf(item) >= 0 ? false : objs.push(item);
+  //   });
+  // }
 
   // modified from http://stackoverflow.com/a/9229821/2416000
   // TODO: this modifies original arr, find unaltering way
@@ -65,11 +63,6 @@ var tooly = (function() {
     });
   }
 
-  // // deep clone, more performant than jQuery extend, yet with many issues
-  // // see http://stackoverflow.com/q/122102/2416000
-  // function _clone(obj) {
-  //   return JSON.parse(JSON.stringify(obj));
-  // }
   var _ws = /\s+/;
 
   function _classReg(str) {
@@ -707,6 +700,7 @@ var tooly = (function() {
 //    +-------------+
     /**
      * Function version of ECMAScript6 String.prototype.endsWith
+     * 
      * @param  {String} str    the string to check
      * @param  {String} suffix the "endWith" we are seeking
      * @return {Boolean}       true if str ends with suffix
@@ -719,6 +713,7 @@ var tooly = (function() {
 
     /**
      * Function version of String.format / sprintf
+     * 
      * @see  http://stackoverflow.com/a/4673436/2416000
      * @param  {String} format
      * @return {String} 
@@ -863,7 +858,9 @@ var tooly = (function() {
     },
 
     /*! @alias for #toType */
-    type:   function(o, k) { return _type(o, k); },
+    type: function(o, k) { 
+      return _type(o, k); 
+    },
 
 
 //    +----------------+
