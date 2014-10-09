@@ -1,4 +1,13 @@
 /**
+ * tooly - version 0.0.3 (built: 2014-10-09)
+ * js utility functions
+ * https://github.com/Lokua/tooly.git
+ * Copyright (c) 2014 Joshua Kleckner
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/MIT
+ */
+
+/**
  * tooly - version 0.0.3 (built: 2014-10-07)
  * js utility functions
  * https://github.com/Lokua/tooly.git

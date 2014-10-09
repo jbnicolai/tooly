@@ -115,7 +115,8 @@
      * @static 
      */
     fromPrototype: function(prototype, object) {
-      var newObject = tooly.objectCreate(prototype), prop;
+      var newObject = tooly.objectCreate(prototype), 
+          prop;
       for (prop in object) {
         if (object.hasOwnProperty(prop)) {
           newObject[prop] = object[prop];      
