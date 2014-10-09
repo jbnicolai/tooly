@@ -1,4 +1,4 @@
-/**
+/*!
  * tooly - version 0.0.3 (built: 2014-10-09)
  * js utility functions
  * https://github.com/Lokua/tooly.git
@@ -1096,8 +1096,9 @@ tooly.Handler.prototype = {
     }
   },
 
-  /*!
+  /**
    * alias for #remove
+   * @ignore
    */
   off: function(fn) {
     this.remove(fn);
@@ -1139,15 +1140,9 @@ tooly.Handler.prototype = {
     return this;
   },
 
-  /*!
+  /**
    * alias for #executeHandler
-   */
-  exec: function(fn) {
-    return this.executeHandler(fn);
-  },
-
-  /*!
-   * alias for #executeHandler
+   * @ignore
    */
   trigger: function(fn) {
     return this.executeHandler(fn);

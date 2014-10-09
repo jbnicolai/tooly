@@ -1,5 +1,5 @@
 module.exports = 
-'/**\n' +
+'/*!\n' +
 ' * <%= pkg.name %> - version <%= pkg.version %> ' +
 '(built: <%= grunt.template.today("yyyy-mm-dd") %>)\n' +
 ' * <%= pkg.description %>\n' + 

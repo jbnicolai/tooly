@@ -8,11 +8,16 @@ module.exports = function(grunt) {
 
     umd: {
       main: {
-        src: 'dist/tooly-raw.js',
+        src: 'dist/tooly.js',
         dest: 'dist/tooly.js',
         objectToExport: 'tooly',
-        amdModuleId: 'tooly'/*,
-        indent: '  '*/
+        amdModuleId: 'tooly'
+      },
+      slim: {
+        src: 'dist/tooly-slim.js',
+        dest: 'dist/tooly-slim.js',
+        objectToExport: 'tooly',
+        amdModuleId: 'tooly'
       },
       custom: {
         src: 'dist/tooly-custom.js',
@@ -22,9 +27,17 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        sourceMap: true,
+        preserveComments: 'some'
+      },
       main: {
         src: 'dist/tooly.js',
         dest: 'dist/tooly.min.js'
+      },
+      slim: {
+        src: 'dist/tooly-slim.js',
+        dest: 'dist/tooly-slim.min.js'
       },
       custom: {
         src: '<%= umd.custom.src %>',
@@ -38,6 +51,16 @@ module.exports = function(grunt) {
         banner: require('./src/banner'),
         linebreak: true
       },
+      slim: {
+        files: {
+          src: ['dist/tooly-slim.js']
+        }
+      },
+      slim_post: {
+        files: {
+          src: ['dist/tooly-slim.min.js']
+        }
+      },
       main: {
         files: {
           src: ['dist/tooly.js']
@@ -45,7 +68,7 @@ module.exports = function(grunt) {
       },
       post: {
         files: {
-          src: ['dist/tooly.min.js', 'dist/tooly-raw.js']
+          src: ['dist/tooly.min.js']
         }
       },
       custom: {
@@ -75,13 +98,17 @@ module.exports = function(grunt) {
   grunt.registerTask('custom', [
     'umd:custom',
     'usebanner:custom',
-    'uglify:custom',
-    'usebanner:customPost'
+    'uglify:custom'/*,
+    'usebanner:customPost'*/
   ]);
   grunt.registerTask('main', [
     'umd:main',
     'usebanner:main',
-    'uglify:main',
-    'usebanner:post'
+    'uglify:main'
   ]);
+  grunt.registerTask('slim', [
+    'umd:slim',
+    'usebanner:slim',
+    'uglify:slim'
+  ]);  
 };

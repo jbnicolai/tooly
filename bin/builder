@@ -109,7 +109,7 @@ if (!nocomment) {
   // compose a list of included modules for the output header
   var mess = format('%s%s%s%s',
 
-    '\n/**\n * CUSTOM BUILD.\n',
+    '\n/*!\n * CUSTOM BUILD.\n',
 
     (includes.include) ? ' * Includes ' : ' * Excludes ',
 
