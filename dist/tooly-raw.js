@@ -8,15 +8,6 @@
  */
 
 /**
- * tooly - version 0.0.3 (built: 2014-10-07)
- * js utility functions
- * https://github.com/Lokua/tooly.git
- * Copyright (c) 2014 Joshua Kleckner
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/MIT
- */
-
-/**
  * @namespace  tooly
  * @type {Object}
  */
@@ -385,17 +376,12 @@ var tooly = (function() {
      * @static
      */
     css: function(/*mixed*/) {
-      var keyInStyles = function(el, styles) {
-        // for (var key in styles) {
-        //   if (styles.hasOwnProperty(key)) {
-        //     console.log(el + ', ' + el.style);
-        //     el.style[key] = styles[key];
-        //     console.log(el + ', ' + el.style);
-        //   }
-        // }
-        [].forEach.call(styles, (function(key, i) { 
-          el.style[key] = styles[key]; 
-        }));
+      var eachStyle = function(el, styles) {
+        for (var key in styles) {
+          if (styles.hasOwnProperty(key)) {
+            el.style[key] = styles[key];
+          }
+        }
       };
 
       var el = _prepEl(arguments[0]),
@@ -416,11 +402,11 @@ var tooly = (function() {
       // set
       if (styles) {
         if (_node(el)) {
-          keyInStyles(el, styles);
+          eachStyle(el, styles);
           return tooly;
         } else if (_type(el, 'array')) {
           isNode = false;
-          el.forEach(function(el) { keyInStyles(el, styles); });
+          el.forEach(function(el) { eachStyle(el, styles); });
           return tooly;
         }
       }
@@ -598,20 +584,14 @@ var tooly = (function() {
      * @static 
      */
     fromPrototype: function(prototype, object) {
-      var newObject = tooly.objectCreate(prototype), prop;
+      var newObject = tooly.objectCreate(prototype), 
+          prop;
       for (prop in object) {
         if (object.hasOwnProperty(prop)) {
           newObject[prop] = object[prop];      
         }
       }
       return newObject;
-    },
-
-    /*!
-     * alias for #fromPrototype
-     */
-    fromProto: function(prototype, object) {
-      return tooly.fromPrototype(prototype, object);
     },
 
     /**
@@ -664,63 +644,6 @@ var tooly = (function() {
     isHash: function(val) {
       return _type(val) === 'object' && val.constructor === Object && 
         !val.nodeType && !val.setInterval;
-    },
-
-
-    /**
-     * function version of ECMA5 Object.create
-     * 
-     * @param  {Object} o  the object/base prototype
-     * @return {Object}    new object based on o prototype
-     * 
-     * @memberOf  tooly
-     * @module  object
-     * @static
-     */
-    objectCreate: function(o) {
-      var F = function() {};
-      F.prototype = o;
-      return new F();
-    },
-    
-    /**
-     * Equivalent of Object.keys(obj).length
-     * 
-     * @param  {Object} obj the object whose ownProperties we are counting
-     * @return {number}     the number of "ownProperties" in the object
-     * 
-     * @memberOf  tooly
-     * @module  object
-     * @static
-     */
-    propCount: function(obj) {
-      var count = 0, o;
-      for (o in obj) {
-        if (obj.hasOwnProperty(o)) {
-          count++;
-        }
-      }
-      return count;
-    },
-
-    /**
-     * get an array of an object's "ownProperties"
-     * 
-     * @param  {Object} obj     the object of interest
-     * @return {Array[Object]} the "hasOwnProperties" of obj
-     * 
-     * @memberOf  tooly
-     * @module  object
-     * @static
-     */
-    propsOf: function(obj) {
-      var props = [], o;
-      for (o in obj) {
-        if (obj.hasOwnProperty(o)) {
-          props.push(o);
-        }
-      }
-      return props;
     },
 
 
@@ -886,13 +809,6 @@ var tooly = (function() {
       return str.substring(str.lastIndexOf('.')+1);
     },
 
-    /*!
-     * alias for extension
-     */
-    ext: function(str) {
-      return tooly.extension(str);
-    },
-
     /**
      * Get a copy of `str` without file extension, or anything after the last `.`
      * (does not change the original string)
@@ -904,26 +820,6 @@ var tooly = (function() {
      */
     stripExtension: function(str) {
       return str.substring(0, str.lastIndexOf('.'));
-    },
-
-    /*!
-     * alias for stripExtension
-     */
-    stripExt: function(str) {
-      return tooly.stripExtension(str);
-    },
-
-    /**
-     * Inorant error message to ease my frustrations
-     * 
-     * @param  {String} mess additional error message details to add
-     *
-     * @memberOf tooly
-     * @module core
-     * @static
-     */
-    shit: function(mess) {
-      console.error('shitError - something is fucking shit up: ' + mess);
     },
 
     /**
@@ -952,9 +848,6 @@ var tooly = (function() {
 
     /*! @alias for #toType */
     type:   function(o, k) { return _type(o, k); },
-
-    /*! @alias for #toType */
-    typeof: function(o, k) { return _type(o, k); },
 
 
 //    +----------------+
