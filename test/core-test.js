@@ -18,33 +18,6 @@ describe('tooly', function() {
     expect(tooly.formatTime('3600')).to.equal('01:00:00');
   });
 
-  var orig = function() {};
-  orig.prototype = { a: 1, b: 2, c: 3 };
-  var copy = tooly.objectCreate(orig);
-
-  describe('copy = #objectCreate(orig)', function() {
-    it('copy proto meths should match original\'s', function() {
-      expect(copy.prototype.a).to.equal(1);
-      expect(copy.prototype.b).to.equal(2);
-      expect(copy.prototype.c).to.equal(3);
-      expect(copy.prototype.a).to.equal(orig.prototype.a);
-      expect(copy.prototype.b).to.equal(orig.prototype.b);
-      expect(copy.prototype.c).to.equal(orig.prototype.c);
-    });
-  });
-
-  describe('#propsOf(copy.prototype)', function() {
-    it('should eql [a,b,c]', function() {
-      expect(tooly.propsOf(copy.prototype)).to.eql(['a', 'b', 'c']);
-    });
-  });
-
-  describe('#propCount()', function() {
-    it('should equal 3', function() {
-      expect(tooly.propCount(copy.prototype)).equal(3);
-    });
-  });
-
   describe('#scale()', function() {
     it('should scale 50 to 0.5', function() {
       expect(tooly.scale(50, 0, 100, 0, 1)).to.equal(0.5);

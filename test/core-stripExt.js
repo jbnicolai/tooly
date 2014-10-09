@@ -4,13 +4,13 @@ var tooly  = require('../dist/tooly.js'),
 
 var str = 'http://lokua.net/whatever.html';
 
-describe('tooly#stripExt', function() {
+describe('tooly#stripExtension', function() {
   it('should slice the extension from html filename', function() {
     expect(tooly.stripExtension(str)).to.equal('http://lokua.net/whatever');
   });
 });    
-describe('tooly#ext', function() {
+describe('tooly#extension', function() {
   it('should return only the file extension (without the dot)', function() {
-    expect(tooly.ext(str)).to.equal('html');
+    expect(tooly.extension(str)).to.equal('html');
   });
 });  

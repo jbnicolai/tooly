@@ -121,13 +121,6 @@
       return str.substring(str.lastIndexOf('.')+1);
     },
 
-    /*!
-     * alias for extension
-     */
-    ext: function(str) {
-      return tooly.extension(str);
-    },
-
     /**
      * Get a copy of `str` without file extension, or anything after the last `.`
      * (does not change the original string)
@@ -139,26 +132,6 @@
      */
     stripExtension: function(str) {
       return str.substring(0, str.lastIndexOf('.'));
-    },
-
-    /*!
-     * alias for stripExtension
-     */
-    stripExt: function(str) {
-      return tooly.stripExtension(str);
-    },
-
-    /**
-     * Inorant error message to ease my frustrations
-     * 
-     * @param  {String} mess additional error message details to add
-     *
-     * @memberOf tooly
-     * @module core
-     * @static
-     */
-    shit: function(mess) {
-      console.error('shitError - something is fucking shit up: ' + mess);
     },
 
     /**
@@ -187,6 +160,3 @@
 
     /*! @alias for #toType */
     type:   function(o, k) { return _type(o, k); },
-
-    /*! @alias for #toType */
-    typeof: function(o, k) { return _type(o, k); },

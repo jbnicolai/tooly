@@ -22,6 +22,8 @@
 
 <script>
 
+  var logger = tooly.Logger(0, 'CORE_TEST');
+
   function test1() {
     function __() {
       console.log(tooly.repeat('-', 13));
@@ -82,7 +84,7 @@
     tooly.logger.traceAnonymous = false;
 
     var klass = tooly.selectAll('.klass');
-    tooly.debug(klass[0]);
+    logger.debug(klass[0]);
     tooly.trace(tooly.hasClass(klass[0], 'one'));
 
   }
@@ -91,7 +93,7 @@
 
   function test6() {
     tooly.logger.traceAnonymous = false;
-    tooly.debug('test 6...');
+    logger.debug('test 6...');
     tooly.css(tooly.select('.two'), 'background', 'green');
     tooly.css(tooly.select('.tre'), {
       color: 'red', 
@@ -113,13 +115,13 @@
   // context(); 
 
   function parent() {
-    tooly.debug('about to select parent of .nooshka');
+    logger.debug('about to select parent of .nooshka');
     tooly.info(tooly.parent('.nooshka'));
 
-    tooly.debug('about to pass a non-existent selector string');
+    logger.debug('about to pass a non-existent selector string');
     tooly.info(tooly.parent('.non'));
 
-    tooly.debug('about to pass html, body, document');
+    logger.debug('about to pass html, body, document');
     tooly.info(tooly.parent('html'));
     tooly.info(tooly.parent('body'));
     tooly.info(tooly.parent('document'));
