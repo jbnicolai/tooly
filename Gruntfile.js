@@ -70,7 +70,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-banner');
-  grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-umd');
 
   grunt.registerTask('custom', [
