@@ -124,13 +124,6 @@
       return newObject;
     },
 
-    /*!
-     * alias for #fromPrototype
-     */
-    fromProto: function(prototype, object) {
-      return tooly.fromPrototype(prototype, object);
-    },
-
     /**
      * Helper to perform prototypal inheritance.
      * Note that this method overwrites the child's original prototype.
@@ -181,61 +174,4 @@
     isHash: function(val) {
       return _type(val) === 'object' && val.constructor === Object && 
         !val.nodeType && !val.setInterval;
-    },
-
-
-    /**
-     * function version of ECMA5 Object.create
-     * 
-     * @param  {Object} o  the object/base prototype
-     * @return {Object}    new object based on o prototype
-     * 
-     * @memberOf  tooly
-     * @module  object
-     * @static
-     */
-    objectCreate: function(o) {
-      var F = function() {};
-      F.prototype = o;
-      return new F();
-    },
-    
-    /**
-     * Equivalent of Object.keys(obj).length
-     * 
-     * @param  {Object} obj the object whose ownProperties we are counting
-     * @return {number}     the number of "ownProperties" in the object
-     * 
-     * @memberOf  tooly
-     * @module  object
-     * @static
-     */
-    propCount: function(obj) {
-      var count = 0, o;
-      for (o in obj) {
-        if (obj.hasOwnProperty(o)) {
-          count++;
-        }
-      }
-      return count;
-    },
-
-    /**
-     * get an array of an object's "ownProperties"
-     * 
-     * @param  {Object} obj     the object of interest
-     * @return {Array[Object]} the "hasOwnProperties" of obj
-     * 
-     * @memberOf  tooly
-     * @module  object
-     * @static
-     */
-    propsOf: function(obj) {
-      var props = [], o;
-      for (o in obj) {
-        if (obj.hasOwnProperty(o)) {
-          props.push(o);
-        }
-      }
-      return props;
     },
