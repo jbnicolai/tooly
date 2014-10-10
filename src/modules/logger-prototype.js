@@ -91,7 +91,22 @@ tooly.Logger.prototype = (function() {
   // helper
   function _level(level) {
     return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') +
-      _chalkify(6, '[' + new Date().toLocaleTimeString() + '] ');
+      // _chalkify(6, '[' + new Date().toLocaleTimeString() + '] ');
+      _chalkify(6, '[' + _dateFormatted() + '] ');
+  }
+
+  // helper
+  function _dateFormatted() {
+    function format(n) { 
+      return n < 10 ? '0' + n : n 
+    }
+    var date = new Date();
+    return [
+      format(date.getHours()),
+      format(date.getMinutes()),
+      format(date.getSeconds()),
+      date.getMilliseconds()
+    ].join(':');
   }
 
   // use chalk if node.js
