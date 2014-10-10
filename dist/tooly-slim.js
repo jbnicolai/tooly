@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.3 (built: 2014-10-09)
+ * tooly - version 0.0.3 (built: 2014-10-10)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -1024,14 +1024,6 @@ tooly.Handler.prototype = {
     if (this.handlers[fn] !== undefined) {
       this.handlers[fn].length = 0;
     }
-  },
-
-  /**
-   * alias for #remove
-   * @ignore
-   */
-  off: function(fn) {
-    this.remove(fn);
   },
 
   /**

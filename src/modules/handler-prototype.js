@@ -48,14 +48,6 @@ tooly.Handler.prototype = {
   },
 
   /**
-   * alias for #remove
-   * @ignore
-   */
-  off: function(fn) {
-    this.remove(fn);
-  },
-
-  /**
    * executes all handlers attached to the named function.
    * @example
    * var value = 0;
