@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.3 (built: 2014-10-10)
+ * tooly - version 0.0.3 (built: 2014-10-11)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -754,9 +754,7 @@ var tooly = (function() {
      */
     repeat: function(str, n) {
       var s = '', i = 0;
-      for (; i < n; i++) {
-        s += str;
-      }
+      for (; i < n; i++) s += str;
       return s;
     },
 
@@ -860,6 +858,16 @@ var tooly = (function() {
     /*! @alias for #toType */
     type: function(o, k) { 
       return _type(o, k); 
+    },
+
+    lPad: function(v, len, symbol) {
+      var n = len - v.length;
+      return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
+    },
+
+    rPad: function(v, len, symbol) {
+      var n = len - v.length;
+      return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;
     },
 
 

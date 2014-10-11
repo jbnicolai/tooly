@@ -57,9 +57,7 @@
      */
     repeat: function(str, n) {
       var s = '', i = 0;
-      for (; i < n; i++) {
-        s += str;
-      }
+      for (; i < n; i++) s += str;
       return s;
     },
 
@@ -163,4 +161,14 @@
     /*! @alias for #toType */
     type: function(o, k) { 
       return _type(o, k); 
+    },
+
+    lPad: function(v, len, symbol) {
+      var n = len - v.length;
+      return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
+    },
+
+    rPad: function(v, len, symbol) {
+      var n = len - v.length;
+      return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;
     },
