@@ -50,7 +50,7 @@
       // enable instantiation without new
       if (!(logger instanceof tooly.Logger)) {
         logger = new tooly.Logger(level, name);
-        Logger.loggers.push(logger);
+        tooly.Logger.loggers.push(logger);
       }
       logger.level = (level !== undefined) ? level : 2;
       if (name) logger.name = name;
