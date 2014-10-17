@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.3 (built: 2014-10-16)
+ * tooly - version 0.0.3 (built: 2014-10-17)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -33,6 +33,28 @@ var tooly = (function() {
     o = ({}).toString.call(o).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
     if (klass) return o === klass.toLowerCase();
     return o;
+  }
+
+  var _nativeForEach = Array.prototype.forEach;
+
+  function _each(obj, iterator, context) {
+    if (obj == null) return;
+    if (_nativeForEach && obj.forEach === _nativeForEach) {
+      obj.forEach(iterator, context);
+    } else {
+      var i = 0, len = obj.length;
+      if (len === +len) {
+        for (; i < len; i++) {
+          iterator.call(context, obj[i], i, obj);
+        }
+      } else {
+        var keys = Object.keys(obj);
+        for (len = keys.length; i < len; i++) {
+          iterator.call(context, obj[keys[i]], keys[i], obj);
+        }
+      }
+    }
+    return obj;
   }
  
   // convert object or array-like object (arguments, NodeList, HTMLCollection, etc.) 
@@ -314,6 +336,29 @@ var tooly = (function() {
     },
 
     /**
+     * remove all child nodes (including text) from `element`.
+     * 
+     * @param  {Element|String|Frankie} element the element to clear of all children
+     * @return {Object}         `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
+     */
+    empty: function(element) {
+      var el = _prepEl(element);
+      if (_type(el, 'array')) {
+        el.forEach(function(d) {
+          while (d.lastChild) d.removeChild(d.lastChild);
+        });
+      } else {
+        // see http://jsperf.com/innerhtml-vs-removechild/15
+        while (el.lastChild) el.removeChild(el.lastChild);
+      }
+      return tooly;
+    },
+
+    /**
      * fill DOM element `el` with `content`. Replaces existing content.
      * If called with 1 arg, the first matched element's innerHTML is returned
      * 
@@ -530,6 +575,31 @@ var tooly = (function() {
 //    +---------------+
 //    | OBJECT MODULE |
 //    +---------------+
+    
+    /**
+     * Port of underscore's each. Falls back to native forEach for Arrays when available.
+     * The `iterator` argument takes the following signature for Arrays:
+     * `iterator(value, index, array)` where the array is the same collection passed
+     * as the `obj` argument. For objects the signature is:
+     * `iterator(value, key, object)`.
+     * @example
+     * ```js
+     * var obj = {'1': 1, '2': 2, '3': 3, '4': 4};
+     * each(obj, function(v, k, o) { o[k] = v*100; });
+     * obj; //=> {'1': 100, '2': 200, '3': 300, '4': 400};
+     * 
+     * var arr = [1, 2, 3, 4];
+     * each(arr, function(v, i, a) { a[i] = v*100; });
+     * arr; //=> [100, 200, 300, 400];
+     * ```
+     * @param  {Object|Array} obj      the collection to iterate over
+     * @param  {Function} iterator the function called on each element in `obj` 
+     * @param  {Object} context  the context, or `this` in the callback
+     * @return {Object|Array}          `obj`
+     */
+    each: function(obj, iterator, context) {
+      return _each(obj, iterator, context);
+    },
     
     /**
      * @param  {Function} ctor 

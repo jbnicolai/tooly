@@ -209,6 +209,29 @@
     },
 
     /**
+     * remove all child nodes (including text) from `element`.
+     * 
+     * @param  {Element|String|Frankie} element the element to clear of all children
+     * @return {Object}         `tooly` for chaining
+     *
+     * @memberOf  tooly
+     * @module  dom
+     * @static
+     */
+    empty: function(element) {
+      var el = _prepEl(element);
+      if (_type(el, 'array')) {
+        el.forEach(function(d) {
+          while (d.lastChild) d.removeChild(d.lastChild);
+        });
+      } else {
+        // see http://jsperf.com/innerhtml-vs-removechild/15
+        while (el.lastChild) el.removeChild(el.lastChild);
+      }
+      return tooly;
+    },
+
+    /**
      * fill DOM element `el` with `content`. Replaces existing content.
      * If called with 1 arg, the first matched element's innerHTML is returned
      * 

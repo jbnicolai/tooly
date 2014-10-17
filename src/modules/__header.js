@@ -9,13 +9,33 @@ var tooly = (function() {
     if (klass) return o === klass.toLowerCase();
     return o;
   }
+
+  var _nativeForEach = Array.prototype.forEach;
+
+  function _each(obj, iterator, context) {
+    if (obj == null) return;
+    if (_nativeForEach && obj.forEach === _nativeForEach) {
+      obj.forEach(iterator, context);
+    } else {
+      var i = 0, len = obj.length;
+      if (len === +len) {
+        for (; i < len; i++) {
+          iterator.call(context, obj[i], i, obj);
+        }
+      } else {
+        var keys = Object.keys(obj);
+        for (len = keys.length; i < len; i++) {
+          iterator.call(context, obj[keys[i]], keys[i], obj);
+        }
+      }
+    }
+    return obj;
+  }
  
   // convert object or array-like object (arguments, NodeList, HTMLCollection, etc.) 
   // into proper primitive array 
   function _toArray(obj) {
-    return [].map.call(obj, function(el) { 
-      return el; 
-    });
+    return [].map.call(obj, function(el) { return el; });
   }
 
   // http://stackoverflow.com/a/9229821/2416000

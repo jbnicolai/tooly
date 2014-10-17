@@ -38,14 +38,16 @@
   var $ = tooly.Frankie.bind(this);
   var css = 'color: #0080FF;';
   var heading = 'color: #800080; font-size: 18px';
+  
   function run() {
-    // hasClass();
-    // addClass(); // conflicts when removeClass is being used
-    // removeClass(); // deps on addClass
-    // prepend();
-    // append();
-    // html();
+    hasClass();
+    addClass(); // conflicts when removeClass is being used
+    removeClass(); // deps on addClass
+    prepend();
+    append();
+    html();
     attr();
+    empty();
   }
 
   function hasClass() {
@@ -249,6 +251,13 @@
     $item.attr({height: '100px',id: 'chopSuey',nonexist: 'whatever bruhddy'});
 
     console.groupEnd();
+  }
+
+  function empty() {
+    console.group();
+    logger.info('%c#empty ->', heading);
+    logger.debug('should be empty body');
+    tooly.empty('body');
   }
 
 </script>
