@@ -1151,9 +1151,12 @@ var tooly = (function() {
      * 
      * @example
      * ```js
-     * var logger = new tooly.Logger(2, 'kompakt');
-     * logger.trace(logger); // will not run
+     * var logger = new tooly.Logger(2, 'TEST_LOGGER');
+     * logger.trace(logger); // will not output
      * ```
+     * All active loggers in the current context can be disabled, regardless of level,
+     * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
+     * logging at each loggers previous level.
      * 
      * @param {Number} level set the level of this logger. Defaults to 2 (debug) if no
      *                       arguments are passed.
@@ -1167,18 +1170,19 @@ var tooly = (function() {
      * @static
      */
     Logger: function(level, name) {
+      var logger = this;
+      tooly.Logger.loggers = tooly.Logger.loggers || [];
       // enable instantiation without new
-      if (!(this instanceof tooly.Logger)) {
-        return new tooly.Logger(level, name);
+      if (!(logger instanceof tooly.Logger)) {
+        logger = new tooly.Logger(level, name);
+        Logger.loggers.push(logger);
       }
-      this.level = (level !== undefined) ? level : 2;
-      if (name) this.name = name;
-
+      logger.level = (level !== undefined) ? level : 2;
+      if (name) logger.name = name;
       // automatically set this false as its only 
       // for emergency "must track anonymous function location" purposes
-      this.traceAnonymous = false;
-      
-      return this;
+      logger.traceAnonymous = false;
+      return logger;
     },
 
 
@@ -1532,15 +1536,18 @@ tooly.Logger.prototype = (function() {
       // _colors = {'800080','008000','0000FF','FFA500','FF0000'};
       
   function _log(instance, level, caller, args) {
-    if (instance.level === -1 || level < instance.level || instance.level > 5) return;
+    if (tooly.Logger.off || instance.level === -1 || level < instance.level || instance.level > 5) {
+      return;
+    }
 
     args = _slice.call(args);
     var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
         pargs = []; // final args for console call
 
     if (_cjs) {
-      if (tooly.type(args[0], 'string') && args[0].match(/\%(s|j|d)/g)) {
-        format += args.shift();
+      if (tooly.type(args[0], 'string') && args[0].match(/\%(s|j|d|o)/g)) {
+        // let %o work in node too
+        format += args.shift().replace(/%o/gi, '%j');
       }
       pargs.unshift(format, _name(instance), _level(level));
 
@@ -1613,15 +1620,13 @@ tooly.Logger.prototype = (function() {
 
   // helper
   function _dateFormatted() {
-    function format(n) { 
-      return n < 10 ? '0' + n : n 
-    }
-    var date = new Date();
+    function format(n) { return n < 10 ? '0' + n : n }
+    var d = new Date();
     return [
-      format(date.getHours()),
-      format(date.getMinutes()),
-      format(date.getSeconds()),
-      date.getMilliseconds()
+      format(d.getHours()),
+      format(d.getMinutes()),
+      format(d.getSeconds()),
+      d.getMilliseconds()
     ].join(':');
   }
 

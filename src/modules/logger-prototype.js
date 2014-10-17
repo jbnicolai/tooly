@@ -16,15 +16,18 @@ tooly.Logger.prototype = (function() {
       // _colors = {'800080','008000','0000FF','FFA500','FF0000'};
       
   function _log(instance, level, caller, args) {
-    if (instance.level === -1 || level < instance.level || instance.level > 5) return;
+    if (tooly.Logger.off || instance.level === -1 || level < instance.level || instance.level > 5) {
+      return;
+    }
 
     args = _slice.call(args);
     var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
         pargs = []; // final args for console call
 
     if (_cjs) {
-      if (tooly.type(args[0], 'string') && args[0].match(/\%(s|j|d)/g)) {
-        format += args.shift();
+      if (tooly.type(args[0], 'string') && args[0].match(/\%(s|j|d|o)/g)) {
+        // let %o work in node too
+        format += args.shift().replace(/%o/gi, '%j');
       }
       pargs.unshift(format, _name(instance), _level(level));
 
@@ -97,15 +100,13 @@ tooly.Logger.prototype = (function() {
 
   // helper
   function _dateFormatted() {
-    function format(n) { 
-      return n < 10 ? '0' + n : n 
-    }
-    var date = new Date();
+    function format(n) { return n < 10 ? '0' + n : n }
+    var d = new Date();
     return [
-      format(date.getHours()),
-      format(date.getMinutes()),
-      format(date.getSeconds()),
-      date.getMilliseconds()
+      format(d.getHours()),
+      format(d.getMinutes()),
+      format(d.getSeconds()),
+      d.getMilliseconds()
     ].join(':');
   }
 

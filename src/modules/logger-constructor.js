@@ -26,9 +26,12 @@
      * 
      * @example
      * ```js
-     * var logger = new tooly.Logger(2, 'kompakt');
-     * logger.trace(logger); // will not run
+     * var logger = new tooly.Logger(2, 'TEST_LOGGER');
+     * logger.trace(logger); // will not output
      * ```
+     * All active loggers in the current context can be disabled, regardless of level,
+     * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
+     * logging at each loggers previous level.
      * 
      * @param {Number} level set the level of this logger. Defaults to 2 (debug) if no
      *                       arguments are passed.
@@ -42,16 +45,17 @@
      * @static
      */
     Logger: function(level, name) {
+      var logger = this;
+      tooly.Logger.loggers = tooly.Logger.loggers || [];
       // enable instantiation without new
-      if (!(this instanceof tooly.Logger)) {
-        return new tooly.Logger(level, name);
+      if (!(logger instanceof tooly.Logger)) {
+        logger = new tooly.Logger(level, name);
+        Logger.loggers.push(logger);
       }
-      this.level = (level !== undefined) ? level : 2;
-      if (name) this.name = name;
-
+      logger.level = (level !== undefined) ? level : 2;
+      if (name) logger.name = name;
       // automatically set this false as its only 
       // for emergency "must track anonymous function location" purposes
-      this.traceAnonymous = false;
-      
-      return this;
+      logger.traceAnonymous = false;
+      return logger;
     },
