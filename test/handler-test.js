@@ -18,7 +18,7 @@ describe('tooly#inherit > tooly.Handler', function() {
     return {
       inc: function() {
         this.value++;
-        this.exec('inc');
+        this.trigger('inc');
       }
     };
   })());

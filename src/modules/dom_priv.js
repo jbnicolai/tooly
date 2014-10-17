@@ -7,9 +7,7 @@
 
   function _hasClass(el, klass, re) {
     var classes = el.className.split(_ws);
-    return classes.some(function(c) {
-      return c.match(re) == klass;
-    });
+    return classes.some(function(c) { return c.match(re) == klass; });
   }
 
   function _addToClassName(el, klasses) {
@@ -30,7 +28,7 @@
 
   function _prepEl(el) {
     if (el instanceof tooly.Frankie) {
-      return el.el;
+      return el.els;
     } else if (_type(el, 'string')) {
       return tooly.selectAll(el);
     } else if (_type(el, 'nodelist')) {

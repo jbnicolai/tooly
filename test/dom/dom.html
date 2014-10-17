@@ -44,7 +44,8 @@
     // removeClass(); // deps on addClass
     // prepend();
     // append();
-    html();
+    // html();
+    attr();
   }
 
   function hasClass() {
@@ -217,6 +218,35 @@
     // logger.debug('adding blue to last z');
     // logger.debug(z.get(2), tooly.type(z.get(2)));
     // $(z.get(2)).html('<div class="blue">BLUE HTML</div>');
+
+    console.groupEnd();
+  }
+
+  function attr() {
+    console.group();
+    logger.info('%c#attr ->', heading);
+
+    var div = document.querySelector('div');
+    var a = div.getAttribute('class');
+    logger.debug('native single select & getAttribute ->\n\tdiv: %o\n\tattr: %s', div, a);
+
+    var $container = tooly.select('.container');
+    logger.debug('tooly single sel+get ->\n\tattr: %s', tooly.attr($container, 'class'));
+
+    var $divs = tooly.selectAll('.container');
+    logger.debug('tooly multi sel+get\n\tattr: %s', tooly.attr($divs, 'class'));
+
+    var $item = $('.z');
+    logger.debug('Frankie get ->\n\tattr: %s', $item.attr('class'));
+
+    logger.debug('tooly.attr($container, "width", "40px")');
+    tooly.attr($container, 'width', '40px');
+
+    logger.debug('$item.attr("width", "20px")->');
+    $item.attr("width", "20px");
+
+    logger.debug('$item.attr({height:"100px", etc...})->');
+    $item.attr({height: '100px',id: 'chopSuey',nonexist: 'whatever bruhddy'});
 
     console.groupEnd();
   }

@@ -39,7 +39,7 @@ describe('tooly', function() {
       function Child() {
         Parent.call(this);
       }
-      Child.prototype = tooly.objectCreate(Parent.prototype, {
+      Child.prototype = Object.create(Parent, {
         push: {
           value: function() { // override
             Parent.prototype.push.apply(this, arguments);

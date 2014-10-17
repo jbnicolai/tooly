@@ -318,6 +318,59 @@
     },
 
     /**
+     * UNDER CONSTRUCTION
+     * 
+     * get or set a(n) html attribute(s)
+     * 
+     * @param  {Element|String|Frankie} element the element
+     * @param  {String} a  the attribute to get/set
+     * @param  {String|Number|null} the value of the attribute `a` (set)
+     * @return {Element|Object|String}
+     */
+    attr: function(/*mixed*/) {
+      var el = _prepEl(arguments[0]), 
+          argsLen = arguments.length,
+          attr, // our return value
+          a, // the passed attribute or attributes hash
+          isArray = _type(el, 'array');
+
+      if ((!isArray && !_node(el)) || argsLen <= 1 || argsLen > 3) {
+        return null;
+      }
+
+      a = arguments[1];
+
+      if (argsLen === 2) {
+        
+        if (_type(a, 'object')) {
+          // SET (hash)
+          for (var prop in a) {
+            if (a.hasOwnProperty(prop)) {
+              if (isArray) {
+                el.forEach(function(d) { d.setAttribute(prop, a[prop]); });
+              } else {
+                el.setAttribute(prop, a[prop]);
+              }
+            }
+          }
+        } else {
+          // GET
+          attr = (isArray ? el[0] : el).getAttribute(a);
+          return (attr === '') ? null : attr;
+        }
+
+      } else { // SET (single comma sep key-val pair)
+        if (isArray) {
+          var value = arguments[2];
+          el.forEach(function(d) { d.setAttribute(a, value); });
+        } else {
+          el.setAttribute(a, arguments[2]);
+        }
+      }
+      return tooly;
+    },
+
+    /**
      * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest) 
      * _selectors_ of all time ;) - provides a jQuery style wrapper around most
      * tooly#dom methods except for #select and #selectAll. 
@@ -364,6 +417,6 @@
       if (!(this instanceof tooly.Frankie)) {
         return new tooly.Frankie(el, context);
       }
-      this.el = _node(el) ? [el] : tooly.selectAll(el, context);
+      this.els = _node(el) ? [el] : tooly.selectAll(el, context);
       return this;
     },
