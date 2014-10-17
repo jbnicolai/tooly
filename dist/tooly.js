@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.3 (built: 2014-10-17)
+ * tooly - version 0.0.4 (built: 2014-10-17)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -60,9 +60,7 @@ var tooly = (function() {
   // convert object or array-like object (arguments, NodeList, HTMLCollection, etc.) 
   // into proper primitive array 
   function _toArray(obj) {
-    return [].map.call(obj, function(el) { 
-      return el; 
-    });
+    return [].map.call(obj, function(el) { return el; });
   }
 
   // http://stackoverflow.com/a/9229821/2416000
@@ -594,8 +592,12 @@ var tooly = (function() {
      * ```
      * @param  {Object|Array} obj      the collection to iterate over
      * @param  {Function} iterator the function called on each element in `obj` 
-     * @param  {Object} context  the context, or `this` in the callback
+     * @param  {Object} context  the context, used as `this` in the callback
      * @return {Object|Array}          `obj`
+     *
+     * @memberOf  tooly
+     * @module  object
+     * @static 
      */
     each: function(obj, iterator, context) {
       return _each(obj, iterator, context);

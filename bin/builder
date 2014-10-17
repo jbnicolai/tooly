@@ -14,7 +14,7 @@ var parser = require('nomnom'),
     dest = './dist/tooly-custom.js',
     nocomment = false;
 
-console.log('\nRunning tooly builder...'.green);    
+console.log('\nRunning tooly builder...'.green);
 
 parser.option('output', {
   abbr: 'o',

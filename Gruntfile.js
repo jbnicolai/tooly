@@ -1,6 +1,10 @@
 'use strict';
 
+var child_process = require('child_process');
+
 module.exports = function(grunt) {
+
+  var child;
 
   grunt.initConfig({
 
@@ -52,33 +56,27 @@ module.exports = function(grunt) {
         linebreak: true
       },
       slim: {
-        files: {
-          src: ['dist/tooly-slim.js']
+        files: { src: ['dist/tooly-slim.js']
         }
       },
       slim_post: {
-        files: {
-          src: ['dist/tooly-slim.min.js']
+        files: { src: ['dist/tooly-slim.min.js']
         }
       },
       main: {
-        files: {
-          src: ['dist/tooly.js']
+        files: { src: ['dist/tooly.js']
         }
       },
       post: {
-        files: {
-          src: ['dist/tooly.min.js']
+        files: { src: ['dist/tooly.min.js']
         }
       },
       custom: {
-        files: {
-          src: ['<%= umd.custom.src %>']
+        files: { src: ['<%= umd.custom.src %>']
         }
       },
       customPost: {
-        files: {
-          src: ['<%= uglify.custom.dest %>']
+        files: { src: ['<%= uglify.custom.dest %>']
         }
       }
     },
@@ -98,8 +96,7 @@ module.exports = function(grunt) {
   grunt.registerTask('custom', [
     'umd:custom',
     'usebanner:custom',
-    'uglify:custom'/*,
-    'usebanner:customPost'*/
+    'uglify:custom'
   ]);
   grunt.registerTask('main', [
     'umd:main',
@@ -110,5 +107,5 @@ module.exports = function(grunt) {
     'umd:slim',
     'usebanner:slim',
     'uglify:slim'
-  ]);  
+  ]);
 };
