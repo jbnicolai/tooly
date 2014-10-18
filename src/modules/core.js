@@ -1,14 +1,11 @@
-//    +-------------+
-//    | CORE MODULE |
-//    +-------------+
 		/**
-		 * Function version of ECMAScript6 String.prototype.endsWith
+		 * Function version of ECMAScript6 `String.prototype.endsWith`.
 		 * 
 		 * @param  {String} str    the string to check
 		 * @param  {String} suffix the "endWith" we are seeking
 		 * @return {Boolean}       true if str ends with suffix
-		 * 
-		 * @see <a href="http://stackoverflow.com/a/2548133">stackoverflow thread</a>
+		 *
+		 * @see  http://stackoverflow.com/a/2548133
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -18,12 +15,18 @@
 		},
 
 		/**
-		 * Function version of String.format / sprintf
+		 * Function version of (C# style?) String.format
+		 * 
+		 * @example 
+		 * ```js
+		 * var formatted = tooly.format('{0}{1}', 'tooly', '.js')); 
+		 * formatted; //=> 'tooly.js'
+		 * ```
+		 * 
+		 * @param  {String} format
+		 * @return {String}
 		 * 
 		 * @see  http://stackoverflow.com/a/4673436/2416000
-		 * @param  {String} format
-		 * @return {String} 
-		 * 
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -36,10 +39,10 @@
 		},
 
 		/**
-		 * Utility method to convert milliseconds into human readable time format hh:mm:ss
+		 * Utility method to convert milliseconds into human readable time
 		 * 
-		 * @param  {Number} time - the time value in milliseconds
-		 * @return {String}      - human readable time
+		 * @param  {Number} time the time value in milliseconds
+		 * @return {String}      `time` formatted as hh:mm:ss
 		 * 
 		 * @memberOf tooly
 		 * @category core
@@ -47,27 +50,28 @@
 		 */
 		formatTime: function(time) {
 		  var h = Math.floor(time / 3600),
-			  m = Math.floor((time - (h * 3600)) / 60),
-			  s = Math.floor(time - (h * 3600) - (m * 60));
+			  	m = Math.floor((time - (h * 3600)) / 60),
+			  	s = Math.floor(time - (h * 3600) - (m * 60));
 		  if (h < 10) h = '0' + h;
 		  if (m < 10) m = '0' + m;
 		  if (s < 10) s = '0' + s;
 		  return h + ':' + m + ':' + s;
 		},
 
-	  // @see http://stackoverflow.com/a/14428340/2416000 (slightly modified to coerce string-numbers)
-	  // (and not fuck with native Number proto)
-	  
 		/**
 		 * Format money.
 		 * 
 		 * @example
 		 * ```js
-		 * var loot = '$' + tooly.formatMonet(10989.34); //=> "$10,989.00"
+		 * var loot = '$' + tooly.formatMoney(10989.34); 
+		 * loot //=> "$10,989.00"
 		 * ```
+		 * 
 		 * @param  {Number|String} n a number or numerical string
-		 * @return {String}   `n` formatted as money (comma separated every hundred)
-		 * @see http://stackoverflow.com/a/14428340/2416000 (slightly modified to coerce string-numbers)
+		 * @return {String}   `n` formatted as money (comma separated every three digits)
+		 * 
+		 * @see http://stackoverflow.com/a/14428340/2416000 
+		 * (slightly modified to coerce string-numbers)
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -80,12 +84,12 @@
 		},
 
 		/**
-		 * Function version of ECMAScript6 String.prototype.repeat without the silly
-		 * range error checks etc.
+		 * Function version of ECMAScript6 `String.prototype.repeat`
 		 * 
 		 * @param  {String} str   the string to repeat
 		 * @param  {Number} n     the number of times to repeat
 		 * @return {String}       the string repeated, or an empty string if n is 0
+		 * 
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -120,8 +124,8 @@
 		 *
 		 * @param {String}  url           the url or filepath
 		 * @param {Boolean} preSlash      keeps slash before relative part if true
-		 * @param {Boolean} trailingSlash keeps last slash after relative part if true.
-		 *                                note thatsliceRel does not add a trailing slash if it wasn't
+		 * @param {Boolean} trailingSlash keeps last slash after relative part if true,
+		 *                                though does not add a trailing slash if it wasn't
 		 *                                there to begin with
 		 * @return {String}                               
 		 * 
@@ -180,7 +184,7 @@
 		},
 
 		/**
-		 * Alpha-numeric sort.
+		 * Alpha-numeric sort by key (first level key only).
 		 * 
 		 * @param  {Array} arr the array to sort
 		 * @param  {String} key the key to sort by
@@ -198,8 +202,6 @@
 			a = String(as[key]).toLowerCase().match(rx);
 			b = String(bs[key]).toLowerCase().match(rx);
 			if (dsc) { // swap
-			  // http://stackoverflow.com/a/16201730/2416000
-			  // b = [a, a = b][0]; ;)
 			  t = a; a = b; b = t;
 			}
 			while (a.length && b.length) {
@@ -210,20 +212,12 @@
 					if (!rd.test(b1)) return -1;
 					if (a1 != b1) return a1-b1;
 				} else if (a1 != b1) {
-				  return a1> b1? 1: -1;
+				  return a1 > b1? 1: -1;
 				}
 			}
 			return a.length - b.length;
 		  });
 		},
-		// return arr.sort(function(a, b) {
-		//   a = a[key];
-		//   b = b[key];
-		//   if (isNaN(a) && isNaN(b)) return a > b ? -1 : a == b ? 0 : 1; // both are string
-		//   else if (isNaN(a)) return -1; // only a is a string
-		//   else if (isNaN(b)) return 1; // only b is a string
-		//   else return a-b; // both are num
-		// });
 
 		/**
 		 * A more useful alternative to the typeof operator.
@@ -237,7 +231,6 @@
 		 *                              true if `obj` is of class `klass`, false otherwise
 		 *
 		 * @alias type
-		 * 
 		 * @author Angus Croll
 		 * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
 		 * 

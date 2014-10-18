@@ -1,10 +1,9 @@
-//    +-------+
-//    | TIMER |
-//    +-------+
-
     /**
-     * Timer constructor. 
-     * @param {String} name optional name
+     * Timer class constructor. Contains various methods for timing
+     * of code execution.
+     *  
+     * @param {String} name [optional] name
+     * 
      * @category Timer
      * @class  tooly.Timer
      * @constructor

@@ -1,7 +1,3 @@
-//    +------------+
-//    | DOM MODULE |
-//    +------------+    
-
     /**
      * wrapper for HTML5 `querySelector`
      * 
@@ -112,8 +108,8 @@
     /**
      * add a css class to element
      * 
-     * @param  {Object|Array[Element]|String} element  the node, array of nodes, or valid css selector
-     * @param {String|Array[String]} klass the css class(es) to add
+     * @param  {Object|Array<Element>|String} element  the node, array of nodes, or valid css selector
+     * @param {String|Array<String>} klass the css class(es) to add
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
@@ -280,15 +276,18 @@
 
     /**
      * @example
+     * ```js
      * // as key val pair (key must also be a string)
      * var el = tooly.select('#main');
      * tooly.css(el, 'background', 'red');
+     * 
      * // or as hash (notice that hyphenated keys must be quoted)<br>
      * tooly.css(el, {width: '100px', background: 'red', 'font-size': '24px'});
      *
      * // also can take valid css selector string in place of element
      * // below will match the document's first div
      * tooly.css('div', 'border', '2px solid red');
+     * ```
      * 
      * @param  {Element|String}  el     the dom element or valid selector string
      * @param  {String|Object}  styles  either a single comma separated key value pair of strings,
@@ -340,8 +339,6 @@
     },
 
     /**
-     * UNDER CONSTRUCTION
-     * 
      * get or set a(n) html attribute(s)
      * 
      * @param  {Element|String|Frankie} element the element
@@ -417,6 +414,7 @@
      * 
      * Another usage example:
      * @example
+     * ```js
      * // alias the Frankie namespace
      * var $ = tooly.Frankie.bind(this);
      * var $divs = $(divs);
@@ -430,6 +428,7 @@
      *   .prepend('<h1>---</h1>')
      *   .append('<h1>+++</h1>')
      *   .html('H T M L');
+     * ```
      *   
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)

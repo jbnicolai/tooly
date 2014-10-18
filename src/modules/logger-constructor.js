@@ -24,11 +24,12 @@
      * - browser
      *   + %s or %o can be used in place of 'string' or 'object'
      * 
-     * @example
+     * ## Example
      * ```js
      * var logger = new tooly.Logger(2, 'TEST_LOGGER');
      * logger.trace(logger); // will not output
      * ```
+     * 
      * All active loggers in the current context can be disabled, regardless of level,
      * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
      * logging at each loggers previous level.

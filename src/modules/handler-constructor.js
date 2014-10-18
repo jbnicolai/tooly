@@ -1,7 +1,3 @@
-//    +----------------+
-//    | HANDLER MODULE |
-//    +----------------+
-    
     /**
      * Constructor.
      * 
@@ -12,6 +8,7 @@
      * @class  Handler
      * @constructor
      * @category  Handler
+     * @memberOf  tooly
      */
     Handler: function(context) {
       if (!(this instanceof tooly.Handler)) {

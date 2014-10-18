@@ -123,10 +123,6 @@ var tooly = (function() {
 
   return {
 
-//    +------------+
-//    | DOM MODULE |
-//    +------------+    
-
     /**
      * wrapper for HTML5 `querySelector`
      * 
@@ -237,8 +233,8 @@ var tooly = (function() {
     /**
      * add a css class to element
      * 
-     * @param  {Object|Array[Element]|String} element  the node, array of nodes, or valid css selector
-     * @param {String|Array[String]} klass the css class(es) to add
+     * @param  {Object|Array<Element>|String} element  the node, array of nodes, or valid css selector
+     * @param {String|Array<String>} klass the css class(es) to add
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
@@ -405,15 +401,18 @@ var tooly = (function() {
 
     /**
      * @example
+     * ```js
      * // as key val pair (key must also be a string)
      * var el = tooly.select('#main');
      * tooly.css(el, 'background', 'red');
+     * 
      * // or as hash (notice that hyphenated keys must be quoted)<br>
      * tooly.css(el, {width: '100px', background: 'red', 'font-size': '24px'});
      *
      * // also can take valid css selector string in place of element
      * // below will match the document's first div
      * tooly.css('div', 'border', '2px solid red');
+     * ```
      * 
      * @param  {Element|String}  el     the dom element or valid selector string
      * @param  {String|Object}  styles  either a single comma separated key value pair of strings,
@@ -465,8 +464,6 @@ var tooly = (function() {
     },
 
     /**
-     * UNDER CONSTRUCTION
-     * 
      * get or set a(n) html attribute(s)
      * 
      * @param  {Element|String|Frankie} element the element
@@ -542,6 +539,7 @@ var tooly = (function() {
      * 
      * Another usage example:
      * @example
+     * ```js
      * // alias the Frankie namespace
      * var $ = tooly.Frankie.bind(this);
      * var $divs = $(divs);
@@ -555,6 +553,7 @@ var tooly = (function() {
      *   .prepend('<h1>---</h1>')
      *   .append('<h1>+++</h1>')
      *   .html('H T M L');
+     * ```
      *   
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)
@@ -573,10 +572,6 @@ var tooly = (function() {
     },
 
 
-//    +---------------+
-//    | OBJECT MODULE |
-//    +---------------+
-    
     /**
      * Port of underscore's each. Falls back to native forEach for Arrays when available.
      * The `iterator` argument takes the following signature for Arrays:
@@ -627,14 +622,13 @@ var tooly = (function() {
     },
 
     /**
-     * quick and dirty port of node.extend
-     * https://github.com/dreamerslab/node.extend
+     * quick and dirty port of [node.extend](https://github.com/dreamerslab/node.extend)
      * which is in turn a port of jQuery.extend, slightly modified for tooly compatibility.
      * Copyright 2011, John Resig
      * Dual licensed under the MIT or GPL Version 2 licenses.
      * http://jquery.org/license
      * 
-     * @see  http://api.jquery.com/jquery.extend/ for usage info
+     * @see  http://api.jquery.com/jquery.extend/
      * 
      * @memberOf  tooly
      * @category  Object
@@ -735,6 +729,7 @@ var tooly = (function() {
      * Also note that the child's constructor needs to call `parent.call(this)`
      *
      * @example
+     * ```js
      * function Parent() {}
      * Parent.prototype.b = 2;
      * function Child() { Parent.call(this); } // this is a must
@@ -742,6 +737,7 @@ var tooly = (function() {
      * var child = new Child();
      * console.log(child.a + child.b); //=> 3
      * // for a more practical example see the tooly.Handler documentation.
+     * ```
      * 
      * @param  {Function} parent
      * @param  {Function} child  
@@ -782,10 +778,6 @@ var tooly = (function() {
     },
 
 
-//    +------------+
-//    | XHR MODULE |
-//    +------------+
-//    
     /**
      * perform a get xhr request for JSON file
      * 
@@ -823,24 +815,23 @@ var tooly = (function() {
       req.reponseType = respType;
       req.onload = function() {
         if (req.readyState == 4) { // done
-          if (req.status == 200) success(req.response);
+          if (req.status == 200) {
+            success(respType === 'json' ? JSON.parse(req.response) : req.response);
+        }
         }
       };
       req.send();
     },
 
 
-//    +-------------+
-//    | CORE MODULE |
-//    +-------------+
 		/**
-		 * Function version of ECMAScript6 String.prototype.endsWith
+		 * Function version of ECMAScript6 `String.prototype.endsWith`.
 		 * 
 		 * @param  {String} str    the string to check
 		 * @param  {String} suffix the "endWith" we are seeking
 		 * @return {Boolean}       true if str ends with suffix
-		 * 
-		 * @see <a href="http://stackoverflow.com/a/2548133">stackoverflow thread</a>
+		 *
+		 * @see  http://stackoverflow.com/a/2548133
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -850,12 +841,18 @@ var tooly = (function() {
 		},
 
 		/**
-		 * Function version of String.format / sprintf
+		 * Function version of (C# style?) String.format
+		 * 
+		 * @example 
+		 * ```js
+		 * var formatted = tooly.format('{0}{1}', 'tooly', '.js')); 
+		 * formatted; //=> 'tooly.js'
+		 * ```
+		 * 
+		 * @param  {String} format
+		 * @return {String}
 		 * 
 		 * @see  http://stackoverflow.com/a/4673436/2416000
-		 * @param  {String} format
-		 * @return {String} 
-		 * 
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -868,10 +865,10 @@ var tooly = (function() {
 		},
 
 		/**
-		 * Utility method to convert milliseconds into human readable time format hh:mm:ss
+		 * Utility method to convert milliseconds into human readable time
 		 * 
-		 * @param  {Number} time - the time value in milliseconds
-		 * @return {String}      - human readable time
+		 * @param  {Number} time the time value in milliseconds
+		 * @return {String}      `time` formatted as hh:mm:ss
 		 * 
 		 * @memberOf tooly
 		 * @category core
@@ -879,27 +876,28 @@ var tooly = (function() {
 		 */
 		formatTime: function(time) {
 		  var h = Math.floor(time / 3600),
-			  m = Math.floor((time - (h * 3600)) / 60),
-			  s = Math.floor(time - (h * 3600) - (m * 60));
+			  	m = Math.floor((time - (h * 3600)) / 60),
+			  	s = Math.floor(time - (h * 3600) - (m * 60));
 		  if (h < 10) h = '0' + h;
 		  if (m < 10) m = '0' + m;
 		  if (s < 10) s = '0' + s;
 		  return h + ':' + m + ':' + s;
 		},
 
-	  // @see http://stackoverflow.com/a/14428340/2416000 (slightly modified to coerce string-numbers)
-	  // (and not fuck with native Number proto)
-	  
 		/**
 		 * Format money.
 		 * 
 		 * @example
 		 * ```js
-		 * var loot = '$' + tooly.formatMonet(10989.34); //=> "$10,989.00"
+		 * var loot = '$' + tooly.formatMoney(10989.34); 
+		 * loot //=> "$10,989.00"
 		 * ```
+		 * 
 		 * @param  {Number|String} n a number or numerical string
-		 * @return {String}   `n` formatted as money (comma separated every hundred)
-		 * @see http://stackoverflow.com/a/14428340/2416000 (slightly modified to coerce string-numbers)
+		 * @return {String}   `n` formatted as money (comma separated every three digits)
+		 * 
+		 * @see http://stackoverflow.com/a/14428340/2416000 
+		 * (slightly modified to coerce string-numbers)
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -912,12 +910,12 @@ var tooly = (function() {
 		},
 
 		/**
-		 * Function version of ECMAScript6 String.prototype.repeat without the silly
-		 * range error checks etc.
+		 * Function version of ECMAScript6 `String.prototype.repeat`
 		 * 
 		 * @param  {String} str   the string to repeat
 		 * @param  {Number} n     the number of times to repeat
 		 * @return {String}       the string repeated, or an empty string if n is 0
+		 * 
 		 * @memberOf tooly
 		 * @category core
 		 * @static
@@ -952,8 +950,8 @@ var tooly = (function() {
 		 *
 		 * @param {String}  url           the url or filepath
 		 * @param {Boolean} preSlash      keeps slash before relative part if true
-		 * @param {Boolean} trailingSlash keeps last slash after relative part if true.
-		 *                                note thatsliceRel does not add a trailing slash if it wasn't
+		 * @param {Boolean} trailingSlash keeps last slash after relative part if true,
+		 *                                though does not add a trailing slash if it wasn't
 		 *                                there to begin with
 		 * @return {String}                               
 		 * 
@@ -1012,7 +1010,7 @@ var tooly = (function() {
 		},
 
 		/**
-		 * Alpha-numeric sort.
+		 * Alpha-numeric sort by key (first level key only).
 		 * 
 		 * @param  {Array} arr the array to sort
 		 * @param  {String} key the key to sort by
@@ -1030,8 +1028,6 @@ var tooly = (function() {
 			a = String(as[key]).toLowerCase().match(rx);
 			b = String(bs[key]).toLowerCase().match(rx);
 			if (dsc) { // swap
-			  // http://stackoverflow.com/a/16201730/2416000
-			  // b = [a, a = b][0]; ;)
 			  t = a; a = b; b = t;
 			}
 			while (a.length && b.length) {
@@ -1042,20 +1038,12 @@ var tooly = (function() {
 					if (!rd.test(b1)) return -1;
 					if (a1 != b1) return a1-b1;
 				} else if (a1 != b1) {
-				  return a1> b1? 1: -1;
+				  return a1 > b1? 1: -1;
 				}
 			}
 			return a.length - b.length;
 		  });
 		},
-		// return arr.sort(function(a, b) {
-		//   a = a[key];
-		//   b = b[key];
-		//   if (isNaN(a) && isNaN(b)) return a > b ? -1 : a == b ? 0 : 1; // both are string
-		//   else if (isNaN(a)) return -1; // only a is a string
-		//   else if (isNaN(b)) return 1; // only b is a string
-		//   else return a-b; // both are num
-		// });
 
 		/**
 		 * A more useful alternative to the typeof operator.
@@ -1069,7 +1057,6 @@ var tooly = (function() {
 		 *                              true if `obj` is of class `klass`, false otherwise
 		 *
 		 * @alias type
-		 * 
 		 * @author Angus Croll
 		 * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
 		 * 
@@ -1123,10 +1110,6 @@ var tooly = (function() {
 		},
 
 
-//    +----------------+
-//    | HANDLER MODULE |
-//    +----------------+
-    
     /**
      * Constructor.
      * 
@@ -1137,6 +1120,7 @@ var tooly = (function() {
      * @class  Handler
      * @constructor
      * @category  Handler
+     * @memberOf  tooly
      */
     Handler: function(context) {
       if (!(this instanceof tooly.Handler)) {
@@ -1148,13 +1132,12 @@ var tooly = (function() {
     },
     
 
-//    +-------+
-//    | TIMER |
-//    +-------+
-
     /**
-     * Timer constructor. 
-     * @param {String} name optional name
+     * Timer class constructor. Contains various methods for timing
+     * of code execution.
+     *  
+     * @param {String} name [optional] name
+     * 
      * @category Timer
      * @class  tooly.Timer
      * @constructor
@@ -1196,11 +1179,12 @@ var tooly = (function() {
      * - browser
      *   + %s or %o can be used in place of 'string' or 'object'
      * 
-     * @example
+     * ## Example
      * ```js
      * var logger = new tooly.Logger(2, 'TEST_LOGGER');
      * logger.trace(logger); // will not output
      * ```
+     * 
      * All active loggers in the current context can be disabled, regardless of level,
      * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
      * logging at each loggers previous level.
