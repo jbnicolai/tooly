@@ -1294,8 +1294,7 @@ tooly.Frankie.prototype = {
    * @instance
    */
   hasClass: function(klass) {
-    tooly.hasClass(this.els, klass);
-    return this;
+    return tooly.hasClass(this.els, klass);
   },
 
   /**
@@ -1367,7 +1366,6 @@ tooly.Frankie.prototype = {
     var args = [this.els];
     [].push.apply(args, arguments);
     var ret = tooly.attr.apply(null, args);
-    console.log(tooly.toType(ret));
     // return (ret instanceof tooly) ? this : ret;
     return ret;
   }
