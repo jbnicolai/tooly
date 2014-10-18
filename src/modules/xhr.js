@@ -1,6 +1,7 @@
 //    +------------+
 //    | XHR MODULE |
 //    +------------+
+//    
     /**
      * perform a get xhr request for JSON file
      * 
@@ -9,6 +10,10 @@
      *                              if the request is successful. If so, success
      *                              takes a single data parameter (the response).
      * @param {Boolean}   async     defaults to true
+     *
+     * @memberOf tooly
+     * @category XHR
+     * @static
      */
     getJSON: function(jsonFile, success, async) {
       tooly.get(jsonFile, 'json', success, async);
@@ -23,6 +28,10 @@
      *                              if the request is successful. If so, success
      *                              takes a single data parameter (the response).
      * @param {Boolean}   async     defaults to true
+     *
+     * @memberOf tooly
+     * @category XHR
+     * @static
      */
     get: function(url, respType, success, async) {
       var req = new XMLHttpRequest();

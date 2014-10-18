@@ -38,7 +38,7 @@
      * @param {String} name  optional name to identify this instance. The name will preceed any
      *                       output message
      *
-     * @module Logger
+     * @category Logger
      * @class  Logger
      * @constructor
      * @memberOf  tooly

@@ -10,7 +10,7 @@
 		 * 
 		 * @see <a href="http://stackoverflow.com/a/2548133">stackoverflow thread</a>
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		endsWith: function(str, suffix) {
@@ -25,7 +25,7 @@
 		 * @return {String} 
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		format: function(format) {
@@ -42,7 +42,7 @@
 		 * @return {String}      - human readable time
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		formatTime: function(time) {
@@ -69,7 +69,7 @@
 		 * @return {String}   `n` formatted as money (comma separated every hundred)
 		 * @see http://stackoverflow.com/a/14428340/2416000 (slightly modified to coerce string-numbers)
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		formatMoney: function(n) {
@@ -87,7 +87,7 @@
 		 * @param  {Number} n     the number of times to repeat
 		 * @return {String}       the string repeated, or an empty string if n is 0
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		repeat: function(str, n) {
@@ -107,7 +107,7 @@
 		 * @return {Number}        the scaled number
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		scale: function(n, oldMin, oldMax, min, max) {
@@ -126,7 +126,7 @@
 		 * @return {String}                               
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		sliceRel: function(url, preSlash, trailingSlash) {
@@ -157,7 +157,7 @@
 		 * @return {String}
 		 *
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		extension: function(str) {
@@ -172,7 +172,7 @@
 		 * @return {String}     the copied string with file extension removed
 		 *
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		stripExtension: function(str) {
@@ -189,7 +189,7 @@
 		 * 
 		 * @see http://stackoverflow.com/questions/4373018/sort-array-of-numeric-alphabetical-elements-natural-sort
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		sort: function(arr, key, dsc) {
@@ -236,13 +236,13 @@
 		 * @return {String|Boolean} the type of object if only `obj` is passed or 
 		 *                              true if `obj` is of class `klass`, false otherwise
 		 *
-		 * @alias type, typeof
+		 * @alias type
 		 * 
 		 * @author Angus Croll
 		 * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		toType: function(obj, klass) {
@@ -254,11 +254,37 @@
 		  return _type(o, k); 
 		},
 
+		/**
+		 * left pad
+		 * 
+		 * @param  {String} v      the string to pad
+		 * @param  {Number} len    the length such that len - v = number of padding chars
+		 * @param  {String} symbol the symbol to use for padding, defaults to single white space
+		 * @return {String}        the left padded string
+		 *
+		 * @see  tooly#rpad
+		 * @memberOf tooly
+		 * @category core
+		 * @static
+		 */
 		lPad: function(v, len, symbol) {
 		  var n = len - v.length;
 		  return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
 		},
 
+		/**
+		 * right pad
+		 * 
+		 * @param  {String} v      the string to pad
+		 * @param  {Number} len    the length such that len - v = number of padding chars
+		 * @param  {String} symbol the symbol to use for padding, defaults to single white space
+		 * @return {String}        the right padded string
+		 *
+		 * @see tooly#lpad
+		 * @memberOf tooly
+		 * @category core
+		 * @static
+		 */
 		rPad: function(v, len, symbol) {
 		  var n = len - v.length;
 		  return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;

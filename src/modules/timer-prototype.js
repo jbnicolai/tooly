@@ -7,9 +7,9 @@ tooly.Timer.prototype = (function() {
     /**
      * Start the timer
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     start: function() { 
       _start = Date.now(); 
@@ -20,9 +20,9 @@ tooly.Timer.prototype = (function() {
      * 
      * @return {Number} the time elapsed in milliseconds
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     stop: function() { 
       _end = Date.now();
@@ -36,9 +36,9 @@ tooly.Timer.prototype = (function() {
      * 
      * @return {Number} the time elapsed in milliseconds
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     end: function() {
       this.stop();
@@ -49,9 +49,9 @@ tooly.Timer.prototype = (function() {
     /**
      * log results to the console
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     log: function() {
       console.log(this.name + ' ' + _elapsed);
@@ -74,9 +74,9 @@ tooly.Timer.prototype = (function() {
      *                         `offset` is the difference between the total time to run 
      *                         the iteration loop and the sum of all iteration times - basically
      *                         the loop and Timer overhead.
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @static
-     * @module Timer
+     * @category Timer
      */
     funkyTime: function(fn, n) {
       var tx = tooly.Timer(),

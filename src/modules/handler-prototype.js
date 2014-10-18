@@ -7,9 +7,8 @@ tooly.Handler.prototype = {
    * @param  {callback}   handler the handler that we be called by the named function
    * @return {Object} `this` for chaining
    * 
-   * @memberOf  Handler
+   * @memberOf  tooly.Handler
    * @instance
-   * @method
    */
   on: function(fn, handler) {
     if (this.handlers[fn] === undefined) {
@@ -22,8 +21,7 @@ tooly.Handler.prototype = {
   /**
    * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
    *
-   * @memberOf Handler
-   * @module  Handler
+   * @memberOf  tooly.Handler
    * @instance
    */
   removeAll: function() {
@@ -36,8 +34,7 @@ tooly.Handler.prototype = {
    * 
    * @param  {Function} fn the named function that executes handler(s)
    * 
-   * @memberOf Handler
-   * @module  Handler
+   * @memberOf  tooly.Handler
    * @instance
    * @alias #off
    */
@@ -69,9 +66,8 @@ tooly.Handler.prototype = {
    * @param  {(String|Object)} fn the name of the method to execute
    * @return {Object} `this` for chaining
    * 
-   * @memberOf  Handler
+   * @memberOf  tooly.Handler
    * @instance
-   * @method
    * @alias #exec #trigger
    */
   executeHandler: function(fn) {
@@ -85,7 +81,10 @@ tooly.Handler.prototype = {
 
   /**
    * alias for #executeHandler
+   * 
    * @ignore
+   * @memberOf  tooly.Handler
+   * @instance
    */
   trigger: function(fn) {
     return this.executeHandler(fn);
@@ -101,9 +100,8 @@ tooly.Handler.prototype = {
    * @param  {Object} handlers  collection of callback functions
    * @return {Object} `this` for chaining
    * 
-   * @memberOf  Handler
+   * @memberOf  tooly.Handler
    * @instance
-   * @method
    */
   registerCallbacks: function(callbacks) {
     var t = this, h = {};
@@ -119,8 +117,7 @@ tooly.Handler.prototype = {
 
   /**
    * @return {String}
-   * @memberOf Handler
-   * @module  Handler
+   * @memberOf  tooly.Handler
    * @instance
    */
   toString: function() { 

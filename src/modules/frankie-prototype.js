@@ -1,23 +1,34 @@
 tooly.Frankie.prototype = {
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   get: function(i) {
     return this.els[i];
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   eq: function(i) {
     // TODO: test parent vs document
     return new tooly.Frankie(this.els[i], this.parent());
   },
 
   /**
-   * Check if this Frankie's `el` member is populated
-   * 
-   * @return {Boolean} true if the el member is null, undefined, or empty
+   * @memberOf tooly.Frankie
+   * @instance
    */
   zilch: function() {
     return this.els.length === 0;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   parent: function() {
     var parents = tooly.parent(this.els),
         frankie = new tooly.Frankie();
@@ -27,6 +38,10 @@ tooly.Frankie.prototype = {
     return frankie;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   children: function() {
     var children = tooly.children(this.els),
         frankie = new tooly.Frankie();
@@ -36,31 +51,55 @@ tooly.Frankie.prototype = {
     return frankie;
   },  
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   hasClass: function(klass) {
     tooly.hasClass(this.els, klass);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   addClass: function(klass) {
     tooly.addClass(this.els, klass);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   removeClass: function(klass) {
     tooly.removeClass(this.els, klass);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   prepend: function(content) {
     tooly.prepend(this.els, content);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   append: function(content) {
     tooly.append(this.els, content);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   html: function(content) {
     // set
     if (content) {
@@ -71,6 +110,10 @@ tooly.Frankie.prototype = {
     return tooly.html(this.els[0]);
   },
   
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */  
   css: function() {
     var args = [this.els];
     [].push.apply(args, arguments);
@@ -78,6 +121,10 @@ tooly.Frankie.prototype = {
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   attr: function() {
     var args = [this.els];
     [].push.apply(args, arguments);

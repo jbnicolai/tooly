@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.4 (built: 2014-10-17)
+ * tooly - version 0.0.4 (built: 2014-10-18)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -135,9 +135,8 @@ var tooly = (function() {
      *                            defaults to document if blank 
      * @return {Element|null} the first matched element or null if no match
      * 
-     * @alias sel
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     select: function(selector, context) {
@@ -153,7 +152,7 @@ var tooly = (function() {
      * @return {Array<Node>} an array of matched elements or an empty array if no match
      * 
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     selectAll: function(selector, context) {
@@ -169,7 +168,7 @@ var tooly = (function() {
      *                                 undefined if no parent is found
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     parent: function(elements) {
@@ -195,7 +194,7 @@ var tooly = (function() {
      * @return {Array<Element>|undefined} an array of child elements or undefined 
      *                                       if `elements` has no children
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     children: function(elements) {
@@ -218,7 +217,7 @@ var tooly = (function() {
      * @return {Boolean} true if `el` has `klass`
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     hasClass: function(element, klass) {
@@ -243,7 +242,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     addClass: function(element, klass) {
@@ -266,7 +265,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     removeClass: function(element, klass) {
@@ -292,7 +291,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     prepend: function(element, html) {
@@ -316,7 +315,7 @@ var tooly = (function() {
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     append: function(element, html) {
@@ -340,7 +339,7 @@ var tooly = (function() {
      * @return {Object}         `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     empty: function(element) {
@@ -365,7 +364,7 @@ var tooly = (function() {
      * @return {String|Object} the first matched el's innerHTML of null when in get mode,
      *                             otherwise `tooly` for chaining
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     html: function(el, content) {
@@ -422,7 +421,7 @@ var tooly = (function() {
      * @return {Object} tooly for chaining
      * 
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     css: function(/*mixed*/) {
@@ -474,6 +473,10 @@ var tooly = (function() {
      * @param  {String} a  the attribute to get/set
      * @param  {String|Number|null} the value of the attribute `a` (set)
      * @return {Element|Object|String}
+     *
+     * @memberOf  tooly
+     * @category Dom
+     * @static
      */
     attr: function(/*mixed*/) {
       var el = _prepEl(arguments[0]), 
@@ -555,9 +558,9 @@ var tooly = (function() {
      *   
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)
-     * @constructor
      * @class Frankie
-     * @module  dom
+     * @constructor
+     * @category Dom
      * @memberOf  tooly
      * @static                    
      */
@@ -596,7 +599,7 @@ var tooly = (function() {
      * @return {Object|Array}          `obj`
      *
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static 
      */
     each: function(obj, iterator, context) {
@@ -609,7 +612,7 @@ var tooly = (function() {
      * @return {Object}
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static      
      */
     construct: function(ctor, args) {
@@ -634,7 +637,7 @@ var tooly = (function() {
      * @see  http://api.jquery.com/jquery.extend/ for usage info
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static
      */     
     extend: function() {
@@ -712,7 +715,7 @@ var tooly = (function() {
      * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static 
      */
     fromPrototype: function(prototype, object) {
@@ -745,7 +748,7 @@ var tooly = (function() {
      * @param  {Mixed} extend additional members to the Child's prototype 
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static
      */
     inherit: function(parent, child, extend) {
@@ -770,7 +773,7 @@ var tooly = (function() {
      * @author Enrico Marino (with minor edits)
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static
      */
     isHash: function(val) {
@@ -782,6 +785,7 @@ var tooly = (function() {
 //    +------------+
 //    | XHR MODULE |
 //    +------------+
+//    
     /**
      * perform a get xhr request for JSON file
      * 
@@ -790,6 +794,10 @@ var tooly = (function() {
      *                              if the request is successful. If so, success
      *                              takes a single data parameter (the response).
      * @param {Boolean}   async     defaults to true
+     *
+     * @memberOf tooly
+     * @category XHR
+     * @static
      */
     getJSON: function(jsonFile, success, async) {
       tooly.get(jsonFile, 'json', success, async);
@@ -804,6 +812,10 @@ var tooly = (function() {
      *                              if the request is successful. If so, success
      *                              takes a single data parameter (the response).
      * @param {Boolean}   async     defaults to true
+     *
+     * @memberOf tooly
+     * @category XHR
+     * @static
      */
     get: function(url, respType, success, async) {
       var req = new XMLHttpRequest();
@@ -830,7 +842,7 @@ var tooly = (function() {
 		 * 
 		 * @see <a href="http://stackoverflow.com/a/2548133">stackoverflow thread</a>
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		endsWith: function(str, suffix) {
@@ -845,7 +857,7 @@ var tooly = (function() {
 		 * @return {String} 
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		format: function(format) {
@@ -862,7 +874,7 @@ var tooly = (function() {
 		 * @return {String}      - human readable time
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		formatTime: function(time) {
@@ -889,7 +901,7 @@ var tooly = (function() {
 		 * @return {String}   `n` formatted as money (comma separated every hundred)
 		 * @see http://stackoverflow.com/a/14428340/2416000 (slightly modified to coerce string-numbers)
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		formatMoney: function(n) {
@@ -907,7 +919,7 @@ var tooly = (function() {
 		 * @param  {Number} n     the number of times to repeat
 		 * @return {String}       the string repeated, or an empty string if n is 0
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		repeat: function(str, n) {
@@ -927,7 +939,7 @@ var tooly = (function() {
 		 * @return {Number}        the scaled number
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		scale: function(n, oldMin, oldMax, min, max) {
@@ -946,7 +958,7 @@ var tooly = (function() {
 		 * @return {String}                               
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		sliceRel: function(url, preSlash, trailingSlash) {
@@ -977,7 +989,7 @@ var tooly = (function() {
 		 * @return {String}
 		 *
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		extension: function(str) {
@@ -992,7 +1004,7 @@ var tooly = (function() {
 		 * @return {String}     the copied string with file extension removed
 		 *
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		stripExtension: function(str) {
@@ -1009,7 +1021,7 @@ var tooly = (function() {
 		 * 
 		 * @see http://stackoverflow.com/questions/4373018/sort-array-of-numeric-alphabetical-elements-natural-sort
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		sort: function(arr, key, dsc) {
@@ -1056,13 +1068,13 @@ var tooly = (function() {
 		 * @return {String|Boolean} the type of object if only `obj` is passed or 
 		 *                              true if `obj` is of class `klass`, false otherwise
 		 *
-		 * @alias type, typeof
+		 * @alias type
 		 * 
 		 * @author Angus Croll
 		 * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
 		 * 
 		 * @memberOf tooly
-		 * @module core
+		 * @category core
 		 * @static
 		 */
 		toType: function(obj, klass) {
@@ -1074,11 +1086,37 @@ var tooly = (function() {
 		  return _type(o, k); 
 		},
 
+		/**
+		 * left pad
+		 * 
+		 * @param  {String} v      the string to pad
+		 * @param  {Number} len    the length such that len - v = number of padding chars
+		 * @param  {String} symbol the symbol to use for padding, defaults to single white space
+		 * @return {String}        the left padded string
+		 *
+		 * @see  tooly#rpad
+		 * @memberOf tooly
+		 * @category core
+		 * @static
+		 */
 		lPad: function(v, len, symbol) {
 		  var n = len - v.length;
 		  return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
 		},
 
+		/**
+		 * right pad
+		 * 
+		 * @param  {String} v      the string to pad
+		 * @param  {Number} len    the length such that len - v = number of padding chars
+		 * @param  {String} symbol the symbol to use for padding, defaults to single white space
+		 * @return {String}        the right padded string
+		 *
+		 * @see tooly#lpad
+		 * @memberOf tooly
+		 * @category core
+		 * @static
+		 */
 		rPad: function(v, len, symbol) {
 		  var n = len - v.length;
 		  return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;
@@ -1092,12 +1130,13 @@ var tooly = (function() {
     /**
      * Constructor.
      * 
-     * @class  Handler
-     * @constructor
      * @param {Object}  context   (optional) designates the owner of the `handlers` array that holds 
      *                            all callbacks. When blank the Handler instance uses its own internal
      *                            array. If you'd like to keep track of the handlers outside of the
      *                            instance, pass a context such that context.handlers is an array.
+     * @class  Handler
+     * @constructor
+     * @category  Handler
      */
     Handler: function(context) {
       if (!(this instanceof tooly.Handler)) {
@@ -1113,6 +1152,14 @@ var tooly = (function() {
 //    | TIMER |
 //    +-------+
 
+    /**
+     * Timer constructor. 
+     * @param {String} name optional name
+     * @category Timer
+     * @class  tooly.Timer
+     * @constructor
+     * @memberOf tooly
+     */
     Timer: function(name) {
       // enable instantiation without new
       if (!(this instanceof tooly.Timer)) {
@@ -1163,7 +1210,7 @@ var tooly = (function() {
      * @param {String} name  optional name to identify this instance. The name will preceed any
      *                       output message
      *
-     * @module Logger
+     * @category Logger
      * @class  Logger
      * @constructor
      * @memberOf  tooly
@@ -1191,24 +1238,35 @@ var tooly = (function() {
 
 tooly.Frankie.prototype = {
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   get: function(i) {
     return this.els[i];
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   eq: function(i) {
     // TODO: test parent vs document
     return new tooly.Frankie(this.els[i], this.parent());
   },
 
   /**
-   * Check if this Frankie's `el` member is populated
-   * 
-   * @return {Boolean} true if the el member is null, undefined, or empty
+   * @memberOf tooly.Frankie
+   * @instance
    */
   zilch: function() {
     return this.els.length === 0;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   parent: function() {
     var parents = tooly.parent(this.els),
         frankie = new tooly.Frankie();
@@ -1218,6 +1276,10 @@ tooly.Frankie.prototype = {
     return frankie;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   children: function() {
     var children = tooly.children(this.els),
         frankie = new tooly.Frankie();
@@ -1227,31 +1289,55 @@ tooly.Frankie.prototype = {
     return frankie;
   },  
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   hasClass: function(klass) {
     tooly.hasClass(this.els, klass);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   addClass: function(klass) {
     tooly.addClass(this.els, klass);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   removeClass: function(klass) {
     tooly.removeClass(this.els, klass);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   prepend: function(content) {
     tooly.prepend(this.els, content);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   append: function(content) {
     tooly.append(this.els, content);
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   html: function(content) {
     // set
     if (content) {
@@ -1262,6 +1348,10 @@ tooly.Frankie.prototype = {
     return tooly.html(this.els[0]);
   },
   
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */  
   css: function() {
     var args = [this.els];
     [].push.apply(args, arguments);
@@ -1269,6 +1359,10 @@ tooly.Frankie.prototype = {
     return this;
   },
 
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   attr: function() {
     var args = [this.els];
     [].push.apply(args, arguments);
@@ -1288,9 +1382,8 @@ tooly.Handler.prototype = {
    * @param  {callback}   handler the handler that we be called by the named function
    * @return {Object} `this` for chaining
    * 
-   * @memberOf  Handler
+   * @memberOf  tooly.Handler
    * @instance
-   * @method
    */
   on: function(fn, handler) {
     if (this.handlers[fn] === undefined) {
@@ -1303,8 +1396,7 @@ tooly.Handler.prototype = {
   /**
    * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
    *
-   * @memberOf Handler
-   * @module  Handler
+   * @memberOf  tooly.Handler
    * @instance
    */
   removeAll: function() {
@@ -1317,8 +1409,7 @@ tooly.Handler.prototype = {
    * 
    * @param  {Function} fn the named function that executes handler(s)
    * 
-   * @memberOf Handler
-   * @module  Handler
+   * @memberOf  tooly.Handler
    * @instance
    * @alias #off
    */
@@ -1350,9 +1441,8 @@ tooly.Handler.prototype = {
    * @param  {(String|Object)} fn the name of the method to execute
    * @return {Object} `this` for chaining
    * 
-   * @memberOf  Handler
+   * @memberOf  tooly.Handler
    * @instance
-   * @method
    * @alias #exec #trigger
    */
   executeHandler: function(fn) {
@@ -1366,7 +1456,10 @@ tooly.Handler.prototype = {
 
   /**
    * alias for #executeHandler
+   * 
    * @ignore
+   * @memberOf  tooly.Handler
+   * @instance
    */
   trigger: function(fn) {
     return this.executeHandler(fn);
@@ -1382,9 +1475,8 @@ tooly.Handler.prototype = {
    * @param  {Object} handlers  collection of callback functions
    * @return {Object} `this` for chaining
    * 
-   * @memberOf  Handler
+   * @memberOf  tooly.Handler
    * @instance
-   * @method
    */
   registerCallbacks: function(callbacks) {
     var t = this, h = {};
@@ -1400,8 +1492,7 @@ tooly.Handler.prototype = {
 
   /**
    * @return {String}
-   * @memberOf Handler
-   * @module  Handler
+   * @memberOf  tooly.Handler
    * @instance
    */
   toString: function() { 
@@ -1419,9 +1510,9 @@ tooly.Timer.prototype = (function() {
     /**
      * Start the timer
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     start: function() { 
       _start = Date.now(); 
@@ -1432,9 +1523,9 @@ tooly.Timer.prototype = (function() {
      * 
      * @return {Number} the time elapsed in milliseconds
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     stop: function() { 
       _end = Date.now();
@@ -1448,9 +1539,9 @@ tooly.Timer.prototype = (function() {
      * 
      * @return {Number} the time elapsed in milliseconds
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     end: function() {
       this.stop();
@@ -1461,9 +1552,9 @@ tooly.Timer.prototype = (function() {
     /**
      * log results to the console
      *
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @instance
-     * @module Timer
+     * @category Timer
      */
     log: function() {
       console.log(this.name + ' ' + _elapsed);
@@ -1486,9 +1577,9 @@ tooly.Timer.prototype = (function() {
      *                         `offset` is the difference between the total time to run 
      *                         the iteration loop and the sum of all iteration times - basically
      *                         the loop and Timer overhead.
-     * @memberOf  Timer
+     * @memberOf  tooly.Timer
      * @static
-     * @module Timer
+     * @category Timer
      */
     funkyTime: function(fn, n) {
       var tx = tooly.Timer(),

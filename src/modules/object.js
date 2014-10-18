@@ -24,7 +24,7 @@
      * @return {Object|Array}          `obj`
      *
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static 
      */
     each: function(obj, iterator, context) {
@@ -37,7 +37,7 @@
      * @return {Object}
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static      
      */
     construct: function(ctor, args) {
@@ -62,7 +62,7 @@
      * @see  http://api.jquery.com/jquery.extend/ for usage info
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static
      */     
     extend: function() {
@@ -140,7 +140,7 @@
      * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static 
      */
     fromPrototype: function(prototype, object) {
@@ -173,7 +173,7 @@
      * @param  {Mixed} extend additional members to the Child's prototype 
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static
      */
     inherit: function(parent, child, extend) {
@@ -198,7 +198,7 @@
      * @author Enrico Marino (with minor edits)
      * 
      * @memberOf  tooly
-     * @module  object
+     * @category  Object
      * @static
      */
     isHash: function(val) {

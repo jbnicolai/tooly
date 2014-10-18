@@ -10,9 +10,8 @@
      *                            defaults to document if blank 
      * @return {Element|null} the first matched element or null if no match
      * 
-     * @alias sel
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     select: function(selector, context) {
@@ -28,7 +27,7 @@
      * @return {Array<Node>} an array of matched elements or an empty array if no match
      * 
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     selectAll: function(selector, context) {
@@ -44,7 +43,7 @@
      *                                 undefined if no parent is found
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     parent: function(elements) {
@@ -70,7 +69,7 @@
      * @return {Array<Element>|undefined} an array of child elements or undefined 
      *                                       if `elements` has no children
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     children: function(elements) {
@@ -93,7 +92,7 @@
      * @return {Boolean} true if `el` has `klass`
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     hasClass: function(element, klass) {
@@ -118,7 +117,7 @@
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     addClass: function(element, klass) {
@@ -141,7 +140,7 @@
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     removeClass: function(element, klass) {
@@ -167,7 +166,7 @@
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     prepend: function(element, html) {
@@ -191,7 +190,7 @@
      * @return {Object} `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     append: function(element, html) {
@@ -215,7 +214,7 @@
      * @return {Object}         `tooly` for chaining
      *
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     empty: function(element) {
@@ -240,7 +239,7 @@
      * @return {String|Object} the first matched el's innerHTML of null when in get mode,
      *                             otherwise `tooly` for chaining
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     html: function(el, content) {
@@ -297,7 +296,7 @@
      * @return {Object} tooly for chaining
      * 
      * @memberOf  tooly
-     * @module  dom
+     * @category Dom
      * @static
      */
     css: function(/*mixed*/) {
@@ -349,6 +348,10 @@
      * @param  {String} a  the attribute to get/set
      * @param  {String|Number|null} the value of the attribute `a` (set)
      * @return {Element|Object|String}
+     *
+     * @memberOf  tooly
+     * @category Dom
+     * @static
      */
     attr: function(/*mixed*/) {
       var el = _prepEl(arguments[0]), 
@@ -430,9 +433,9 @@
      *   
      * @param {Element} el valid css selector string, can contain multiple 
      *                     selectors separated my commas (see the example)
-     * @constructor
      * @class Frankie
-     * @module  dom
+     * @constructor
+     * @category Dom
      * @memberOf  tooly
      * @static                    
      */
