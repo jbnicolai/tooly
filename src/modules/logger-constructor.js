@@ -40,7 +40,7 @@
      *                       output message
      *
      * @category Logger
-     * @class  Logger
+     * @class  tooly.Logger
      * @constructor
      * @memberOf  tooly
      * @static
