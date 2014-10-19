@@ -60,22 +60,40 @@ tooly.Timer.prototype = (function() {
     /**
      * "funkyTime" - think "Function Execution Time".
      * Get the total, individual, and average execution times of `fn` called `n` times.
-     * funkyTime is a static method, which can be invoked from a Timer instance,
-     * or simply bound for convenience - use:
+     * `funkyTime`, though technically is an instance method, can be invoked statically -
+     * best bound for convenience - use:
      * `var funkyTime = tooly.Timer.prototype.funkyTime.bind(this);`
+     *
+     * @example
+     * ```js
+     * // setup code
+     * var data = [], i = 0, n = 99000;
+     * for (; i < n; i++) data.push(Math.random()*(1/3));
+     *
+     * // run a sort five times
+     * var results = funkyTime(function() {
+     *   var rndm = data.sort();
+     * }, 5);
+     *
+     * results;
+     * // returns something like:
+     * // { stack: [ 692, 720, 730, 722, 735 ],
+     * //   total: 735,
+     * //   average: 147,
+     * //   offset: 15.2 }
+     * ```
      * 
      * @param  {Function} fn the function that will be timed  
      * @param  {number}   n  the number of times to run the function (defaults to 1)  
      * @return {Object}      a hash of timing results with the following signature:
-     *                       { stack: <Array[Number]>, // the time of each iteration 
-     *                         total: <Number>, // the total of all iterations
-     *                         average: <Number>, // the average of all iterations
-     *                         offset: <Number> }
-     *                         `offset` is the difference between the total time to run 
-     *                         the iteration loop and the sum of all iteration times - basically
-     *                         the loop and Timer overhead.
+     * + stack <Array[Number]>: the time of each iteration 
+     * + total <Number>: the total of all iterations
+     * + average <Number>: the average of all iterations
+     * + offset <Number>: the difference between the total time to run 
+     * the iteration loop and the sum of all iteration times - basically
+     * the loop and Timer overhead.
      * @memberOf  tooly.Timer
-     * @static
+     * @instance
      * @category Timer
      */
     funkyTime: function(fn, n) {

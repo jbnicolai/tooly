@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.4 (built: 2014-10-18)
+ * tooly - version 0.0.4 (built: 2014-10-19)
  * js utility functions
  * https://github.com/Lokua/tooly.git
  * Copyright (c) 2014 Joshua Kleckner
@@ -173,11 +173,7 @@ var tooly = (function() {
       if (_node(el)) {
         return el.parentNode;
       } else if (_type(el, 'array')) {
-        return _sortUnique(
-          el.map(function(l) { 
-            return l.parentNode; 
-          })
-        );
+        return _sortUnique(el.map(function(l) { return l.parentNode; }));
       }
       return;
     },
@@ -198,9 +194,7 @@ var tooly = (function() {
       if (_node(el)) {
         return el.children;
       } else if (_type(el, 'array')) {
-        return el.map(function(l) {
-          return l.children;
-        });
+        return el.map(function(l) { return l.children; });
       }
       return;
     },    
@@ -223,8 +217,8 @@ var tooly = (function() {
       }
       if (_type(el, 'array')) {
         var re = _classReg(klass);
-        return el.some(function(l, i, r) {
-          return _hasClass(r[i], klass, re);
+        return el.some(function(l, i, r) { 
+          return _hasClass(r[i], klass, re); 
         });
       }
       return false;
@@ -246,9 +240,7 @@ var tooly = (function() {
       if (_node(el)) {
         _addToClassName(el, klass);
       } else if (_type(el, 'array')) {
-        el.forEach(function(el) { 
-          _addToClassName(el, klass); 
-        });
+        el.forEach(function(el) { _addToClassName(el, klass); });
       }
       return tooly;
     },
@@ -817,7 +809,7 @@ var tooly = (function() {
         if (req.readyState == 4) { // done
           if (req.status == 200) {
             success(respType === 'json' ? JSON.parse(req.response) : req.response);
-        }
+          }
         }
       };
       req.send();
@@ -860,7 +852,7 @@ var tooly = (function() {
 		format: function(format) {
 		  var args = Array.prototype.slice.call(arguments, 1);
 		  return format.replace(/{(\d+)}/g, function(match, number) { 
-			return typeof args[number] != 'undefined' ? args[number] : match;
+				return typeof args[number] != 'undefined' ? args[number] : match;
 		  });
 		},
 
@@ -905,7 +897,7 @@ var tooly = (function() {
 		formatMoney: function(n) {
 		  var number = tooly.type(n, 'number') ? n : +n;
 		  return number.toFixed(2).replace(/./g, function(c, i, a) {
-			return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
+				return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
 		  });
 		},
 
@@ -962,21 +954,17 @@ var tooly = (function() {
 		sliceRel: function(url, preSlash, trailingSlash) {
 		  var hasTrailing = false;
 		  if (url.slice(-1) === '/') {
-			hasTrailing = true;
-			// we slice off last '/' either way, to easily
-			// use lastIndexOf for last url string
-			url = url.slice(0,-1);
+				hasTrailing = true;
+				// we slice off last '/' either way, to easily
+				// use lastIndexOf for last url string
+				url = url.slice(0,-1);
 		  }
 		  // snatch last part
 		  url = url.slice(url.lastIndexOf('/') + 1);
 		  // only if url already had trailing will we add it back
 		  // when trailingSlash is true.
-		  if (hasTrailing && trailingSlash) { 
-			url = url.concat('/'); 
-		  }
-		  if (preSlash) { 
-			url = '/' + url;
-		  }
+		  if (hasTrailing && trailingSlash) url += '/'; 
+		  if (preSlash) url = '/' + url;
 		  return url;
 		},
 
@@ -1025,23 +1013,23 @@ var tooly = (function() {
 		sort: function(arr, key, dsc) {
 		  var a, b, a1, b1, t, rx = /(\d+)|(\D+)/g, rd = /\d+/;
 		  return arr.sort(function(as, bs) {
-			a = String(as[key]).toLowerCase().match(rx);
-			b = String(bs[key]).toLowerCase().match(rx);
-			if (dsc) { // swap
-			  t = a; a = b; b = t;
-			}
-			while (a.length && b.length) {
-				a1 = a.shift();
-				b1 = b.shift();
-				if (rd.test(a1) || rd.test(b1)) {
-					if (!rd.test(a1)) return 1;
-					if (!rd.test(b1)) return -1;
-					if (a1 != b1) return a1-b1;
-				} else if (a1 != b1) {
-				  return a1 > b1? 1: -1;
+				a = String(as[key]).toLowerCase().match(rx);
+				b = String(bs[key]).toLowerCase().match(rx);
+				if (dsc) { // swap
+				  t = a; a = b; b = t;
 				}
-			}
-			return a.length - b.length;
+				while (a.length && b.length) {
+					a1 = a.shift();
+					b1 = b.shift();
+					if (rd.test(a1) || rd.test(b1)) {
+						if (!rd.test(a1)) return 1;
+						if (!rd.test(b1)) return -1;
+						if (a1 != b1) return a1-b1;
+					} else if (a1 != b1) {
+					  return a1 > b1? 1: -1;
+					}
+				}
+				return a.length - b.length;
 		  });
 		},
 
@@ -1153,68 +1141,64 @@ var tooly = (function() {
     },
 
 
-//    +--------+
-//    | LOGGER |
-//    +--------+
-
-    /**
-     * Class constructor. Typical logging functionality that wraps around console.log
-     * with css coloring and level control. The Logger level hierarchy is as follows:
-     *
-     * - -1: off
-     * - 0: log (no difference from console.log)
-     * - 1: trace
-     * - 2: debug
-     * - 3: info
-     * - 4: warn
-     * - 5: error
-     *
-     * Only calls that are greater or equal to the current Logger.level will be run.
-     *
-     * ## Format
-     * Format strings follow the same usage as node.js or the web interface, depending
-     * on what environment you are in.
-     * - node
-     *   + %s, %j, and %d can be used for 'string', 'json', or 'number'
-     * - browser
-     *   + %s or %o can be used in place of 'string' or 'object'
-     * 
-     * ## Example
-     * ```js
-     * var logger = new tooly.Logger(2, 'TEST_LOGGER');
-     * logger.trace(logger); // will not output
-     * ```
-     * 
-     * All active loggers in the current context can be disabled, regardless of level,
-     * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
-     * logging at each loggers previous level.
-     * 
-     * @param {Number} level set the level of this logger. Defaults to 2 (debug) if no
-     *                       arguments are passed.
-     * @param {String} name  optional name to identify this instance. The name will preceed any
-     *                       output message
-     *
-     * @category Logger
-     * @class  Logger
-     * @constructor
-     * @memberOf  tooly
-     * @static
-     */
-    Logger: function(level, name) {
-      var logger = this;
-      tooly.Logger.loggers = tooly.Logger.loggers || [];
-      // enable instantiation without new
-      if (!(logger instanceof tooly.Logger)) {
-        logger = new tooly.Logger(level, name);
-        tooly.Logger.loggers.push(logger);
-      }
-      logger.level = (level !== undefined) ? level : 2;
-      if (name) logger.name = name;
-      // automatically set this false as its only 
-      // for emergency "must track anonymous function location" purposes
-      logger.traceAnonymous = false;
-      return logger;
-    },
+		/**
+		 * Class constructor. Typical logging functionality that wraps around console.log
+		 * with css coloring and level control. The Logger level hierarchy is as follows:
+		 *
+		 * - -1: off
+		 * - 0: log (no difference from console.log)
+		 * - 1: trace
+		 * - 2: debug
+		 * - 3: info
+		 * - 4: warn
+		 * - 5: error
+		 *
+		 * Only calls that are greater or equal to the current Logger.level will be run.
+		 *
+		 * ## Format
+		 * Format strings follow the same usage as node.js or the web interface, depending
+		 * on what environment you are in.
+		 * - node
+		 *   + %s, %j, and %d can be used for 'string', 'json', or 'number'
+		 * - browser
+		 *   + %s or %o can be used in place of 'string' or 'object'
+		 * 
+		 * ## Example
+		 * ```js
+		 * var logger = new tooly.Logger(2, 'TEST_LOGGER');
+		 * logger.trace(logger); // will not output
+		 * ```
+		 * 
+		 * All active loggers in the current context can be disabled, regardless of level,
+		 * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
+		 * logging at each loggers previous level.
+		 * 
+		 * @param {Number} level set the level of this logger. Defaults to 2 (debug) if no
+		 *                       arguments are passed.
+		 * @param {String} name  optional name to identify this instance. The name will preceed any
+		 *                       output message
+		 *
+		 * @category Logger
+		 * @class  Logger
+		 * @constructor
+		 * @memberOf  tooly
+		 * @static
+		 */
+		Logger: function(level, name) {
+		  var logger = this;
+		  tooly.Logger.loggers = tooly.Logger.loggers || [];
+		  // enable instantiation without new
+		  if (!(logger instanceof tooly.Logger)) {
+				logger = new tooly.Logger(level, name);
+				tooly.Logger.loggers.push(logger);
+		  }
+		  logger.level = (level !== undefined) ? level : 2;
+		  if (name) logger.name = name;
+		  // automatically set this false as its only 
+		  // for emergency "must track anonymous function location" purposes
+		  logger.traceAnonymous = false;
+		  return logger;
+		},
 
 
   };
@@ -1545,22 +1529,40 @@ tooly.Timer.prototype = (function() {
     /**
      * "funkyTime" - think "Function Execution Time".
      * Get the total, individual, and average execution times of `fn` called `n` times.
-     * funkyTime is a static method, which can be invoked from a Timer instance,
-     * or simply bound for convenience - use:
+     * `funkyTime`, though technically is an instance method, can be invoked statically -
+     * best bound for convenience - use:
      * `var funkyTime = tooly.Timer.prototype.funkyTime.bind(this);`
+     *
+     * @example
+     * ```js
+     * // setup code
+     * var data = [], i = 0, n = 99000;
+     * for (; i < n; i++) data.push(Math.random()*(1/3));
+     *
+     * // run a sort five times
+     * var results = funkyTime(function() {
+     *   var rndm = data.sort();
+     * }, 5);
+     *
+     * results;
+     * // returns something like:
+     * // { stack: [ 692, 720, 730, 722, 735 ],
+     * //   total: 735,
+     * //   average: 147,
+     * //   offset: 15.2 }
+     * ```
      * 
      * @param  {Function} fn the function that will be timed  
      * @param  {number}   n  the number of times to run the function (defaults to 1)  
      * @return {Object}      a hash of timing results with the following signature:
-     *                       { stack: <Array[Number]>, // the time of each iteration 
-     *                         total: <Number>, // the total of all iterations
-     *                         average: <Number>, // the average of all iterations
-     *                         offset: <Number> }
-     *                         `offset` is the difference between the total time to run 
-     *                         the iteration loop and the sum of all iteration times - basically
-     *                         the loop and Timer overhead.
+     * + stack <Array[Number]>: the time of each iteration 
+     * + total <Number>: the total of all iterations
+     * + average <Number>: the average of all iterations
+     * + offset <Number>: the difference between the total time to run 
+     * the iteration loop and the sum of all iteration times - basically
+     * the loop and Timer overhead.
      * @memberOf  tooly.Timer
-     * @static
+     * @instance
      * @category Timer
      */
     funkyTime: function(fn, n) {
@@ -1590,6 +1592,7 @@ tooly.Timer.prototype = (function() {
     }
   }
 })();
+
 
 tooly.Logger.prototype = (function() {
 

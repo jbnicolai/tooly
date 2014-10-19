@@ -48,11 +48,7 @@
       if (_node(el)) {
         return el.parentNode;
       } else if (_type(el, 'array')) {
-        return _sortUnique(
-          el.map(function(l) { 
-            return l.parentNode; 
-          })
-        );
+        return _sortUnique(el.map(function(l) { return l.parentNode; }));
       }
       return;
     },
@@ -73,9 +69,7 @@
       if (_node(el)) {
         return el.children;
       } else if (_type(el, 'array')) {
-        return el.map(function(l) {
-          return l.children;
-        });
+        return el.map(function(l) { return l.children; });
       }
       return;
     },    
@@ -98,8 +92,8 @@
       }
       if (_type(el, 'array')) {
         var re = _classReg(klass);
-        return el.some(function(l, i, r) {
-          return _hasClass(r[i], klass, re);
+        return el.some(function(l, i, r) { 
+          return _hasClass(r[i], klass, re); 
         });
       }
       return false;
@@ -121,9 +115,7 @@
       if (_node(el)) {
         _addToClassName(el, klass);
       } else if (_type(el, 'array')) {
-        el.forEach(function(el) { 
-          _addToClassName(el, klass); 
-        });
+        el.forEach(function(el) { _addToClassName(el, klass); });
       }
       return tooly;
     },

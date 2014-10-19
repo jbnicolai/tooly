@@ -37,7 +37,7 @@
         if (req.readyState == 4) { // done
           if (req.status == 200) {
             success(respType === 'json' ? JSON.parse(req.response) : req.response);
-        }
+          }
         }
       };
       req.send();

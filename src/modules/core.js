@@ -34,7 +34,7 @@
 		format: function(format) {
 		  var args = Array.prototype.slice.call(arguments, 1);
 		  return format.replace(/{(\d+)}/g, function(match, number) { 
-			return typeof args[number] != 'undefined' ? args[number] : match;
+				return typeof args[number] != 'undefined' ? args[number] : match;
 		  });
 		},
 
@@ -79,7 +79,7 @@
 		formatMoney: function(n) {
 		  var number = tooly.type(n, 'number') ? n : +n;
 		  return number.toFixed(2).replace(/./g, function(c, i, a) {
-			return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
+				return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
 		  });
 		},
 
@@ -136,21 +136,17 @@
 		sliceRel: function(url, preSlash, trailingSlash) {
 		  var hasTrailing = false;
 		  if (url.slice(-1) === '/') {
-			hasTrailing = true;
-			// we slice off last '/' either way, to easily
-			// use lastIndexOf for last url string
-			url = url.slice(0,-1);
+				hasTrailing = true;
+				// we slice off last '/' either way, to easily
+				// use lastIndexOf for last url string
+				url = url.slice(0,-1);
 		  }
 		  // snatch last part
 		  url = url.slice(url.lastIndexOf('/') + 1);
 		  // only if url already had trailing will we add it back
 		  // when trailingSlash is true.
-		  if (hasTrailing && trailingSlash) { 
-			url = url.concat('/'); 
-		  }
-		  if (preSlash) { 
-			url = '/' + url;
-		  }
+		  if (hasTrailing && trailingSlash) url += '/'; 
+		  if (preSlash) url = '/' + url;
 		  return url;
 		},
 
@@ -199,23 +195,23 @@
 		sort: function(arr, key, dsc) {
 		  var a, b, a1, b1, t, rx = /(\d+)|(\D+)/g, rd = /\d+/;
 		  return arr.sort(function(as, bs) {
-			a = String(as[key]).toLowerCase().match(rx);
-			b = String(bs[key]).toLowerCase().match(rx);
-			if (dsc) { // swap
-			  t = a; a = b; b = t;
-			}
-			while (a.length && b.length) {
-				a1 = a.shift();
-				b1 = b.shift();
-				if (rd.test(a1) || rd.test(b1)) {
-					if (!rd.test(a1)) return 1;
-					if (!rd.test(b1)) return -1;
-					if (a1 != b1) return a1-b1;
-				} else if (a1 != b1) {
-				  return a1 > b1? 1: -1;
+				a = String(as[key]).toLowerCase().match(rx);
+				b = String(bs[key]).toLowerCase().match(rx);
+				if (dsc) { // swap
+				  t = a; a = b; b = t;
 				}
-			}
-			return a.length - b.length;
+				while (a.length && b.length) {
+					a1 = a.shift();
+					b1 = b.shift();
+					if (rd.test(a1) || rd.test(b1)) {
+						if (!rd.test(a1)) return 1;
+						if (!rd.test(b1)) return -1;
+						if (a1 != b1) return a1-b1;
+					} else if (a1 != b1) {
+					  return a1 > b1? 1: -1;
+					}
+				}
+				return a.length - b.length;
 		  });
 		},
 
