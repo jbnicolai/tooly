@@ -1,4 +1,7 @@
-
+//    +------+
+//    | CORE |
+//    +------+
+ 
 		/**
 		 * Function version of ECMAScript6 `String.prototype.endsWith`.
 		 * 

@@ -1,3 +1,6 @@
+//    +--------+
+//    | OBJECT |
+//    +--------+
     
     /**
      * Port of underscore's each. Falls back to native forEach for Arrays when available.

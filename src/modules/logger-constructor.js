@@ -1,3 +1,6 @@
+//    +--------+
+//    | LOGGER |
+//    +--------+
 		
 		/**
 		 * Class constructor. Typical logging functionality that wraps around console.log

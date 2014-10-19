@@ -123,6 +123,9 @@ var tooly = (function() {
 
   return {
 
+//    +-----+
+//    | DOM |
+//    +-----+
     
     /**
      * wrapper for HTML5 `querySelector`
@@ -565,6 +568,9 @@ var tooly = (function() {
     },
 
 
+//    +--------+
+//    | OBJECT |
+//    +--------+
     
     /**
      * Port of underscore's each. Falls back to native forEach for Arrays when available.
@@ -772,8 +778,12 @@ var tooly = (function() {
     },
 
 
+//    +-----+
+//    | XHR |
+//    +-----+
+
     /**
-     * perform a get xhr request for JSON file
+     * perform a `GET` xhr request for JSON file
      * 
      * @param  {String}   jsonFile  url
      * @param  {callback} success   function to operate on response data
@@ -790,7 +800,7 @@ var tooly = (function() {
     },
 
     /**
-     * perform a get xhr request
+     * perform a `GET` xhr request
      * 
      * @param  {String}   url       url to resource
      * @param  {String}   respType  the request responseType
@@ -818,7 +828,10 @@ var tooly = (function() {
     },
 
 
-
+//    +------+
+//    | CORE |
+//    +------+
+ 
 		/**
 		 * Function version of ECMAScript6 `String.prototype.endsWith`.
 		 * 
@@ -1101,6 +1114,10 @@ var tooly = (function() {
 		},
 
 
+//    +---------+
+//    | HANDLER |
+//    +---------+
+    
     /**
      * Constructor.
      * 
@@ -1123,6 +1140,10 @@ var tooly = (function() {
     },
     
 
+//    +-------+
+//    | TIMER |
+//    +-------+
+    
     /**
      * Timer class constructor. Contains various methods for timing
      * of code execution.
@@ -1144,6 +1165,9 @@ var tooly = (function() {
     },
 
 
+//    +--------+
+//    | LOGGER |
+//    +--------+
 		
 		/**
 		 * Class constructor. Typical logging functionality that wraps around console.log

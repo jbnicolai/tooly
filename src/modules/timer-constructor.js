@@ -1,3 +1,7 @@
+//    +-------+
+//    | TIMER |
+//    +-------+
+    
     /**
      * Timer class constructor. Contains various methods for timing
      * of code execution.

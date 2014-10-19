@@ -1,3 +1,6 @@
+//    +-----+
+//    | DOM |
+//    +-----+
     
     /**
      * wrapper for HTML5 `querySelector`

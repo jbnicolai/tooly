@@ -1,5 +1,9 @@
+//    +-----+
+//    | XHR |
+//    +-----+
+
     /**
-     * perform a get xhr request for JSON file
+     * perform a `GET` xhr request for JSON file
      * 
      * @param  {String}   jsonFile  url
      * @param  {callback} success   function to operate on response data
@@ -16,7 +20,7 @@
     },
 
     /**
-     * perform a get xhr request
+     * perform a `GET` xhr request
      * 
      * @param  {String}   url       url to resource
      * @param  {String}   respType  the request responseType
