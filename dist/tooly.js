@@ -123,6 +123,7 @@ var tooly = (function() {
 
   return {
 
+    
     /**
      * wrapper for HTML5 `querySelector`
      * 
@@ -564,6 +565,7 @@ var tooly = (function() {
     },
 
 
+    
     /**
      * Port of underscore's each. Falls back to native forEach for Arrays when available.
      * The `iterator` argument takes the following signature for Arrays:
@@ -814,6 +816,7 @@ var tooly = (function() {
       };
       req.send();
     },
+
 
 
 		/**
@@ -1141,6 +1144,7 @@ var tooly = (function() {
     },
 
 
+		
 		/**
 		 * Class constructor. Typical logging functionality that wraps around console.log
 		 * with css coloring and level control. The Logger level hierarchy is as follows:

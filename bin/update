@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-bin/main
+bin/main && bin/slim
 git add -A
 
 if [ "$1" != "" ]; then
