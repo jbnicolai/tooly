@@ -49,7 +49,7 @@ endsWith: function(str, suffix) {
 },
 
 /**
- * `printf` style string formatting.
+ * Minimal `printf` style string formatting.
  *
  * ### Usage
  * ```js
@@ -59,9 +59,10 @@ endsWith: function(str, suffix) {
  * //=> "object: {website:'lokua.net'}, float: 19.333"
  * ```
  * 
- * ### Supported tags 
+ * ### Supported specifiers 
  * + `%o` or `%j`: Object (JSON#stringified)
  * + `%d` of `%i`: Integer
+ * + `%f`        : Float
  * + `%s`        : String
  *   
  * @param  {String} format the format string
@@ -69,12 +70,18 @@ endsWith: function(str, suffix) {
  */
 format: function(format) {
   var args = Array.prototype.slice.call(arguments, 1);
-  return format.replace(/\%[ojdifs]+/gi, function(m, i) {
+  return format.replace(/\%[ojdifs]+/gi, function(m) {
     var x = args.shift();
     if (x !== undefined) {
-      if (m === '%o' || m === '%j') x = JSON.stringify(x);
-      if (m === '%d' || m === '%i') x = x | 0;
-      if (m === '%f') x = parseFloat(x);
+      switch(m) {
+        case '%o': // fallthrough
+        case '%j': x = JSON.stringify(x); break;
+        case '%d': // fallthrough
+        case '%i': x = x | 0; break;
+        case '%f': x = parseFloat(x); break;
+        case '%s': // fallthrough
+        default: break;
+      }      
       return x;
     }
     return m;
@@ -155,6 +162,58 @@ formatMoney: function(n) {
   return number.toFixed(2).replace(/./g, function(c, i, a) {
     return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
   });
+},
+
+/**
+ * Wrap a string with html tags, id, classes, and attributes with 
+ * very simple syntax. Void elements are accounted for.
+ * Warning: has not been tested extensively as of yet.
+ *
+ * ### Usage
+ * ```js
+ * var content = 'Hello World. Goodnight Universe.';
+ * var html = tooly.tagify('div #my-id .class-one .class-two data-mood="perculatory"', content);
+ * ```
+ * results in:
+ * ```html
+ * <div id="my-id" classes="class-one  class-two" data-mood="perculatory">
+ *   Hello World. Goodnight Universe.
+ * </div>
+ * ```
+ * 
+ * @param  {String} el   String of the format "<tag> [.class[...]] [#id] [attribute[...]]"
+ * @param  {String} content [optional] content to be place after the opening HTML tag
+ * @return {String}      String representation of HTML
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tagify: function(el, content) {
+  var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=["'].*["']|[.#-_a-z][-\w]+/gi,
+      void_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i,
+      matches = el.match(re),
+      el = matches.shift(),
+      classes = '', id = '', attrs = '',
+      closingTag; 
+  matches.forEach(function(m, i) {
+    var c = m.charAt(0);
+    if (c === '#') {
+      id += m.slice(1) + '"';
+    } else if (c === '.') {
+      classes += ' ' + m.slice(1) + ' ';
+    } else {
+      attrs += ' ' + m;
+    }
+  });
+  closingTag = void_re.test(el) ? '' : '</' + el + '>';
+  return [
+    '<', el,
+    id ? ' id="' + id : '',
+    classes? ' classes="' + classes.trim() + '" ' : '',
+    attrs ? attrs : '',
+    '>', content, closingTag
+  ].join('');
 },
 
 /**
