@@ -92,6 +92,10 @@ var tooly = (function() {
 
   var _ws = /\s+/;
 
+  /*!
+   * TODO: test against precompilation
+   * @see  https://blogs.oracle.com/greimer/entry/pre_compile_and_cache_yer
+   */
   function _classReg(str) {
     return new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
   }

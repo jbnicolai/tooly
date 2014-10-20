@@ -25,6 +25,13 @@ tooly.Logger.prototype = (function() {
         pargs = []; // final args for console call
 
     if (_cjs) {
+
+      // !!!
+      // TODO: 
+      // + support specs that browser console supports ie. %f and %i
+      // + precompile reg (and use [char class] instead of (or|ing))
+      // + replace match with RegExp.test
+      // !!!
       if (tooly.type(args[0], 'string') && args[0].match(/\%(s|j|d|o)/g)) {
         // let %o work in node too
         format += args.shift().replace(/%o/gi, '%j');
