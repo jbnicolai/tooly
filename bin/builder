@@ -1,93 +1,118 @@
 #!/usr/bin/env node
-var parser = require('nomnom'),
-    fs = require('fs'),
+var format = require('util').format,
+    parser = require('nomnom'),
     colors = require('colors'),
-    format = require('util').format,
-    moddir = './src/modules/',
-    fileNames = fs.readdirSync(moddir),
-    modules = {},   // { <file name sans `.js`> : <file contents> }
-    includes = {},  // flags which modules to include / exclude
-    output = '',    // final output string
-    choices = ['core', 'dom', 'handler', 'object', 'xhr', 'logger', 'timer'],
-    _ = require('lodash'),
     path = require('path'),
+    fs = require('fs'),
+    _ = require('lodash');
+    
+var __moddir = './src/modules/',
+    fileNames = fs.readdirSync(__moddir),
+    modules = {},   // { <file name sans `.js`> : <file contents> }
+    includes = {},  // flags which modules to include
+    output = '',    // final output string
+    choices = [
+      'dom', 
+      'object', 
+      'string', 
+      'collections', 
+      'xhr', 
+      'handler', 
+      'logger', 
+      'timer'
+    ],
     dest = './dist/tooly-custom.js',
     nocomment = false;
 
-console.log('\nRunning tooly builder...'.green);
+if (process.argv.slice(2).length) {
+  // build
+  main();
+}
 
-parser.option('output', {
-  abbr: 'o',
-  metavar: 'FILE',
-  default: dest,
-  help: 'specify output file',
-  callback: function(arg) {
-    dest = arg;
-  }
-});
+function main() {
+  console.log('\nRunning tooly builder...'.green);
+  parse();
+  map();
+  compile();
+  write();
+}
 
-parser.option('nocomment', {
-  abbr: 'n',
-  flag: true,
-  help: 'omit `custom build...` comment from output',
-  callback: function(arg) {
-    nocomment = arg;
-  }
-});
+function parse() {
+  parser.option('output', {
+    abbr: 'o',
+    metavar: 'FILE',
+    default: dest,
+    help: 'specify output file',
+    callback: function(arg) {
+      dest = arg;
+    }
+  });
+  parser.option('nocomment', {
+    abbr: 'n',
+    flag: true,
+    help: 'omit `custom build...` comment from output',
+    callback: function(arg) {
+      nocomment = arg;
+    }
+  });
+  parser.command('include')
+    .option('modules', {
+      abbr: 'm',
+      list: true,
+      choices: choices,
+      help: 'module(s) to include',
+    })
+    .callback(function(args) {
+      validate(args._.slice(1));
+      getIncludes(args._);
+    })
+    .help('include only a proceeding list of modules in the build.');
 
-parser.command('include')
-  .option('modules', {
-    abbr: 'm',
-    list: true,
-    choices: choices,
-    help: 'module(s) to include',
-  })
-  .callback(function(args) {
-    validate(args._.slice(1));
-    getIncludes(args._);
-  })
-  .help('include only a proceeding list of modules in the build.');
-
-parser.command('exclude')
-  .option('modules', {
-    abbr: 'm',
-    list: true,
-    choices: choices,
-    help: 'module(s) to exclude.'
-  })
-  .callback(function(args) {
-    args = args._.slice(1);
-    validate(args);
-    args.push('include');
-    getIncludes(args);
-  })
-  .help('build with all modules except those in a proceeding list.');
-
-parser.parse();
+  parser.parse();
+}
 
 function validate(args) {
-
   args.filter(function(el, i) {
     if (choices.indexOf(el) === -1) {
-
       console.error('\n%s%s\n%s%s',
         'Invalid argument: '.red,
         (el + '').cyan,
         'supported modules: ', 
         (choices.join(' ') + '').cyan
       );
-
       process.exit(1);
     }
   });
 }
 
+function startsWith(str, prefix) {
+  return str.substring(0, prefix.length) === prefix;
+}
 
-// map file contents to name keys
-for (var i = 0; i < fileNames.length; i++) {
-  var key = fileNames[i].replace('.js', '');
-  var val = fs.readFileSync(moddir + fileNames[i], 'utf8');
-  modules[key] = val;
+function endsWith(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function map() {
+  // map file contents to name keys
+  for (var i = 0; i < fileNames.length; i++) {
+
+    var key = fileNames[i].replace('.js', '');
+    var val = fs.readFileSync(__moddir + fileNames[i], 'utf8');
+
+    // add proper indentation to non-prototype category files
+    if (key !== '__header' && !endsWith(key, '_priv') && !endsWith(key, '-prototype')) {
+      val = val.split('\n').map(function(line, i) { 
+        // keep category headers at first column for visibility
+        if (startsWith(line, '//    +') || startsWith(line, '//    |')) {
+          return line;
+        }
+        return '    ' + line; 
+      }).join('');
+    }
+
+    modules[key] = val;
+  }
 }
 
 function getIncludes(args) {
@@ -97,66 +122,62 @@ function getIncludes(args) {
 }
 
 function includeWhat(key) {
-  if ((includes[key] && includes.include) || (!includes[key] && !includes.include)) {
-    return true;
+  return (includes[key] && includes.include);
+}
+
+function compile() {
+
+  var returnHeader = '\n  return {\n\n';
+
+  if (!nocomment) {
+    // compose a list of included modules for the output header
+    output += format('%s%s%s',
+
+      '\n/*!\n * CUSTOM BUILD.\n * Includes modules: ',
+
+      _.each(_.keys(_.omit(includes, 'include')), function(el, i, arr) {
+        arr[i] = format('`%s`%s', el, (i === arr.length-1) ? '' : ', ');
+      }).join(''),
+
+      '\n */\n\n'
+    );
   }
-  return false;
+
+  // start the declaration
+  output += modules['__header'];
+
+  // private modules
+  output += (includeWhat('dom')) ? modules['dom_priv'] : '';
+
+  // tooly.<method>
+  output += returnHeader;
+  output += (includeWhat('dom'))         ? modules['dom']         + '\n\n' : '';
+  output += (includeWhat('object'))      ? modules['object']      + '\n\n' : '';
+  output += (includeWhat('string'))      ? modules['string']      + '\n\n' : '';
+  output += (includeWhat('collections')) ? modules['collections'] + '\n\n' : '';
+  output += (includeWhat('xhr'))         ? modules['xhr']         + '\n\n' : '';
+  // tooly.<class>
+  output += (includeWhat('handler')) ? modules['handler'] + '\n\n' : '';
+  output += (includeWhat('timer'))   ? modules['timer']   + '\n\n' : '';  
+  output += (includeWhat('logger'))  ? modules['logger']  + '\n\n' : '';    
+
+  // close return statement and IIFE wrap
+  output += '  };\n})();\n\n'
+
+  // tooly.<class>.<prototype>
+  output += (includeWhat('dom'))     ? modules['frankie-prototype'] + '\n\n' : '';
+  output += (includeWhat('handler')) ? modules['handler-prototype'] + '\n\n' : '';
+  output += (includeWhat('timer'))   ? modules['timer-prototype']   + '\n\n' : '';  
+  output += (includeWhat('logger'))  ? modules['logger-prototype']  + '\n\n' : ''; 
+} 
+
+function write() {
+  fs.writeFile(dest, output, function() {
+    console.log('%s\n%s %s\n%s\n',
+      'Custom build completed successfully.'.green,
+      'File saved to:',
+      (path.resolve(__dirname, '..', dest)).cyan,
+      'Goodbye.'.green
+    );
+  });
 }
-
-var returnHeader = '\n  return {\n\n';
-
-if (!nocomment) {
-  // compose a list of included modules for the output header
-  var mess = format('%s%s%s%s',
-
-    '\n/*!\n * CUSTOM BUILD.\n',
-
-    (includes.include) ? ' * Includes ' : ' * Excludes ',
-
-    'modules: ' + 
-    _.each(_.keys(_.omit(includes, 'include')), function(el, i, arr) {
-      arr[i] = format('`%s`%s', el, (i === arr.length-1) ? '' : ', ');
-    }).join(''),
-
-    '\n */\n\n'
-  );
-  output += mess;
-}
-
-// start the declaration
-output += modules['__header'];
-
-// private modules
-output += (includeWhat('dom'))    ? modules['dom_priv']    : '';
-// output += (includeWhat('logger')) ? modules['logger_priv'] : '';
-
-// tooly.<method>
-output += returnHeader;
-output += (includeWhat('dom'))     ? modules['dom']     + '\n\n' : '';
-output += (includeWhat('object'))  ? modules['object']  + '\n\n' : '';
-output += (includeWhat('xhr'))     ? modules['xhr']     + '\n\n' : '';
-// output += (includeWhat('logger'))  ? modules['logger']  + '\n\n' : '';
-output += (includeWhat('core'))    ? modules['core']    + '\n\n' : '';
-
-// tooly.<class>
-output += (includeWhat('handler')) ? modules['handler-constructor'] + '\n\n' : '';
-output += (includeWhat('timer'))   ? modules['timer-constructor']   + '\n\n' : '';  
-output += (includeWhat('logger'))  ? modules['logger-constructor']  + '\n\n' : '';    
-
-// close return statement and IIFE wrap
-output += '  };\n})();\n\n'
-
-// tooly.<class>.<prototype>
-output += (includeWhat('dom'))     ? modules['frankie-prototype'] + '\n\n' : '';
-output += (includeWhat('handler')) ? modules['handler-prototype'] + '\n\n' : '';
-output += (includeWhat('timer'))   ? modules['timer-prototype']   + '\n\n' : '';  
-output += (includeWhat('logger'))  ? modules['logger-prototype']  + '\n\n' : '';  
-
-fs.writeFile(dest, output, function() {
-  console.log('%s\n%s %s\n%s\n',
-    'Custom build completed successfully.'.green,
-    'File saved to:',
-    (path.resolve(__dirname, '..', dest)).cyan,
-    'Goodbye.'.green
-  );
-});
