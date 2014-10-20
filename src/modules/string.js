@@ -169,16 +169,14 @@ formatMoney: function(n) {
  * very simple syntax. Void elements are accounted for.
  * Warning: has not been tested extensively as of yet.
  *
- * ### Usage
+ * ### Examples
  * ```js
- * var content = 'Hello World. Goodnight Universe.';
- * var html = tooly.tagify('div #my-id .class-one .class-two data-mood="perculatory"', content);
- * ```
- * results in:
- * ```html
- * <div id="my-id" classes="class-one  class-two" data-mood="perculatory">
- *   Hello World. Goodnight Universe.
- * </div>
+ * tooly.tagify('div #my-id .my-class data-mood="perculatory"', 'Hi');
+ * //=> "<div id="my-id" class="my-class" data-mood="perculatory">Hi</div>"
+ * 
+ * // nested:
+ * tooly.tagify('div', tooly.tagify('section', '!'));
+ * //=> "<div><section>!</section></div>"
  * ```
  * 
  * @param  {String} el   String of the format "<tag> [.class[...]] [#id] [attribute[...]]"
@@ -190,9 +188,11 @@ formatMoney: function(n) {
  * @static
  */
 tagify: function(el, content) {
-  var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=["'].*["']|[.#-_a-z][-\w]+/gi,
-      void_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i,
-      matches = el.match(re),
+  if (!_tagReg) {
+    _tagReg = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=(["'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi;
+    _voidElReg = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i; 
+  }
+  var matches = el.match(_tagReg),
       el = matches.shift(),
       classes = '', id = '', attrs = '',
       closingTag; 
@@ -206,7 +206,7 @@ tagify: function(el, content) {
       attrs += ' ' + m;
     }
   });
-  closingTag = void_re.test(el) ? '' : '</' + el + '>';
+  closingTag = _voidElReg.test(el) ? '' : '</' + el + '>';
   return [
     '<', el,
     id ? ' id="' + id : '',

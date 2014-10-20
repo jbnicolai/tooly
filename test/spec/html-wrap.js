@@ -4,7 +4,8 @@ var logger = tooly.Logger(0, 'STRING_FORMAT');
 var _type = tooly.type;
 
 function tagify(el, html) {
-  var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=["'].*["']|[.#-_a-z][-\w]+/gi,
+  // var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=["'].*["']|[.#-_a-z][-\w]+/gi,
+  var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=(["'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi,
       void_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i,
       matches = el.match(re),
       el = matches.shift(),
@@ -41,4 +42,4 @@ var content = 'Hello World. Goodnight Universe.';
 var html = tagify('div #my-id .class-one .class-two data-mood="perculatory"', content);
 logger.debug(html);
 
-
+logger.debug(tagify('div', tagify('section', '!')));

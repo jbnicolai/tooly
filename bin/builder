@@ -147,7 +147,8 @@ function compile() {
   output += modules['__header'];
 
   // private modules
-  output += (includeWhat('dom')) ? modules['dom_priv'] : '';
+  output += (includeWhat('dom'))    ? modules['dom_priv']    : '';
+  output += (includeWhat('string')) ? modules['string_priv'] : '';
 
   // tooly.<method>
   output += returnHeader;

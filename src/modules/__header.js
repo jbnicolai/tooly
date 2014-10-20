@@ -4,10 +4,11 @@
  */
 var tooly = (function() {
 
+  var _typeReg = /\s([a-z]+)/i;
+
   function _type(o, klass) {
-    o = ({}).toString.call(o).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
-    if (klass) return o === klass.toLowerCase();
-    return o;
+    o = ({}).toString.call(o).match(_typeReg)[1].toLowerCase();
+    return klass ? o === klass.toLowerCase() : o;
   }
 
   var _nativeForEach = Array.prototype.forEach;
