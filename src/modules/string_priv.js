@@ -1,2 +1,2 @@
   
-  var _tagReg = {}, _voidElReg = {};
+  var _tagReg, _voidElReg;

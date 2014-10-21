@@ -126,7 +126,7 @@ var tooly = (function() {
     return el;
   }
   
-  var _tagReg = {}, _voidElReg = {};
+  var _tagReg, _voidElReg;
 
   return {
 

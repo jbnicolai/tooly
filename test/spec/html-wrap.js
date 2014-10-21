@@ -1,10 +1,8 @@
 var tooly = require('../../dist/tooly');
-var logger = tooly.Logger(0, 'STRING_FORMAT');
+var _ = require('lodash');
+var logger = tooly.Logger(0, 'HTML_WRAP');
 
-var _type = tooly.type;
-
-function tagify(el, html) {
-  // var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=["'].*["']|[.#-_a-z][-\w]+/gi,
+function tagify(el, content) {
   var re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=(["'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi,
       void_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i,
       matches = el.match(re),
@@ -27,19 +25,56 @@ function tagify(el, html) {
     id ? ' id="' + id : '',
     classes? ' classes="' + classes.trim() + '" ' : '',
     attrs ? attrs : '',
-    '>', html, closingTag
+    '>', content, closingTag
   ].join('');
 }
 
-var html = tagify('div #my-id .my-class-1 .my-class-2 data-ref="ref with space"', 
-  'hello world');
-logger.debug('\n' + html);
+// var _re, _void_re;
+// 
+var _re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=(["'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi;
+var _void_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i;
 
-var img = tagify('img src="http://me.io/whatever.jpg"');
-logger.debug('\n' + img);
+function cached(el, content, test) {
+  // if (test && typeof test === 'function') test.call();
+  // if (!_re) {
+  //   _re = /(^[a-z]+)|[^\s]+[a-z]+(-\w+)?=(["'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi;
+  //   _void_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i;
+  // }
+  var matches = el.match(_re),
+      el = matches.shift(),
+      classes = '', id = '', attrs = '',
+      closingTag; 
+  matches.forEach(function(m, i) {
+    var c = m.charAt(0);
+    if (c === '#') {
+      id += m.slice(1) + '"';
+    } else if (c === '.') {
+      classes += ' ' + m.slice(1) + ' ';
+    } else {
+      attrs += ' ' + m;
+    }
+  });
+  closingTag = _void_re.test(el) ? '' : '</' + el + '>';
+  return [
+    '<', el,
+    id ? ' id="' + id : '',
+    classes? ' classes="' + classes.trim() + '" ' : '',
+    attrs ? attrs : '',
+    '>', content, closingTag
+  ].join('');
+}
 
-var content = 'Hello World. Goodnight Universe.';
-var html = tagify('div #my-id .class-one .class-two data-mood="perculatory"', content);
-logger.debug(html);
+_.times(5, function() {
 
-logger.debug(tagify('div', tagify('section', '!')));
+  var a = tooly.funkyTime(function(i) {
+    tagify('div', tagify('section', tagify('div .inner', 'hello world' + i*2)));
+  }, 299888);
+  
+  var b = tooly.funkyTime(function(i) {
+    cached('div', tagify('section', tagify('div .inner', 'hello world' + i*2)));
+  }, 299888);
+  
+  logger.debug('tagged' + ', ' + a.total);
+  logger.debug('cached' + ', ' + b.total);
+
+});
