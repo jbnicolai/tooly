@@ -1,30 +1,28 @@
-var tooly  = require('../dist/tooly.js'),
+var tooly  = require('../dist/tooly'),
     chai   = require('chai'),
     expect = chai.expect;
 
-chai.config.stackTrace = false;
-
 describe('tooly', function() {
 
-  describe('#endsWith()', function() {
+  describe('#endsWith', function() {
     expect(tooly.endsWith('lokua.net', 'a.net')).to.be.ok;
   });
 
-  describe('#format()', function() {
-    expect(tooly.format('{0}{1}', 'tooly', '.js')).to.equal('tooly.js');
+  describe('#stringFormat', function() {
+    expect(tooly.stringFormat('{0}{1}', 'tooly', '.js')).to.equal('tooly.js');
   });
 
   describe('#formatTime()', function() {
     expect(tooly.formatTime('3600')).to.equal('01:00:00');
   });
 
-  describe('#scale()', function() {
+  describe('#scale', function() {
     it('should scale 50 to 0.5', function() {
       expect(tooly.scale(50, 0, 100, 0, 1)).to.equal(0.5);
     });
   });
 
-  describe('- inheritance', function() {
+  describe('( inheritance test )', function() {
     it('should create a new "class" with inherited prototype', function() {
 
       function Parent() {

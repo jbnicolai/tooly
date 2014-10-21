@@ -1,4 +1,4 @@
-tooly.Timer.prototype = {
+_extend(tooly.Timer.prototype, {
   
   /**
    * Start the timer
@@ -52,4 +52,4 @@ tooly.Timer.prototype = {
   log: function() {
     console.log(this.name + ' ' + this.elapsed);
   }
-};
+});

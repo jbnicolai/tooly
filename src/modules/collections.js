@@ -32,7 +32,7 @@ each: function(obj, iterator, context) {
 },
 
 /**
- * Alpha-numeric sort by key (first level key only).
+ * Alpha-numeric sort by first level key.
  * 
  * @param  {Array} arr the array to sort
  * @param  {String} key the key to sort by
@@ -45,7 +45,11 @@ each: function(obj, iterator, context) {
  * @static
  */
 sort: function(arr, key, dsc) {
-  var a, b, a1, b1, t, rx = /(\d+)|(\D+)/g, rd = /\d+/;
+  var a, b, a1, b1, t;
+  if (!_sort_re) {
+    _sort_re = /(\d+)|(\D+)/g; 
+    _sort_dig_re = /\d+/;
+  }
   return arr.sort(function(as, bs) {
     a = String(as[key]).toLowerCase().match(rx);
     b = String(bs[key]).toLowerCase().match(rx);

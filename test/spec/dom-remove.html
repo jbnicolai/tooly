@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>#remove</title>
+  <link rel="stylesheet" type="text/css" href="../dom/style.css">
+  <script src="../../dist/tooly.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>#remove</h1>
+    <article>
+      <h2>Spec:</h2>
+      <ol>
+        <li>tooly.remove(el) shall remove all matched el(s) from the dom.</li>
+        <li>tooly.remove(context, el) shall remove all matched el(s) from context only.</li>
+        <li>#Frankie(el).remove() shall remove all of its els from dom and array.</li>
+        <li>#Frankie(context).remove(el) shall remove all matched el(s) from context only.</li>
+      </ol>
+      <aside>
+        In all above cases, el and context can be:
+        <ol>
+          <li>valid css selector string</li>
+          <li>node</li>
+          <li>nodelist (which will be converted to...</li>
+          <li>array of nodes</li>
+          <li>Frankie instance</li>
+        </ol>
+      </aside>
+    </article>
+    <nav>
+      <ul>
+        <li>list item #1</li>
+        <li>list item #2</li>
+        <li>list item #3</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="a z">.a .z</div>
+    <div class="b z">.b .z</div>
+    <div class="c z">.c .z</div>
+  </main>
+
+
+  <section>
+    <div class="x">1</div>
+    <div class="x">2</div>
+    <div class="x">3</div>
+    <div class="x">4</div>
+    <div class="x">5</div>
+    <div class="x">6</div>
+    <div class="x">7</div>
+  </section>
+
+  <footer></footer>
+<script type="text/javascript">
+
+  window.onload = run;
+
+  function run() {
+    var $ = tooly.Frankie.bind(this),
+        logger = tooly.Logger(0, 'TEST'),
+        _type = tooly.type.bind(this),
+        $footer = $('footer'),
+        debug = function(msg) { $footer.append('<br> &gt; ' + msg); };
+
+    function _toArray(obj) {
+      return [].map.call(obj, function(el) { return el; });
+    }        
+
+    function _node(el) {
+      return  el && (el.nodeType === 1 || el.nodeType === 9);
+    }
+
+    function _prepEl(el) {
+      if (el instanceof tooly.Frankie) {
+        return el.els;
+      } else if (_type(el, 'string')) {
+        return tooly.selectAll(el);
+      } else if (_type(el, 'nodelist')) {
+        return _toArray(el);
+      }
+      return el;
+    }        
+
+    function remove(element, context) {
+      var el = _prepEl(element);
+      function _remove(x) { 
+        if (x.parentNode) x.parentNode.removeChild(x); 
+      }
+      if (_node(el)) {
+        _remove(x) 
+        return tooly;
+      } 
+      el.forEach(function(x, i, a) {
+        _remove(x);
+      });
+      el.length = 0;
+
+      // if (!el) return;
+      // function _remove(x) { 
+      //   if (x.parentNode) x.parentNode.removeChild(x); 
+      // }
+      // if (el instanceof tooly.Frankie) {
+      //   el.els.forEach(function(x, i, arr) {
+      //     _remove(x);
+      //     arr.splice(i, 1);
+      //   });
+      // }
+      // _remove(el);
+    }
+
+    debug('CHECKLIST:');
+    debug('#remove(string)');
+    debug('#remove(string, string)');
+    debug('#remove(string, node)');
+    debug('#remove(string, nodelist)');
+    debug('#remove(string, array<node>)');
+
+    logger.info('Operations are on the 7 divs with .x, not those with .z');
+    var x = tooly.selectAll('div', 'section');
+    logger.debug('confirming sectionDivs: %o', x);
+
+    logger.debug('#remove(string) nth=1');
+    remove('.x:nth-of-type(1)');
+    logger.debug('#remove(string) the rest except label 7 (i=5)');
+    tooly.removeClass('div:nth-of-type(6)', 'x');
+    logger.debug('should be 5 divs: %o', tooly.selectAll('.x'));
+    remove('.x');
+    logger.info('click to proceed....');
+    tooly.select('body').addEventListener('click', function(e) {
+      logger.info('rebuilding back to before');
+      for (var i = 6; i > 0; i--) tooly.prepend('section', tooly.tag('div .x', i));
+      var $z = $('.z');
+      logger.debug($z);
+      logger.info('#remove(string, string) .z from main');
+      remove('.z', 'main');
+      // logger.info('adding z back in 1/2 sec....');
+      // setTimeout(function() { tooly.append('main', $z.get(0)); }, 500);  
+    });
+    
+  }
+</script>
+</body>
+</html>

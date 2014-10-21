@@ -1,7 +1,8 @@
 var tooly = require('../dist/tooly');
 
-var logger = tooly.Logger(0, 'FUNKY_TIME');
-var funkyTime = tooly.Timer.prototype.funkyTime.bind(this);
+var logger = tooly.Logger(-1, 'FUNKY_TIME');
+
+var funkyTime = tooly.funkyTime.bind(this);
 
 var data = [], i = 0, n = 99000;
 for (; i < n; i++) {

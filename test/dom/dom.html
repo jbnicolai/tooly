@@ -41,10 +41,10 @@
   
   function run() {
     hasClass();
-    addClass(); // conflicts when removeClass is being used
+    // addClass(); // conflicts when removeClass is being used
     removeClass(); // deps on addClass
-    prepend();
-    append();
+    // prepend();
+    // append();
     html();
     attr();
     empty();
@@ -55,7 +55,7 @@
     logger.info('%c#hasClass ->', heading);
 
     logger.debug('tooly.hasClass("z", "c"): %o', 
-      tooly.hasClass('z', 'c'));
+      tooly.hasClass('.z', 'c'));
 
     logger.debug('tooly.hasClass(document.querySelector(".z"), "a"): %o', 
       tooly.hasClass(document.querySelector('.z'), 'a'));
@@ -170,6 +170,8 @@
     logger.debug('all divs some color');
     $divs.prepend('<div style="color:red;">RED</div>');
 
+    $('body').prepend(tooly.tag('h1', 'JOSHUA JAY KLECKNER'));
+
     console.groupEnd();
   }
 
@@ -183,7 +185,7 @@
     logger.debug('divs text PEACHY');
     tooly.append($divs, 'PEACHY');
 
-    logger.debug('last li PEACHY');
+    logger.debug('last li WAHT TEH FUKC!');
     tooly.append($li.get(2), 'WAHT TEH FUKC!');
 
     logger.debug('all li hElLO');
@@ -195,7 +197,7 @@
     logger.debug('2nd li vrooom (again)');
     $li.append('vrooom');
 
-    logger.debug('all divs some color');
+    logger.debug('all divs + BLUE');
     $divs.append('<div style="color:blue;">BLUE</div>');
 
     console.groupEnd();
@@ -208,18 +210,14 @@
     logger.debug('adding red to first .z');
     var z = tooly.select('.z', '.container');
     logger.debug('z: %o, tooly.type(z): %o', z, tooly.type(z));
-    tooly.html(z, '<div class="red">RED HTML</div>');
+    tooly.html(z, tooly.html(z) + '<div class="red">RED HTML</div>');
 
-    logger.debug('adding green to all .z');
+    logger.debug('adding green to 2nd .z');
     z = $('.z');
-    logger.debug('z: %o', z);
-    var html = z.html();
-    // logger.debug(html, tooly.type(html));
-    // z.html(html + '<div class="green">GREEN HTML</div>');
+    z.eq(1).html(z.eq(1).html() + '<div class="green">GREEN HTML</div>');
 
-    // logger.debug('adding blue to last z');
-    // logger.debug(z.get(2), tooly.type(z.get(2)));
-    // $(z.get(2)).html('<div class="blue">BLUE HTML</div>');
+    logger.debug('adding blue to last z');
+    $(z.get(2)).html(z.eq(2).html() + '<div class="blue">BLUE HTML</div>');
 
     console.groupEnd();
   }
@@ -259,6 +257,9 @@
     logger.debug('should be empty body');
     tooly.empty('body');
   }
+
+  // misc.
+  // $('div').eq(0).prepend(document.createElement('section'));
 
 </script>
 </body>

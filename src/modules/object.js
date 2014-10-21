@@ -41,6 +41,24 @@ construct: function(ctor, args) {
 },
 
 /**
+ * Add the "own properties" of `src` to `dest`.
+ * Used throughout the application to add prototype 
+ * methods to tooly classes without
+ * assigning Object as their prototype.
+ * 
+ * @param  {Object} dest the destination object
+ * @param  {Object} src  the source object
+ * @return {Object}      `dest`
+ *
+ * @category  Core
+ * @memberOf tooly
+ * @static
+ */
+basicExtend: function(dest, src) {
+  return _basicExtend(dest, src);
+},
+
+/**
  * quick and dirty port of [node.extend](https://github.com/dreamerslab/node.extend)
  * which is in turn a port of jQuery.extend, slightly modified for tooly compatibility.
  * Copyright 2011, John Resig
@@ -61,7 +79,7 @@ extend: function() {
       options, name, src, copy, copy_is_array, clone;
 
   // Handle a deep copy situation
-  if (_type(target) === 'boolean') {
+  if (_type(target, 'boolean')) {
     deep = target;
     target = arguments[1] || {};
     // skip the boolean and the target
@@ -69,7 +87,7 @@ extend: function() {
   }
 
   // Handle case when target is a string or something (possible in deep copy)
-  if (_type(target) !== 'object' && _type(target) !== 'function') {
+  if (!_type(target, 'object') && !_type(target, 'function')) {
     target = {};
   }
 
@@ -77,7 +95,7 @@ extend: function() {
     // Only deal with non-null/undefined values
     options = arguments[i]
     if (options != null) {
-      if (_type(options) === 'string') {
+      if (_type(options, 'string')) {
         options = options.split('');
       }
       // Extend the base object
@@ -91,11 +109,10 @@ extend: function() {
         }
 
         // Recurse if we're merging plain objects or arrays
-        if (deep && copy && 
-            (tooly.isHash(copy) || (copy_is_array = _type(copy) === 'array'))) {
+        if (deep && copy && (tooly.isHash(copy) || (copy_is_array = _type(copy, 'array')))) {
           if (copy_is_array) {
             copy_is_array = false;
-            clone = src && _type(src) === 'array' ? src : [];
+            clone = src && _type(src, 'array') ? src : [];
           } else {
             clone = src && tooly.isHash(src) ? src : {};
           }
@@ -124,7 +141,7 @@ extend: function() {
  * @param  {Object} object    
  * @return {Object}
  * 
- * @author Yehuda Katz (slightly modified)
+ * @author Yehuda Katz
  * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
  * 
  * @memberOf  tooly
@@ -132,11 +149,11 @@ extend: function() {
  * @static 
  */
 fromPrototype: function(prototype, object) {
-  var newObject = tooly.objectCreate(prototype), 
+  var newObject = Object.create(prototype), 
       prop;
   for (prop in object) {
     if (object.hasOwnProperty(prop)) {
-      newObject[prop] = object[prop];      
+      newObject[prop] = object[prop];
     }
   }
   return newObject;
@@ -257,7 +274,7 @@ type: function(o, k) {
 isFalsy: function(obj) {
   // no-strict void 0 covers null as well
   if (obj == void 0 || obj == false) return true;
-  if (tooly.type(obj, 'string')) {
+  if (_type(obj, 'string')) {
     var str = obj.trim();
     return str === '' 
       || str === 'false' 

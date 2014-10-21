@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>#append</title>
+  <link rel="stylesheet" type="text/css" href="../dom/style.css">
+  <script src="../../dist/tooly.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>#append</h1>
+    <nav>
+      <ul>
+        <li>list item #1</li>
+        <li>list item #2</li>
+        <li>list item #3</li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="a z">.a .z</div>
+    <div class="b z">.b .z</div>
+    <div class="c z">.c .z</div>
+  </main>
+
+
+  <section>
+    <div class="x">1</div>
+    <div class="x">2</div>
+    <div class="x">3</div>
+    <div class="x">4</div>
+    <div class="x">5</div>
+    <div class="x">6</div>
+    <div class="x">7</div>
+  </section>
+
+  <footer></footer>
+<script type="text/javascript">
+
+  window.onload = run;
+
+  function run() {
+    var $ = tooly.Frankie.bind(this),
+        logger = tooly.Logger(0, 'TEST'),
+        _type = tooly.type.bind(this),
+        $footer = $('footer'),
+        debug = function(msg) { $footer.append('<br> &gt; ' + msg); };
+
+    function _toArray(obj) {
+      return [].map.call(obj, function(el) { return el; });
+    }        
+
+    function _node(el) {
+      return  el && (el.nodeType === 1 || el.nodeType === 9);
+    }
+
+    function _prepEl(el) {
+      if (el instanceof tooly.Frankie) {
+        return el.els;
+      } else if (_type(el, 'string')) {
+        return tooly.selectAll(el);
+      } else if (_type(el, 'nodelist')) {
+        return _toArray(el);
+      }
+      return el;
+    }
+
+    function append(element, content) {
+      var el = _prepEl(element), html;
+      if (!_type(content, 'string')) {
+        var type = _type(content);
+        html = (_node(content))
+          ? content.outerHTML 
+          : (content instanceof tooly.Frankie)
+            ? content.els
+            : (type === 'array' && _node(content[0])) // here's hoping, don't want to #every
+              ? content
+              : (type === 'nodelist') 
+                ? _toArray(content) 
+                : null;
+        if (_type(html, 'array')) {
+          html = html.map(function(x) { return x.outerHTML; }).join('');
+        } else if (!html) {
+          return tooly;
+        }
+      } else {
+        html = content;
+      }
+      function _append(el) {
+        // http://jsperf.com/insertadjacenthtml-perf/14
+        el.insertAdjacentHTML('beforeend', html);
+      }
+      if (_node(el)) {
+        _append(el);
+      } else if (_type(el, 'array')) {
+        el.forEach(_append); 
+      } 
+      return tooly;
+    }
+
+    append('header', 'APPENDED STRING');
+
+    var div = document.createElement('div');
+    div.innerHTML = 'APPENDED ELEMENT';
+    append('header', div);
+
+    append('header', tooly.selectAll('.x'));
+    append('header', tooly.select('nav'));
+    append('header', $('.z'));
+    append('header', $('.z').eq(0));
+    append('header', document.querySelectorAll('li'));
+
+  }
+</script>
+</body>
+</html>

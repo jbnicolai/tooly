@@ -6,41 +6,52 @@
  * wrapper for HTML5 `querySelector`
  * 
  * @param  {String}  selector valid css selector string
- * @param  {Element} context  the parent element to start searching from 
- *                            defaults to document if blank 
- * @return {Element|null} the first matched element or null if no match
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} context  
+ *         the parent element to start searching from defaults to document if blank 
+ * @return {HTMLElement|null} the first matched element or null if no match is found
  * 
  * @memberOf  tooly
  * @category Dom
  * @static
  */
 select: function(selector, context) {
-  return (_node(context) ? context : document).querySelector(selector);
+  var parent;
+  if (context) {
+    parent = _prepEl(context);
+    if (_type(parent, 'array')) parent = parent[0];
+  }  
+  return (_node(parent) ? parent : document).querySelector(selector);
 },
 
 /**
  * wrapper for HTML5 `querySelectorAll`
  * 
- * @param  {String}  selector
- * @param  {Element} context   the parent element to start searching from 
- *                             defaults to document if blank 
- * @return {Array<Node>} an array of matched elements or an empty array if no match
+ * @param  {String}  selector  a valid selector string
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} context  
+ *         the parent element to start searching from defaults to `document` if blank 
+ * @return {Array<HTMLElement>} an array of matched elements or an empty array if no match is found
  * 
  * @memberOf  tooly
  * @category Dom
  * @static
  */
 selectAll: function(selector, context) {
-  return _toArray((_node(context) ? context : document).querySelectorAll(selector));
+  var parent;
+  if (context) {
+    parent = _prepEl(context);
+    if (_type(parent, 'array')) parent = parent[0];
+  }
+  return _toArray((_node(parent) ? parent : document).querySelectorAll(selector));
 },
 
 /**
  * select all parents element of `elements`.
  * 
- * @param  {Element|String} elements the node element or valid css selector string
- *                             representing the element whose parent will be selected
- * @return {Element|undefined} the parent element of `selector` or 
- *                                 undefined if no parent is found
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} elements 
+ *         the node element or valid css selector string 
+ *         representing the element whose parent will be selected
+ * @return {HTMLElement|undefined} 
+ *         the parent element of `selector` or undefined if no parent is found
  *
  * @memberOf  tooly
  * @category Dom
@@ -60,9 +71,10 @@ parent: function(elements) {
 /**
  * select all first-generation child elements of `elements`.
  *     
- * @param  {Element|String} elements the element or valid css selector string representing
- *                             the element whose children will be returned 
- * @return {Array<Element>|undefined} an array of child elements or undefined 
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} elements 
+ *         the element or valid css selector string representing the 
+ *         element whose children will be returned 
+ * @return {Array<HTMLElement>|undefined} an array of child elements or undefined 
  *                                       if `elements` has no children
  * @memberOf  tooly
  * @category Dom
@@ -81,7 +93,8 @@ children: function(elements) {
 /**
  * check if an element has a css class
  * 
- * @param  {Object|Array<Element>|String} el  the node, array of nodes, or valid css selector
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} el  
+ *         the node, array of nodes, or valid css selector
  * @param  {String}   klass   the css class to compare
  * @return {Boolean} true if `el` has `klass`
  *
@@ -106,7 +119,8 @@ hasClass: function(element, klass) {
 /**
  * add a css class to element
  * 
- * @param  {Object|Array<Element>|String} element  the node, array of nodes, or valid css selector
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} element  
+ *         the node, array of nodes, or valid css selector
  * @param {String|Array<String>} klass the css class(es) to add
  * @return {Object} `tooly` for chaining
  *
@@ -127,7 +141,8 @@ addClass: function(element, klass) {
 /**
  * remove a css class from an element
  * 
- * @param  {Object|Array<Element>|String} element  the node, array of nodes, or valid css selector
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} element  
+ *         the node, array of nodes, or valid css selector
  * @param  {String} klass   the css class to remove
  * @return {Object} `tooly` for chaining
  *
@@ -138,7 +153,7 @@ addClass: function(element, klass) {
 removeClass: function(element, klass) {
   var el = _prepEl(element);
   // "or-ize" for multiple klasses match in regexp
-  klass = '(' + klass.split(_ws).join('|') + ')';
+  klass = '(' + klass.split(_ws_re).join('|') + ')';
   function replace(el) {
     el.className = el.className.replace(_classReg(klass), ' ').trim();
   };
@@ -151,10 +166,11 @@ removeClass: function(element, klass) {
 },
 
 /**
- * prepend `html` to HTML element(s)
+ * prepend `content` to HTML `element`(s)
  * 
- * @param  {Object}  element  the element(s) to prepend `html` to
- * @param  {String}  html  the html to prepend
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}  element  
+ *         the element(s) to prepend `content` to
+ * @param  {String}  content  the content to prepend
  * @return {Object} `tooly` for chaining
  *
  * @memberOf  tooly
@@ -162,48 +178,34 @@ removeClass: function(element, klass) {
  * @static
  */
 prepend: function(element, html) {
-  var el = _prepEl(element), parent;
-  function prepend(el) {
-    el.insertAdjacentHTML('afterbegin', html);
-  }
-  if (_node(el)) {
-    prepend(el);
-  } else if (_type(el, 'array')) {
-    el.forEach(prepend); 
-  } 
-  return tooly;
+  return _pend(false, element, html);
 },
 
 /**
- * append `html` to HTML element(s)
+ * append `content` to HTML `element`(s)
  *
- * @param  {Object}  element  the element(s) to append content to
- * @param  {String}  html     the content to append
+ * `#append` can take any of the following as arguments:
+ *
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}  element  
+ *         the element(s) to append content to
+ * @param  {String}  content     the content to append
  * @return {Object} `tooly` for chaining
  *
  * @memberOf  tooly
  * @category Dom
  * @static
  */
-append: function(element, html) {
-  var el = _prepEl(element), parent;
-  function append(el) {
-    // http://jsperf.com/insertadjacenthtml-perf/14
-    el.insertAdjacentHTML('beforeend', html);
-  }
-  if (_node(el)) {
-    append(el);
-  } else if (_type(el, 'array')) {
-    el.forEach(append); 
-  } 
-  return tooly;
-},
+append: function(element, content) {
+  return _pend(true, element, content);
+}, 
 
 /**
- * remove all child nodes (including text) from `element`.
+ * remove all child nodes from `element`.
+ * __TODO__: remove listeners?
  * 
- * @param  {Element|String|Frankie} element the element to clear of all children
- * @return {Object}         `tooly` for chaining
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} element 
+ *         the element to clear of all children
+ * @return {Object}  `tooly` for chaining
  *
  * @memberOf  tooly
  * @category Dom
@@ -211,14 +213,9 @@ append: function(element, html) {
  */
 empty: function(element) {
   var el = _prepEl(element);
-  if (_type(el, 'array')) {
-    el.forEach(function(d) {
-      while (d.lastChild) d.removeChild(d.lastChild);
-    });
-  } else {
-    // see http://jsperf.com/innerhtml-vs-removechild/15
-    while (el.lastChild) el.removeChild(el.lastChild);
-  }
+  // see http://jsperf.com/innerhtml-vs-removechild/15
+  function remove(x) { while (x.lastChild) x.removeChild(x.lastChild); }
+  _type(el, 'array') ? el.forEach(remove) : remove(el);
   return tooly;
 },
 
@@ -226,9 +223,9 @@ empty: function(element) {
  * fill DOM element `el` with `content`. Replaces existing content.
  * If called with 1 arg, the first matched element's innerHTML is returned
  * 
- * @param  {String|Object} content
- * @param  {Element} el      
- * @return {String|Object} the first matched el's innerHTML of null when in get mode,
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} el      
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} content
+ * @return {String|Object} the first matched el's innerHTML or null when in get mode,
  *                             otherwise `tooly` for chaining
  * @memberOf  tooly
  * @category Dom
@@ -285,10 +282,11 @@ html: function(el, content) {
  * tooly.css('div', 'border', '2px solid red');
  * ```
  * 
- * @param  {Element|String}  el     the dom element or valid selector string
- * @param  {String|Object}  styles  either a single comma separated key value pair of strings,
- *                                  or object hash
- * @return {Object} tooly for chaining
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}  el     
+ *         the dom element or valid selector string
+ * @param  {String|Object}  styles  
+ *         either a single comma separated key value pair of strings, or object hash
+ * @return {Object} `tooly` for chaining
  * 
  * @memberOf  tooly
  * @category Dom
@@ -337,10 +335,10 @@ css: function(/*mixed*/) {
 /**
  * get or set a(n) html attribute(s)
  * 
- * @param  {Element|String|Frankie} element the element
+ * @param  {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} element the element
  * @param  {String} a  the attribute to get/set
  * @param  {String|Number|null} the value of the attribute `a` (set)
- * @return {Element|Object|String}
+ * @return {HTMLElement|Object|String}
  *
  * @memberOf  tooly
  * @category Dom
@@ -426,8 +424,11 @@ attr: function(/*mixed*/) {
  *   .html('H T M L');
  * ```
  *   
- * @param {Element} el valid css selector string, can contain multiple 
- *                     selectors separated my commas (see the example)
+ * @param {String|HTMLElement} el 
+ *        valid css selector string, can contain multiple 
+ *        selectors separated my commas (see the example)
+ * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} 
+ *        context a parent context to search for the supplied `el` argument.
  * @class Frankie
  * @constructor
  * @category Dom

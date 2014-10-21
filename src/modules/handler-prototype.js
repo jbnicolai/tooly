@@ -1,4 +1,4 @@
-tooly.Handler.prototype = {
+_extend(tooly.Handler.prototype, {
 
   /**
    * Register an event handler for a named function.
@@ -123,4 +123,4 @@ tooly.Handler.prototype = {
   toString: function() { 
     return "[Handler ' " + this + " ']"; 
   }
-};
+});

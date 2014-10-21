@@ -1,6 +1,6 @@
 var tooly = require('../dist/tooly');
 // turn off for mocha * tests
-var on = 1;
+var on = 0;
 
 if (on) {
   var logger = new tooly.Logger(0, 'test-logger');

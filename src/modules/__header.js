@@ -1,18 +1,40 @@
+var _format_re,
+    _ws_re = /\s+/,
+    _type_re = /\s([a-z]+)/i,
+    _slice = Array.prototype.slice;
+
+/*!
+ * @see  tooly#type
+ */
+function _type(o, klass) {
+  o = ({}).toString.call(o).match(_type_re)[1].toLowerCase();
+  return klass ? o === klass.toLowerCase() : o;
+}
+
+/*!
+ * @see  tooly#basicExtend
+ */
+function _extend(dest, src) {
+  for (var p in src) {
+    if (src.hasOwnProperty(p)) {
+      dest[p] = src[p];
+    }
+  }
+  return dest;
+}
+
 /**
  * @namespace  tooly
  * @type {Object}
  */
 var tooly = (function() {
 
-  var _typeReg = /\s([a-z]+)/i;
-
-  function _type(o, klass) {
-    o = ({}).toString.call(o).match(_typeReg)[1].toLowerCase();
-    return klass ? o === klass.toLowerCase() : o;
-  }
-
   var _nativeForEach = Array.prototype.forEach;
 
+  /*!
+   * underscore's #each
+   * @see  tooly#each
+   */
   function _each(obj, iterator, context) {
     if (obj == null) return;
     if (_nativeForEach && obj.forEach === _nativeForEach) {
@@ -38,18 +60,6 @@ var tooly = (function() {
   function _toArray(obj) {
     return [].map.call(obj, function(el) { return el; });
   }
-
-  // http://stackoverflow.com/a/9229821/2416000
-  // function _unique(obj) {
-  //   var prims = { 'boolean': {}, 'number': {}, 'string': {} }, 
-  //       objs = [];
-  //   return obj.filter(function(item) {
-  //     var type = typeof item;
-  //     return (type in prims) 
-  //       ? prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true)
-  //       : objs.indexOf(item) >= 0 ? false : objs.push(item);
-  //   });
-  // }
 
   // modified from http://stackoverflow.com/a/9229821/2416000
   // TODO: this modifies original arr, find unaltering way

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>#selectAll</title>
+  <link rel="stylesheet" type="text/css" href="../dom/style.css">
+  <script src="../../dist/tooly.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>#selectAll</h1>
+  </header>
+
+  <main>
+    <div class="a z">.a .z</div>
+    <div class="b z">.b .z</div>
+    <div class="c z">.c .z</div>
+  </main>
+
+  <section>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+  </section>
+
+  <footer></footer>
+
+</body>
+<script type="text/javascript">
+  window.onload = run;
+
+  function run() {
+    var $ = tooly.Frankie.bind(this),
+        logger = tooly.Logger(0, 'TEST'),
+        $footer = $('footer'),
+        debug = function(msg) { $footer.append('&gt; ' + msg + '<br>'); };
+
+    function _toArray(obj) {
+      return [].map.call(obj, function(el) { return el; });
+    }          
+
+    debug('CHECKLIST:');
+    debug('string string');
+    debug('string node');
+    debug('string nodelist');
+    debug('string array<nodes>');   
+
+    logger.info('\n\n\tThe following should only grab the 7 divs (not those with .z)\n');
+    logger.info('string string');
+    logger.debug(tooly.selectAll('div', 'section'));
+    logger.info('string node');
+    logger.debug(tooly.selectAll('div', document.querySelector('section')));
+    logger.info('string nodeList');
+    logger.debug(tooly.selectAll('div', document.querySelectorAll('section')));
+    logger.info('string array<nodes>');
+    logger.debug(tooly.selectAll('div', _toArray(document.querySelectorAll('section'))));
+  }
+</script>

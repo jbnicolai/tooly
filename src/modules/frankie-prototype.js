@@ -1,4 +1,4 @@
-tooly.Frankie.prototype = {
+_extend(tooly.Frankie.prototype, {
 
   /**
    * @memberOf tooly.Frankie
@@ -99,6 +99,15 @@ tooly.Frankie.prototype = {
    * @memberOf tooly.Frankie
    * @instance
    */
+  empty: function() {
+    tooly.empty(this.els);
+    return this;
+  },
+
+  /**
+   * @memberOf tooly.Frankie
+   * @instance
+   */
   html: function(content) {
     // set
     if (content) {
@@ -131,4 +140,4 @@ tooly.Frankie.prototype = {
     // return (ret instanceof tooly) ? this : ret;
     return ret;
   }
-};
+});
