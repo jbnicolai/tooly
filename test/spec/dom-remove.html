@@ -9,6 +9,50 @@
 
   <header>
     <h1>#remove</h1>
+    <nav>
+      <h3>nav -></h3>
+      <ol>
+        <li>list item #1</li>
+        <li>list item #2</li>
+        <li>list item #3</li>
+      </ol>
+    </nav>
+    <div id="one">
+      <h3>#one</h3>
+      <ol>
+        <li>list item #1</li>
+        <li>list item #2</li>
+        <li>list item #3</li>
+      </ol>      
+    </div>
+    <div id="two">
+      <h3>#two</h3>
+      <ol>
+        <li>list item #1</li>
+        <li>list item #2</li>
+        <li>list item #3</li>
+      </ol>      
+    </div>    
+  </header>
+
+  <main>
+    <div class="a z">.a .z</div>
+    <div class="b z">.b .z</div>
+    <div class="c z">.c .z</div>
+  </main>
+
+
+  <section>
+    <div class="x">1</div>
+    <div class="x">2</div>
+    <div class="x">3</div>
+    <div class="x">4</div>
+    <div class="x">5</div>
+    <div class="x">6</div>
+    <div class="x">7</div>
+  </section>
+
+  <section>
     <article>
       <h2>Spec:</h2>
       <ol>
@@ -28,30 +72,6 @@
         </ol>
       </aside>
     </article>
-    <nav>
-      <ul>
-        <li>list item #1</li>
-        <li>list item #2</li>
-        <li>list item #3</li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <div class="a z">.a .z</div>
-    <div class="b z">.b .z</div>
-    <div class="c z">.c .z</div>
-  </main>
-
-
-  <section>
-    <div class="x">1</div>
-    <div class="x">2</div>
-    <div class="x">3</div>
-    <div class="x">4</div>
-    <div class="x">5</div>
-    <div class="x">6</div>
-    <div class="x">7</div>
   </section>
 
   <footer></footer>
@@ -74,7 +94,7 @@
       return  el && (el.nodeType === 1 || el.nodeType === 9);
     }
 
-    function _prepEl(el) {
+    function _prepEl(el, context) {
       if (el instanceof tooly.Frankie) {
         return el.els;
       } else if (_type(el, 'string')) {
@@ -85,32 +105,29 @@
       return el;
     }        
 
-    function remove(element, context) {
-      var el = _prepEl(element);
-      function _remove(x) { 
-        if (x.parentNode) x.parentNode.removeChild(x); 
+    function remove(element, context, returnRemoved) {
+      var el, parent, ret;
+      if (context) {
+        parent = _prepEl(context);
+        if (_node(parent)) {
+          el = tooly.selectAll(element, parent);
+        } /*else if ()*/
       }
-      if (_node(el)) {
-        _remove(x) 
-        return tooly;
-      } 
-      el.forEach(function(x, i, a) {
-        _remove(x);
-      });
-      el.length = 0;
-
-      // if (!el) return;
-      // function _remove(x) { 
-      //   if (x.parentNode) x.parentNode.removeChild(x); 
-      // }
-      // if (el instanceof tooly.Frankie) {
-      //   el.els.forEach(function(x, i, arr) {
-      //     _remove(x);
-      //     arr.splice(i, 1);
-      //   });
-      // }
-      // _remove(el);
+      el = _prepEl(element);
+      if (!el) return tooly;
+      function _remove(x) {
+        if (!parent) return x.parentNode.removeChild(x);
+        if (_node(parent)) {
+          logger.debug('x: %o, parent.children: %o', x, parent.children);
+        }
+      }
+      ret = _node(el) ? _remove(el) : el.map(_remove);
+      return returnRemoved ? ret : tooly;
     }
+
+    tooly.Frankie.prototype.remove = function(element) {
+      return remove(element, this.els);
+    };
 
     debug('CHECKLIST:');
     debug('#remove(string)');
@@ -119,27 +136,30 @@
     debug('#remove(string, nodelist)');
     debug('#remove(string, array<node>)');
 
-    logger.info('Operations are on the 7 divs with .x, not those with .z');
-    var x = tooly.selectAll('div', 'section');
-    logger.debug('confirming sectionDivs: %o', x);
+    console.group('tooly');
 
-    logger.debug('#remove(string) nth=1');
-    remove('.x:nth-of-type(1)');
-    logger.debug('#remove(string) the rest except label 7 (i=5)');
-    tooly.removeClass('div:nth-of-type(6)', 'x');
-    logger.debug('should be 5 divs: %o', tooly.selectAll('.x'));
-    remove('.x');
-    logger.info('click to proceed....');
-    tooly.select('body').addEventListener('click', function(e) {
-      logger.info('rebuilding back to before');
-      for (var i = 6; i > 0; i--) tooly.prepend('section', tooly.tag('div .x', i));
-      var $z = $('.z');
-      logger.debug($z);
-      logger.info('#remove(string, string) .z from main');
-      remove('.z', 'main');
-      // logger.info('adding z back in 1/2 sec....');
-      // setTimeout(function() { tooly.append('main', $z.get(0)); }, 500);  
-    });
+      // console.log('');
+      // logger.info('string ->');
+      // logger.info('nav li:last-child');
+      // remove('nav li:last-child');
+
+      // console.log('');
+      // logger.info('string string ->');
+      // logger.info('li:first-child, nav ol');
+      // remove('li:first-child', 'nav ol');
+
+      console.log('');
+      logger.info('string node ->');
+      logger.info('li:nth-of-type(2), qs#one');
+      remove('li:nth-of-type(2)', document.querySelector('#one'));
+
+      // console.log('');
+      // logger.info('string node ->');
+      // logger.info('li:nth-of-type(2), qsa#two');
+      // remove('li:nth-of-type(2)', document.querySelectorAll('#two'));  
+
+    console.groupEnd();
+
     
   }
 </script>

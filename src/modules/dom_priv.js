@@ -57,7 +57,7 @@
       el.forEach(_append); 
     } 
     return tooly;
-  },   
+  } 
 
   function _node(el) {
     return  el && (el.nodeType === 1 || el.nodeType === 9);
