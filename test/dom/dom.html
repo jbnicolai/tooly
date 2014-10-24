@@ -40,14 +40,29 @@
   var heading = 'color: #800080; font-size: 18px';
   
   function run() {
-    hasClass();
+    all();
+    // hasClass();
     // addClass(); // conflicts when removeClass is being used
-    removeClass(); // deps on addClass
+    // removeClass(); // deps on addClass
     // prepend();
     // append();
-    html();
-    attr();
-    empty();
+    // html();
+    // attr();
+    // empty();
+  }
+
+  function all() {
+    var el = $('body')
+      .empty()
+      .append('<div>Hello</div>')
+      .children() // select previously created div
+      .addClass('firstClass coach')
+      .css({ background: 'yellow', color: 'dark-gray' })
+      .attr('data-whatever', '998877')
+      .parent() // back to the body
+      .append($('body').children()) // duplicate the div
+      .children().eq(1) // select our newly copied div
+      .html(', world!');
   }
 
   function hasClass() {

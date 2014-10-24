@@ -143,11 +143,12 @@ function compile() {
     );
   }
 
+  // temp soln
+  output += (includeWhat('dom'))    ? modules['dom_priv']    : '';
   // start the declaration
   output += modules['__header'];
 
   // private modules
-  output += (includeWhat('dom'))    ? modules['dom_priv']    : '';
   output += (includeWhat('string')) ? modules['string_priv'] : '';
 
   // tooly.<method>

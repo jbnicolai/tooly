@@ -4,8 +4,7 @@
   "description": "js utility functions",
   "main": "dist/tooly.js",
   "scripts": {
-    "build": "bin/build.js",
-    "main": "bin/main"
+    "build": "node bin/builder2 include && grunt umd:test"
   },
   "directories": {
     "test": "test"

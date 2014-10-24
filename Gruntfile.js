@@ -11,6 +11,13 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     umd: {
+      test: {
+        src: 'dist/tooly-TEST.js',
+        dest: 'dist/tooly-TEST.js',
+        objectToExport: 'tooly',
+        amdModuleId: 'tooly',
+        template: 'src/umd-template.hbs'
+      },
       main: {
         src: 'dist/tooly.js',
         dest: 'dist/tooly.js',
@@ -56,27 +63,33 @@ module.exports = function(grunt) {
         linebreak: true
       },
       slim: {
-        files: { src: ['dist/tooly-slim.js']
+        files: { 
+          src: ['dist/tooly-slim.js']
         }
       },
       slim_post: {
-        files: { src: ['dist/tooly-slim.min.js']
+        files: { 
+          src: ['dist/tooly-slim.min.js']
         }
       },
       main: {
-        files: { src: ['dist/tooly.js']
+        files: { 
+          src: ['dist/tooly.js']
         }
       },
       post: {
-        files: { src: ['dist/tooly.min.js']
+        files: { 
+          src: ['dist/tooly.min.js']
         }
       },
       custom: {
-        files: { src: ['<%= umd.custom.src %>']
+        files: { 
+          src: ['<%= umd.custom.src %>']
         }
       },
       customPost: {
-        files: { src: ['<%= uglify.custom.dest %>']
+        files: { 
+          src: ['<%= uglify.custom.dest %>']
         }
       }
     },
