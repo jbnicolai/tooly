@@ -1,3 +1,6 @@
+
+
+
 /**
  * alias for #executeHandler
  * 
@@ -5,6 +8,6 @@
  * @memberOf  tooly.Handler
  * @instance
  */
-tooly.Handler.trigger = function(fn) {
+tooly.Handler.prototype.trigger = function(fn) {
   return this.executeHandler(fn);
 };

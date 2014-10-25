@@ -1,3 +1,6 @@
+
+
+
 /**
  * Register an event handler for a named function.
  * 
@@ -8,7 +11,7 @@
  * @memberOf  tooly.Handler
  * @instance
  */
-tooly.Handler.on = function(fn, handler) {
+tooly.Handler.prototype.on = function(fn, handler) {
   if (this.handlers[fn] === undefined) {
     this.handlers[fn] = [];
   }

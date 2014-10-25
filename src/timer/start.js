@@ -1,3 +1,6 @@
+
+
+
 /**
  * Start the timer
  *
@@ -5,7 +8,7 @@
  * @instance
  * @category Timer
  */
-tooly.start = function() { 
+tooly.Timer.prototype.start = function() { 
   this.startTime = Date.now(); 
 };
   

@@ -1,3 +1,6 @@
+
+
+
 /**
  * log results to the console
  *
@@ -5,6 +8,6 @@
  * @instance
  * @category Timer
  */
-tooly.log = function() {
+tooly.Timer.prototype.log = function() {
   console.log(this.name + ' ' + this.elapsed);
 };

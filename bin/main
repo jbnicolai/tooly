@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-node bin/builder include dom object string collections xhr handler logger timer -o dist/tooly.js --nocomment
-grunt main

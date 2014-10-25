@@ -1,3 +1,6 @@
+
+
+
 /**
  * Stop the timer
  * 
@@ -7,7 +10,7 @@
  * @instance
  * @category Timer
  */
-tooly.stop = function() { 
+tooly.Timer.prototype.stop = function() { 
   this.endTime = Date.now();
   this.elapsed = this.endTime - this.startTime;
   return this.elapsed;

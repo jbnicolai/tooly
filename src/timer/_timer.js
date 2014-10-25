@@ -1,10 +1,6 @@
 
 
 
-//    +-------+
-//    | TIMER |
-//    +-------+
-    
 /**
  * Timer class constructor. Contains basic `start` and `stop` methods for timing
  * of code execution. Also see #funkyTime, which is a static method to time

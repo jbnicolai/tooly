@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-bin/main && bin/slim
+
+bin/purge && npm all
+
 git add -A
 
 if [ "$1" != "" ]; then

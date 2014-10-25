@@ -1,3 +1,6 @@
+
+
+
 /**
  * port of is.hash
  *

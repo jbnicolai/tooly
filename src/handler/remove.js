@@ -1,3 +1,6 @@
+
+
+
 /**
  * Remove all handler's attached to `fn`. All subsequent calls to 
  * `executeHandler(fn)` will no longer have an effect.
@@ -8,7 +11,7 @@
  * @instance
  * @alias #off
  */
-tooly.Handler.remove = function(fn) {
+tooly.Handler.prototype.remove = function(fn) {
   if (this.handlers[fn] !== undefined) {
     this.handlers[fn].length = 0;
   }

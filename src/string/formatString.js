@@ -1,4 +1,8 @@
+
+
+
 var _curly_re = /{(\d+)}/g;
+
 /**
  * Function version of (C# style?) String.format
  * 

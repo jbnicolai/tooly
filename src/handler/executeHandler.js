@@ -1,3 +1,6 @@
+
+
+
 /**
  * executes all handlers attached to the named function.
  * @example
@@ -24,7 +27,7 @@
  * @instance
  * @alias #exec #trigger
  */
-tooly.Handler.executeHandler = function(fn) {
+tooly.Handler.prototype.executeHandler = function(fn) {
   var handler = this.handlers[fn] || [],
       i = 0, len = handler.length;
   for (; i < len; i++) {

@@ -1,10 +1,6 @@
 
 
 
-//    +--------+
-//    | LOGGER |
-//    +--------+
-
 /**
  * Class constructor. Typical logging functionality that wraps around console.log
  * with css coloring and level control. The Logger level hierarchy is as follows:

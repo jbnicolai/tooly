@@ -6,10 +6,11 @@ var parser = require('nomnom'),
     fs = require('fs'),
     _ = require('lodash');
 
-var includes = [ 'collections', 'frankie', 'handler', 'logger', 'object', 'string', 'timer' ],
-    output = './dist/tooly-TEST.js',
+var includes = ['collections', 'frankie', 'handler', 'logger', 'object', 'string', 'timer', 'xhr'],
+    output = './dist/tooly-custom.js', 
     files = {},
-    header = code = '';
+    header = code = '',
+    nocomment = false;
 
 module.exports = function(opts) {
   build(opts);
@@ -71,21 +72,39 @@ function getIncludes(args) {
 }
 
 function compile() {
+
   // { folder: [ filename1.js, filename2.js, ... ] }
   files = _.object(includes, includes.map(function(inc, i) {
     // reversed so ctor files with leading '_' show up first
     return fs.readdirSync('./src/' + inc).reverse();
   }));
-  header = fs.readFileSync('./src/_header.js', 'utf8');
-  code = header;
+
+  code = fs.readFileSync('./src/_header.js', 'utf8');
+
   _.each(files, function(filenames, dir, arr) {
     code += filenames.map(function(file) {
       return fs.readFileSync('./src/' + dir + '/' + file, 'utf8'); 
-    }).join('\r\n\r\n\r\n');
+    }).join('');
   });
 }
 
+function generateCustomComment() {
+  if (!nocomment) {
+    var custom = ' * CUSTOM BUILD\n * Includes modules: ' + 
+      includes.join(', ').toUpperCase();
+
+    fs.writeFile('./bin/.custom-comment', custom, function(err) { 
+      if (err) throw err; 
+    });
+  }
+}
+
 function write() {
+  generateCustomComment();
+  // write the last saved file for setting 'grunt custom -> src'
+  fs.writeFile('./bin/.log', output, function(err) {
+    // if (err) throw err;
+  });
   fs.writeFile(output, code, function(err) {
     if (err) throw err;
     console.log(chalk.magenta('Build complete. \nFile located at ') + chalk.green(output));

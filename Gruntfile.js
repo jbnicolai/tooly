@@ -1,98 +1,63 @@
 'use strict';
 
+var fs = require('fs');
+
 module.exports = function(grunt) {
 
+  var sourcefile = fs.readFileSync('./bin/.log', { encoding: 'utf8' });
+
   grunt.initConfig({
+
+    cust: fs.readFileSync('./bin/.custom-comment', { encoding: 'utf8' }),
 
     pkg: grunt.file.readJSON('package.json'),
 
     umd: {
-      test: {
-        src: 'dist/tooly-TEST.js',
-        dest: 'dist/tooly-TEST.js',
+      build: {
+        src: sourcefile,
         objectToExport: 'tooly',
         amdModuleId: 'tooly',
         template: 'src/umd-template.hbs'
-      },
-      main: {
-        src: 'dist/tooly.js',
-        dest: 'dist/tooly.js',
-        objectToExport: 'tooly',
-        amdModuleId: 'tooly'
-      },
-      slim: {
-        src: 'dist/tooly-slim.js',
-        dest: 'dist/tooly-slim.js',
-        objectToExport: 'tooly',
-        amdModuleId: 'tooly'
-      },
-      custom: {
-        src: 'dist/tooly-custom.js',
-        objectToExport: 'tooly',
-        amdModuleId: 'tooly'
       }
     },
 
     uglify: {
       options: {
-        sourceMap: true,
-        preserveComments: 'some'
+        sourceMap: true/*,
+        preserveComments: 'some'*/
       },
-      main: {
-        src: 'dist/tooly.js',
-        dest: 'dist/tooly.min.js'
-      },
-      slim: {
-        src: 'dist/tooly-slim.js',
-        dest: 'dist/tooly-slim.min.js'
-      },
-      custom: {
-        src: '<%= umd.custom.src %>',
-        dest: 'dist/tooly-custom.min.js',
+      build: {
+        src: '<%= umd.build.src %>',
+        dest: sourcefile.substring(0, sourcefile.length-2) + 'min.js',
       }
     },
 
     usebanner: {
       options: {
         position: 'top',
-        banner: require('./src/banner'),
+        banner: (sourcefile === 'dist/tooly.js') 
+          ? require('./src/banner') 
+          : require('./src/banner-custom'),
         linebreak: true
       },
-      slim: {
+      build: {
         files: {
-          src: ['dist/tooly-slim.js']
-        }
-      },
-      slim_post: {
-        files: {
-          src: ['dist/tooly-slim.min.js']
-        }
-      },
-      main: {
-        files: {
-          src: ['dist/tooly.js']
+          src: ['<%= umd.build.src %>']
         }
       },
       post: {
+        options: {
+          banner: require('./src/banner-min')
+        },
         files: {
-          src: ['dist/tooly.min.js']
-        }
-      },
-      custom: {
-        files: {
-          src: ['<%= umd.custom.src %>']
-        }
-      },
-      customPost: {
-        files: {
-          src: ['<%= uglify.custom.dest %>']
+          src: ['<%= uglify.build.dest %>']
         }
       }
     },
 
     watch: {
       files: ['src/modules/*.js'],
-      tasks: ['bin']
+      tasks: ['build']
     }
   });
 
@@ -102,19 +67,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-banner');
   grunt.loadNpmTasks('grunt-umd');
 
-  grunt.registerTask('custom', [
-    'umd:custom',
-    'usebanner:custom',
-    'uglify:custom'
-  ]);
-  grunt.registerTask('main', [
-    'umd:main',
-    'usebanner:main',
-    'uglify:main'
-  ]);
-  grunt.registerTask('slim', [
-    'umd:slim',
-    'usebanner:slim',
-    'uglify:slim'
-  ]);
+  grunt.registerTask('build', ['umd:build', 'usebanner:build', 'uglify:build', 'usebanner:post']);
 };

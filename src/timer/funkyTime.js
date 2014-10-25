@@ -1,3 +1,6 @@
+
+
+
 /**
  * "funkyTime" - think "Function Execution Time".
  * Get the total, individual, and average execution times of `fn` called `n` times.

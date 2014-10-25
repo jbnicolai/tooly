@@ -1,3 +1,6 @@
+
+
+
 /**
  * Get a copy of `str` without file extension, or anything after the last `.`
  * (does not change the original string)

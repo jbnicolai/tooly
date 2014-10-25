@@ -1,7 +1,6 @@
 
 
 
-
 var _format_re, // assigned only on first use
     _ws_re = /\s+/,
     _type_re = /\s([a-z]+)/i,
@@ -61,6 +60,5 @@ function _sortUnique(arr) {
  * @type {Object}
  */
 var tooly = { version: '0.0.4' };
-
 
 

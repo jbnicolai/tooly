@@ -1,52 +1,6 @@
 
 
 
-//    +-----+
-//    | DOM |
-//    +-----+
-
-/**
- * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest)
- * _selectors_ of all time ;). A micro DOM util with a jQuery-like API.
- * Keeps an internal reference to a selectAll query on the passed
- * `el`. Most methods will return the instance for chainability.
- *
- * @example
- * ```js
- * // alias the Frankie namespace
- * var $ = Frankie.bind(this);
- * var $divs = $(divs);
- * $divs.css({color:'green'});
- * // multiple yet separate selectors must be comma separated
- * $('div, p')
- *   .addClass('purple')
- *   .addClass('yellow')
- *   .removeClass('g')
- *   .css({'border-radius':'4px'})
- *   .prepend('<h1>---</h1>')
- *   .append('<h1>+++</h1>')
- *   .html('H T M L');
- * ```
- *
- * @param {String|HTMLElement} el
- *        valid css selector string, can contain multiple
- *        selectors separated my commas (see the example)
- * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}
- *        context a parent context to search for the supplied `el` argument.
- * @class Frankie
- * @constructor
- * @category Dom
- * @memberOf  tooly
- * @static
- */
-tooly.Frankie = function(el, context) {
-  if (!(this instanceof tooly.Frankie)) {
-    return new tooly.Frankie(el, context);
-  }
-  this.els = _node(el) ? [el] : _selectAll(el, context);
-  return this;
-};
-
 function _node(el) {
   return  el && (el.nodeType === 1 || el.nodeType === 9);
 }
@@ -107,3 +61,47 @@ function _pend(append, els, content) {
     el.insertAdjacentHTML(append ? 'beforeend' : 'afterbegin', html);
   });
 }
+
+
+
+/**
+ * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest)
+ * _selectors_ of all time ;). A micro DOM util with a jQuery-like API.
+ * Keeps an internal reference to a selectAll query on the passed
+ * `el`. Most methods will return the instance for chainability.
+ *
+ * @example
+ * ```js
+ * // alias the Frankie namespace
+ * var $ = Frankie.bind(this);
+ * var $divs = $(divs);
+ * $divs.css({color:'green'});
+ * // multiple yet separate selectors must be comma separated
+ * $('div, p')
+ *   .addClass('purple')
+ *   .addClass('yellow')
+ *   .removeClass('g')
+ *   .css({'border-radius':'4px'})
+ *   .prepend('<h1>---</h1>')
+ *   .append('<h1>+++</h1>')
+ *   .html('H T M L');
+ * ```
+ *
+ * @param {String|HTMLElement} el
+ *        valid css selector string, can contain multiple
+ *        selectors separated my commas (see the example)
+ * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}
+ *        context a parent context to search for the supplied `el` argument.
+ * @class Frankie
+ * @constructor
+ * @category Dom
+ * @memberOf  tooly
+ * @static
+ */
+tooly.Frankie = function(el, context) {
+  if (!(this instanceof tooly.Frankie)) {
+    return new tooly.Frankie(el, context);
+  }
+  this.els = _node(el) ? [el] : _selectAll(el, context);
+  return this;
+};

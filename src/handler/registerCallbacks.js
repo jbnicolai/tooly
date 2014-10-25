@@ -1,3 +1,6 @@
+
+
+
 /**
  * Add callbacks to the list of handlers. The callbacks must be an object collection of 
  * key-value pairs where the identifier key is the name of a function that calls the 
@@ -11,7 +14,7 @@
  * @memberOf  tooly.Handler
  * @instance
  */
-tooly.Handler.registerCallbacks = function(callbacks) {
+tooly.Handler.prototype.registerCallbacks = function(callbacks) {
   var t = this, h = {};
   if (callbacks !== undefined) {
     for (h in callbacks) {

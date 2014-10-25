@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-# include all except logger and handler
-node bin/builder include dom object collections string xhr handler -o dist/tooly-slim.js
-grunt slim

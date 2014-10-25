@@ -1,1 +1,1 @@
-these scripts should only be called from the project root
+these bash scripts should be called from the project root
