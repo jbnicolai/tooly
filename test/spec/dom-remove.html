@@ -84,7 +84,7 @@
         logger = tooly.Logger(0, 'TEST'),
         _type = tooly.type.bind(this),
         $footer = $('footer'),
-        debug = function(msg) { $footer.append('<br> &gt; ' + msg); };
+        debug = function(msg) { $footer.append('<br> &gt; ' + msg); };     
 
     function _toArray(obj) {
       return [].map.call(obj, function(el) { return el; });
@@ -92,41 +92,34 @@
 
     function _node(el) {
       return  el && (el.nodeType === 1 || el.nodeType === 9);
-    }
+    }       
 
-    function _prepEl(el, context) {
-      if (el instanceof tooly.Frankie) {
-        return el.els;
-      } else if (_type(el, 'string')) {
-        return tooly.selectAll(el);
-      } else if (_type(el, 'nodelist')) {
-        return _toArray(el);
-      }
-      return el;
-    }        
-
-    function remove(element, context, returnRemoved) {
-      var el, parent, ret;
-      if (context) {
-        parent = _prepEl(context);
-        if (_node(parent)) {
-          el = tooly.selectAll(element, parent);
-        } /*else if ()*/
-      }
-      el = _prepEl(element);
-      if (!el) return tooly;
-      function _remove(x) {
-        if (!parent) return x.parentNode.removeChild(x);
-        if (_node(parent)) {
-          logger.debug('x: %o, parent.children: %o', x, parent.children);
+    tooly.Frankie.prototype.remove = function(element, returnRemoved) {
+      var ret = [], i, frank = this, len = frank.els.length;
+      function _remove(c)  {
+        for (i = 0; i < len; i++) {
+          var p = frank.els[i];
+          if (c.parentNode === p) {
+            returnRemoved ? ret.push(p.removeChild(c)) : p.removeChild(c);
+            return;
+          }
         }
       }
-      ret = _node(el) ? _remove(el) : el.map(_remove);
-      return returnRemoved ? ret : tooly;
-    }
-
-    tooly.Frankie.prototype.remove = function(element) {
-      return remove(element, this.els);
+      var els = _type(element, 'array') 
+        ? element
+        : _node(element)
+          ? _toArray(element)
+          : els instanceof tooly.Frankie 
+            ? element.els
+            : _type(element, 'string')
+              ? new tooly.Frankie(element, frank).els
+              : null;
+      if (els) {
+        els.forEach(function(c) { 
+          _remove(c); 
+        });
+      }
+      return returnRemoved ? ret : frank;
     };
 
     debug('CHECKLIST:');
@@ -138,25 +131,10 @@
 
     console.group('tooly');
 
-      // console.log('');
-      // logger.info('string ->');
-      // logger.info('nav li:last-child');
-      // remove('nav li:last-child');
-
-      // console.log('');
-      // logger.info('string string ->');
-      // logger.info('li:first-child, nav ol');
-      // remove('li:first-child', 'nav ol');
-
-      console.log('');
-      logger.info('string node ->');
-      logger.info('li:nth-of-type(2), qs#one');
-      remove('li:nth-of-type(2)', document.querySelector('#one'));
-
-      // console.log('');
-      // logger.info('string node ->');
-      // logger.info('li:nth-of-type(2), qsa#two');
-      // remove('li:nth-of-type(2)', document.querySelectorAll('#two'));  
+      var $section = $('section');
+      logger.debug($section);
+      var ret = $section.remove('.x:nth-of-type(2)', true);
+      logger.debug(ret);
 
     console.groupEnd();
 
