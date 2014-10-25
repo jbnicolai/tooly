@@ -1,5 +1,5 @@
 /**
- * Extensively check if `obj` is "falsy". 
+ * Extensively check if `obj` is "falsy".
  * <br>
  * ### isFalsy returns true for the following:
  * ```js
@@ -14,11 +14,11 @@
  * var nullString            = 'null';
  * var undefinedString       = 'undefined';
  * ```
- * Note that in the cases of falsy strings, the check is 
- * done after a call to `String.trim`, so surrounding 
- * whitespace is ignored: 
+ * Note that in the cases of falsy strings, the check is
+ * done after a call to `String.trim`, so surrounding
+ * whitespace is ignored:
  * `isFalsy('\n\t false   \n') //=> true`
- * 
+ *
  * @param  {mixed}  obj the object to check
  * @return {Boolean}     true if `obj` is "falsy"
  *
@@ -33,9 +33,9 @@ tooly.isFalsy = function(obj) {
   if (obj == void 0 || obj == false) return true;
   if (_type(obj, 'string')) {
     var str = obj.trim();
-    return str === '' 
-      || str === 'false' 
-      || str === 'undefined' 
+    return str === ''
+      || str === 'false'
+      || str === 'undefined'
       || str === 'null';
   }
 };

@@ -3,6 +3,6 @@
  * @memberOf  tooly.Handler
  * @instance
  */
-tooly.Handler.toString = function() { 
-  return "[Handler ' " + this + " ']"; 
+tooly.Handler.prototype.toString = function() { 
+  return '[object Handler]'; 
 };

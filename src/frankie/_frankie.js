@@ -6,11 +6,11 @@
 //    +-----+
 
 /**
- * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest) 
+ * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest)
  * _selectors_ of all time ;). A micro DOM util with a jQuery-like API.
- * Keeps an internal reference to a selectAll query on the passed 
- * `el`. Most methods will return the instance for chainability. 
- * 
+ * Keeps an internal reference to a selectAll query on the passed
+ * `el`. Most methods will return the instance for chainability.
+ *
  * @example
  * ```js
  * // alias the Frankie namespace
@@ -27,17 +27,17 @@
  *   .append('<h1>+++</h1>')
  *   .html('H T M L');
  * ```
- *   
- * @param {String|HTMLElement} el 
- *        valid css selector string, can contain multiple 
+ *
+ * @param {String|HTMLElement} el
+ *        valid css selector string, can contain multiple
  *        selectors separated my commas (see the example)
- * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} 
+ * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}
  *        context a parent context to search for the supplied `el` argument.
  * @class Frankie
  * @constructor
  * @category Dom
  * @memberOf  tooly
- * @static                    
+ * @static
  */
 tooly.Frankie = function(el, context) {
   if (!(this instanceof tooly.Frankie)) {
@@ -55,7 +55,7 @@ function _select(selector, context) {
   var parent;
   if (context && _type(context, 'string')) {
     parent = document.querySelector(context);
-  }  
+  }
   return (parent ? parent : document).querySelector(selector);
 }
 
@@ -86,13 +86,13 @@ function _pend(append, els, content) {
   if (!_type(content, 'string')) {
     var type = _type(content);
     html = (_node(content))
-      ? content.outerHTML 
+      ? content.outerHTML
       : (content instanceof tooly.Frankie)
         ? content.els
         : (type === 'array')
           ? content
-          : (type === 'nodelist') 
-            ? _toArray(content) 
+          : (type === 'nodelist')
+            ? _toArray(content)
             : null;
     if (_type(html, 'array')) {
       html = html.map(function(x) { return x.outerHTML; }).join('');
@@ -105,5 +105,5 @@ function _pend(append, els, content) {
   els.forEach(function(el) {
     // http://jsperf.com/insertadjacenthtml-perf/14
     el.insertAdjacentHTML(append ? 'beforeend' : 'afterbegin', html);
-  }); 
-} 
+  });
+}

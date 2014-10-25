@@ -160,11 +160,11 @@ tooly.each = function(obj, iterator, context) {
 //    +-----+
 
 /**
- * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest) 
+ * The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest)
  * _selectors_ of all time ;). A micro DOM util with a jQuery-like API.
- * Keeps an internal reference to a selectAll query on the passed 
- * `el`. Most methods will return the instance for chainability. 
- * 
+ * Keeps an internal reference to a selectAll query on the passed
+ * `el`. Most methods will return the instance for chainability.
+ *
  * @example
  * ```js
  * // alias the Frankie namespace
@@ -181,17 +181,17 @@ tooly.each = function(obj, iterator, context) {
  *   .append('<h1>+++</h1>')
  *   .html('H T M L');
  * ```
- *   
- * @param {String|HTMLElement} el 
- *        valid css selector string, can contain multiple 
+ *
+ * @param {String|HTMLElement} el
+ *        valid css selector string, can contain multiple
  *        selectors separated my commas (see the example)
- * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie} 
+ * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}
  *        context a parent context to search for the supplied `el` argument.
  * @class Frankie
  * @constructor
  * @category Dom
  * @memberOf  tooly
- * @static                    
+ * @static
  */
 tooly.Frankie = function(el, context) {
   if (!(this instanceof tooly.Frankie)) {
@@ -209,7 +209,7 @@ function _select(selector, context) {
   var parent;
   if (context && _type(context, 'string')) {
     parent = document.querySelector(context);
-  }  
+  }
   return (parent ? parent : document).querySelector(selector);
 }
 
@@ -240,13 +240,13 @@ function _pend(append, els, content) {
   if (!_type(content, 'string')) {
     var type = _type(content);
     html = (_node(content))
-      ? content.outerHTML 
+      ? content.outerHTML
       : (content instanceof tooly.Frankie)
         ? content.els
         : (type === 'array')
           ? content
-          : (type === 'nodelist') 
-            ? _toArray(content) 
+          : (type === 'nodelist')
+            ? _toArray(content)
             : null;
     if (_type(html, 'array')) {
       html = html.map(function(x) { return x.outerHTML; }).join('');
@@ -259,8 +259,8 @@ function _pend(append, els, content) {
   els.forEach(function(el) {
     // http://jsperf.com/insertadjacenthtml-perf/14
     el.insertAdjacentHTML(append ? 'beforeend' : 'afterbegin', html);
-  }); 
-} 
+  });
+}
 
 
 
@@ -272,6 +272,18 @@ function _pend(append, els, content) {
  */
 tooly.Frankie.prototype.zilch = function() {
   return this.els.length === 0;
+};
+
+
+
+/**
+ * @return {String}
+ * @memberOf  tooly.Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.toString = function() { 
+  return JSON.stringify(this);
+  // return '[object Frankie]'; 
 };
 
 
@@ -614,8 +626,8 @@ tooly.Handler.trigger = function(fn) {
  * @memberOf  tooly.Handler
  * @instance
  */
-tooly.Handler.toString = function() { 
-  return "[Handler ' " + this + " ']"; 
+tooly.Handler.prototype.toString = function() { 
+  return '[object Handler]'; 
 };
 
 
@@ -795,6 +807,17 @@ tooly.Logger = function(level, name) {
   // for emergency "must track anonymous function location" purposes
   logger.traceAnonymous = false;
   return logger;
+};
+
+
+
+/**
+ * @return {String}
+ * @memberOf  tooly.Logger
+ * @instance
+ */
+tooly.Logger.prototype.toString = function() { 
+  return '[object Logger]'; 
 };
 
 
@@ -998,28 +1021,28 @@ tooly.isTruthy = function(obj) {
 
 /**
  * port of is.hash
- * 
+ *
  * Test if `value` is a hash - a plain object literal.
  *
  * @param {Mixed} value value to test
  * @return {Boolean} true if `value` is a hash, false otherwise
- * 
+ *
  * @see https://github.com/enricomarino/is/blob/master/index.js
  * @author Enrico Marino (with minor edits)
- * 
+ *
  * @memberOf  tooly
  * @category  Object
  * @static
  */
 tooly.isHash = function(val) {
-  return _type(val) === 'object' && val.constructor === Object && 
+  return _type(val, 'object') && val.constructor === Object && 
     !val.nodeType && !val.setInterval;
 };
 
 
 
 /**
- * Extensively check if `obj` is "falsy". 
+ * Extensively check if `obj` is "falsy".
  * <br>
  * ### isFalsy returns true for the following:
  * ```js
@@ -1034,11 +1057,11 @@ tooly.isHash = function(val) {
  * var nullString            = 'null';
  * var undefinedString       = 'undefined';
  * ```
- * Note that in the cases of falsy strings, the check is 
- * done after a call to `String.trim`, so surrounding 
- * whitespace is ignored: 
+ * Note that in the cases of falsy strings, the check is
+ * done after a call to `String.trim`, so surrounding
+ * whitespace is ignored:
  * `isFalsy('\n\t false   \n') //=> true`
- * 
+ *
  * @param  {mixed}  obj the object to check
  * @return {Boolean}     true if `obj` is "falsy"
  *
@@ -1053,9 +1076,9 @@ tooly.isFalsy = function(obj) {
   if (obj == void 0 || obj == false) return true;
   if (_type(obj, 'string')) {
     var str = obj.trim();
-    return str === '' 
-      || str === 'false' 
-      || str === 'undefined' 
+    return str === ''
+      || str === 'false'
+      || str === 'undefined'
       || str === 'null';
   }
 };
@@ -1136,10 +1159,10 @@ tooly.falsy = function(obj) {
 
 /**
  * Add the "own properties" of `src` to `dest`.
- * Used throughout the application to add prototype 
+ * Used throughout the application to add prototype
  * methods to tooly classes without
  * assigning Object as their prototype.
- * 
+ *
  * @param  {Object} dest the destination object
  * @param  {Object} src  the source object
  * @return {Object}      `dest`
@@ -1155,25 +1178,24 @@ tooly.extend = function(dest, src) {
 
 
 /**
- * @param  {Function} ctor 
- * @param  {Object|Array} args 
+ * @param  {Function} ctor
+ * @param  {Object|Array} args
  * @return {Object}
- * 
+ *
  * @memberOf  tooly
  * @category  Object
- * @static      
+ * @static
  */
 tooly.construct = function(ctor, args) {
   // the stupid name leads to more revealing output in logs
   function ToolySurrogateConstructor() {
-    return (_type(args) === 'array') 
-      ? ctor.apply(this, args) 
+    return (_type(args) === 'array')
+      ? ctor.apply(this, args)
       : ctor.call(this, args);
   }
   ToolySurrogateConstructor.prototype = ctor.prototype;
   return new ToolySurrogateConstructor();
 };
-
 var _tag_re, _void_el_re;
 /**
  * __Experimental__ - will change in future versions.
@@ -1567,6 +1589,17 @@ tooly.Timer = function(name) {
   }
   this.name = name || 'Timer_instance_' + Date.now();
   return this; 
+};
+
+
+
+/**
+ * @return {String}
+ * @memberOf  tooly.Timer
+ * @instance
+ */
+tooly.Timer.prototype.toString = function() { 
+  return '[object Timer]'; 
 };
 
 

@@ -1,10 +1,6 @@
 'use strict';
 
-var child_process = require('child_process');
-
 module.exports = function(grunt) {
-
-  var child;
 
   grunt.initConfig({
 
@@ -63,32 +59,32 @@ module.exports = function(grunt) {
         linebreak: true
       },
       slim: {
-        files: { 
+        files: {
           src: ['dist/tooly-slim.js']
         }
       },
       slim_post: {
-        files: { 
+        files: {
           src: ['dist/tooly-slim.min.js']
         }
       },
       main: {
-        files: { 
+        files: {
           src: ['dist/tooly.js']
         }
       },
       post: {
-        files: { 
+        files: {
           src: ['dist/tooly.min.js']
         }
       },
       custom: {
-        files: { 
+        files: {
           src: ['<%= umd.custom.src %>']
         }
       },
       customPost: {
-        files: { 
+        files: {
           src: ['<%= uglify.custom.dest %>']
         }
       }
@@ -100,7 +96,7 @@ module.exports = function(grunt) {
     }
   });
 
-  
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-banner');
