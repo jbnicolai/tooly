@@ -7,7 +7,7 @@ module.exports =
 ' *\n' + 
 ' * <%= pkg.repository.url %>\n' +
 ' *\n' +  
-' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
 ' * Licensed under the <%= pkg.license.type %> license.\n' +
 ' * <%= pkg.license.url %>\n' +
 ' */\n';

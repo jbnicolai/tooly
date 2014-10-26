@@ -45,7 +45,9 @@
     "logger",
     "timer"
   ],
-  "author": "Joshua Kleckner",
+  "author": {
+    "name": "Joshua Kleckner"
+  },
   "email": "dev@lokua.net",
   "website": "http://lokua.net",
   "license": {

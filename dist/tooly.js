@@ -438,7 +438,7 @@ tooly.Frankie.prototype.hasClass = function(klass) {
 
 /**
  * Get the element at index `i` from Frankie's selected elements.
- * Unlike `#eq`, `get` returns the actual HTMLElement.
+ * Unlike `#eq` which returns a new Frankie instance, `get` returns the actual HTMLElement.
  * 
  * @memberOf tooly.Frankie
  * @instance
