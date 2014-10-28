@@ -3,6 +3,7 @@
 
 /**
  * @memberOf tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.hasClass = function(klass) {

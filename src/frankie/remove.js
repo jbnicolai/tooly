@@ -9,7 +9,11 @@
  * @param  {Boolean} returnRemoved If true, the elements will be returned from the function (within)
  *                                 a new Frankie instance 
  *                                 (which will keep them in memory if yo store them in a reference)
- * @return {this|Frankie}         
+ * @return {this|Frankie}  
+ * @memberOf tooly.Frankie
+ * @category  Frankie
+ * @instance
+ * 
  */
 tooly.Frankie.prototype.remove = function(element, returnRemoved) {
   var ret = [], i, frank = this, len = frank.els.length, els;

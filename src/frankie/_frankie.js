@@ -20,6 +20,8 @@ function _selectAll(selector, context) {
       parent = select(context);
     } else if (_type(context, 'nodelist')) {
       parent = select(context[0]);
+    } else if (_node(context)) {
+      parent = context;
     }
   }
   return _toArray( (parent ? parent : document).querySelectorAll(selector) );
@@ -87,14 +89,18 @@ function _pend(append, els, content) {
  *   .html('H T M L');
  * ```
  *
- * @param {String|HTMLElement} el
- *        valid css selector string, can contain multiple
+ * @param {String|HTMLElement} el  valid css selector string, can contain multiple
  *        selectors separated my commas (see the example)
- * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}
- *        context a parent context to search for the supplied `el` argument.
- * @class Frankie
+ * @param {Mixed} context  a parent context to search for the supplied `el` argument.
+ * can be any of the following:
+ * + `HTMLElement`
+ * + `String`
+ * + `Array<HTMLElement>`
+ * + `NodeList`
+ * + `Frankie` instance
+ * @class tooly.Frankie
  * @constructor
- * @category Dom
+ * @category  Frankie
  * @memberOf  tooly
  * @static
  */

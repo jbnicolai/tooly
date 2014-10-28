@@ -11,7 +11,7 @@
  * @param  {Object} src  the source object
  * @return {Object}      `dest`
  *
- * @category  Core
+ * @category  Object
  * @memberOf tooly
  * @static
  */

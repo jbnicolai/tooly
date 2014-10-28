@@ -7,6 +7,7 @@
  * @return {tooly.Frankie} a new Frankie instance
  *
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.parent = function() {

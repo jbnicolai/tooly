@@ -16,14 +16,14 @@
  * $('div').css('border', '2px solid red');
  * ```
  * 
- * @param  {String|Object}  styles  
- *         either a single comma separated key value pair of strings, or object hash
+ * @param  {String|Object}  styles  either a single comma separated key value pair of strings, or object hash
  * @return {tooly.Frankie} `this`
  * 
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
-tooly.Frankie.prototype.css = function(/*mixed*/) {
+tooly.Frankie.prototype.css = function() {
   var styles = {}, argsLen = arguments.length;
   if (argsLen === 2) {
     // SET via single comma sep key-value pair

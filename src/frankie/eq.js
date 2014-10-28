@@ -9,6 +9,7 @@
  * @return {tooly.Frankie} new Frankie instance
  * 
  * @memberOf tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.eq = function(i) {

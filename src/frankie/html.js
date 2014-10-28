@@ -10,6 +10,7 @@
  * @return {String|Object} the first matched el's innerHTML or null when in get mode,
  *                             otherwise `this` for chaining
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.html = function(content) {

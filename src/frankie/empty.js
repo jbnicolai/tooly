@@ -8,6 +8,7 @@
  * @return {tooly.Frankie} `this`
  *
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.empty = function() {

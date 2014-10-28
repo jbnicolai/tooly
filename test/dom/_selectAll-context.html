@@ -1,0 +1,19 @@
+<ul>
+  <li class="klass">
+    <ul class="subul">
+      <div></div>
+    </ul>
+  </li>
+</ul>
+<script src="../../dist/tooly.js"></script>
+<script>
+  var $ = tooly.Frankie.bind(this);
+  var logger = tooly.Logger(0, '_SELECT-ALL_CONTEXT_TEST');
+  window.onload = run;
+  function run() {
+    var $li = $('li');
+    logger.debug($li);
+    var $sub = $('ul', $li.get(0));
+    logger.debug($sub);
+  }
+</script>

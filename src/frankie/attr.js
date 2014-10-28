@@ -10,6 +10,7 @@
  *                          for the first argument
  *
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.attr = function(/*mixed*/) {

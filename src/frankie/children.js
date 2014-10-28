@@ -8,6 +8,8 @@
  * @return {tooly.Frankie} new Frankie instance
  * 
  * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
  */
 tooly.Frankie.prototype.children = function() {
   var frank = new tooly.Frankie();

@@ -12,6 +12,7 @@
  * @class  tooly.Timer
  * @constructor
  * @memberOf tooly
+ * @static
  */
 tooly.Timer = function(name) {
   // enable instantiation without new

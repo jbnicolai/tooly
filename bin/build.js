@@ -75,8 +75,12 @@ function compile() {
 
   // { folder: [ filename1.js, filename2.js, ... ] }
   files = _.object(includes, includes.map(function(inc, i) {
-    // reversed so ctor files with leading '_' show up first
-    return fs.readdirSync('./src/' + inc).reverse();
+    // keep same alphabetical, but move _ctor.js to front
+    var methods = fs.readdirSync('./src/' + inc);
+    if (methods[methods.length-1].charAt(0) === '_') {
+      methods.unshift(methods.pop());
+    }
+    return methods;
   }));
 
   code = fs.readFileSync('./src/_header.js', 'utf8');

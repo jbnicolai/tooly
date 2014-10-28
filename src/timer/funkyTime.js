@@ -28,6 +28,7 @@
  * @param  {Function} fn the function that will be timed.
  * @param  {number}   n  the number of times to run the function (defaults to 1)  
  * @return {Object}      a hash of timing results with the following signature:
+ * <br>
  * + __stack__ <Array[Number]>: the time of each iteration 
  * + __total__ <Number>: the total of all iterations
  * + __average__ <Number>: the average of all iterations

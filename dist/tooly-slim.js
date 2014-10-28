@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-10-27)
+ * tooly - version 0.0.5 (built: 2014-10-28)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -95,6 +95,38 @@ var tooly = { version: '0.0.5' };
 
 
 
+/**
+ * Port of underscore's each. Falls back to native forEach for Arrays when available.
+ * The `iterator` argument takes the following signature for Arrays:
+ * `iterator(value, index, array)` where the array is the same collection passed
+ * as the `obj` argument. For objects the signature is:
+ * `iterator(value, key, object)`.
+ * @example
+ * ```js
+ * var obj = {'1': 1, '2': 2, '3': 3, '4': 4};
+ * each(obj, function(v, k, o) { o[k] = v*100; });
+ * obj; //=> {'1': 100, '2': 200, '3': 300, '4': 400};
+ * 
+ * var arr = [1, 2, 3, 4];
+ * each(arr, function(v, i, a) { a[i] = v*100; });
+ * arr; //=> [100, 200, 300, 400];
+ * ```
+ * @param  {Object|Array} obj      the collection to iterate over
+ * @param  {Function} iterator the function called on each element in `obj` 
+ * @param  {Object} context  the context, used as `this` in the callback
+ * @return {Object|Array}          `obj`
+ *
+ * @memberOf  tooly
+ * @category  Collections
+ * @static 
+ */
+tooly.each = function(obj, iterator, context) {
+  return _each(obj, iterator, context);
+};
+
+
+
+
 var _sort_re, _sort_dig_re;
 
 /**
@@ -155,38 +187,6 @@ tooly.sort = function(arr, key, dsc) {
 
 
 
-/**
- * Port of underscore's each. Falls back to native forEach for Arrays when available.
- * The `iterator` argument takes the following signature for Arrays:
- * `iterator(value, index, array)` where the array is the same collection passed
- * as the `obj` argument. For objects the signature is:
- * `iterator(value, key, object)`.
- * @example
- * ```js
- * var obj = {'1': 1, '2': 2, '3': 3, '4': 4};
- * each(obj, function(v, k, o) { o[k] = v*100; });
- * obj; //=> {'1': 100, '2': 200, '3': 300, '4': 400};
- * 
- * var arr = [1, 2, 3, 4];
- * each(arr, function(v, i, a) { a[i] = v*100; });
- * arr; //=> [100, 200, 300, 400];
- * ```
- * @param  {Object|Array} obj      the collection to iterate over
- * @param  {Function} iterator the function called on each element in `obj` 
- * @param  {Object} context  the context, used as `this` in the callback
- * @return {Object|Array}          `obj`
- *
- * @memberOf  tooly
- * @category  Collections
- * @static 
- */
-tooly.each = function(obj, iterator, context) {
-  return _each(obj, iterator, context);
-};
-
-
-
-
 function _node(el) {
   return  el && (el.nodeType === 1 || el.nodeType === 9);
 }
@@ -206,6 +206,8 @@ function _selectAll(selector, context) {
       parent = select(context);
     } else if (_type(context, 'nodelist')) {
       parent = select(context[0]);
+    } else if (_node(context)) {
+      parent = context;
     }
   }
   return _toArray( (parent ? parent : document).querySelectorAll(selector) );
@@ -273,14 +275,18 @@ function _pend(append, els, content) {
  *   .html('H T M L');
  * ```
  *
- * @param {String|HTMLElement} el
- *        valid css selector string, can contain multiple
+ * @param {String|HTMLElement} el  valid css selector string, can contain multiple
  *        selectors separated my commas (see the example)
- * @param {HTMLElement|String|Array<HTMLElement>|NodeList|Frankie}
- *        context a parent context to search for the supplied `el` argument.
- * @class Frankie
+ * @param {Mixed} context  a parent context to search for the supplied `el` argument.
+ * can be any of the following:
+ * + `HTMLElement`
+ * + `String`
+ * + `Array<HTMLElement>`
+ * + `NodeList`
+ * + `Frankie` instance
+ * @class tooly.Frankie
  * @constructor
- * @category Dom
+ * @category  Frankie
  * @memberOf  tooly
  * @static
  */
@@ -295,44 +301,285 @@ tooly.Frankie = function(el, context) {
 
 
 /**
- * @return {Boolean} `true` if this instance's inner elements array is empty.
+ * add a css class to element
  * 
- * @memberOf tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.zilch = function() {
-  return this.els.length === 0;
-};
-
-
-
-/**
- * @return {String}
- * @memberOf  tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.toString = function() { 
-  return JSON.stringify(this);
-  // return '[object Frankie]'; 
-};
-
-
-
-/**
- * remove a css class from an element
- * 
- * @param  {String} klass   the css class(es) to remove
- * @return {tooly.Frankie} `this` 
+ * @param {String|Array<String>} klass the css class(es) to add
+ * @return {tooly.Frankie} `this`
  *
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
-tooly.Frankie.prototype.removeClass = function(klass) {
-  // "or-ize" for multiple klasses match in regexp
-  var classes = '(' + klass.split(_ws_re).join('|') + ')';
-  this.els.forEach(function(x) {
-    x.className = x.className.replace(_classReg(classes), ' ').trim();
+tooly.Frankie.prototype.addClass = function(klass) {
+  this.els.forEach(function(x) { 
+    if (!x.className) {
+      x.className += ' ' + klass;
+      return;
+    }
+    var names = x.className;
+    x.className += ' ' + klass.split(_ws_re).filter(function(n) {
+      return names.indexOf(n) === -1;
+    }).join(' ');
   });
+  return this;
+};
+
+
+
+/**
+ * append `content` to all elements in the set of matched elements.
+ * 
+ * @param  {mixed}  content  the content to append
+ * @return {tooly.Frankie} `this`
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.append = function(content) {
+  _pend(true, this.els, content);
+  return this;
+};
+
+
+
+/**
+ * get or set a(n) html attribute(s)
+ * 
+ * @param  {Object|String} attr  the attribute to get/set
+ * @param  {String|Number} the value of the attribute `attr` (only if `attr` is a name string)
+ * @return {Object} Frankie or the attribute value if only a single string is passed
+ *                          for the first argument
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.attr = function(/*mixed*/) {
+  var argsLen = arguments.length,
+      attr = arguments[0];
+  if (argsLen === 1) {
+    if (_type(attr, 'object')) {
+      // SET (hash)
+      _each(attr, function(val, key) {
+        this.els.forEach(function(x) { x.setAttribute(key, val); });
+      });
+    } else {
+      // GET
+      return this.els[0].getAttribute(attr);
+    }
+  } else { // SET (single comma sep key-val pair)
+    var value = arguments[1];
+    this.els.forEach(function(x) { x.setAttribute(attr, value); });
+  }
+  return this;
+};
+
+
+
+/**
+ * Create a new Frankie instance from all first-generation child elements of 
+ * the current set of matched elements;
+ *     
+ * @return {tooly.Frankie} new Frankie instance
+ * 
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.children = function() {
+  var frank = new tooly.Frankie();
+  this.els.forEach(function(x) { 
+    var c = x.children;
+    if (_node(c)) {
+      frank.els.push(c);
+    } else if (_type(c) === 'htmlcollection') {
+      [].push.apply(frank.els, [].slice.call(c).map(function(v) { return v; }));
+    }
+  });
+  return frank;
+};
+
+
+
+/**
+ * @example
+ * ```js
+ * // as key val pair (key must also be a string)
+ * var el = tooly.select('#main');
+ * $('div').css('background', 'red');
+ * 
+ * // or as hash (notice that hyphenated keys must be quoted)<br>
+ * $('div').css({ width: '100px', background: 'red', 'font-size': '24px' });
+ *
+ * // also can take valid css selector string in place of element
+ * // below will match the document's first div
+ * $('div').css('border', '2px solid red');
+ * ```
+ * 
+ * @param  {String|Object}  styles  either a single comma separated key value pair of strings, or object hash
+ * @return {tooly.Frankie} `this`
+ * 
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.css = function() {
+  var styles = {}, argsLen = arguments.length;
+  if (argsLen === 2) {
+    // SET via single comma sep key-value pair
+    styles[arguments[0]] = arguments[1];
+  } else {
+    var el = this.els[0];
+    if (argsLen === 1) {
+      _0 = arguments[0];
+      // GET by key
+      if (_type(_0, 'string')) {
+        return el.style[_0] || undefined;
+      }
+      // SET via hash
+      styles = _0;
+    } else {
+      // GET all
+      return el.style || undefined;
+    }
+  }
+  // set
+  this.els.forEach(function(x) { 
+    _each(styles, function(s, k) { x.style[k] = s; });
+  });
+  return this;
+};
+
+
+
+/**
+ * remove all child nodes from the set of matched elements.
+ * __TODO__: remove listeners?
+ * 
+ * @return {tooly.Frankie} `this`
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.empty = function() {
+  this.els.forEach(function(x) {
+    // see http://jsperf.com/innerhtml-vs-removechild/15
+    while (x.lastChild) x.removeChild(x.lastChild);
+  });
+  return this;
+};
+
+
+
+/**
+ * Create a new instance of Frankie with only the element
+ * specified by index
+ *
+ * @param {Number} index the index of the element
+ * @return {tooly.Frankie} new Frankie instance
+ * 
+ * @memberOf tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.eq = function(i) {
+  var frank = new tooly.Frankie();
+  frank.els = [this.els[i]];
+  return frank;
+};
+
+
+
+/**
+ * Get the element at index `i` from Frankie's selected elements.
+ * Unlike `#eq`, `get` returns the actual HTMLElement.
+ * 
+ * @memberOf tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.get = function(i) {
+  return this.els[i];
+};
+
+
+
+/**
+ * @memberOf tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.hasClass = function(klass) {
+  var re = _classReg(klass);
+  return this.els.some(function(x) { 
+    return x.className.split(_ws_re).some(function(c) { 
+      return c.match(re) == klass; 
+    });
+  });
+};
+
+
+
+/**
+ * fill each element in the set of matched elements with `content`. 
+ * Replaces existing content.
+ * If called with 1 arg, the first matched element's innerHTML is returned.
+ * 
+ * @param  {Mixed} content
+ * @return {String|Object} the first matched el's innerHTML or null when in get mode,
+ *                             otherwise `this` for chaining
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.html = function(content) {
+  // get
+  if (!arguments.length)  {
+    return this.els[0].innerHTML;
+  }
+  // set
+  this.els.forEach(function(x) { x.innerHTML = content; });
+  return this;
+};
+
+
+
+/**
+ * Create a Frankie instance from all parent elements of the set of matched elements.
+ * 
+ * @return {tooly.Frankie} a new Frankie instance
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.parent = function() {
+  var frank = new tooly.Frankie();
+  var seen = {};
+  frank.els = this.els.map(function(x) { 
+    return x.parentNode; 
+  }).filter(function(x) {
+    return seen.hasOwnProperty(x) ? false : (seen[x] = true);
+  });
+  return frank;
+};
+
+
+
+/**
+ * prepend `content` to all elements in the set of matched elements.
+ * 
+ * @param  {mixed}  content  the content to prepend
+ * @return {tooly.Frankie} `this`
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.prepend = function(content) {
+  _pend(false, this.els, content);
   return this;
 };
 
@@ -346,7 +593,11 @@ tooly.Frankie.prototype.removeClass = function(klass) {
  * @param  {Boolean} returnRemoved If true, the elements will be returned from the function (within)
  *                                 a new Frankie instance 
  *                                 (which will keep them in memory if yo store them in a reference)
- * @return {this|Frankie}         
+ * @return {this|Frankie}  
+ * @memberOf tooly.Frankie
+ * @category  Frankie
+ * @instance
+ * 
  */
 tooly.Frankie.prototype.remove = function(element, returnRemoved) {
   var ret = [], i, frank = this, len = frank.els.length, els;
@@ -381,124 +632,20 @@ tooly.Frankie.prototype.remove = function(element, returnRemoved) {
 
 
 /**
- * prepend `content` to all elements in the set of matched elements.
+ * remove a css class from an element
  * 
- * @param  {mixed}  content  the content to prepend
- * @return {tooly.Frankie} `this`
+ * @param  {String} klass   the css class(es) to remove
+ * @return {tooly.Frankie} `this` 
  *
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
-tooly.Frankie.prototype.prepend = function(content) {
-  _pend(false, this.els, content);
-  return this;
-};
-
-
-
-/**
- * Create a Frankie instance from all parent elements of the set of matched elements.
- * 
- * @return {tooly.Frankie} a new Frankie instance
- *
- * @memberOf  tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.parent = function() {
-  var frank = new tooly.Frankie();
-  var seen = {};
-  frank.els = this.els.map(function(x) { 
-    return x.parentNode; 
-  }).filter(function(x) {
-    return seen.hasOwnProperty(x) ? false : (seen[x] = true);
-  });
-  return frank;
-};
-
-
-
-/**
- * fill each element in the set of matched elements with `content`. 
- * Replaces existing content.
- * If called with 1 arg, the first matched element's innerHTML is returned.
- * 
- * @param  {Mixed} content
- * @return {String|Object} the first matched el's innerHTML or null when in get mode,
- *                             otherwise `this` for chaining
- * @memberOf  tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.html = function(content) {
-  // get
-  if (!arguments.length)  {
-    return this.els[0].innerHTML;
-  }
-  // set
-  this.els.forEach(function(x) { x.innerHTML = content; });
-  return this;
-};
-
-
-
-/**
- * @memberOf tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.hasClass = function(klass) {
-  var re = _classReg(klass);
-  return this.els.some(function(x) { 
-    return x.className.split(_ws_re).some(function(c) { 
-      return c.match(re) == klass; 
-    });
-  });
-};
-
-
-
-/**
- * Get the element at index `i` from Frankie's selected elements.
- * Unlike `#eq`, `get` returns the actual HTMLElement.
- * 
- * @memberOf tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.get = function(i) {
-  return this.els[i];
-};
-
-
-
-/**
- * Create a new instance of Frankie with only the element
- * specified by index
- *
- * @param {Number} index the index of the element
- * @return {tooly.Frankie} new Frankie instance
- * 
- * @memberOf tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.eq = function(i) {
-  var frank = new tooly.Frankie();
-  frank.els = [this.els[i]];
-  return frank;
-};
-
-
-
-/**
- * remove all child nodes from the set of matched elements.
- * __TODO__: remove listeners?
- * 
- * @return {tooly.Frankie} `this`
- *
- * @memberOf  tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.empty = function() {
+tooly.Frankie.prototype.removeClass = function(klass) {
+  // "or-ize" for multiple klasses match in regexp
+  var classes = '(' + klass.split(_ws_re).join('|') + ')';
   this.els.forEach(function(x) {
-    // see http://jsperf.com/innerhtml-vs-removechild/15
-    while (x.lastChild) x.removeChild(x.lastChild);
+    x.className = x.className.replace(_classReg(classes), ' ').trim();
   });
   return this;
 };
@@ -506,149 +653,27 @@ tooly.Frankie.prototype.empty = function() {
 
 
 /**
- * @example
- * ```js
- * // as key val pair (key must also be a string)
- * var el = tooly.select('#main');
- * $('div').css('background', 'red');
- * 
- * // or as hash (notice that hyphenated keys must be quoted)<br>
- * $('div').css({ width: '100px', background: 'red', 'font-size': '24px' });
- *
- * // also can take valid css selector string in place of element
- * // below will match the document's first div
- * $('div').css('border', '2px solid red');
- * ```
- * 
- * @param  {String|Object}  styles  
- *         either a single comma separated key value pair of strings, or object hash
- * @return {tooly.Frankie} `this`
- * 
+ * @return {String}
  * @memberOf  tooly.Frankie
+ * @category  Frankie
  * @instance
  */
-tooly.Frankie.prototype.css = function(/*mixed*/) {
-  var styles = {}, argsLen = arguments.length;
-  if (argsLen === 2) {
-    // SET via single comma sep key-value pair
-    styles[arguments[0]] = arguments[1];
-  } else {
-    var el = this.els[0];
-    if (argsLen === 1) {
-      _0 = arguments[0];
-      // GET by key
-      if (_type(_0, 'string')) {
-        return el.style[_0] || undefined;
-      }
-      // SET via hash
-      styles = _0;
-    } else {
-      // GET all
-      return el.style || undefined;
-    }
-  }
-  // set
-  this.els.forEach(function(x) { 
-    _each(styles, function(s, k) { x.style[k] = s; });
-  });
-  return this;
+tooly.Frankie.prototype.toString = function() { 
+  return JSON.stringify(this);
+  // return '[object Frankie]'; 
 };
 
 
 
 /**
- * Create a new Frankie instance from all first-generation child elements of 
- * the current set of matched elements;
- *     
- * @return {tooly.Frankie} new Frankie instance
+ * @return {Boolean} `true` if this instance's inner elements array is empty.
  * 
- * @memberOf  tooly.Frankie
- */
-tooly.Frankie.prototype.children = function() {
-  var frank = new tooly.Frankie();
-  this.els.forEach(function(x) { 
-    var c = x.children;
-    if (_node(c)) {
-      frank.els.push(c);
-    } else if (_type(c) === 'htmlcollection') {
-      [].push.apply(frank.els, [].slice.call(c).map(function(v) { return v; }));
-    }
-  });
-  return frank;
-};
-
-
-
-/**
- * get or set a(n) html attribute(s)
- * 
- * @param  {Object|String} attr  the attribute to get/set
- * @param  {String|Number} the value of the attribute `attr` (only if `attr` is a name string)
- * @return {Object} Frankie or the attribute value if only a single string is passed
- *                          for the first argument
- *
- * @memberOf  tooly.Frankie
+ * @memberOf tooly.Frankie
+ * @category  Frankie
  * @instance
  */
-tooly.Frankie.prototype.attr = function(/*mixed*/) {
-  var argsLen = arguments.length,
-      attr = arguments[0];
-  if (argsLen === 1) {
-    if (_type(attr, 'object')) {
-      // SET (hash)
-      _each(attr, function(val, key) {
-        this.els.forEach(function(x) { x.setAttribute(key, val); });
-      });
-    } else {
-      // GET
-      return this.els[0].getAttribute(attr);
-    }
-  } else { // SET (single comma sep key-val pair)
-    var value = arguments[1];
-    this.els.forEach(function(x) { x.setAttribute(attr, value); });
-  }
-  return this;
-};
-
-
-
-/**
- * append `content` to all elements in the set of matched elements.
- * 
- * @param  {mixed}  content  the content to append
- * @return {tooly.Frankie} `this`
- *
- * @memberOf  tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.append = function(content) {
-  _pend(true, this.els, content);
-  return this;
-};
-
-
-
-/**
- * add a css class to element
- * 
- * @param {String|Array<String>} klass the css class(es) to add
- * @return {tooly.Frankie} `this`
- *
- * @memberOf  tooly.Frankie
- * @instance
- */
-tooly.Frankie.prototype.addClass = function(klass) {
-  this.els.forEach(function(x) { 
-    if (!x.className) {
-      x.className += ' ' + klass;
-      return;
-    }
-    var names = x.className;
-    x.className += ' ' + klass.split(_ws_re).filter(function(n) {
-      return names.indexOf(n) === -1;
-    }).join(' ');
-  });
-  return this;
+tooly.Frankie.prototype.zilch = function() {
+  return this.els.length === 0;
 };
 
 
@@ -664,6 +689,7 @@ tooly.Frankie.prototype.addClass = function(klass) {
  * @constructor
  * @category  Handler
  * @memberOf  tooly
+ * @static
  */
 tooly.Handler = function(context) {
   if (!(this instanceof tooly.Handler)) {
@@ -674,107 +700,6 @@ tooly.Handler = function(context) {
   return this;
 };
     
-
-
-/**
- * alias for #executeHandler
- * 
- * @ignore
- * @memberOf  tooly.Handler
- * @instance
- */
-tooly.Handler.prototype.trigger = function(fn) {
-  return this.executeHandler(fn);
-};
-
-
-
-/**
- * @return {String}
- * @memberOf  tooly.Handler
- * @instance
- */
-tooly.Handler.prototype.toString = function() { 
-  return '[object Handler]'; 
-};
-
-
-
-/**
- * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
- *
- * @memberOf  tooly.Handler
- * @instance
- */
-tooly.Handler.prototype.removeAll = function() {
-  this.handlers = {};
-};
-
-
-
-/**
- * Remove all handler's attached to `fn`. All subsequent calls to 
- * `executeHandler(fn)` will no longer have an effect.
- * 
- * @param  {Function} fn the named function that executes handler(s)
- * 
- * @memberOf  tooly.Handler
- * @instance
- * @alias #off
- */
-tooly.Handler.prototype.remove = function(fn) {
-  if (this.handlers[fn] !== undefined) {
-    this.handlers[fn].length = 0;
-  }
-};
-
-
-
-/**
- * Add callbacks to the list of handlers. The callbacks must be an object collection of 
- * key-value pairs where the identifier key is the name of a function that calls the 
- * `executeHandler` method with the same name as the key, while the value is the callback 
- * function itself. This method should not be used if only registering a single callback, 
- * for that use {@link #on}.
- * 
- * @param  {Object} handlers  collection of callback functions
- * @return {Object} `this` for chaining
- * 
- * @memberOf  tooly.Handler
- * @instance
- */
-tooly.Handler.prototype.registerCallbacks = function(callbacks) {
-  var t = this, h = {};
-  if (callbacks !== undefined) {
-    for (h in callbacks) {
-      if (callbacks.hasOwnProperty(h)) {
-        t.on(h, callbacks[h]);
-      }
-    }
-  }
-  return t;
-};
-
-
-
-/**
- * Register an event handler for a named function.
- * 
- * @param  {(String|Function)} fn   the function that will call the handler when executed
- * @param  {callback}   handler the handler that we be called by the named function
- * @return {Object} `this` for chaining
- * 
- * @memberOf  tooly.Handler
- * @instance
- */
-tooly.Handler.prototype.on = function(fn, handler) {
-  if (this.handlers[fn] === undefined) {
-    this.handlers[fn] = [];
-  }
-  this.handlers[fn].push(handler);
-  return this;
-};
-
 
 
 /**
@@ -814,101 +739,217 @@ tooly.Handler.prototype.executeHandler = function(fn) {
 
 
 
-/*! @alias for #toType */
-tooly.type = function(o, k) { 
-  return _type(o, k); 
-};
-
-
-
-/*! alias for #isTruthy */
-tooly.truthy = function(obj) {
-  return !isFalsy(obj);
-};
-
-
-
 /**
- * A more useful alternative to the typeof operator.
- * If only the `obj` argument is passed, the class of that object is returned.
- * If the second argument `klass` is passed, a boolean indicating whether `obj`
- * is of class `klass` or not is returned.
+ * Register an event handler for a named function.
  * 
- * @param  {Object} obj     the object
- * @param  {String} klass   object class to compare to
- * @return {String|Boolean} the type of object if only `obj` is passed or 
- *                              true if `obj` is of class `klass`, false otherwise
- *
- * @alias type
- * @author Angus Croll
- * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
+ * @param  {(String|Function)} fn   the function that will call the handler when executed
+ * @param  {callback}   handler the handler that we be called by the named function
+ * @return {Object} `this` for chaining
  * 
- * @memberOf tooly
- * @category Object
- * @static
+ * @memberOf  tooly.Handler
+ * @instance
  */
-tooly.toType = function(obj, klass) {
-  return _type(obj, klass);
+tooly.Handler.prototype.on = function(fn, handler) {
+  if (this.handlers[fn] === undefined) {
+    this.handlers[fn] = [];
+  }
+  this.handlers[fn].push(handler);
+  return this;
 };
 
 
 
 /**
- * scale a number from one range to another
+ * Add callbacks to the list of handlers. The callbacks must be an object collection of 
+ * key-value pairs where the identifier key is the name of a function that calls the 
+ * `executeHandler` method with the same name as the key, while the value is the callback 
+ * function itself. This method should not be used if only registering a single callback, 
+ * for that use {@link #on}.
  * 
- * @param  {Number} n      the number to scale
- * @param  {Number} oldMin 
- * @param  {Number} oldMax 
- * @param  {Number} min    the new min
- * @param  {Number} max    the new max
- * @return {Number}        the scaled number
+ * @param  {Object} handlers  collection of callback functions
+ * @return {Object} `this` for chaining
  * 
- * @memberOf tooly
- * @category Object
- * @static
+ * @memberOf  tooly.Handler
+ * @instance
  */
-tooly.scale = function(n, oldMin, oldMax, min, max) {
-  return (((n-oldMin)*(max-min)) / (oldMax-oldMin)) + min; 
+tooly.Handler.prototype.registerCallbacks = function(callbacks) {
+  var t = this, h = {};
+  if (callbacks !== undefined) {
+    for (h in callbacks) {
+      if (callbacks.hasOwnProperty(h)) {
+        t.on(h, callbacks[h]);
+      }
+    }
+  }
+  return t;
 };
 
 
 
 /**
- * Opposite of `isFalsy`.
+ * Remove all handler's attached to `fn`. All subsequent calls to 
+ * `executeHandler(fn)` will no longer have an effect.
  * 
- * @param  {mixed}  obj the object to check
- * @return {Boolean}     true if `obj` is "truthy"
- *
- * @alias #truthy
- * @see  #isFalsy
- * @memberOf tooly
- * @category Object
- * @static
+ * @param  {Function} fn the named function that executes handler(s)
+ * 
+ * @memberOf  tooly.Handler
+ * @instance
+ * @alias #off
  */
-tooly.isTruthy = function(obj) {
-  return !isFalsy(obj);
+tooly.Handler.prototype.remove = function(fn) {
+  if (this.handlers[fn] !== undefined) {
+    this.handlers[fn].length = 0;
+  }
 };
 
 
 
 /**
- * port of is.hash
+ * Remove all handlers. Any subsequent call to #executeHandler will have no effect.
  *
- * Test if `value` is a hash - a plain object literal.
- *
- * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a hash, false otherwise
- *
- * @see https://github.com/enricomarino/is/blob/master/index.js
- * @author Enrico Marino (with minor edits)
+ * @memberOf  tooly.Handler
+ * @instance
+ */
+tooly.Handler.prototype.removeAll = function() {
+  this.handlers = {};
+};
+
+
+
+/**
+ * @return {String}
+ * @memberOf  tooly.Handler
+ * @instance
+ */
+tooly.Handler.prototype.toString = function() { 
+  return '[object Handler]'; 
+};
+
+
+
+/**
+ * alias for #executeHandler
+ * 
+ * @ignore
+ * @memberOf  tooly.Handler
+ * @instance
+ */
+tooly.Handler.prototype.trigger = function(fn) {
+  return this.executeHandler(fn);
+};
+
+
+
+/**
+ * @param  {Function} ctor
+ * @param  {Object|Array} args
+ * @return {Object}
  *
  * @memberOf  tooly
  * @category  Object
  * @static
  */
-tooly.isHash = function(val) {
-  return _type(val, 'object') && val.constructor === Object && 
-    !val.nodeType && !val.setInterval;
+tooly.construct = function(ctor, args) {
+  // the stupid name leads to more revealing output in logs
+  function ToolySurrogateConstructor() {
+    return (_type(args) === 'array')
+      ? ctor.apply(this, args)
+      : ctor.call(this, args);
+  }
+  ToolySurrogateConstructor.prototype = ctor.prototype;
+  return new ToolySurrogateConstructor();
+};
+
+
+
+/**
+ * Add the "own properties" of `src` to `dest`.
+ * Used throughout the application to add prototype
+ * methods to tooly classes without
+ * assigning Object as their prototype.
+ *
+ * @param  {Object} dest the destination object
+ * @param  {Object} src  the source object
+ * @return {Object}      `dest`
+ *
+ * @category  Object
+ * @memberOf tooly
+ * @static
+ */
+tooly.extend = function(dest, src) {
+  return _extend(dest, src);
+};
+
+
+
+/*! alias for #isFalsy */
+tooly.falsy = function(obj) {
+  return isFalsy(obj);
+};
+
+
+
+/**
+ * Object literal assignment results in creating an an object with Object.prototype
+ * as the prototype. This allows us to assign a different prototype while keeping 
+ * the convenience of literal declaration.
+ * 
+ * @param  {Object} prototype
+ * @param  {Object} object    
+ * @return {Object}
+ * 
+ * @author Yehuda Katz
+ * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+ * 
+ * @memberOf  tooly
+ * @category  Object
+ * @static 
+ */
+tooly.fromPrototype = function(prototype, object) {
+  var newObject = Object.create(prototype), 
+      prop;
+  for (prop in object) {
+    if (object.hasOwnProperty(prop)) {
+      newObject[prop] = object[prop];
+    }
+  }
+  return newObject;
+};
+
+
+
+/**
+ * Helper to perform prototypal inheritance.
+ * Note that this method overwrites the child's original prototype.
+ * Also note that the child's constructor needs to call `parent.call(this)`
+ *
+ * @example
+ * ```js
+ * function Parent() {}
+ * Parent.prototype.b = 2;
+ * function Child() { Parent.call(this); } // this is a must
+ * tooly.inherit(Parent, Child, { a: 1 });
+ * var child = new Child();
+ * console.log(child.a + child.b); //=> 3
+ * // for a more practical example see the tooly.Handler documentation.
+ * ```
+ * 
+ * @param  {Function} parent
+ * @param  {Function} child  
+ * @param  {Mixed} extend additional members to the Child's prototype 
+ * 
+ * @memberOf  tooly
+ * @category  Object
+ * @static
+ */
+tooly.inherit = function(parent, child, extend) {
+  child.prototype = new parent();
+  child.prototype.constructor = child;
+  for (var prop in extend) {
+    if (extend.hasOwnProperty(prop)) {
+      child.prototype[prop] = extend[prop];
+    }
+  }
 };
 
 
@@ -958,115 +999,408 @@ tooly.isFalsy = function(obj) {
 
 
 /**
- * Helper to perform prototypal inheritance.
- * Note that this method overwrites the child's original prototype.
- * Also note that the child's constructor needs to call `parent.call(this)`
+ * port of is.hash
  *
- * @example
+ * Test if `value` is a hash - a plain object literal.
+ *
+ * @param {Mixed} value value to test
+ * @return {Boolean} true if `value` is a hash, false otherwise
+ *
+ * @see https://github.com/enricomarino/is/blob/master/index.js
+ * @author Enrico Marino (with minor edits)
+ *
+ * @memberOf  tooly
+ * @category  Object
+ * @static
+ */
+tooly.isHash = function(val) {
+  return _type(val, 'object') && val.constructor === Object && 
+    !val.nodeType && !val.setInterval;
+};
+
+
+
+/**
+ * Opposite of `isFalsy`.
+ * 
+ * @param  {mixed}  obj the object to check
+ * @return {Boolean}     true if `obj` is "truthy"
+ *
+ * @alias #truthy
+ * @see  #isFalsy
+ * @memberOf tooly
+ * @category Object
+ * @static
+ */
+tooly.isTruthy = function(obj) {
+  return !isFalsy(obj);
+};
+
+
+
+/**
+ * scale a number from one range to another
+ * 
+ * @param  {Number} n      the number to scale
+ * @param  {Number} oldMin 
+ * @param  {Number} oldMax 
+ * @param  {Number} min    the new min
+ * @param  {Number} max    the new max
+ * @return {Number}        the scaled number
+ * 
+ * @memberOf tooly
+ * @category Object
+ * @static
+ */
+tooly.scale = function(n, oldMin, oldMax, min, max) {
+  return (((n-oldMin)*(max-min)) / (oldMax-oldMin)) + min; 
+};
+
+
+
+/**
+ * A more useful alternative to the typeof operator.
+ * If only the `obj` argument is passed, the class of that object is returned.
+ * If the second argument `klass` is passed, a boolean indicating whether `obj`
+ * is of class `klass` or not is returned.
+ * 
+ * @param  {Object} obj     the object
+ * @param  {String} klass   object class to compare to
+ * @return {String|Boolean} the type of object if only `obj` is passed or 
+ *                              true if `obj` is of class `klass`, false otherwise
+ *
+ * @alias type
+ * @author Angus Croll
+ * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
+ * 
+ * @memberOf tooly
+ * @category Object
+ * @static
+ */
+tooly.toType = function(obj, klass) {
+  return _type(obj, klass);
+};
+
+
+
+/*! alias for #isTruthy */
+tooly.truthy = function(obj) {
+  return !isFalsy(obj);
+};
+
+
+
+/*! @alias for #toType */
+tooly.type = function(o, k) { 
+  return _type(o, k); 
+};
+
+
+
+/**
+ * minimal Function version of ECMAScript6 `String.prototype.contains`.
+ * 
+ * @param  {String} source the source string
+ * @param  {String} str    the string to find
+ * @param  {String} index  [optional] index to start searching from
+ * @return {Boolean}       true if `source` contains `str`
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.contains = function(source, str, index) {
+  return source.indexOf(str, index || 0) > -1; 
+};
+
+
+
+
+/**
+ * minimal Function version of ECMAScript6 `String.prototype.endsWith`.
+ * 
+ * @param  {String} str    the string to check
+ * @param  {String} suffix the "endWith" we are seeking
+ * @return {Boolean}       true if str ends with suffix
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.endsWith = function(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+};
+
+
+
+/**
+ * get the extension of a file, url, or anything after the last `.` in a string.
+ *
+ * @param {String} str the string
+ * @return {String}
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.extension = function(str) {
+  return str.substring(str.lastIndexOf('.')+1);
+};
+
+
+
+/**
+ * Minimal `printf` style string formatting.
+ *
+ * ### Usage
  * ```js
- * function Parent() {}
- * Parent.prototype.b = 2;
- * function Child() { Parent.call(this); } // this is a must
- * tooly.inherit(Parent, Child, { a: 1 });
- * var child = new Child();
- * console.log(child.a + child.b); //=> 3
- * // for a more practical example see the tooly.Handler documentation.
+ * var obj = {website:'lokua.net'};
+ * var float = 19.333;
+ * tooly.format('object: %o, float: %f', obj, float);
+ * //=> "object: {website:'lokua.net'}, float: 19.333"
  * ```
  * 
- * @param  {Function} parent
- * @param  {Function} child  
- * @param  {Mixed} extend additional members to the Child's prototype 
- * 
- * @memberOf  tooly
- * @category  Object
- * @static
+ * ### Supported specifiers 
+ * + `%o` or `%j`: Object (JSON#stringified)
+ * + `%d` of `%i`: Integer
+ * + `%f`        : Float
+ * + `%s`        : String
+ *   
+ * @param  {String} format the format string
+ * @return {String}        the formatted string
  */
-tooly.inherit = function(parent, child, extend) {
-  child.prototype = new parent();
-  child.prototype.constructor = child;
-  for (var prop in extend) {
-    if (extend.hasOwnProperty(prop)) {
-      child.prototype[prop] = extend[prop];
+tooly.format = function(format) {
+  var args = _slice.call(arguments, 1);
+  if (!_format_re) _format_re = /\%[ojdifsc]+/gi;
+  return format.replace(_format_re, function(m) {
+    var x = args.shift();
+    if (x !== undefined) {
+      switch(m) {
+        case '%o': // fallthrough
+        case '%j': x = JSON.stringify(x); break;
+        case '%d': // fallthrough
+        case '%i': x = x | 0; break;
+        case '%f': x = parseFloat(x); break;
+        case '%s': // fallthrough
+        default: break;
+      }      
+      return x;
     }
-  }
+    return m;
+  });
 };
 
 
 
 /**
- * Object literal assignment results in creating an an object with Object.prototype
- * as the prototype. This allows us to assign a different prototype while keeping 
- * the convenience of literal declaration.
+ * Format money.
  * 
- * @param  {Object} prototype
- * @param  {Object} object    
- * @return {Object}
+ * @example
+ * ```js
+ * var loot = '$' + tooly.formatMoney(10989.34); 
+ * loot //=> "$10,989.00"
+ * ```
  * 
- * @author Yehuda Katz
- * @see http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+ * @param  {Number|String} n a number or numerical string
+ * @return {String}   `n` formatted as money (comma separated every three digits)
  * 
- * @memberOf  tooly
- * @category  Object
- * @static 
- */
-tooly.fromPrototype = function(prototype, object) {
-  var newObject = Object.create(prototype), 
-      prop;
-  for (prop in object) {
-    if (object.hasOwnProperty(prop)) {
-      newObject[prop] = object[prop];
-    }
-  }
-  return newObject;
-};
-
-
-
-/*! alias for #isFalsy */
-tooly.falsy = function(obj) {
-  return isFalsy(obj);
-};
-
-
-
-/**
- * Add the "own properties" of `src` to `dest`.
- * Used throughout the application to add prototype
- * methods to tooly classes without
- * assigning Object as their prototype.
- *
- * @param  {Object} dest the destination object
- * @param  {Object} src  the source object
- * @return {Object}      `dest`
- *
- * @category  Core
+ * @see http://stackoverflow.com/a/14428340/2416000 
+ * (slightly modified to coerce string-numbers)
  * @memberOf tooly
+ * @category String
  * @static
  */
-tooly.extend = function(dest, src) {
-  return _extend(dest, src);
+tooly.formatMoney = function(n) {
+  var number = _type(n, 'number') ? n : +n;
+  return number.toFixed(2).replace(/./g, function(c, i, a) {
+    return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
+  });
+};
+
+
+
+var _curly_re = /{(\d+)}/g;
+
+/**
+ * Function version of (C# style?) String.format
+ * 
+ * @example 
+ * ```js
+ * var formatted = tooly.format('{0}{1}', 'tooly', '.js')); 
+ * formatted; //=> 'tooly.js'
+ * ```
+ *
+ * @param  {String} format the format string
+ * @return {String}        the formatted string
+ *
+ * @alias #stringFormat
+ * @see  #format
+ * @see  http://stackoverflow.com/a/4673436/2416000
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.formatString = function(format) {
+  var args = _slice.call(arguments, 1);
+  return format.replace(_curly_re, function(match, number) { 
+    return typeof args[number] != 'undefined' ? args[number] : match;
+  });
 };
 
 
 
 /**
- * @param  {Function} ctor
- * @param  {Object|Array} args
- * @return {Object}
- *
- * @memberOf  tooly
- * @category  Object
+ * Utility method to convert milliseconds into human readable time
+ * 
+ * @param  {Number} time the time value in milliseconds
+ * @return {String}      `time` formatted as hh:mm:ss
+ * 
+ * @memberOf tooly
+ * @category String
  * @static
  */
-tooly.construct = function(ctor, args) {
-  // the stupid name leads to more revealing output in logs
-  function ToolySurrogateConstructor() {
-    return (_type(args) === 'array')
-      ? ctor.apply(this, args)
-      : ctor.call(this, args);
+tooly.formatTime = function(time) {
+  var h = Math.floor(time / 3600),
+      m = Math.floor((time - (h * 3600)) / 60),
+      s = Math.floor(time - (h * 3600) - (m * 60));
+  if (h < 10) h = '0' + h;
+  if (m < 10) m = '0' + m;
+  if (s < 10) s = '0' + s;
+  return h + ':' + m + ':' + s;
+};
+
+
+
+/**
+ * left pad
+ * 
+ * @param  {String} v      the string to pad
+ * @param  {Number} len    the length such that len - v = number of padding chars
+ * @param  {String} symbol the symbol to use for padding, defaults to single white space
+ * @return {String}        the left padded string
+ *
+ * @see  tooly#rpad
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.lPad = function(v, len, symbol) {
+  var n = len - v.length;
+  return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
+};
+
+
+
+/**
+ * Function version of ECMAScript6 `String.prototype.repeat`
+ * 
+ * @param  {String} str   the string to repeat
+ * @param  {Number} n     the number of times to repeat
+ * @return {String}       the string repeated, or an empty string if n is 0
+ * 
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.repeat = function(str, n) {
+  var s = '', i = 0;
+  for (; i < n; i++) s += str;
+  return s;
+};
+
+
+
+/**
+ * right pad
+ * 
+ * @param  {String} v      the string to pad
+ * @param  {Number} len    the length such that len - v = number of padding chars
+ * @param  {String} symbol the symbol to use for padding, defaults to single white space
+ * @return {String}        the right padded string
+ *
+ * @see tooly#lpad
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.rPad = function(v, len, symbol) {
+  var n = len - v.length;
+  return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;
+};
+
+
+
+/**
+ * Extracts final relative part of url, optionally keeping forward,
+ * backward, or both slashes. By default both front and trailing slashes are removed
+ *
+ * @param {String}  url           the url or filepath
+ * @param {Boolean} preSlash      keeps slash before relative part if true
+ * @param {Boolean} trailingSlash keeps last slash after relative part if true,
+ *                                though does not add a trailing slash if it wasn't
+ *                                there to begin with
+ * @return {String}                               
+ * 
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.sliceRel = function(url, preSlash, trailingSlash) {
+  var hasTrailing = false;
+  if (url.slice(-1) === '/') {
+    hasTrailing = true;
+    // we slice off last '/' either way, to easily
+    // use lastIndexOf for last url string
+    url = url.slice(0,-1);
   }
-  ToolySurrogateConstructor.prototype = ctor.prototype;
-  return new ToolySurrogateConstructor();
+  // snatch last part
+  url = url.slice(url.lastIndexOf('/') + 1);
+  // only if url already had trailing will we add it back
+  // when trailingSlash is true.
+  if (hasTrailing && trailingSlash) url += '/'; 
+  if (preSlash) url = '/' + url;
+  return url;
+};
+
+
+
+/**
+ * minimal Function version of ECMAScript6 `String.prototype.startsWith`.
+ * 
+ * @param  {String} str    the string to check
+ * @param  {String} prefix the "startsWith" we are seeking
+ * @return {Boolean}       true if str starts with prefix
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.startsWith = function(str, prefix) {
+  return str.substring(0, prefix.length) === prefix;
+};
+
+
+
+/*! alias for #formatString */
+tooly.stringFormat = function() {
+  return tooly.formatString.apply(null, arguments);
+};
+
+
+
+/**
+ * Get a copy of `str` without file extension, or anything after the last `.`
+ * (does not change the original string)
+ * 
+ * @param  {String} str the string to copy and strip
+ * @return {String}     the copied string with file extension removed
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.stripExtension = function(str) {
+  return str.substring(0, str.lastIndexOf('.'));
 };
 
 
@@ -1136,334 +1470,6 @@ tooly.tag = function(el, content, asHTML) {
 
 
 /**
- * Get a copy of `str` without file extension, or anything after the last `.`
- * (does not change the original string)
- * 
- * @param  {String} str the string to copy and strip
- * @return {String}     the copied string with file extension removed
- *
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.stripExtension = function(str) {
-  return str.substring(0, str.lastIndexOf('.'));
-};
-
-
-
-/*! alias for #formatString */
-tooly.stringFormat = function() {
-  return tooly.formatString.apply(null, arguments);
-};
-
-
-
-/**
- * minimal Function version of ECMAScript6 `String.prototype.startsWith`.
- * 
- * @param  {String} str    the string to check
- * @param  {String} prefix the "startsWith" we are seeking
- * @return {Boolean}       true if str starts with prefix
- *
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.startsWith = function(str, prefix) {
-  return str.substring(0, prefix.length) === prefix;
-};
-
-
-
-/**
- * Extracts final relative part of url, optionally keeping forward,
- * backward, or both slashes. By default both front and trailing slashes are removed
- *
- * @param {String}  url           the url or filepath
- * @param {Boolean} preSlash      keeps slash before relative part if true
- * @param {Boolean} trailingSlash keeps last slash after relative part if true,
- *                                though does not add a trailing slash if it wasn't
- *                                there to begin with
- * @return {String}                               
- * 
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.sliceRel = function(url, preSlash, trailingSlash) {
-  var hasTrailing = false;
-  if (url.slice(-1) === '/') {
-    hasTrailing = true;
-    // we slice off last '/' either way, to easily
-    // use lastIndexOf for last url string
-    url = url.slice(0,-1);
-  }
-  // snatch last part
-  url = url.slice(url.lastIndexOf('/') + 1);
-  // only if url already had trailing will we add it back
-  // when trailingSlash is true.
-  if (hasTrailing && trailingSlash) url += '/'; 
-  if (preSlash) url = '/' + url;
-  return url;
-};
-
-
-
-/**
- * right pad
- * 
- * @param  {String} v      the string to pad
- * @param  {Number} len    the length such that len - v = number of padding chars
- * @param  {String} symbol the symbol to use for padding, defaults to single white space
- * @return {String}        the right padded string
- *
- * @see tooly#lpad
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.rPad = function(v, len, symbol) {
-  var n = len - v.length;
-  return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;
-};
-
-
-
-/**
- * Function version of ECMAScript6 `String.prototype.repeat`
- * 
- * @param  {String} str   the string to repeat
- * @param  {Number} n     the number of times to repeat
- * @return {String}       the string repeated, or an empty string if n is 0
- * 
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.repeat = function(str, n) {
-  var s = '', i = 0;
-  for (; i < n; i++) s += str;
-  return s;
-};
-
-
-
-/**
- * left pad
- * 
- * @param  {String} v      the string to pad
- * @param  {Number} len    the length such that len - v = number of padding chars
- * @param  {String} symbol the symbol to use for padding, defaults to single white space
- * @return {String}        the left padded string
- *
- * @see  tooly#rpad
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.lPad = function(v, len, symbol) {
-  var n = len - v.length;
-  return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
-};
-
-
-
-/**
- * Utility method to convert milliseconds into human readable time
- * 
- * @param  {Number} time the time value in milliseconds
- * @return {String}      `time` formatted as hh:mm:ss
- * 
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.formatTime = function(time) {
-  var h = Math.floor(time / 3600),
-      m = Math.floor((time - (h * 3600)) / 60),
-      s = Math.floor(time - (h * 3600) - (m * 60));
-  if (h < 10) h = '0' + h;
-  if (m < 10) m = '0' + m;
-  if (s < 10) s = '0' + s;
-  return h + ':' + m + ':' + s;
-};
-
-
-
-var _curly_re = /{(\d+)}/g;
-
-/**
- * Function version of (C# style?) String.format
- * 
- * @example 
- * ```js
- * var formatted = tooly.format('{0}{1}', 'tooly', '.js')); 
- * formatted; //=> 'tooly.js'
- * ```
- *
- * @param  {String} format the format string
- * @return {String}        the formatted string
- *
- * @alias #stringFormat
- * @see  #format
- * @see  http://stackoverflow.com/a/4673436/2416000
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.formatString = function(format) {
-  var args = _slice.call(arguments, 1);
-  return format.replace(_curly_re, function(match, number) { 
-    return typeof args[number] != 'undefined' ? args[number] : match;
-  });
-};
-
-
-
-/**
- * Format money.
- * 
- * @example
- * ```js
- * var loot = '$' + tooly.formatMoney(10989.34); 
- * loot //=> "$10,989.00"
- * ```
- * 
- * @param  {Number|String} n a number or numerical string
- * @return {String}   `n` formatted as money (comma separated every three digits)
- * 
- * @see http://stackoverflow.com/a/14428340/2416000 
- * (slightly modified to coerce string-numbers)
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.formatMoney = function(n) {
-  var number = _type(n, 'number') ? n : +n;
-  return number.toFixed(2).replace(/./g, function(c, i, a) {
-    return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
-  });
-};
-
-
-
-/**
- * Minimal `printf` style string formatting.
- *
- * ### Usage
- * ```js
- * var obj = {website:'lokua.net'};
- * var float = 19.333;
- * tooly.format('object: %o, float: %f', obj, float);
- * //=> "object: {website:'lokua.net'}, float: 19.333"
- * ```
- * 
- * ### Supported specifiers 
- * + `%o` or `%j`: Object (JSON#stringified)
- * + `%d` of `%i`: Integer
- * + `%f`        : Float
- * + `%s`        : String
- *   
- * @param  {String} format the format string
- * @return {String}        the formatted string
- */
-tooly.format = function(format) {
-  var args = _slice.call(arguments, 1);
-  if (!_format_re) _format_re = /\%[ojdifsc]+/gi;
-  return format.replace(_format_re, function(m) {
-    var x = args.shift();
-    if (x !== undefined) {
-      switch(m) {
-        case '%o': // fallthrough
-        case '%j': x = JSON.stringify(x); break;
-        case '%d': // fallthrough
-        case '%i': x = x | 0; break;
-        case '%f': x = parseFloat(x); break;
-        case '%s': // fallthrough
-        default: break;
-      }      
-      return x;
-    }
-    return m;
-  });
-};
-
-
-
-/**
- * get the extension of a file, url, or anything after the last `.` in a string.
- *
- * @param {String} str the string
- * @return {String}
- *
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.extension = function(str) {
-  return str.substring(str.lastIndexOf('.')+1);
-};
-
-
-
-/**
- * minimal Function version of ECMAScript6 `String.prototype.endsWith`.
- * 
- * @param  {String} str    the string to check
- * @param  {String} suffix the "endWith" we are seeking
- * @return {Boolean}       true if str ends with suffix
- *
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.endsWith = function(str, suffix) {
-  return str.indexOf(suffix, str.length - suffix.length) !== -1;
-};
-
-
-
-/**
- * minimal Function version of ECMAScript6 `String.prototype.contains`.
- * 
- * @param  {String} source the source string
- * @param  {String} str    the string to find
- * @param  {String} index  [optional] index to start searching from
- * @return {Boolean}       true if `source` contains `str`
- *
- * @memberOf tooly
- * @category String
- * @static
- */
-tooly.contains = function(source, str, index) {
-  return source.indexOf(str, index || 0) > -1; 
-};
-
-
-
-
-/**
- * perform a `GET` xhr request for a JSON file and operate on a `JSON.parse`'d response with
- * your supplied `success` callback.
- * 
- * @param  {String}   jsonFile  url
- * @param  {callback} success   function to operate on response data
- *                              if the request is successful. If so, success
- *                              takes a single data parameter (the response).
- * @param {Boolean}   async     defaults to true
- *
- * @memberOf tooly
- * @category XHR
- * @static
- */
-tooly.getJSON = function(jsonFile, success, async) {
-  tooly.get(jsonFile, 'json', success, async);
-};
-
-
-
-/**
  * perform a xhr `GET`
  * 
  * @param  {String}   url       url to resource
@@ -1489,6 +1495,26 @@ tooly.get = function(url, respType, success, async) {
     }
   };
   req.send();
+};
+
+
+
+/**
+ * perform a `GET` xhr request for a JSON file and operate on a `JSON.parse`'d response with
+ * your supplied `success` callback.
+ * 
+ * @param  {String}   jsonFile  url
+ * @param  {callback} success   function to operate on response data
+ *                              if the request is successful. If so, success
+ *                              takes a single data parameter (the response).
+ * @param {Boolean}   async     defaults to true
+ *
+ * @memberOf tooly
+ * @category XHR
+ * @static
+ */
+tooly.getJSON = function(jsonFile, success, async) {
+  tooly.get(jsonFile, 'json', success, async);
 };
 
 

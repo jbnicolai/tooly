@@ -12,6 +12,7 @@
  * @constructor
  * @category  Handler
  * @memberOf  tooly
+ * @static
  */
 tooly.Handler = function(context) {
   if (!(this instanceof tooly.Handler)) {

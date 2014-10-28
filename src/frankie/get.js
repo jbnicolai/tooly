@@ -6,6 +6,7 @@
  * Unlike `#eq`, `get` returns the actual HTMLElement.
  * 
  * @memberOf tooly.Frankie
+ * @category  Frankie
  * @instance
  */
 tooly.Frankie.prototype.get = function(i) {
