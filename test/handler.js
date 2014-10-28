@@ -3,7 +3,7 @@ var tooly = require('../dist/tooly.js'),
     expect = chai.expect;
 
 
-describe('tooly#inherit > tooly.Handler', function() {
+describe('Handler', function() {
   function Klass() {
     tooly.Handler.call(this);
     this.value = 99;

@@ -2,7 +2,7 @@ var tooly = require('../dist/tooly'),
     expect = require('chai').expect,
     logger = tooly.Logger(2, 'REMOVE-TEST');
 
-describe('tooly.Handler', function() {
+describe('Handler', function() {
 
   function Main() {
     this.value = 10;

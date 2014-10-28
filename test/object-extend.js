@@ -16,7 +16,7 @@ function extend(target, source) {
   return target;
 }
 
-describe('extend', function() {
+describe('#extend', function() {
 
   var obj = extend({
     name: 'peachy',

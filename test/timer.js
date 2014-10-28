@@ -2,7 +2,7 @@ var tooly  = require('../dist/tooly.js'),
     chai   = require('chai'),
     expect = chai.expect;
 
-describe('tooly.Timer', function() {
+describe('Timer', function() {
 
   it('should be callable', function() {
     var timer = tooly.Timer();
