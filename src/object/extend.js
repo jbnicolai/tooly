@@ -16,5 +16,5 @@
  * @static
  */
 tooly.extend = function(dest, src) {
-  return _basicExtend(dest, src);
+  return _extend(dest, src);
 };
