@@ -224,7 +224,7 @@ function _classReg(str) {
 function _pend(append, els, content) {
   if (!_type(content, 'string')) {
     var type = _type(content);
-    html = (_node(content))
+    var html = (_node(content))
       ? content.outerHTML
       : (content instanceof tooly.Frankie)
         ? content.els
