@@ -1644,7 +1644,7 @@ tooly.tag = function(el, content, asHTML) {
   out = [
     '<', el,
     id ? ' id="' + id : '',
-    classes? ' classes="' + classes.trim() + '" ' : '',
+    classes? ' class="' + classes.trim() + '" ' : '',
     attrs ? attrs : '',
     '>', content, closingTag
   ].join('');
