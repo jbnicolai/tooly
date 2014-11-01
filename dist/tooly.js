@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-10-31)
+ * tooly - version 0.0.5 (built: 2014-11-01)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -900,7 +900,7 @@ tooly.Logger = function(level, name) {
 };
 var _cjs = typeof exports === 'object',
     _push = _arrayProto.push,
-    _chalk = _cjs ? require('chalk') : null
+    _chalk = _cjs ? require('chalk') : null,
     _levels = ['dummy','trace','debug','info','warn','error'],
     _colors = [
       'gray', // dummy

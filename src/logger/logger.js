@@ -1,6 +1,6 @@
 var _cjs = typeof exports === 'object',
     _push = _arrayProto.push,
-    _chalk = _cjs ? require('chalk') : null
+    _chalk = _cjs ? require('chalk') : null,
     _levels = ['dummy','trace','debug','info','warn','error'],
     _colors = [
       'gray', // dummy

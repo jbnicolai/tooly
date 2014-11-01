@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-10-31)
+ * tooly - version 0.0.5 (built: 2014-11-01)
  * js utility functions
  *
  * CUSTOM BUILD
