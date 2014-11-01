@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-10-28)
+ * tooly - version 0.0.5 (built: 2014-10-31)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -534,6 +534,9 @@ tooly.Frankie.prototype.hasClass = function(klass) {
 tooly.Frankie.prototype.html = function(content) {
   // get
   if (!arguments.length)  {
+    if (this.els[0] === undefined) {
+      return;
+    }
     return this.els[0].innerHTML;
   }
   // set

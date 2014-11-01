@@ -16,6 +16,9 @@
 tooly.Frankie.prototype.html = function(content) {
   // get
   if (!arguments.length)  {
+    if (this.els[0] === undefined) {
+      return;
+    }
     return this.els[0].innerHTML;
   }
   // set
