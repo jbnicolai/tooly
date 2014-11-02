@@ -4,6 +4,11 @@
 /**
  * Create a new Frankie instance from all first-generation child elements of 
  * the current set of matched elements;
+ *
+ * TODO: try with Element.childNodes instead of children so we don't have 
+ * to do the array conversion
+ * __OR__ probably better to simple instantiate new Frankie
+ * TODO: add filter
  *     
  * @return {tooly.Frankie} new Frankie instance
  * 
