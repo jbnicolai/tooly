@@ -14,5 +14,5 @@
  * @static
  */
 tooly.isTruthy = function(obj) {
-  return !isFalsy(obj);
+  return !tooly.isFalsy(obj);
 };
