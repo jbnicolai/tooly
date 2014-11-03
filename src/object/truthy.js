@@ -3,5 +3,5 @@
 
 /*! alias for #isTruthy */
 tooly.truthy = function(obj) {
-  return !isFalsy(obj);
+  return !tooly.isFalsy(obj);
 };
