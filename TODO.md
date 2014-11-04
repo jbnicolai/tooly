@@ -10,6 +10,9 @@
   - `#each`
   - `#toggleClass`
 
++ Logger
+  - add "exclusive" mode
+
 ## Docs
 
 + remove "core" from categories (in there somewhere as seen in ldox)
