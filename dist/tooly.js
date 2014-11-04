@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-11-02)
+ * tooly - version 0.0.5 (built: 2014-11-04)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -1256,7 +1256,7 @@ tooly.isHash = function(val) {
  * @static
  */
 tooly.isTruthy = function(obj) {
-  return !isFalsy(obj);
+  return !tooly.isFalsy(obj);
 };
 
 
@@ -1308,7 +1308,7 @@ tooly.toType = function(obj, klass) {
 
 /*! alias for #isTruthy */
 tooly.truthy = function(obj) {
-  return !isFalsy(obj);
+  return !tooly.isFalsy(obj);
 };
 
 
