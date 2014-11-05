@@ -17,9 +17,9 @@ function _selectAll(selector, context) {
   var parent = null;
   if (context) {
     if (_type(context, 'string')) {
-      parent = select(context);
+      parent = _select(context);
     } else if (_type(context, 'nodelist')) {
-      parent = select(context[0]);
+      parent = _select(context[0]);
     } else if (_node(context)) {
       parent = context;
     }
