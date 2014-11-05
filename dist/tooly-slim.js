@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-11-04)
+ * tooly - version 0.0.5 (built: 2014-11-05)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -887,14 +887,18 @@ tooly.Handler.prototype.trigger = function(fn) {
  * @static
  */
 tooly.construct = function(ctor, args) {
-  // the stupid name leads to more revealing output in logs
-  function ToolySurrogateConstructor() {
-    return (_type(args) === 'array')
-      ? ctor.apply(this, args)
-      : ctor.call(this, args);
-  }
-  ToolySurrogateConstructor.prototype = ctor.prototype;
-  return new ToolySurrogateConstructor();
+  // // the stupid name leads to more revealing output in logs
+  // function ToolySurrogateConstructor() {
+  //   return (_type(args) === 'array')
+  //     ? ctor.apply(this, args)
+  //     : ctor.call(this, args);
+  // }
+  // ToolySurrogateConstructor.prototype = ctor.prototype;
+  // return new ToolySurrogateConstructor();
+  
+  var instance = args ? ctor.apply(null, args) : ctor.call(null, args);
+  instance.constructor = ctor; 
+  return instance;
 };
 
 
