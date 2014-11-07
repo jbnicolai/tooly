@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.0.5 (built: 2014-11-05)
+ * tooly - version 0.0.5 (built: 2014-11-07)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -684,6 +684,29 @@ tooly.Frankie.prototype.removeClass = function(klass) {
   this.els.forEach(function(x) {
     x.className = x.className.replace(_classReg(classes), ' ').trim();
   });
+  return this;
+};
+
+
+
+/**
+ * @param  {String} klass
+ * @return {this}
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance
+ */
+tooly.Frankie.prototype.toggleClass = function(klass) {
+  var i = 0, len = this.els.length, el;
+  for (; i < len; i++) {
+    el = this.eq(i);
+    if (el.hasClass(klass)) {
+      el.removeClass(klass);
+    } else {
+      el.addClass(klass);
+    }
+  }
   return this;
 };
 
