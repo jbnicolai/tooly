@@ -18,7 +18,7 @@ $ npm install git+https://git@github.com/Lokua/tooly.git
 
 ## Documentation
 
-(in progress - see [dist/tooly.js](dist/tooly.js))
+[http://lokua.net/dev/tooly/doc/index.html](http://lokua.net/dev/tooly/doc/index.html)
 
 ## Custom Build
   
