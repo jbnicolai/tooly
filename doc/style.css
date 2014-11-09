@@ -1,0 +1,896 @@
+/*-------+
+ | RESET |
+ +-------*/
+/**
+ * css reset, jump started from:
+ *  
+ *   http://meyerweb.com/eric/tools/css/reset/ 
+ *   v2.0 | 20110126
+ *   License: none (public domain)
+ *
+ * changes/additions: 
+ * + global border-box sizing
+ * + killed button focus
+ * + webkit range-slider
+ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button:focus {
+  outline: 0 !important;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: #ccc;
+  width: 200px;
+  height: 4px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+
+/*------------+
+ | TYPOGRAPHY |
+ +------------*/
+@font-face {
+  font-family: pt-sans;
+  src: url(deps/fonts/PT_Sans-Web-Regular.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: pt-sans;
+  src: url(deps/fonts/PT_Sans-Web-Bold.ttf);
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: pt-sans;
+  src: url(deps/fonts/PT_Sans-Web-Italic.ttf);
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: pt-sans;
+  src: url(deps/fonts/PT_Sans-Web-BoldItalic.ttf);
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: pt-serif;
+  src: url(deps/fonts/PT_Serif-Web-Regular.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: pt-serif;
+  src: url(deps/fonts/PT_Serif-Web-Bold.ttf);
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: pt-serif;
+  src: url(deps/fonts/PT_Serif-Web-Italic.ttf);
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: pt-serif;
+  src: url(deps/fonts/PT_Serif-Web-BoldItalic.ttf);
+  font-weight: bold;
+  font-style: italic;
+}
+.monospaced, .method-wrap header .signature, .params .types, .return .types, .others .types, .signature .types, button, code, pre {
+  font-family: Consolas, "Lucida Console", Monaco, monospace;
+}
+
+.serif, .markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6, #sidebar nav h1, #sidebar nav h1 h4, .method-wrap header .name {
+  font-family: pt-serif;
+}
+
+.sans, html, body {
+  font-family: pt-sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: pt-reg;
+}
+
+h6 {
+  font-size: 12px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+a {
+  color: #c24696;
+  text-decoration: none;
+}
+a a:link, a a:visted, a a:active {
+  color: #c24696;
+  text-decoration: none;
+}
+a a:hover {
+  color: #ce6cac;
+  -webkit-transition: all .1s;
+          transition: all .1s;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.opaque {
+  opacity: 1;
+}
+
+.nopaque {
+  opacity: 0;
+}
+
+.arrow-up {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #5a5a5a;
+}
+
+.arrow-down {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #5a5a5a;
+}
+
+.arrow-right {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid #5a5a5a;
+}
+
+.arrow-left {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 4px solid #5a5a5a;
+}
+
+/*--------------+
+ | HIGHLIGHT.JS |
+ +--------------*/
+/* edited from Google Code style (c) Aahan Krish <geekpanth3r@gmail.com> */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: rgba(194, 114, 70, 0.02);
+  color: #161616;
+  -webkit-text-size-adjust: none;
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.hljs-javadoc {
+  color: #bfbfbf;
+}
+
+.hljs-keyword,
+.method,
+.hljs-list .hljs-keyword,
+.nginx .hljs-title,
+.hljs-tag .hljs-title,
+.setting .hljs-value,
+.hljs-winutils,
+.tex .hljs-command,
+.http .hljs-title,
+.hljs-request,
+.hljs-status {
+  color: #c24677;
+}
+
+.hljs-envvar,
+.tex .hljs-special {
+  color: #660;
+}
+
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-cdata,
+.hljs-filter .hljs-argument,
+.hljs-attr_selector,
+.apache .hljs-cbracket,
+.hljs-date,
+.hljs-regexp,
+.coffeescript .hljs-attribute {
+  color: #c24696;
+}
+
+.hljs-sub .hljs-identifier,
+.hljs-pi,
+.hljs-tag,
+.hljs-tag .hljs-keyword,
+.hljs-decorator,
+.ini .hljs-title,
+.hljs-shebang,
+.hljs-prompt,
+.hljs-hexcolor,
+.hljs-rules .hljs-value,
+.hljs-literal,
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.hljs-number,
+.css .hljs-function,
+.clojure .hljs-attribute {
+  color: #8c382f;
+}
+
+.hljs-class .hljs-title,
+.smalltalk .hljs-class,
+.hljs-javadoctag,
+.hljs-yardoctag,
+.hljs-phpdoc,
+.hljs-dartdoc,
+.hljs-type,
+.hljs-typename,
+.hljs-tag .hljs-attribute,
+.hljs-doctype,
+.hljs-class .hljs-id,
+.hljs-built_in,
+.setting,
+.hljs-params,
+.hljs-variable {
+  color: #c24658;
+}
+
+.css .hljs-tag,
+.hljs-rules .hljs-property,
+.hljs-pseudo,
+.hljs-subst {
+  color: #000;
+}
+
+.css .hljs-class,
+.css .hljs-id {
+  color: #9b703f;
+}
+
+.hljs-value .hljs-important {
+  color: #ff7700;
+  font-weight: bold;
+}
+
+.hljs-rules .hljs-keyword {
+  color: #c5af75;
+}
+
+.hljs-annotation,
+.apache .hljs-sqbracket,
+.nginx .hljs-built_in {
+  color: #9b859d;
+}
+
+.hljs-preprocessor,
+.hljs-preprocessor *,
+.hljs-pragma {
+  color: #444;
+}
+
+.tex .hljs-formula {
+  background-color: #eee;
+  font-style: italic;
+}
+
+.diff .hljs-header,
+.hljs-chunk {
+  color: #808080;
+  font-weight: bold;
+}
+
+.diff .hljs-change {
+  background-color: #bccff9;
+}
+
+.hljs-addition {
+  background-color: #baeeba;
+}
+
+.hljs-deletion {
+  background-color: #ffc8bd;
+}
+
+.hljs-comment .hljs-yardoctag {
+  font-weight: bold;
+}
+
+.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  overflow: hidden;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+.markdown-body a {
+  background: transparent;
+}
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+.markdown-body strong {
+  font-weight: bold;
+}
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+.markdown-body img {
+  border: 0;
+}
+.markdown-body hr {
+  box-sizing: content-box;
+  height: 0;
+}
+.markdown-body pre {
+  overflow: auto;
+}
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-size: 1em;
+}
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+.markdown-body input {
+  line-height: normal;
+}
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+.markdown-body input {
+  font: 13px/1.4 Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.markdown-body a {
+  color: #c24696;
+  text-decoration: none;
+}
+.markdown-body a:hover {
+  color: #ce6cac;
+}
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #eee;
+}
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+.markdown-body hr:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  color: #c24677;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+.markdown-body h1 {
+  font-size: 30px;
+}
+.markdown-body h2 {
+  font-size: 21px;
+}
+.markdown-body h3 {
+  font-size: 16px;
+}
+.markdown-body h4 {
+  font-size: 14px;
+}
+.markdown-body h5 {
+  font-size: 12px;
+}
+.markdown-body h6 {
+  font-size: 11px;
+}
+.markdown-body blockquote {
+  margin: 0;
+}
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+.markdown-body dd {
+  margin-left: 0;
+}
+.markdown-body *:first-child {
+  margin-top: 0 !important;
+}
+.markdown-body *:last-child {
+  margin-bottom: 0 !important;
+}
+.markdown-body .anchor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+.markdown-body .anchor:focus {
+  outline: none;
+}
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+.markdown-body h5 {
+  font-size: 1em;
+}
+.markdown-body h6 {
+  font-size: 1em;
+}
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #eee;
+  border: 0 none;
+}
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-body li > p {
+  margin-top: 16px;
+}
+.markdown-body dl {
+  padding: 0;
+}
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #7f7f7f;
+  border-left: 4px solid #eee;
+}
+.markdown-body blockquote > :first-child {
+  margin-top: 0;
+}
+.markdown-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+.markdown-body table th {
+  font-weight: bold;
+}
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+}
+.markdown-body table tr {
+  background-color: #fff;
+}
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.markdown-body pre > code {
+  font-size: 14px;
+}
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+.markdown-body .hljs code {
+  background: transparent;
+}
+
+/*-------------+
+ | MAIN STYLES |
+ +-------------*/
+html, body {
+  height: 100%;
+  padding: 16px;
+  color: #5a5a5a;
+  background: #fff;
+  line-height: 1.4em;
+}
+
+ul, li {
+  list-style-type: none;
+  color: #5a5a5a;
+  padding: 0;
+}
+
+strong {
+  font-weight: bold;
+}
+
+#sidebar {
+  display: inline-block;
+  position: fixed;
+  padding: 3em;
+  width: 256px;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+#sidebar nav {
+  min-height: 100%;
+}
+#sidebar nav h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+#sidebar nav h3 {
+  margin-bottom: 0.25em;
+}
+#sidebar nav section {
+  margin-bottom: 1em;
+}
+#sidebar nav section > ul {
+  margin-left: 0.25em;
+}
+
+.category span span {
+  margin-left: 0.25em;
+}
+.category .category-methods {
+  margin-left: 2.25em;
+}
+.category .category-methods a, .category .category-methods a:link, .category .category-methods a:visited, .category .category-methods a:active {
+  color: #c25346;
+}
+.category .category-methods a:hover, .category .category-methods a:link:hover, .category .category-methods a:visited:hover, .category .category-methods a:active:hover {
+  color: #ce766c;
+}
+
+#main {
+  display: inline-block;
+  float: left;
+  width: 60%;
+  min-width: 500px;
+  position: relative;
+  left: 256px;
+}
+
+#readme {
+  padding: 1em;
+  margin-bottom: 3em;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+}
+#readme h1, #readme h2, #readme h3, #readme h4 {
+  margin: 0.75em 0;
+}
+#readme p {
+  margin: 0.5em 0;
+}
+
+code {
+  padding: 0 4px;
+  margin: 0;
+  background: rgba(194, 114, 70, 0.02);
+  border: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.method-wrap {
+  padding: 16px;
+  margin-bottom: 4em;
+  box-shadow: -1px -1px 1px 1px rgba(0, 0, 0, 0.025);
+}
+.method-wrap header {
+  margin-bottom: 1em;
+}
+.method-wrap header .name {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: bold;
+  color: #c24677;
+  margin-right: 8px;
+}
+.method-wrap header .signature {
+  display: inline-block;
+  font-size: 14px;
+  color: #5a5a5a;
+}
+
+.method-description {
+  padding-left: 2em;
+}
+.method-description h1, .method-description h2, .method-description h3, .method-description h4 {
+  margin: 0.75em 0;
+}
+.method-description p {
+  margin: 0.5em 0;
+}
+
+.parent + span {
+  color: #090909;
+  font-weight: bold;
+}
+
+.description, .method-description {
+  color: #5a5a5a;
+  margin-bottom: 1em;
+}
+
+.params, .return, .others {
+  margin-bottom: 1em;
+}
+.params td, .return td, .others td {
+  padding: 0.25em 0.5em;
+}
+.params h6, .return h6, .others h6 {
+  color: #7f7f7f;
+  font-size: 12px;
+}
+.params .type, .params .types, .return .type, .return .types, .others .type, .others .types {
+  color: #7f7f7f;
+}
+.params .name, .return .name, .others .name {
+  font-size: 18px;
+  color: #c24658;
+}
+
+.signature .types {
+  color: #7f7f7f;
+}
+
+.params, .return, .others {
+  padding: 0.5em;
+}
+
+.return td:first-child {
+  padding-left: 0;
+}
+
+.return-arrow {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #161616;
+}
+
+.example {
+  margin-bottom: 1em;
+}
+
+.inline {
+  margin-bottom: 0.5em;
+}
+.inline h6 {
+  display: inline;
+}
+.inline p {
+  padding: 0.25em 0.5em;
+  display: inline;
+}
+
+.code-wrapper {
+  display: block;
+}
+
+button {
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.025);
+  color: #444;
+  border: none;
+  padding: 4px 16px;
+}
+
+footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.025);
+  padding-top: 2em;
+}
+
+.row {
+  text-align: center;
+}

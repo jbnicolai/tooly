@@ -1,0 +1,3463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tooly</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="deps/highlight.pack.js"></script>
+    <script src="deps/tooly.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body class="language-javascript">
+    <div id="sidebar">
+      <nav>
+        <h1><a href="#tooly">tooly
+            <h4>v0.0.1</h4></a></h1>
+        <section>
+          <h3>Categories</h3>
+          <ul>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#Collections">Collections</a></span></span>
+              <ul data-cat="Collections" class="category-methods hidden">
+                <li><a href="#each">each</a></li>
+                <li><a href="#sort">sort</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#Frankie">Frankie</a></span></span>
+              <ul data-cat="Frankie" class="category-methods hidden">
+                <li><a href="#Frankie">Frankie</a></li>
+                <li><a href="#addClass">addClass</a></li>
+                <li><a href="#append">append</a></li>
+                <li><a href="#attr">attr</a></li>
+                <li><a href="#children">children</a></li>
+                <li><a href="#css">css</a></li>
+                <li><a href="#empty">empty</a></li>
+                <li><a href="#eq">eq</a></li>
+                <li><a href="#get">get</a></li>
+                <li><a href="#hasClass">hasClass</a></li>
+                <li><a href="#html">html</a></li>
+                <li><a href="#on">on</a></li>
+                <li><a href="#parent">parent</a></li>
+                <li><a href="#prepend">prepend</a></li>
+                <li><a href="#remove">remove</a></li>
+                <li><a href="#removeClass">removeClass</a></li>
+                <li><a href="#toggleClass">toggleClass</a></li>
+                <li><a href="#zilch">zilch</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#Handler">Handler</a></span></span>
+              <ul data-cat="Handler" class="category-methods hidden">
+                <li><a href="#Handler">Handler</a></li>
+                <li><a href="#executeHandler">executeHandler</a></li>
+                <li><a href="#on">on</a></li>
+                <li><a href="#registerCallbacks">registerCallbacks</a></li>
+                <li><a href="#remove">remove</a></li>
+                <li><a href="#removeAll">removeAll</a></li>
+                <li><a href="#trigger">trigger</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#Logger">Logger</a></span></span>
+              <ul data-cat="Logger" class="category-methods hidden">
+                <li><a href="#Logger">Logger</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#Object">Object</a></span></span>
+              <ul data-cat="Object" class="category-methods hidden">
+                <li><a href="#construct">construct</a></li>
+                <li><a href="#extend">extend</a></li>
+                <li><a href="#fromPrototype">fromPrototype</a></li>
+                <li><a href="#inherit">inherit</a></li>
+                <li><a href="#isFalsy">isFalsy</a></li>
+                <li><a href="#isHash">isHash</a></li>
+                <li><a href="#isTruthy">isTruthy</a></li>
+                <li><a href="#scale">scale</a></li>
+                <li><a href="#toType">toType</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#String">String</a></span></span>
+              <ul data-cat="String" class="category-methods hidden">
+                <li><a href="#contains">contains</a></li>
+                <li><a href="#endsWith">endsWith</a></li>
+                <li><a href="#extension">extension</a></li>
+                <li><a href="#formatMoney">formatMoney</a></li>
+                <li><a href="#formatString">formatString</a></li>
+                <li><a href="#formatTime">formatTime</a></li>
+                <li><a href="#lPad">lPad</a></li>
+                <li><a href="#rPad">rPad</a></li>
+                <li><a href="#repeat">repeat</a></li>
+                <li><a href="#sliceRel">sliceRel</a></li>
+                <li><a href="#startsWith">startsWith</a></li>
+                <li><a href="#stripExtension">stripExtension</a></li>
+                <li><a href="#tag">tag</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#Timer">Timer</a></span></span>
+              <ul data-cat="Timer" class="category-methods hidden">
+                <li><a href="#Timer">Timer</a></li>
+                <li><a href="#end">end</a></li>
+                <li><a href="#funkyTime">funkyTime</a></li>
+                <li><a href="#log">log</a></li>
+                <li><a href="#start">start</a></li>
+                <li><a href="#stop">stop</a></li>
+              </ul>
+            </li>
+            <li class="category"><span>
+                <div class="arrow arrow-right"></div><span><a href="#XHR">XHR</a></span></span>
+              <ul data-cat="XHR" class="category-methods hidden">
+                <li><a href="#get">get</a></li>
+                <li><a href="#getJSON">getJSON</a></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h3>Classes</h3>
+          <ul>
+            <li><a href="#Frankie">tooly.Frankie</a></li>
+            <li><a href="#Handler">tooly.Handler</a></li>
+            <li><a href="#Logger">tooly.Logger</a></li>
+            <li><a href="#Timer">tooly.Timer</a></li>
+          </ul>
+        </section>
+        <section>
+          <h3>Methods</h3>
+          <ul>
+            <li><a href="#Frankie">Frankie</a></li>
+            <li><a href="#Handler">Handler</a></li>
+            <li><a href="#Logger">Logger</a></li>
+            <li><a href="#Timer">Timer</a></li>
+            <li><a href="#addClass">addClass</a></li>
+            <li><a href="#append">append</a></li>
+            <li><a href="#attr">attr</a></li>
+            <li><a href="#children">children</a></li>
+            <li><a href="#construct">construct</a></li>
+            <li><a href="#contains">contains</a></li>
+            <li><a href="#css">css</a></li>
+            <li><a href="#each">each</a></li>
+            <li><a href="#empty">empty</a></li>
+            <li><a href="#end">end</a></li>
+            <li><a href="#endsWith">endsWith</a></li>
+            <li><a href="#eq">eq</a></li>
+            <li><a href="#executeHandler">executeHandler</a></li>
+            <li><a href="#extend">extend</a></li>
+            <li><a href="#extension">extension</a></li>
+            <li><a href="#find">find</a></li>
+            <li><a href="#format">format</a></li>
+            <li><a href="#formatMoney">formatMoney</a></li>
+            <li><a href="#formatString">formatString</a></li>
+            <li><a href="#formatTime">formatTime</a></li>
+            <li><a href="#fromPrototype">fromPrototype</a></li>
+            <li><a href="#funkyTime">funkyTime</a></li>
+            <li><a href="#get">get</a></li>
+            <li><a href="#get">get</a></li>
+            <li><a href="#getJSON">getJSON</a></li>
+            <li><a href="#hasClass">hasClass</a></li>
+            <li><a href="#html">html</a></li>
+            <li><a href="#inherit">inherit</a></li>
+            <li><a href="#isFalsy">isFalsy</a></li>
+            <li><a href="#isHash">isHash</a></li>
+            <li><a href="#isTruthy">isTruthy</a></li>
+            <li><a href="#lPad">lPad</a></li>
+            <li><a href="#log">log</a></li>
+            <li><a href="#on">on</a></li>
+            <li><a href="#on">on</a></li>
+            <li><a href="#parent">parent</a></li>
+            <li><a href="#prepend">prepend</a></li>
+            <li><a href="#rPad">rPad</a></li>
+            <li><a href="#registerCallbacks">registerCallbacks</a></li>
+            <li><a href="#remove">remove</a></li>
+            <li><a href="#remove">remove</a></li>
+            <li><a href="#removeAll">removeAll</a></li>
+            <li><a href="#removeClass">removeClass</a></li>
+            <li><a href="#repeat">repeat</a></li>
+            <li><a href="#scale">scale</a></li>
+            <li><a href="#sliceRel">sliceRel</a></li>
+            <li><a href="#sort">sort</a></li>
+            <li><a href="#start">start</a></li>
+            <li><a href="#startsWith">startsWith</a></li>
+            <li><a href="#stop">stop</a></li>
+            <li><a href="#stripExtension">stripExtension</a></li>
+            <li><a href="#tag">tag</a></li>
+            <li><a href="#toString">toString</a></li>
+            <li><a href="#toType">toType</a></li>
+            <li><a href="#toggleClass">toggleClass</a></li>
+            <li><a href="#trigger">trigger</a></li>
+            <li><a href="#zilch">zilch</a></li>
+          </ul>
+        </section>
+      </nav>
+    </div>
+    <main id="main">
+      <div id="readme" class="markdown markdown-body"><h1>tooly</h1>
+<p>(work in progress)</p>
+<blockquote>
+<p>javascript utility library covering everything from dom selection and css manipulation,
+object inheritance and extension, logging, event handling, string formatting, etc.
+Basically everything that I usually want/need at my fingertips for any given project.
+Compatible with node, amd, and modern browsers.
+Just under 4kb minified and gzipped
+(~3kb without the <code>logger</code> and <code>timer</code> modules,
+which shouldn't be used in production anyway - see <code>dist/tooly-slim.js</code>).</p>
+</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-bash">$ npm install git+https://git@github.com/Lokua/tooly.git
+</code></pre>
+<h2>Documentation</h2>
+<p>(in progress - see <a href="dist/tooly.js">dist/tooly.js</a>)</p>
+<h2>Custom Build</h2>
+<p>You can create a custom build of particular categories.</p>
+<pre><code class="lang-bash">cd path_to/node_modules/tooly
+# from the tooly module root, install dev dependecies
+npm install
+# run the script and `include` command
+# passing as arguments modules you want included 
+# this will also run related Grunt umd and uglify tasks
+bin/build include logger timer string
+# run the `grunt custom` task to minify the new build
+grunt custom
+</code></pre>
+<p>Available categories include:</p>
+<ul>
+<li><code>collections</code></li>
+<li><code>frankie</code> (jQuery-like dom selection)</li>
+<li><code>logger</code></li>
+<li><code>object</code></li>
+<li><code>string</code></li>
+<li><code>timer</code></li>
+<li><code>xhr</code></li>
+</ul>
+<p>By default the custom build will be located at <code>./dist/tooly-custom.js</code>, or alternatively, you
+can specify a custom output file during the build instruction:</p>
+<pre><code class="lang-bash">bin/build include dom string -o my-custom-tooly-build.js &amp;&amp; grunt custom
+</code></pre>
+<h1>License</h1>
+<p>The MIT License (MIT)</p>
+<p>Copyright (c) 2014 Joshua Kleckner</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+</div><a name="Collections"></a>
+      <div class="method-wrap">
+        <header><a name="each"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">each</div>
+          <div class="signature">(obj, iterator, context)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object|Array}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Port of underscore&#39;s each. Falls back to native forEach for Arrays when available.<br />The <code>iterator</code> argument takes the following signature for Arrays:<br /><code>iterator(value, index, array)</code> where the array is the same collection passed<br />as the <code>obj</code> argument. For objects the signature is:<br /><code>iterator(value, key, object)</code>.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> obj</b></td>
+                <td><small class="types"> {Object|Array}</small></td>
+                <td><span class="description"><p>the collection to iterate over</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> iterator</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"><p>the function called on each element in <code>obj</code> </p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> context</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>the context, used as <code>this</code> in the callback</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object|Array}</small></td>
+                <td><span class="description"><p><code>obj</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">var obj = {&#39;1&#39;: 1, &#39;2&#39;: 2, &#39;3&#39;: 3, &#39;4&#39;: 4};
+each(obj, function(v, k, o) { o[k] = v*100; });
+obj; //=&gt; {&#39;1&#39;: 100, &#39;2&#39;: 200, &#39;3&#39;: 300, &#39;4&#39;: 400};
+
+var arr = [1, 2, 3, 4];
+each(arr, function(v, i, a) { a[i] = v*100; });
+arr; //=&gt; [100, 200, 300, 400];
+</code></pre>
+</div>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.each = function(obj, iterator, context) {
+  return _each(obj, iterator, context);
+};
+
+
+
+
+var _sort_re, _sort_dig_re;</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="sort"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">sort</div>
+          <div class="signature">(arr, key, dsc)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Array}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Alpha-numeric sort arrayof objects by key.<br />Numbers preceed letters regardless of being instances of  <code>Number</code> or <code>String</code>.<br />Note that this method does modify the original array.</p><h3>Example</h3>
+<pre><code class="language-js">var data = [
+  {name: &#39;a&#39;},{name: 2},{name: 1},
+  {name: &#39;b&#39;},{name: &#39;c&#39;},{name: &#39;z&#39;}
+];
+var ascending = tooly.sort(data, &#39;name&#39;);
+//=&gt; [{name: 1},{name: 2},{name: &#39;a&#39;},{name: &#39;b&#39;},{name: &#39;c&#39;},{name: &#39;z&#39;}]
+
+// pass descending flag third arg
+var descending = tooly.sort(data, &#39;name&#39;, true);
+//=&gt; [{name: &#39;z&#39;},{name: &#39;c&#39;},{name: &#39;b&#39;},{name: &#39;a&#39;},{name: 2},{name: 1}]
+</code></pre>
+</section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> arr</b></td>
+                <td><small class="types"> {Array}</small></td>
+                <td><span class="description"><p>the array to sort</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> key</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the key to sort by</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> dsc</b></td>
+                <td><small class="types"> {boolean}</small></td>
+                <td><span class="description"><p>sorts descending order if true</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Array}</small></td>
+                <td><span class="description"><p>the original <code>arr</code> sorted. </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>see:</h6>
+              <p><p><a href="http://stackoverflow.com/questions/4373018/sort-array-of-numeric-alphabetical-elements-natural-sort">http://stackoverflow.com/questions/4373018/sort-array-of-numeric-alphabetical-elements-natural-sort</a></p>
+</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.sort = function(arr, key, dsc) {
+  var a, b, a1, b1, t;
+  if (!_sort_re) {
+    _sort_re = /(\d+)|(\D+)/g; 
+    _sort_dig_re = /\d+/;
+  }
+  return arr.sort(function(as, bs) {
+    a = String(as[key]).toLowerCase().match(_sort_re);
+    b = String(bs[key]).toLowerCase().match(_sort_re);
+    if (dsc) { // swap
+      t = a; a = b; b = t;
+    }
+    while (a.length &amp;&amp; b.length) {
+      a1 = a.shift();
+      b1 = b.shift();
+      if (_sort_dig_re.test(a1) || _sort_dig_re.test(b1)) {
+        if (!_sort_dig_re.test(a1)) return 1;
+        if (!_sort_dig_re.test(b1)) return -1;
+        if (a1 != b1) return a1-b1;
+      } else if (a1 != b1) {
+        return a1 &gt; b1? 1: -1;
+      }
+    }
+    return a.length - b.length;
+  });
+};
+
+
+
+function _node(el) {
+  return  el &amp;&amp; (el.nodeType === 1 || el.nodeType === 9);
+}
+
+function _select(selector, context) {
+  var parent;
+  if (context &amp;&amp; _type(context, 'string')) {
+    parent = document.querySelector(context);
+  }
+  return (parent ? parent : document).querySelector(selector);
+}
+
+function _selectAll(selector, context) {
+  var parent = null;
+  if (context) {
+    if (_type(context, 'string')) {
+      parent = _select(context);
+    } else if (_type(context, 'nodelist')) {
+      parent = _select(context[0]);
+    } else if (_node(context)) {
+      parent = context;
+    }
+  }
+  return _toArray( (parent ? parent : document).querySelectorAll(selector) );
+}
+
+// save compiled class regexps
+var _classes_re_cache = {};
+
+function _classReg(str) {
+  if (!_classes_re_cache[str]) {
+    _classes_re_cache[str] = new RegExp('\\s*' + str + '\\s*(![\\w\\W])?', 'g');
+  }
+  return _classes_re_cache[str];
+}
+
+// impl for both #append and #prepend
+function _pend(append, els, content) {
+  if (!_type(content, 'string')) {
+    var type = _type(content);
+    var html = (_node(content))
+      ? content.outerHTML
+      : (content instanceof tooly.Frankie)
+        ? content.els
+        : (type === 'array')
+          ? content
+          : (type === 'nodelist')
+            ? _toArray(content)
+            : null;
+    if (_type(html, 'array')) {
+      html = html.map(function(x) { return x.outerHTML; }).join('');
+    } else if (!html) {
+      return;
+    }
+  } else {
+    html = content;
+  }
+  els.forEach(function(el) {
+    // http://jsperf.com/insertadjacenthtml-perf/14
+    el.insertAdjacentHTML(append ? 'beforeend' : 'afterbegin', html);
+  });
+}</code></pre>
+          </div>
+        </section>
+      </div><a name="Frankie"></a>
+      <div class="method-wrap">
+        <header><a name="Frankie"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">Frankie</div>
+          <div class="signature">(el, context)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Frankie instance</small></div>
+        </header>
+        <section class="method-description markdown"><p>The Frankie class - named after the late, great DJ Frankie Knuckles (one of the greatest)<br /><em>selectors</em> of all time ;). A micro DOM util with a jQuery-like API.<br />Keeps an internal reference to a selectAll query on the passed<br /><code>el</code>. Most methods will return the instance for chainability.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> el</b></td>
+                <td><small class="types"> {String|HTMLElement}</small></td>
+                <td><span class="description"><p>valid css selector string, can contain multiple        selectors separated my commas (see the example)</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> context</b></td>
+                <td><small class="types"> {Mixed}</small></td>
+                <td><span class="description"><p>a parent context to search for the supplied <code>el</code> argument. can be any of the following:</p>
+<ul>
+<li><code>HTMLElement</code></li>
+<li><code>String</code></li>
+<li><code>Array&lt;HTMLElement&gt;</code></li>
+<li><code>NodeList</code></li>
+<li><code>Frankie</code> instance</li>
+</ul>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">// alias the Frankie namespace
+var $ = tooly.Frankie.bind(this);
+var $divs = $(divs);
+$divs.css({color:&#39;green&#39;});
+// multiple yet separate selectors must be comma separated
+$(&#39;div, p&#39;)
+  .addClass(&#39;purple&#39;)
+  .addClass(&#39;yellow&#39;)
+  .removeClass(&#39;g&#39;)
+  .css({&#39;border-radius&#39;:&#39;4px&#39;})
+  .prepend(&#39;&lt;h1&gt;---&lt;/h1&gt;&#39;)
+  .append(&#39;&lt;h1&gt;+++&lt;/h1&gt;&#39;)
+  .html(&#39;H T M L&#39;);
+</code></pre>
+</div>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie = function(el, context) {
+  if (!(this instanceof tooly.Frankie)) {
+    return new tooly.Frankie(el, context);
+  }
+  this.els = _node(el) ? [el] : _selectAll(el, context);
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="addClass"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">addClass</div>
+          <div class="signature">(klass)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>add a css class to element</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> klass</b></td>
+                <td><small class="types"> {String|Array&lt;String&gt;}</small></td>
+                <td><span class="description"><p>the css class(es) to add</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p><code>this</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.addClass = function(klass) {
+  this.els.forEach(function(x) { 
+    if (!x.className) {
+      x.className += ' ' + klass;
+      return;
+    }
+    var names = x.className;
+    x.className += ' ' + klass.split(_ws_re).filter(function(n) {
+      return names.indexOf(n) === -1;
+    }).join(' ');
+  });
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="append"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">append</div>
+          <div class="signature">(content)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>append <code>content</code> to all elements in the set of matched elements.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> content</b></td>
+                <td><small class="types"> {mixed}</small></td>
+                <td><span class="description"><p>the content to append</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p><code>this</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.append = function(content) {
+  _pend(true, this.els, content);
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="attr"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">attr</div>
+          <div class="signature">(attr, the)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
+        </header>
+        <section class="method-description markdown"><p>get or set a(n) html attribute(s)</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> attr</b></td>
+                <td><small class="types"> {Object|String}</small></td>
+                <td><span class="description"><p>the attribute to get/set</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> the</b></td>
+                <td><small class="types"> {String|Number}</small></td>
+                <td><span class="description"><p>value of the attribute <code>attr</code> (only if <code>attr</code> is a name string)</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>Frankie or the attribute value if only a single string is passed                          for the first argument</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.attr = function(</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="children"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">children</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Create a new Frankie instance from all first-generation child elements of<br />the current set of matched elements;</p><p>TODO: try with Element.childNodes instead of children so we don&#39;t have<br />to do the array conversion<br /><strong>OR</strong> probably better to simple instantiate new Frankie<br />TODO: add filter</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p>new Frankie instance </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.children = function() {
+  var frank = new tooly.Frankie();
+  this.els.forEach(function(x) { 
+    var c = x.children;
+    if (_node(c)) {
+      frank.els.push(c);
+    } else if (_type(c) === 'htmlcollection') {
+      [].push.apply(frank.els, [].slice.call(c).map(function(v) { return v; }));
+    }
+  });
+  return frank;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="css"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">css</div>
+          <div class="signature">(styles)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> styles</b></td>
+                <td><small class="types"> {String|Object}</small></td>
+                <td><span class="description"><p>either a single comma separated key value pair of strings, or object hash</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p><code>this</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">// as key val pair (key must also be a string)
+var el = tooly.select(&#39;#main&#39;);
+$(&#39;div&#39;).css(&#39;background&#39;, &#39;red&#39;);
+
+// or as hash (notice that hyphenated keys must be quoted)&lt;br&gt;
+$(&#39;div&#39;).css({ width: &#39;100px&#39;, background: &#39;red&#39;, &#39;font-size&#39;: &#39;24px&#39; });
+
+// also can take valid css selector string in place of element
+// below will match the document&#39;s first div
+$(&#39;div&#39;).css(&#39;border&#39;, &#39;2px solid red&#39;);
+</code></pre>
+</div>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.css = function() {
+  var styles = {}, argsLen = arguments.length;
+  if (argsLen === 2) {
+    // SET via single comma sep key-value pair
+    styles[arguments[0]] = arguments[1];
+  } else {
+    var el = this.els[0];
+    if (argsLen === 1) {
+      _0 = arguments[0];
+      // GET by key
+      if (_type(_0, 'string')) {
+        return el.style[_0] || undefined;
+      }
+      // SET via hash
+      styles = _0;
+    } else {
+      // GET all
+      return el.style || undefined;
+    }
+  }
+  // set
+  this.els.forEach(function(x) { 
+    _each(styles, function(s, k) { x.style[k] = s; });
+  });
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="empty"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">empty</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>remove all child nodes from the set of matched elements.<br /><strong>TODO</strong>: remove listeners?</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p><code>this</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.empty = function() {
+  this.els.forEach(function(x) {
+    // see http://jsperf.com/innerhtml-vs-removechild/15
+    while (x.lastChild) x.removeChild(x.lastChild);
+  });
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="eq"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">eq</div>
+          <div class="signature">(index)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Create a new instance of Frankie with only the element<br />specified by index</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> index</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the index of the element</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p>new Frankie instance </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.eq = function(i) {
+  var frank = new tooly.Frankie();
+  frank.els = [this.els[i]];
+  return frank;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="get"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">get</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>Get the element at index <code>i</code> from Frankie&#39;s selected elements.<br />Unlike <code>#eq</code>, <code>get</code> returns the actual HTMLElement.</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.get = function(i) {
+  return this.els[i];
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="hasClass"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">hasClass</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"></section>
+        <div class="tags-wrap">
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.hasClass = function(klass) {
+  var re = _classReg(klass);
+  return this.els.some(function(x) { 
+    return x.className.split(_ws_re).some(function(c) { 
+      return c.match(re) == klass; 
+    });
+  });
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="html"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">html</div>
+          <div class="signature">(content)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String|Object}</small></div>
+        </header>
+        <section class="method-description markdown"><p>fill each element in the set of matched elements with <code>content</code>.<br />Replaces existing content.<br />If called with 1 arg, the first matched element&#39;s innerHTML is returned.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> content</b></td>
+                <td><small class="types"> {Mixed}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String|Object}</small></td>
+                <td><span class="description"><p>the first matched el&#39;s innerHTML or null when in get mode,                             otherwise <code>this</code> for chaining</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.html = function(content) {
+  // get
+  if (!arguments.length)  {
+    if (this.els[0] === undefined) {
+      return;
+    }
+    return this.els[0].innerHTML;
+  }
+  // set
+  this.els.forEach(function(x) { x.innerHTML = content; });
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="on"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">on</div>
+          <div class="signature">(event, fn)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {this}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Ultra simplified wrapper for <code>addEventListener</code>.<br />Does not currently support jQuery-style data passing</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> event</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the event to listen to, like &#39;click&#39;</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> fn</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"><p>the handler to execute when event is fired </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {this}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.on = function(event, fn) {
+  this.els.forEach(function(el) {
+    el.addEventListener(event, fn, false);
+  });
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="parent"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">parent</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Create a Frankie instance from all parent elements of the set of matched elements.</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p>a new Frankie instance </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.parent = function() {
+  var frank = new tooly.Frankie();
+  var seen = {};
+  frank.els = this.els.map(function(x) { 
+    return x.parentNode; 
+  }).filter(function(x) {
+    return seen.hasOwnProperty(x) ? false : (seen[x] = true);
+  });
+  return frank;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="prepend"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">prepend</div>
+          <div class="signature">(content)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>prepend <code>content</code> to all elements in the set of matched elements.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> content</b></td>
+                <td><small class="types"> {mixed}</small></td>
+                <td><span class="description"><p>the content to prepend</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p><code>this</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.prepend = function(content) {
+  _pend(false, this.els, content);
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="remove"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">remove</div>
+          <div class="signature">(element, returnRemoved)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {this|Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>// TODO</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> element</b></td>
+                <td><small class="types"> {mixed}</small></td>
+                <td><span class="description"><p>the element(s) to remove from the instance&#39;s array of elements                                as well as the DOM</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> returnRemoved</b></td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>If true, the elements will be returned from the function (within)                                 a new Frankie instance 
+                                (which will keep them in memory if yo store them in a reference)</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {this|Frankie}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.remove = function(element, returnRemoved) {
+  var ret = [], i, frank = this, len = frank.els.length, els;
+  els = _type(element, 'array') 
+    ? element
+    : _node(element)
+      ? _toArray(element)
+      : els instanceof tooly.Frankie 
+        ? element.els
+        : _type(element, 'string')
+          ? new tooly.Frankie(element, frank).els
+          : null;
+  if (els) {
+    els.forEach(function(c) { 
+      for (i = 0; i &lt; len; i++) {
+        var p = frank.els[i];
+        if (c.parentNode === p) {
+          returnRemoved ? ret.push(p.removeChild(c)) : p.removeChild(c);
+          return; // am i needed???
+        }
+      }
+    });
+  }
+  if (returnRemoved) {
+    var f = new Frankie();
+    f.els = ret;
+    return f;
+  }
+  return frank;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="removeClass"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">removeClass</div>
+          <div class="signature">(klass)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {tooly.Frankie}</small></div>
+        </header>
+        <section class="method-description markdown"><p>remove a css class from an element</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> klass</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the css class(es) to remove</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {tooly.Frankie}</small></td>
+                <td><span class="description"><p><code>this</code>  </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.removeClass = function(klass) {
+  // &quot;or-ize&quot; for multiple klasses match in regexp
+  var classes = '(' + klass.split(_ws_re).join('|') + ')';
+  this.els.forEach(function(x) {
+    x.className = x.className.replace(_classReg(classes), ' ').trim();
+  });
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="toggleClass"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">toggleClass</div>
+          <div class="signature">(klass)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {this}</small></div>
+        </header>
+        <section class="method-description markdown"></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> klass</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {this}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.toggleClass = function(klass) {
+  var i = 0, len = this.els.length, el;
+  for (; i &lt; len; i++) {
+    el = this.eq(i);
+    if (el.hasClass(klass)) {
+      el.removeClass(klass);
+    } else {
+      el.addClass(klass);
+    }
+  }
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="zilch"></a><span class="parent">tooly.Frankie</span><span> # </span>
+          <div class="name">zilch</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"></section>
+        <div class="tags-wrap">
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p><code>true</code> if this instance&#39;s inner elements array is empty. </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Frankie.prototype.zilch = function() {
+  return this.els.length === 0;
+};</code></pre>
+          </div>
+        </section>
+      </div><a name="Handler"></a>
+      <div class="method-wrap">
+        <header><a name="Handler"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">Handler</div>
+          <div class="signature">(context)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Handler instance</small></div>
+        </header>
+        <section class="method-description markdown"><p>Class constructor. Simple event handling, best when inherited. Execute named functions<br />by triggering a Handler reference of the same name.</p><h3>Example</h3>
+<pre><code class="language-js">var handler = new tooly.Handler();
+
+function world() { 
+  console.log(&#39;world!&#39;); 
+}
+
+function hello() { 
+  console.log(&#39;hello &#39;); 
+  handler.trigger(&#39;hello&#39;);
+}
+
+handler.on(&#39;hello&#39;, function() { 
+  world(); 
+});
+
+hello(); //=&gt; &quot;hello world!&quot;;
+</code></pre>
+<p>Using <a href="`tooly.inherit`">#inherit</a>, you can add all Handler functionality to your class<br />without having to use the handler reference:</p><pre><code class="lang-js">function MyClass(name) {
+  // initialize the parent class
+  tooly.Handler.call(this);
+  this.name = name;
+  this.init();
+  return this;
+}
+
+// add all of the tooly.Handler.prototype methods to MyClass.prototype.
+// third argument also augments MyClass.prototype
+tooly.inherit(MyClass, tooly.Handler, {
+
+  init: function() {
+    this.on(&#39;load&#39;, function() {
+      console.log(this.name + &#39; loaded&#39;);
+    });
+  },
+
+  load: function() {
+    // whatever...
+  }
+});
+
+var instance = new MyClass(&quot;let&#39;s drink a lot of Malort and get &quot;); 
+instance.load(); //=&gt; &quot;let&#39;s drink a lot of Malort and get loaded&quot;
+</code></pre>
+</section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> context</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>(optional) designates the owner of the <code>handlers</code> array that holds                             all callbacks. When blank the Handler instance uses its own internal
+                           array. If you&#39;d like to keep track of the handlers outside of the
+                           instance, pass a context such that context.handlers is an array.</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler = function(context) {
+  if (!(this instanceof tooly.Handler)) {
+    return new tooly.Handler(context);
+  }
+  this.context = context || this;
+  this.handlers = this.context.handlers = {};
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="executeHandler"></a><span class="parent">tooly.Handler</span><span> # </span>
+          <div class="name">executeHandler</div>
+          <div class="signature">(fn)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {this}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Executes all handlers attached to the named function.<br />For <code>Handler#on(&lt;name&gt;)</code> to work, <code>&lt;name&gt;</code> itself needs to call <code>#executeHandler</code>.</p><h3>Example</h3>
+<pre><code class="language-js">var value = 0;
+var handler = new tooly.Handler();
+
+function inc() { 
+  value += 10; 
+  handler.executeHandler(&#39;inc&#39;);
+}
+
+function jump() {
+  this.value *= 2;
+}
+
+handler.on(&#39;inc&#39;, announce);
+inc();
+value; //=&gt; 20;
+</code></pre>
+</section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> fn</b></td>
+                <td><small class="types"> {String|Object}</small></td>
+                <td><span class="description"><p>the name of the function that will announce to attached handlers</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {this}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>alias:</h6>
+              <p>#trigger</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler.prototype.executeHandler = function(fn) {
+  var handler = this.handlers[fn] || [],
+      i = 0, len = handler.length;
+  for (; i &lt; len; i++) {
+    handler[i].apply(this.context, []);
+  }
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="on"></a><span class="parent">tooly.Handler</span><span> # </span>
+          <div class="name">on</div>
+          <div class="signature">(fn, handler)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Register an event handler for a named function.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> fn</b></td>
+                <td><small class="types"> {(String|Function)}</small></td>
+                <td><span class="description"><p>the function that will call the handler when executed</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> handler</b></td>
+                <td><small class="types"> {callback}</small></td>
+                <td><span class="description"><p>the handler that we be called by the named function</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p><code>this</code> for chaining </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler.prototype.on = function(fn, handler) {
+  if (this.handlers[fn] === undefined) {
+    this.handlers[fn] = [];
+  }
+  this.handlers[fn].push(handler);
+  return this;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="registerCallbacks"></a><span class="parent">tooly.Handler</span><span> # </span>
+          <div class="name">registerCallbacks</div>
+          <div class="signature">(handlers)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {this}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Add callbacks to the list of handlers. The callbacks must be an object collection of<br />key-value pairs where the identifier key is the name of a function that calls the<br /><code>#executeHandler</code> method with the same name as the key, while the value is the callback<br />function itself. This method should not be used if only registering a single callback,<br />for that use <a href="#on">#on</a>.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> handlers</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>collection of callback functions</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {this}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler.prototype.registerCallbacks = function(callbacks) {
+  var t = this, h = {};
+  if (callbacks !== undefined) {
+    for (h in callbacks) {
+      if (callbacks.hasOwnProperty(h)) {
+        t.on(h, callbacks[h]);
+      }
+    }
+  }
+  return t;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="remove"></a><span class="parent">tooly.Handler</span><span> # </span>
+          <div class="name">remove</div>
+          <div class="signature">(fn)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>Remove all handler&#39;s attached to <code>fn</code>. All subsequent calls to<br /><code>#executeHandler(fn)</code> will no longer have an effect.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> fn</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"><p>the named function that executes handler(s) </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler.prototype.remove = function(fn) {
+  if (this.handlers[fn] !== undefined) {
+    this.handlers[fn].length = 0;
+  }
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="removeAll"></a><span class="parent">tooly.Handler</span><span> # </span>
+          <div class="name">removeAll</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>Remove all handlers. Any subsequent call to <code>#executeHandler</code> will have no effect.</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler.prototype.removeAll = function() {
+  this.handlers = {};
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="trigger"></a><span class="parent">tooly.Handler</span><span> # </span>
+          <div class="name">trigger</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>alias for <a href="`#executeHandler`">#executeHandler</a></p></section>
+        <div class="tags-wrap">
+          <section class="return">
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>alias:</h6>
+              <p>#executeHandler</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Handler.prototype.trigger = function(fn) {
+  return this.executeHandler(fn);
+};</code></pre>
+          </div>
+        </section>
+      </div><a name="Logger"></a>
+      <div class="method-wrap">
+        <header><a name="Logger"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">Logger</div>
+          <div class="signature">(level, name)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Logger instance</small></div>
+        </header>
+        <section class="method-description markdown"><p>Class constructor. Typical logging functionality that wraps around console.log<br />with css coloring and level control. The Logger level hierarchy is as follows:</p><ul>
+<li>-1: off</li>
+<li>0: log (no difference from console.log)</li>
+<li>1: trace</li>
+<li>2: debug</li>
+<li>3: info</li>
+<li>4: warn</li>
+<li>5: error</li>
+</ul>
+<p>Only calls that are greater or equal to the current Logger.level will be run.</p><h2>Format</h2>
+<p>Format strings follow the same usage as node.js or the web interface, depending<br />on what environment you are in.</p><ul>
+<li>node<ul>
+<li>%s, %j, and %d can be used for &#39;string&#39;, &#39;json&#39;, or &#39;number&#39;</li>
+</ul>
+</li>
+<li>browser<ul>
+<li>%s or %o can be used in place of &#39;string&#39; or &#39;object&#39;</li>
+</ul>
+</li>
+</ul>
+<h2>Example</h2>
+<pre><code class="language-js">var logger = new tooly.Logger(2, &#39;TEST_LOGGER&#39;);
+logger.trace(logger); // will not output
+</code></pre>
+<p>All active loggers in the current context can be disabled, regardless of level,<br />by setting the static <code>tooly.Logger.off = true</code>. Setting back to false will resume<br />logging at each loggers previous level.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> level</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>set the level of this logger. Defaults to 2 (debug) if no                       arguments are passed.</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> name</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>optional name to identify this instance. The name will preceed any                       output message</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Logger = function(level, name) {
+  var logger = this;
+  tooly.Logger.loggers = tooly.Logger.loggers || [];
+  // enable instantiation without new
+  if (!(logger instanceof tooly.Logger)) {
+    logger = new tooly.Logger(level, name);
+    tooly.Logger.loggers.push(logger);
+  }
+  logger.level = (level !== undefined) ? level : 2;
+  if (name) logger.name = name;
+  // automatically set this false as its only 
+  // for emergency &quot;must track anonymous function location&quot; purposes
+  logger.traceAnonymous = false;
+  return logger;
+};
+var _cjs = typeof exports === 'object',
+    _push = _arrayProto.push,
+    _chalk = _cjs ? require('chalk') : null,
+    _levels = ['dummy','trace','debug','info','warn','error'],
+    _colors = [
+      'gray', // dummy
+      'gray',
+      'green',
+      _cjs ? 'cyan' : 'blue',
+      _cjs ? 'yellow' : 'darkorange',
+      'red',
+      'gray' // last gray for time
+    ],
+    _o_re = /%o/gi,
+    _j_re = /%j/gi; 
+    
+function _log(instance, level, caller, args) {
+  if (tooly.Logger.off || instance.level === -1 || level &lt; instance.level || instance.level &gt; 5) {
+    return;
+  }
+
+  var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
+      pargs = []; // final args for console call
+
+  args = _slice.call(args);
+  _format_re = _format_re || /\%[ojdifsc]/g;
+
+  if (_cjs) {
+
+    // TODO: replace match with RegExp#test
+    if (tooly.type(args[0], 'string') &amp;&amp; args[0].match(_format_re)) {
+      format += args.shift().replace(_o_re, '%j');
+    }
+    pargs.unshift(format, _name(instance), _level(level));
+
+  } else { // window
+    format = '%c%s%c%s%c%s';
+    if (tooly.type(args[0], 'string') &amp;&amp; args[0].match(_format_re)) {
+      format += args.shift().replace(_j_re, '%o');
+    }
+    caller = (caller !== undefined &amp;&amp; caller.replace(_ws_re, '') === '') ? '' : caller;
+    var color = 'color:' + _colors[level] + ';',
+        purple = 'color:purple', black = 'color:black';
+    pargs = [format, purple, _name(instance), color, _level(level), black, caller];
+  }
+
+  _push.apply(pargs, args);
+
+  switch (level) {
+    case -1: 
+      return;
+
+    case 0: 
+      console.log(arguments[3]); 
+      break;
+
+    case 2: 
+      // there is no console.debug, 
+      // so the _levels map (default case) doesn't work there
+      console.log.apply(console, pargs); 
+      break;
+
+    default: 
+      // http://stackoverflow.com/
+      // questions/8159233/typeerror-illegal-invocation-on-console-log-apply
+      try {
+        console[ _levels[level] ].apply(console, pargs);
+      } catch(e) {
+        console.log('[Logger (recovery mode)] ', pargs);
+      }
+      break;
+  }
+}
+
+function _checkCaller(args) {
+  if (!this.traceAnonymous) return '';
+  var name = ''; 
+  try { 
+    name = args.callee.caller.name; 
+  } catch(ignored) {
+  }
+  if (!name) {
+    return  '&lt;anonymous&gt; ' + args.callee.caller + '\n';
+  }
+  return '&lt;'+name+'&gt; ';
+}
+
+function _name(instance) {
+  var name = instance.name || '';
+  return (_chalk) ? _chalk.magenta(name) : name;
+}
+
+function _level(level) {
+  return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') +
+    _chalkify(6, '[' + _dateFormatted() + '] ');
+}
+
+function _dateFormatted() {
+  function format(n) { return n &lt; 10 ? '0' + n : n }
+  var d = new Date();
+  return [
+    format(d.getHours()),
+    format(d.getMinutes()),
+    format(d.getSeconds()),
+    d.getMilliseconds()
+  ].join(':');
+}
+
+function _chalkify(level, str) {
+  return (!_chalk) ? str : _chalk[ _colors[level] ](str);
+}
+
+tooly.Logger.prototype.log   = function() { _log(this, 0, _checkCaller(arguments), arguments); };
+tooly.Logger.prototype.trace = function() { _log(this, 1, _checkCaller(arguments), arguments); };
+tooly.Logger.prototype.debug = function() { _log(this, 2, _checkCaller(arguments), arguments); };
+tooly.Logger.prototype.info  = function() { _log(this, 3, _checkCaller(arguments), arguments); };
+tooly.Logger.prototype.warn  = function() { _log(this, 4, _checkCaller(arguments), arguments); };
+tooly.Logger.prototype.error = function() { _log(this, 5, _checkCaller(arguments), arguments); };</code></pre>
+          </div>
+        </section>
+      </div><a name="Object"></a>
+      <div class="method-wrap">
+        <header><a name="construct"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">construct</div>
+          <div class="signature">(ctor, args)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
+        </header>
+        <section class="method-description markdown"></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> ctor</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> args</b></td>
+                <td><small class="types"> {Object|Array}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.construct = function(ctor, args) {
+  function F() {
+    return constructor.apply(this, args);
+  }
+  F.prototype = constructor.prototype;
+  return new F();
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="extend"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">extend</div>
+          <div class="signature">(dest, src)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Add the &quot;own properties&quot; of <code>src</code> to <code>dest</code>.<br />Used throughout the application to add prototype<br />methods to tooly classes without<br />assigning Object as their prototype.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> dest</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>the destination object</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> src</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>the source object</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p><code>dest</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.extend = function(dest, src) {
+  return _extend(dest, src);
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="fromPrototype"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">fromPrototype</div>
+          <div class="signature">(prototype, object)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Object literal assignment results in creating an an object with Object.prototype<br />as the prototype. This allows us to assign a different prototype while keeping<br />the convenience of literal declaration.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> prototype</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> object</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>author:</h6>
+              <p>Yehuda Katz</p>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><p><a href="http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/">http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/</a></p>
+</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.fromPrototype = function(prototype, object) {
+  var newObject = Object.create(prototype), 
+      prop;
+  for (prop in object) {
+    if (object.hasOwnProperty(prop)) {
+      newObject[prop] = object[prop];
+    }
+  }
+  return newObject;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="inherit"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">inherit</div>
+          <div class="signature">(parent, child, extend)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>Helper to perform prototypal inheritance.<br />Note that this method overwrites the child&#39;s original prototype.<br />Also note that the child&#39;s constructor needs to call <code>parent.call(this)</code></p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> parent</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> child</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> extend</b></td>
+                <td><small class="types"> {Mixed}</small></td>
+                <td><span class="description"><p>additional members to the Child&#39;s prototype  </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">function Parent() {}
+Parent.prototype.b = 2;
+function Child() { Parent.call(this); } // this is a must
+tooly.inherit(Parent, Child, { a: 1 });
+var child = new Child();
+console.log(child.a + child.b); //=&gt; 3
+// for a more practical example see the tooly.Handler documentation.
+</code></pre>
+</div>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.inherit = function(parent, child, extend) {
+  child.prototype = new parent();
+  child.prototype.constructor = child;
+  for (var prop in extend) {
+    if (extend.hasOwnProperty(prop)) {
+      child.prototype[prop] = extend[prop];
+    }
+  }
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="isFalsy"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">isFalsy</div>
+          <div class="signature">(obj)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Extensively check if <code>obj</code> is &quot;falsy&quot;.<br /><br></p><h3>isFalsy returns true for the following:</h3>
+<pre><code class="language-js">var undefinedValue;
+var nullValue             = null;
+var setUndefined          = undefined;
+var falseValue            = false;
+var zero                  = 0;
+var emptyString           = &#39;&#39;; // same for &#39; \n\t   \n&#39;
+var falseString           = &#39;false&#39;;
+var zeroString            = &#39;0&#39;;
+var nullString            = &#39;null&#39;;
+var undefinedString       = &#39;undefined&#39;;
+</code></pre>
+<p>Note that in the cases of falsy strings, the check is<br />done after a call to <code>String.trim</code>, so surrounding<br />whitespace is ignored:<br /><code>isFalsy(&#39;\n\t false   \n&#39;) //=&gt; true</code></p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> obj</b></td>
+                <td><small class="types"> {mixed}</small></td>
+                <td><span class="description"><p>the object to check</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>true if <code>obj</code> is &quot;falsy&quot; </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>alias:</h6>
+              <p>#falsy</p>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><a href="#isTruthy">#isTruthy</a></p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.isFalsy = function(obj) {
+  // no-strict void 0 covers null as well
+  if (obj == void 0 || obj == false) return true;
+  if (_type(obj, 'string')) {
+    var str = obj.trim();
+    return str === ''
+      || str === 'false'
+      || str === 'undefined'
+      || str === 'null';
+  }
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="isHash"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">isHash</div>
+          <div class="signature">(value)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>port of is.hash</p><p>Test if <code>value</code> is a hash - a plain object literal.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> value</b></td>
+                <td><small class="types"> {Mixed}</small></td>
+                <td><span class="description"><p>value to test</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>true if <code>value</code> is a hash, false otherwise </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>see:</h6>
+              <p><p><a href="https://github.com/enricomarino/is/blob/master/index.js">https://github.com/enricomarino/is/blob/master/index.js</a></p>
+</p>
+            </div>
+            <div class="inline">
+              <h6>author:</h6>
+              <p>Enrico Marino (with minor edits) </p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.isHash = function(val) {
+  return _type(val, 'object') &amp;&amp; val.constructor === Object &amp;&amp; 
+    !val.nodeType &amp;&amp; !val.setInterval;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="isTruthy"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">isTruthy</div>
+          <div class="signature">(obj)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Opposite of <code>isFalsy</code>.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> obj</b></td>
+                <td><small class="types"> {mixed}</small></td>
+                <td><span class="description"><p>the object to check</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>true if <code>obj</code> is &quot;truthy&quot; </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>alias:</h6>
+              <p>#truthy</p>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><a href="#isFalsy">#isFalsy</a></p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.isTruthy = function(obj) {
+  return !tooly.isFalsy(obj);
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="scale"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">scale</div>
+          <div class="signature">(n, oldMin, oldMax, min, max)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Number}</small></div>
+        </header>
+        <section class="method-description markdown"><p>scale a number from one range to another</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> n</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the number to scale</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> oldMin</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> oldMax</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> min</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the new min</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> max</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the new max</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the scaled number </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.scale = function(n, oldMin, oldMax, min, max) {
+  return (((n-oldMin)*(max-min)) / (oldMax-oldMin)) + min; 
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="toType"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">toType</div>
+          <div class="signature">(obj, klass)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String|Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>A more useful alternative to the typeof operator.<br />If only the <code>obj</code> argument is passed, the class of that object is returned.<br />If the second argument <code>klass</code> is passed, a boolean indicating whether <code>obj</code><br />is of class <code>klass</code> or not is returned.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> obj</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>the object</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> klass</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>object class to compare to</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String|Boolean}</small></td>
+                <td><span class="description"><p>the type of object if only <code>obj</code> is passed or                               true if <code>obj</code> is of class <code>klass</code>, false otherwise</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>alias:</h6>
+              <p>type</p>
+            </div>
+            <div class="inline">
+              <h6>author:</h6>
+              <p>Angus Croll</p>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><p><a href="http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator">http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator</a></p>
+</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.toType = function(obj, klass) {
+  return _type(obj, klass);
+};</code></pre>
+          </div>
+        </section>
+      </div><a name="String"></a>
+      <div class="method-wrap">
+        <header><a name="contains"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">contains</div>
+          <div class="signature">(source, str, index)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>minimal Function version of ECMAScript6 <code>String.prototype.contains</code>.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> source</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the source string</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> str</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to find</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> index</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>[optional] index to start searching from</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>true if <code>source</code> contains <code>str</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.contains = function(source, str, index) {
+  return source.indexOf(str, index || 0) &gt; -1; 
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="endsWith"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">endsWith</div>
+          <div class="signature">(str, suffix)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>minimal Function version of ECMAScript6 <code>String.prototype.endsWith</code>.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> str</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to check</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> suffix</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the &quot;endWith&quot; we are seeking</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>true if str ends with suffix </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.endsWith = function(str, suffix) {
+  return str.indexOf(suffix, str.length - suffix.length) !== -1;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="extension"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">extension</div>
+          <div class="signature">(str)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>get the extension of a file, url, or anything after the last <code>.</code> in a string.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> str</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.extension = function(str) {
+  return str.substring(str.lastIndexOf('.')+1);
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="formatMoney"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">formatMoney</div>
+          <div class="signature">(n)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Format money.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> n</b></td>
+                <td><small class="types"> {Number|String}</small></td>
+                <td><span class="description"><p>a number or numerical string</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p><code>n</code> formatted as money (comma separated every three digits) </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">var loot = &#39;$&#39; + tooly.formatMoney(10989.34); 
+loot //=&gt; &quot;$10,989.00&quot;
+</code></pre>
+</div>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><p><a href="http://stackoverflow.com/a/14428340/2416000">http://stackoverflow.com/a/14428340/2416000</a> (slightly modified to coerce string-numbers)</p>
+</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.formatMoney = function(n) {
+  var number = _type(n, 'number') ? n : +n;
+  return number.toFixed(2).replace(/./g, function(c, i, a) {
+    return i &amp;&amp; c !== '.' &amp;&amp; !((a.length - i) % 3) ? ',' + c : c;
+  });
+};
+
+
+
+var _curly_re = /{(\d+)}/g;</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="formatString"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">formatString</div>
+          <div class="signature">(format)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Function version of (C# style?) String.format</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> format</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the format string</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the formatted string </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">var formatted = tooly.format(&#39;{0}{1}&#39;, &#39;tooly&#39;, &#39;.js&#39;)); 
+formatted; //=&gt; &#39;tooly.js&#39;
+</code></pre>
+</div>
+            </div>
+            <div class="inline">
+              <h6>alias:</h6>
+              <p>#stringFormat</p>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><a href="#format">#format</a></p>
+            </div>
+            <div class="inline">
+              <h6>see:</h6>
+              <p><p><a href="http://stackoverflow.com/a/4673436/2416000">http://stackoverflow.com/a/4673436/2416000</a></p>
+</p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.formatString = function(format) {
+  var args = _slice.call(arguments, 1);
+  return format.replace(_curly_re, function(match, number) { 
+    return typeof args[number] != 'undefined' ? args[number] : match;
+  });
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="formatTime"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">formatTime</div>
+          <div class="signature">(time)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Utility method to convert milliseconds into human readable time</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> time</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the time value in milliseconds</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p><code>time</code> formatted as hh:mm:ss </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.formatTime = function(time) {
+  var h = Math.floor(time / 3600),
+      m = Math.floor((time - (h * 3600)) / 60),
+      s = Math.floor(time - (h * 3600) - (m * 60));
+  if (h &lt; 10) h = '0' + h;
+  if (m &lt; 10) m = '0' + m;
+  if (s &lt; 10) s = '0' + s;
+  return h + ':' + m + ':' + s;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="lPad"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">lPad</div>
+          <div class="signature">(v, len, symbol)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>left pad</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> v</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to pad</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> len</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the length such that len - v = number of padding chars</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> symbol</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the symbol to use for padding, defaults to single white space</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the left padded string </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>see:</h6>
+              <p><a href="tooly#rpad">tooly#rpad</a></p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.lPad = function(v, len, symbol) {
+  var n = len - v.length;
+  return (n &gt; 0) ? tooly.repeat(symbol || ' ', n) + v : v;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="rPad"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">rPad</div>
+          <div class="signature">(v, len, symbol)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>right pad</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> v</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to pad</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> len</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the length such that len - v = number of padding chars</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> symbol</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the symbol to use for padding, defaults to single white space</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the right padded string </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="inline">
+              <h6>see:</h6>
+              <p><a href="tooly#lpad">tooly#lpad</a></p>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.rPad = function(v, len, symbol) {
+  var n = len - v.length;
+  return (n &gt; 0) ? v + tooly.repeat(symbol || ' ', n) : v;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="repeat"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">repeat</div>
+          <div class="signature">(str, n)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Function version of ECMAScript6 <code>String.prototype.repeat</code></p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> str</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to repeat</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> n</b></td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the number of times to repeat</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string repeated, or an empty string if n is 0 </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.repeat = function(str, n) {
+  var s = '', i = 0;
+  for (; i &lt; n; i++) s += str;
+  return s;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="sliceRel"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">sliceRel</div>
+          <div class="signature">(url, preSlash, trailingSlash)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Extracts final relative part of url, optionally keeping forward,<br />backward, or both slashes. By default both front and trailing slashes are removed</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> url</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the url or filepath</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> preSlash</b></td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>keeps slash before relative part if true</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> trailingSlash</b></td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>keeps last slash after relative part if true,                                though does not add a trailing slash if it wasn&#39;t
+                               there to begin with</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"></span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.sliceRel = function(url, preSlash, trailingSlash) {
+  var hasTrailing = false;
+  if (url.slice(-1) === '/') {
+    hasTrailing = true;
+    // we slice off last '/' either way, to easily
+    // use lastIndexOf for last url string
+    url = url.slice(0,-1);
+  }
+  // snatch last part
+  url = url.slice(url.lastIndexOf('/') + 1);
+  // only if url already had trailing will we add it back
+  // when trailingSlash is true.
+  if (hasTrailing &amp;&amp; trailingSlash) url += '/'; 
+  if (preSlash) url = '/' + url;
+  return url;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="startsWith"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">startsWith</div>
+          <div class="signature">(str, prefix)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Boolean}</small></div>
+        </header>
+        <section class="method-description markdown"><p>minimal Function version of ECMAScript6 <code>String.prototype.startsWith</code>.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> str</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to check</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> prefix</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the &quot;startsWith&quot; we are seeking</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>true if str starts with prefix </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.startsWith = function(str, prefix) {
+  return str.substring(0, prefix.length) === prefix;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="stripExtension"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">stripExtension</div>
+          <div class="signature">(str)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Get a copy of <code>str</code> without file extension, or anything after the last <code>.</code><br />(does not change the original string)</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> str</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the string to copy and strip</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the copied string with file extension removed </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.stripExtension = function(str) {
+  return str.substring(0, str.lastIndexOf('.'));
+};
+
+
+
+var _tag_re, _void_el_re;</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="tag"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">tag</div>
+          <div class="signature">(el, content, asHTML)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String|HTMLElement}</small></div>
+        </header>
+        <section class="method-description markdown"><p><strong>Experimental</strong> - will change in future versions.<br />Wrap a string with html tags, id, classes, and attributes with<br />very simple syntax. Void elements are accounted for.<br />Warning: has not been tested extensively as of yet.</p><h3>Examples</h3>
+<pre><code class="language-js">tooly.tag(&#39;div #my-id .my-class data-mood=&quot;perculatory&quot;&#39;, &#39;Hi&#39;);
+//=&gt; &quot;&lt;div id=&quot;my-id&quot; class=&quot;my-class&quot; data-mood=&quot;perculatory&quot;&gt;Hi&lt;/div&gt;&quot;
+
+// nested:
+tooly.tag(&#39;div&#39;, tooly.tag(&#39;section&#39;, &#39;!&#39;));
+//=&gt; &quot;&lt;div&gt;&lt;section&gt;!&lt;/section&gt;&lt;/div&gt;&quot;
+</code></pre>
+</section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> el</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>String of the format &quot;<tag> [.class[...]] [#id] [attribute[...]]&quot;</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> content</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>[optional] content to be place after the opening HTML tag</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> asHTML</b></td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>output HTML if true, String otherwise</p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {String|HTMLElement}</small></td>
+                <td><span class="description"><p>HTML tag <code>el</code> filled with <code>content</code> </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.tag = function(el, content, asHTML) {
+  if (!_tag_re) {
+    _tag_re = /(^[a-z]+\d{1})|[^\s]+[a-z]+(-\w+)?=([&quot;'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi;
+    _void_el_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i; 
+  }
+  var matches = el.match(_tag_re),
+      el = matches.shift(),
+      classes = '', id = '', attrs = '',
+      closingTag, out; 
+  matches.forEach(function(m, i) {
+    var c = m.charAt(0);
+    if (c === '#') {
+      id += m.slice(1) + '&quot;';
+    } else if (c === '.') {
+      classes += ' ' + m.slice(1) + ' ';
+    } else {
+      attrs += ' ' + m;
+    }
+  });
+  closingTag = _void_el_re.test(el) ? '' : '&lt;/' + el + '&gt;';
+  out = [
+    '&lt;', el,
+    id ? ' id=&quot;' + id : '',
+    classes? ' class=&quot;' + classes.trim() + '&quot; ' : '',
+    attrs ? attrs : '',
+    '&gt;', content, closingTag
+  ].join('');
+  if (asHTML) {
+    var d = document.createElement('div');
+    d.innerHTML = out;
+    return d.firstChild;
+  }
+  return out;
+};</code></pre>
+          </div>
+        </section>
+      </div><a name="Timer"></a>
+      <div class="method-wrap">
+        <header><a name="Timer"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">Timer</div>
+          <div class="signature">(name)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Timer instance</small></div>
+        </header>
+        <section class="method-description markdown"><p>Timer class constructor. Contains basic <code>start</code> and <code>stop</code> methods for timing<br />of code execution. Also see #funkyTime, which is a static method to time<br />function executions and is simpler to use than manually controlling a timer instance.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> name</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>[optional] name </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Timer = function(name) {
+  // enable instantiation without new
+  if (!(this instanceof tooly.Timer)) {
+    return new tooly.Timer(name);
+  }
+  this.name = name || 'Timer_instance_' + Date.now();
+  return this; 
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="end"></a><span class="parent">tooly.Timer</span><span> # </span>
+          <div class="name">end</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Number}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Stop the timer and log the results to the console.<br />Equivalent of calling #stop then #log</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the time elapsed in milliseconds </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Timer.prototype.end = function() {
+  this.stop();
+  this.log();
+  return this.elapsed;
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="funkyTime"></a><span class="parent">tooly.Timer</span><span> . </span>
+          <div class="name">funkyTime</div>
+          <div class="signature">(fn, n)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
+        </header>
+        <section class="method-description markdown"><p>&quot;funkyTime&quot; - think &quot;Function Execution Time&quot;.<br />Get the total, individual, and average execution times of <code>fn</code> called <code>n</code> times.<br /><code>fn</code> will be passed the iteration number as its first argument.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> fn</b></td>
+                <td><small class="types"> {Function}</small></td>
+                <td><span class="description"><p>the function that will be timed.</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> n</b></td>
+                <td><small class="types"> {number}</small></td>
+                <td><span class="description"><p>the number of times to run the function (defaults to 1) </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>a hash of timing results with the following signature: <br></p>
+<ul>
+<li><strong>stack</strong> <Array[Number]>: the time of each iteration </li>
+<li><strong>total</strong> <Number>: the total of all iterations</li>
+<li><strong>average</strong> <Number>: the average of all iterations</li>
+<li><strong>offset</strong> <Number>: the difference between the total time to run 
+the iteration loop and the sum of all iteration times - basically
+the loop and Timer overhead.</li>
+</ul>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+            <div class="example">
+              <h6>example:</h6>
+              <div class="example-code"><pre><code class="lang-js">// setup code
+var data = [], i = 0, n = 99000;
+for (; i &lt; n; i++) data.push(Math.random()*(1/3));
+
+// run a sort five times
+var results = funkyTime(function() {
+  var rndm = data.sort();
+}, 5);
+
+results;
+// returns something like:
+// { stack: [ 692, 720, 730, 722, 735 ],
+//   total: 735,
+//   average: 147,
+//   offset: 15.2 }
+</code></pre>
+</div>
+            </div>
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.funkyTime = function(fn, n) {
+  var tx = tooly.Timer(),
+      ix = tooly.Timer(),
+      stack = [],
+      i = 0, end, avg;
+  n = n || 1;
+  tx.start();
+  for (; i &lt; n; i++) {
+    ix.start();
+    fn.call(null, i);
+    stack.push(ix.stop());
+  }
+  end = tx.stop();
+  avg = end/n;
+  return { 
+    stack: stack,
+    total: end,
+    average: avg,
+    offset: (function() {
+      var sum = 0;
+      stack.forEach(function(x) { sum += x; });
+      return parseFloat((end - (sum/n)).toFixed(2));
+    })()
+  };
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="log"></a><span class="parent">tooly.Timer</span><span> # </span>
+          <div class="name">log</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>log results to the console</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Timer.prototype.log = function() {
+  console.log(this.name + ' ' + this.elapsed);
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="start"></a><span class="parent">tooly.Timer</span><span> # </span>
+          <div class="name">start</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>Start the timer</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Timer.prototype.start = function() { 
+  this.startTime = Date.now(); 
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="stop"></a><span class="parent">tooly.Timer</span><span> # </span>
+          <div class="name">stop</div>
+          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Number}</small></div>
+        </header>
+        <section class="method-description markdown"><p>Stop the timer</p></section>
+        <div class="tags-wrap">
+          <section class="return">
+            <table>
+              <tr>
+                <td>
+                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
+                </td>
+                <td><small class="types"> {Number}</small></td>
+                <td><span class="description"><p>the time elapsed in milliseconds </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.Timer.prototype.stop = function() { 
+  this.endTime = Date.now();
+  this.elapsed = this.endTime - this.startTime;
+  return this.elapsed;
+};</code></pre>
+          </div>
+        </section>
+      </div><a name="XHR"></a>
+      <div class="method-wrap">
+        <header><a name="get"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">get</div>
+          <div class="signature">(url, respType, success, async)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>perform a xhr <code>GET</code></p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> url</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>url to resource</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> respType</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>the request responseType</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> success</b></td>
+                <td><small class="types"> {callback}</small></td>
+                <td><span class="description"><p>function to operate on response data                              if the request is successful. If so, success
+                             takes a single data parameter (the response).</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> async</b></td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>defaults to true </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.get = function(url, respType, success, async) {
+  var req = new XMLHttpRequest();
+  req.open('get', url, (arguments.length === 3) ? true : async);
+  req.reponseType = respType;
+  req.onload = function() {
+    if (req.readyState == 4) { // done
+      if (req.status == 200) {
+        success(respType === 'json' ? JSON.parse(req.response) : req.response);
+      }
+    }
+  };
+  req.send();
+};</code></pre>
+          </div>
+        </section>
+      </div>
+      <div class="method-wrap">
+        <header><a name="getJSON"></a><span class="parent">tooly</span><span> . </span>
+          <div class="name">getJSON</div>
+          <div class="signature">(jsonFile, success, async)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
+        </header>
+        <section class="method-description markdown"><p>perform a <code>GET</code> xhr request for a JSON file and operate on a <code>JSON.parse</code>&#39;d response with<br />your supplied <code>success</code> callback.</p></section>
+        <div class="tags-wrap">
+          <section class="params">
+            <h6>parameters:</h6>
+            <table>
+              <tr>
+                <td><b class="name"> jsonFile</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>url</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> success</b></td>
+                <td><small class="types"> {callback}</small></td>
+                <td><span class="description"><p>function to operate on response data                              if the request is successful. If so, success
+                             takes a single data parameter (the response).</p>
+</span></td>
+              </tr>
+              <tr>
+                <td><b class="name"> async</b></td>
+                <td><small class="types"> {Boolean}</small></td>
+                <td><span class="description"><p>defaults to true </p>
+</span></td>
+              </tr>
+            </table>
+          </section>
+          <section class="return">
+          </section>
+          <section class="others">
+          </section>
+        </div>
+        <section class="code">
+          <button>show source</button>
+          <div class="code-wrapper hidden">
+            <pre><code class="lang-js">tooly.getJSON = function(jsonFile, success, async) {
+  tooly.get(jsonFile, 'json', success, async);
+};
+
+
+return tooly;
+
+
+}));</code></pre>
+          </div>
+        </section>
+      </div>
+      <footer>
+        <div class="row">Copyright &copy; 2014 Joshua Kleckner </div>
+        <div class="row">tooly.js source code available at<a href="http://github.com/lokua/tooly" target="_blank">&nbsp;github</a><span>&nbsp;and</span><a href="https://www.npmjs.org/package/giftwrap" target="_blank">&nbsp;npm</a></div>
+        <div class="row">contact: dev (at) lokua (dot) net </div>
+        <div class="row">website: <a href="http://lokua.net/">lokua.net</a></div>
+      </footer>
+    </main>
+  </body>
+</html>
