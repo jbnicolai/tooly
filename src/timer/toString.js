@@ -7,5 +7,5 @@
  * @instance
  */
 tooly.Timer.prototype.toString = function() { 
-  return '[object Timer]'; 
+  return this.elapsed + ''; 
 };

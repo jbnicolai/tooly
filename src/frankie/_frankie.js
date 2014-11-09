@@ -75,7 +75,7 @@ function _pend(append, els, content) {
  * @example
  * ```js
  * // alias the Frankie namespace
- * var $ = Frankie.bind(this);
+ * var $ = tooly.Frankie.bind(this);
  * var $divs = $(divs);
  * $divs.css({color:'green'});
  * // multiple yet separate selectors must be comma separated

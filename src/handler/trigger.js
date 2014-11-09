@@ -2,10 +2,11 @@
 
 
 /**
- * alias for #executeHandler
- * 
- * @ignore
+ * alias for [#executeHandler](`#executeHandler`)
+ *
+ * @alias #executeHandler
  * @memberOf  tooly.Handler
+ * @category  Handler
  * @instance
  */
 tooly.Handler.prototype.trigger = function(fn) {

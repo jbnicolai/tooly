@@ -9,6 +9,7 @@
  * @return {Object} `this` for chaining
  * 
  * @memberOf  tooly.Handler
+ * @category  Handler
  * @instance
  */
 tooly.Handler.prototype.on = function(fn, handler) {
