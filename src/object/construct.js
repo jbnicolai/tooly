@@ -11,11 +11,9 @@
  * @static
  */
 tooly.construct = function(ctor, args) {
-  function __SurrogateConstructor() {
-    return (_type(args) === 'array')
-      ? ctor.apply(this, args)
-      : ctor.call(this, args);
+  function F() {
+    return constructor.apply(this, args);
   }
-  __SurrogateConstructor.prototype = ctor.prototype;
-  return new __SurrogateConstructor();
+  F.prototype = constructor.prototype;
+  return new F();
 };

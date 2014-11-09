@@ -25,15 +25,15 @@ $ npm install git+https://git@github.com/Lokua/tooly.git
 You can create a custom build of particular categories.
 
 ```bash
-> cd path_to/node_modules/tooly
+cd path_to/node_modules/tooly
 # from the tooly module root, install dev dependecies
-> npm install
+npm install
 # run the script and `include` command
 # passing as arguments modules you want included 
 # this will also run related Grunt umd and uglify tasks
-> bin/build include logger timer string
+bin/build include logger timer string
 # run the `grunt custom` task to minify the new build
-> grunt custom
+grunt custom
 ```
 
 Available categories include:
@@ -49,7 +49,7 @@ By default the custom build will be located at `./dist/tooly-custom.js`, or alte
 can specify a custom output file during the build instruction:
 
 ```bash
-> bin/build include dom string -o my-custom-tooly-build.js && grunt custom
+bin/build include dom string -o my-custom-tooly-build.js && grunt custom
 ```
 
 # License
