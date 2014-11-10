@@ -12,8 +12,8 @@
  */
 tooly.construct = function(ctor, args) {
   function F() {
-    return constructor.apply(this, args);
+    return ctor.apply(this, args);
   }
-  F.prototype = constructor.prototype;
+  F.prototype = ctor.prototype;
   return new F();
 };

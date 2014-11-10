@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.2.3 (built: 2014-11-09)
+ * tooly - version 0.2.4 (built: 2014-11-09)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -1126,9 +1126,9 @@ tooly.Logger.prototype.error = function() { _log(this, 5, _checkCaller(arguments
  */
 tooly.construct = function(ctor, args) {
   function F() {
-    return constructor.apply(this, args);
+    return ctor.apply(this, args);
   }
-  F.prototype = constructor.prototype;
+  F.prototype = ctor.prototype;
   return new F();
 };
 
