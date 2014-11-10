@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.2.2 (built: 2014-11-09)
+ * tooly - version 0.2.3 (built: 2014-11-09)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -59,17 +59,17 @@ function _toArray(obj) {
   return [].map.call(obj, function(el) { return el; });
 }
 
-/*!
- * @see  tooly#basicExtend
- */
-function _extend(dest, src) {
-  for (var p in src) {
-    if (src.hasOwnProperty(p)) {
-      dest[p] = src[p];
-    }
-  }
-  return dest;
-}
+// /*!
+//  * @see  tooly#basicExtend
+//  */
+// function _extend(dest, src) {
+//   for (var p in src) {
+//     if (src.hasOwnProperty(p)) {
+//       dest[p] = src[p];
+//     }
+//   }
+//   return dest;
+// }
 
 // modified from http://stackoverflow.com/a/9229821/2416000
 // TODO: this modifies original arr, find unaltering way
@@ -86,7 +86,7 @@ function _sortUnique(arr) {
  * @namespace  tooly
  * @type {Object}
  */
-var tooly = { version: '0.2.2' };
+var tooly = { version: '0.2.3' };
 
 
 
@@ -1149,7 +1149,21 @@ tooly.construct = function(ctor, args) {
  * @static
  */
 tooly.extend = function(dest, src) {
-  return _extend(dest, src);
+  var sources = _slice.call(arguments),
+      target = sources.shift();
+  target = target || {};
+  _each(sources, function(source) {
+    for (var prop in source) {
+      if (source.hasOwnProperty(prop)) {
+        if (_type(source[prop]) === 'object') {
+          target[prop] = extend(target[prop], source[prop]);
+        } else {
+          target[prop] = source[prop];
+        }
+      }
+    }
+  });
+  return target;
 };
 
 
