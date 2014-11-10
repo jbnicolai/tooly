@@ -16,5 +16,19 @@
  * @static
  */
 tooly.extend = function(dest, src) {
-  return _extend(dest, src);
+  var sources = _slice.call(arguments),
+      target = sources.shift();
+  target = target || {};
+  _each(sources, function(source) {
+    for (var prop in source) {
+      if (source.hasOwnProperty(prop)) {
+        if (_type(source[prop]) === 'object') {
+          target[prop] = extend(target[prop], source[prop]);
+        } else {
+          target[prop] = source[prop];
+        }
+      }
+    }
+  });
+  return target;
 };
