@@ -1,26 +1,32 @@
 var tooly = require('../../dist/tooly.js');
-var logger = tooly.Logger(0, 'EACH_TEST');
+var logger = tooly.Logger(0, 'TOOLY#CONSTRUCT');
 
-function construct(constructor, args) {
-  function F() {
-    return constructor.apply(this, args);
-  }
-  F.prototype = constructor.prototype;
-  return new F();
-}
-
-konstruct = function(ctor, args) {
-  function F() {
-    return (_type(args) === 'array')
-      ? ctor.apply(this, args)
-      : ctor.call(this, args);
+function construct(ctor, args) {
+  function F() { 
+    return tooly.type(args) === 'array' ? ctor.apply(this, args) : ctor.call(this, args);
   }
   F.prototype = ctor.prototype;
   return new F();
+}
+
+function Klass(plug) {
+  tooly.Handler.call(this);
+  this.plug = plug;
+  this.init();
+  return this;
+}
+Klass.prototype.init = function() {
+  var klass = this;
+  klass.plugin = construct(klass.plug.constructor, klass);
+  klass.plugin.init();
 };
 
-var obj = tooly.construct(tooly.Logger, ['0', 'whatever']);
-var obk = construct(tooly.Logger, ['0', 'whatever again']);
+function Plugin(klass) {
+  this.klass = klass;
+  return this;
+}
+Plugin.prototype.init = function() {
+  logger.debug(this.klass);
+};
 
-logger.debug(obj.prototype, obj.constructor.prototype);
-logger.debug(obk.prototype, obk.constructor.prototype);
+var klass = new Klass({ constructor: Plugin });
