@@ -11,8 +11,8 @@
  * @static
  */
 tooly.construct = function(ctor, args) {
-  function F() {
-    return ctor.apply(this, args);
+  function F() { 
+    return _type(args) === 'array' ? ctor.apply(this, args) : ctor.call(this, args);
   }
   F.prototype = ctor.prototype;
   return new F();
