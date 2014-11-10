@@ -50,7 +50,7 @@ can specify a custom output file during the build instruction:
 node bin/build include dom string -o my-custom-tooly-build.js && grunt build
 ```
 
-This should be preffered.
+This should be preferred.
 
 # License
 
