@@ -89,7 +89,7 @@ function _sortUnique(arr) {
  * @namespace  tooly
  * @type {Object}
  */
-var tooly = { version: '0.2.3' };
+var tooly = {};
 
 
 
@@ -978,7 +978,7 @@ tooly.extend = function(dest, src) {
     for (var prop in source) {
       if (source.hasOwnProperty(prop)) {
         if (_type(source[prop]) === 'object') {
-          target[prop] = extend(target[prop], source[prop]);
+          target[prop] = tooly.extend(target[prop], source[prop]);
         } else {
           target[prop] = source[prop];
         }
