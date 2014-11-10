@@ -16,7 +16,7 @@ $ npm install tooly
 
 ## Documentation
 
-[http://lokua.net/dev/tooly/doc/index.html](http://lokua.net/dev/tooly/doc/index.html)
+is here -> [lokua.github.io/tooly](http://lokua.github.io/tooly)
 
 ## Custom Build
   
