@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.1.0 (built: 2014-11-09)
+ * tooly - version 0.2.2 (built: 2014-11-09)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -86,7 +86,7 @@ function _sortUnique(arr) {
  * @namespace  tooly
  * @type {Object}
  */
-var tooly = { version: '0.0.5' };
+var tooly = { version: '0.2.2' };
 
 
 
