@@ -1,7 +1,5 @@
 # tooly
 
-(work in progress)
-
 > javascript utility library covering everything from dom selection and css manipulation,
 > object inheritance and extension, logging, event handling, string formatting, etc. 
 > Basically everything that I usually want/need at my fingertips for any given project.
@@ -13,7 +11,7 @@
 ## Install
 
 ```bash
-$ npm install git+https://git@github.com/Lokua/tooly.git
+$ npm install tooly
 ```
 
 ## Documentation
@@ -31,9 +29,9 @@ npm install
 # run the script and `include` command
 # passing as arguments modules you want included 
 # this will also run related Grunt umd and uglify tasks
-bin/build include logger timer string
-# run the `grunt custom` task to minify the new build
-grunt custom
+node bin/build include logger timer string
+# run the `grunt build` task to wrap tooly in umd, minify etc.
+grunt build
 ```
 
 Available categories include:
@@ -49,14 +47,16 @@ By default the custom build will be located at `./dist/tooly-custom.js`, or alte
 can specify a custom output file during the build instruction:
 
 ```bash
-bin/build include dom string -o my-custom-tooly-build.js && grunt custom
+node bin/build include dom string -o my-custom-tooly-build.js && grunt build
 ```
+
+This should be preffered.
 
 # License
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Joshua Kleckner
+Copyright &copy; 2014 Joshua Kleckner
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

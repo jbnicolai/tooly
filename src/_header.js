@@ -59,6 +59,6 @@ function _sortUnique(arr) {
  * @namespace  tooly
  * @type {Object}
  */
-var tooly = { version: '0.0.5' };
+var tooly = { version: '0.2.2' };
 
 
