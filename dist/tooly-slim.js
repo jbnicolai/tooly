@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.2.4 (built: 2014-11-09)
+ * tooly - version 0.2.6 (built: 2014-11-10)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -947,8 +947,8 @@ tooly.Handler.prototype.trigger = function(fn) {
  * @static
  */
 tooly.construct = function(ctor, args) {
-  function F() {
-    return ctor.apply(this, args);
+  function F() { 
+    return _type(args) === 'array' ? ctor.apply(this, args) : ctor.call(this, args);
   }
   F.prototype = ctor.prototype;
   return new F();
