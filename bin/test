@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-mocha -c -u bdd -R spec $1
-# mocha -c -u bdd -R progress $1
