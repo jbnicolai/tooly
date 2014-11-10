@@ -97,9 +97,9 @@ function generateCustomComment() {
     var custom = ' * CUSTOM BUILD\n * Includes modules: ' + 
       includes.join(', ').toUpperCase();
 
-    fs.writeFile('./bin/.custom-comment', custom, function(err) { 
-      if (err) throw err; 
-    });
+    fs.writeFileSync('./bin/.custom-comment', custom);
+  } else {
+    fs.writeFileSync('./bin/.custom-comment', '');
   }
 }
 
