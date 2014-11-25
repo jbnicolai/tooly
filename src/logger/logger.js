@@ -31,7 +31,7 @@ function _log(instance, level, caller, args) {
     if (tooly.type(args[0], 'string') && args[0].match(_format_re)) {
       format += args.shift().replace(_o_re, '%j');
     }
-    pargs.unshift(format, _name(instance), _level(level));
+    pargs.unshift(format, _name(instance), _level(level, instance));
 
   } else { // window
     format = '%c%s%c%s%c%s';
@@ -41,7 +41,7 @@ function _log(instance, level, caller, args) {
     caller = (caller !== undefined && caller.replace(_ws_re, '') === '') ? '' : caller;
     var color = 'color:' + _colors[level] + ';',
         purple = 'color:purple', black = 'color:black';
-    pargs = [format, purple, _name(instance), color, _level(level), black, caller];
+    pargs = [format, purple, _name(instance), color, _level(level, instance), black, caller];
   }
 
   _push.apply(pargs, args);
@@ -90,9 +90,9 @@ function _name(instance) {
   return (_chalk) ? _chalk.magenta(name) : name;
 }
 
-function _level(level) {
+function _level(level, instance) {
   return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') +
-    _chalkify(6, '[' + _dateFormatted() + '] ');
+    (instance.bypassTimestamp ? '' : _chalkify(6, '[' + _dateFormatted() + '] '));
 }
 
 function _dateFormatted() {

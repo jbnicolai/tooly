@@ -44,7 +44,7 @@
  * @memberOf  tooly
  * @static
  */
-tooly.Logger = function(level, name) {
+tooly.Logger = function(level, name, bypassTimestamp) {
   var logger = this;
   tooly.Logger.loggers = tooly.Logger.loggers || [];
   // enable instantiation without new
@@ -53,6 +53,7 @@ tooly.Logger = function(level, name) {
     tooly.Logger.loggers.push(logger);
   }
   logger.level = (level !== undefined) ? level : 2;
+  logger.bypassTimestamp = bypassTimestamp || false;
   if (name) logger.name = name;
   // automatically set this false as its only 
   // for emergency "must track anonymous function location" purposes
