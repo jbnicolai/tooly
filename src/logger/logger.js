@@ -14,7 +14,7 @@ var _cjs = typeof exports === 'object',
     _o_re = /%o/gi,
     _j_re = /%j/gi; 
     
-function _log(instance, level, caller, args) {
+function _log(instance, level, /*caller,*/ args) {
   if (tooly.Logger.off || instance.level === -1 || level < instance.level || instance.level > 5) {
     return;
   }
@@ -34,14 +34,15 @@ function _log(instance, level, caller, args) {
     pargs.unshift(format, _name(instance), _level(level, instance));
 
   } else { // window
-    format = '%c%s%c%s%c%s';
+    // format = '%c%s%c%s%c%s'; // from when check-caller was included
+    format = '%c%s%c%s';
     if (tooly.type(args[0], 'string') && args[0].match(_format_re)) {
       format += args.shift().replace(_j_re, '%o');
     }
-    caller = (caller !== undefined && caller.replace(_ws_re, '') === '') ? '' : caller;
+    // caller = (caller !== undefined && caller.replace(_ws_re, '') === '') ? '' : caller;
     var color = 'color:' + _colors[level] + ';',
-        purple = 'color:purple', black = 'color:black';
-    pargs = [format, purple, _name(instance), color, _level(level, instance), black, caller];
+        purple = 'color:purple'/*, black = 'color:black'*/;
+    pargs = [format, purple, _name(instance), color, _level(level, instance)/*, black, caller*/];
   }
 
   _push.apply(pargs, args);
@@ -51,7 +52,7 @@ function _log(instance, level, caller, args) {
       return;
 
     case 0: 
-      console.log(arguments[3]); 
+      console.log(arguments[2]); 
       break;
 
     case 2: 
@@ -72,18 +73,18 @@ function _log(instance, level, caller, args) {
   }
 }
 
-function _checkCaller(args) {
-  if (!this.traceAnonymous) return '';
-  var name = ''; 
-  try { 
-    name = args.callee.caller.name; 
-  } catch(ignored) {
-  }
-  if (!name) {
-    return  '<anonymous> ' + args.callee.caller + '\n';
-  }
-  return '<'+name+'> ';
-}
+// function _checkCaller(args) {
+//   if (!this.traceAnonymous) return '';
+//   var name = ''; 
+//   try { 
+//     name = args.callee.caller.name; 
+//   } catch(ignored) {
+//   }
+//   if (!name) {
+//     return  '<anonymous> ' + args.callee.caller + '\n';
+//   }
+//   return '<'+name+'> ';
+// }
 
 function _name(instance) {
   var name = instance.name || '';
@@ -110,11 +111,11 @@ function _chalkify(level, str) {
   return (!_chalk) ? str : _chalk[ _colors[level] ](str);
 }
 
-tooly.Logger.prototype.log   = function() { _log(this, 0, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.trace = function() { _log(this, 1, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.debug = function() { _log(this, 2, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.info  = function() { _log(this, 3, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.warn  = function() { _log(this, 4, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.error = function() { _log(this, 5, _checkCaller(arguments), arguments); };
+tooly.Logger.prototype.log   = function() { _log(this, 0, /*_checkCaller(arguments),*/ arguments); };
+tooly.Logger.prototype.trace = function() { _log(this, 1, /*_checkCaller(arguments),*/ arguments); };
+tooly.Logger.prototype.debug = function() { _log(this, 2, /*_checkCaller(arguments),*/ arguments); };
+tooly.Logger.prototype.info  = function() { _log(this, 3, /*_checkCaller(arguments),*/ arguments); };
+tooly.Logger.prototype.warn  = function() { _log(this, 4, /*_checkCaller(arguments),*/ arguments); };
+tooly.Logger.prototype.error = function() { _log(this, 5, /*_checkCaller(arguments),*/ arguments); };
 
 

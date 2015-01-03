@@ -56,7 +56,7 @@ This should be preferred.
 
 The MIT License (MIT)
 
-Copyright &copy; 2014 Joshua Kleckner
+&copy; 2014 Joshua Kleckner
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.2.6 (built: 2014-11-24)
+ * tooly - version 0.4.0 (built: 2015-01-03)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -7,7 +7,7 @@
  *
  * https://github.com/Lokua/tooly.git
  *
- * Copyright (c) 2014 Joshua Kleckner
+ * Copyright (c) 2015 Joshua Kleckner
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/MIT
  */

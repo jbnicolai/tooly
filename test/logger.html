@@ -63,7 +63,7 @@
   </main>
 
 <script>
-  window.onload = function() {
+  window.onload = function() { 'use strict';
     var logger = new tooly.Logger(0, 'TOOLY');
     var str = 'str';
     var arr = ['a', 'b', 'c'];
@@ -78,6 +78,8 @@
 
     console.log('%c%s', 'color:#ff0000', obj);
     logger.info('%c%o', 'color:#ff0000', obj);
+    logger.bypassTimestamp = true;
+    logger.info('timestamp ? %o', logger.bypassTimestamp);
   }
 </script>
 

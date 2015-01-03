@@ -55,8 +55,5 @@ tooly.Logger = function(level, name, bypassTimestamp) {
   logger.level = (level !== undefined) ? level : 2;
   logger.bypassTimestamp = bypassTimestamp || false;
   if (name) logger.name = name;
-  // automatically set this false as its only 
-  // for emergency "must track anonymous function location" purposes
-  logger.traceAnonymous = false;
   return logger;
 };
