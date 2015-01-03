@@ -11,7 +11,7 @@
     <div id="sidebar">
       <nav>
         <h1><a href="#tooly">tooly
-            <h4>v0.0.1</h4></a></h1>
+            <h4>v0.4.0</h4></a></h1>
         <section>
           <h3>Categories</h3>
           <ul>
@@ -194,7 +194,6 @@
     </div>
     <main id="main">
       <div id="readme" class="markdown markdown-body"><h1>tooly</h1>
-<p>(work in progress)</p>
 <blockquote>
 <p>javascript utility library covering everything from dom selection and css manipulation,
 object inheritance and extension, logging, event handling, string formatting, etc.
@@ -205,10 +204,10 @@ Just under 4kb minified and gzipped
 which shouldn't be used in production anyway - see <code>dist/tooly-slim.js</code>).</p>
 </blockquote>
 <h2>Install</h2>
-<pre><code class="lang-bash">$ npm install git+https://git@github.com/Lokua/tooly.git
+<pre><code class="lang-bash">$ npm install tooly
 </code></pre>
 <h2>Documentation</h2>
-<p>(in progress - see <a href="dist/tooly.js">dist/tooly.js</a>)</p>
+<p><a href="http://lokua.github.io/tooly">lokua.github.io/tooly</a></p>
 <h2>Custom Build</h2>
 <p>You can create a custom build of particular categories.</p>
 <pre><code class="lang-bash">cd path_to/node_modules/tooly
@@ -217,9 +216,9 @@ npm install
 # run the script and `include` command
 # passing as arguments modules you want included 
 # this will also run related Grunt umd and uglify tasks
-bin/build include logger timer string
-# run the `grunt custom` task to minify the new build
-grunt custom
+node bin/build include logger timer string
+# run the `grunt build` task to wrap tooly in umd, minify etc.
+grunt build
 </code></pre>
 <p>Available categories include:</p>
 <ul>
@@ -233,11 +232,12 @@ grunt custom
 </ul>
 <p>By default the custom build will be located at <code>./dist/tooly-custom.js</code>, or alternatively, you
 can specify a custom output file during the build instruction:</p>
-<pre><code class="lang-bash">bin/build include dom string -o my-custom-tooly-build.js &amp;&amp; grunt custom
+<pre><code class="lang-bash">node bin/build include dom string -o my-custom-tooly-build.js &amp;&amp; grunt build
 </code></pre>
+<p>This should be preferred.</p>
 <h1>License</h1>
 <p>The MIT License (MIT)</p>
-<p>Copyright (c) 2014 Joshua Kleckner</p>
+<p>© 2014 Joshua Kleckner</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the &quot;Software&quot;), to deal
 in the Software without restriction, including without limitation the rights
@@ -1707,7 +1707,7 @@ logger.trace(logger); // will not output
         <section class="code">
           <button>show source</button>
           <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Logger = function(level, name) {
+            <pre><code class="lang-js">tooly.Logger = function(level, name, bypassTimestamp) {
   var logger = this;
   tooly.Logger.loggers = tooly.Logger.loggers || [];
   // enable instantiation without new
@@ -1716,10 +1716,8 @@ logger.trace(logger); // will not output
     tooly.Logger.loggers.push(logger);
   }
   logger.level = (level !== undefined) ? level : 2;
+  logger.bypassTimestamp = bypassTimestamp || false;
   if (name) logger.name = name;
-  // automatically set this false as its only 
-  // for emergency &quot;must track anonymous function location&quot; purposes
-  logger.traceAnonymous = false;
   return logger;
 };
 var _cjs = typeof exports === 'object',
@@ -1738,108 +1736,7 @@ var _cjs = typeof exports === 'object',
     _o_re = /%o/gi,
     _j_re = /%j/gi; 
     
-function _log(instance, level, caller, args) {
-  if (tooly.Logger.off || instance.level === -1 || level &lt; instance.level || instance.level &gt; 5) {
-    return;
-  }
-
-  var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
-      pargs = []; // final args for console call
-
-  args = _slice.call(args);
-  _format_re = _format_re || /\%[ojdifsc]/g;
-
-  if (_cjs) {
-
-    // TODO: replace match with RegExp#test
-    if (tooly.type(args[0], 'string') &amp;&amp; args[0].match(_format_re)) {
-      format += args.shift().replace(_o_re, '%j');
-    }
-    pargs.unshift(format, _name(instance), _level(level));
-
-  } else { // window
-    format = '%c%s%c%s%c%s';
-    if (tooly.type(args[0], 'string') &amp;&amp; args[0].match(_format_re)) {
-      format += args.shift().replace(_j_re, '%o');
-    }
-    caller = (caller !== undefined &amp;&amp; caller.replace(_ws_re, '') === '') ? '' : caller;
-    var color = 'color:' + _colors[level] + ';',
-        purple = 'color:purple', black = 'color:black';
-    pargs = [format, purple, _name(instance), color, _level(level), black, caller];
-  }
-
-  _push.apply(pargs, args);
-
-  switch (level) {
-    case -1: 
-      return;
-
-    case 0: 
-      console.log(arguments[3]); 
-      break;
-
-    case 2: 
-      // there is no console.debug, 
-      // so the _levels map (default case) doesn't work there
-      console.log.apply(console, pargs); 
-      break;
-
-    default: 
-      // http://stackoverflow.com/
-      // questions/8159233/typeerror-illegal-invocation-on-console-log-apply
-      try {
-        console[ _levels[level] ].apply(console, pargs);
-      } catch(e) {
-        console.log('[Logger (recovery mode)] ', pargs);
-      }
-      break;
-  }
-}
-
-function _checkCaller(args) {
-  if (!this.traceAnonymous) return '';
-  var name = ''; 
-  try { 
-    name = args.callee.caller.name; 
-  } catch(ignored) {
-  }
-  if (!name) {
-    return  '&lt;anonymous&gt; ' + args.callee.caller + '\n';
-  }
-  return '&lt;'+name+'&gt; ';
-}
-
-function _name(instance) {
-  var name = instance.name || '';
-  return (_chalk) ? _chalk.magenta(name) : name;
-}
-
-function _level(level) {
-  return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') +
-    _chalkify(6, '[' + _dateFormatted() + '] ');
-}
-
-function _dateFormatted() {
-  function format(n) { return n &lt; 10 ? '0' + n : n }
-  var d = new Date();
-  return [
-    format(d.getHours()),
-    format(d.getMinutes()),
-    format(d.getSeconds()),
-    d.getMilliseconds()
-  ].join(':');
-}
-
-function _chalkify(level, str) {
-  return (!_chalk) ? str : _chalk[ _colors[level] ](str);
-}
-
-tooly.Logger.prototype.log   = function() { _log(this, 0, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.trace = function() { _log(this, 1, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.debug = function() { _log(this, 2, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.info  = function() { _log(this, 3, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.warn  = function() { _log(this, 4, _checkCaller(arguments), arguments); };
-tooly.Logger.prototype.error = function() { _log(this, 5, _checkCaller(arguments), arguments); };</code></pre>
+function _log(instance, level,</code></pre>
           </div>
         </section>
       </div><a name="Object"></a>
@@ -1883,10 +1780,10 @@ tooly.Logger.prototype.error = function() { _log(this, 5, _checkCaller(arguments
           <button>show source</button>
           <div class="code-wrapper hidden">
             <pre><code class="lang-js">tooly.construct = function(ctor, args) {
-  function F() {
-    return constructor.apply(this, args);
+  function F() { 
+    return _type(args) === 'array' ? ctor.apply(this, args) : ctor.call(this, args);
   }
-  F.prototype = constructor.prototype;
+  F.prototype = ctor.prototype;
   return new F();
 };</code></pre>
           </div>
@@ -1935,7 +1832,21 @@ tooly.Logger.prototype.error = function() { _log(this, 5, _checkCaller(arguments
           <button>show source</button>
           <div class="code-wrapper hidden">
             <pre><code class="lang-js">tooly.extend = function(dest, src) {
-  return _extend(dest, src);
+  var sources = _slice.call(arguments),
+      target = sources.shift();
+  target = target || {};
+  _each(sources, function(source) {
+    for (var prop in source) {
+      if (source.hasOwnProperty(prop)) {
+        if (_type(source[prop]) === 'object') {
+          target[prop] = tooly.extend(target[prop], source[prop]);
+        } else {
+          target[prop] = source[prop];
+        }
+      }
+    }
+  });
+  return target;
 };</code></pre>
           </div>
         </section>
@@ -3453,8 +3364,8 @@ return tooly;
         </section>
       </div>
       <footer>
-        <div class="row">Copyright &copy; 2014 Joshua Kleckner </div>
-        <div class="row">tooly.js source code available at<a href="http://github.com/lokua/tooly" target="_blank">&nbsp;github</a><span>&nbsp;and</span><a href="https://www.npmjs.org/package/giftwrap" target="_blank">&nbsp;npm</a></div>
+        <div class="row">&copy; 2014 Joshua Kleckner </div>
+        <div class="row">tooly.js source code available at<a href="http://github.com/lokua/tooly" target="_blank">&nbsp;github</a><span>&nbsp;and</span><a href="https://www.npmjs.org/package/tooly" target="_blank">&nbsp;npm</a></div>
         <div class="row">contact: dev (at) lokua (dot) net </div>
         <div class="row">website: <a href="http://lokua.net/">lokua.net</a></div>
       </footer>
