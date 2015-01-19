@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.6.0 (built: 2015-01-19)
+ * tooly - version 0.6.1 (built: 2015-01-19)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -1754,7 +1754,6 @@ tooly.tag = function(tag, attrs, asString) {
   if (id !== '') el.setAttribute('id', id);
 
   if (!attrs.nodeType && typeof attrs === 'object') {
-    console.log('hello?');
 
     for (var p in attrs) {
       if (attrs.hasOwnProperty(p) && p !== 'content') {
@@ -1769,11 +1768,9 @@ tooly.tag = function(tag, attrs, asString) {
     }
 
   } else if (typeof attrs === 'string') {
-    console.log('how the fuck is a document a string?');
     el.appendChild(document.createTextNode(attrs));
 
   } else if (attrs.nodeType && attrs.nodeType === 1 || attrs.nodeType === 9) {
-    console.log('what the fuck?');
     el.appendChild(attrs);
   }
 

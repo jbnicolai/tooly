@@ -40,7 +40,6 @@ tooly.tag = function(tag, attrs, asString) {
   if (id !== '') el.setAttribute('id', id);
 
   if (!attrs.nodeType && typeof attrs === 'object') {
-    console.log('hello?');
 
     for (var p in attrs) {
       if (attrs.hasOwnProperty(p) && p !== 'content') {
@@ -55,11 +54,9 @@ tooly.tag = function(tag, attrs, asString) {
     }
 
   } else if (typeof attrs === 'string') {
-    console.log('how the fuck is a document a string?');
     el.appendChild(document.createTextNode(attrs));
 
   } else if (attrs.nodeType && attrs.nodeType === 1 || attrs.nodeType === 9) {
-    console.log('what the fuck?');
     el.appendChild(attrs);
   }
 
