@@ -11,7 +11,7 @@
     <div id="sidebar">
       <nav>
         <h1><a href="#tooly">tooly
-            <h4>v0.4.0</h4></a></h1>
+            <h4>v0.6.0</h4></a></h1>
         <section>
           <h3>Categories</h3>
           <ul>
@@ -95,24 +95,6 @@
                 <li><a href="#tag">tag</a></li>
               </ul>
             </li>
-            <li class="category"><span>
-                <div class="arrow arrow-right"></div><span><a href="#Timer">Timer</a></span></span>
-              <ul data-cat="Timer" class="category-methods hidden">
-                <li><a href="#Timer">Timer</a></li>
-                <li><a href="#end">end</a></li>
-                <li><a href="#funkyTime">funkyTime</a></li>
-                <li><a href="#log">log</a></li>
-                <li><a href="#start">start</a></li>
-                <li><a href="#stop">stop</a></li>
-              </ul>
-            </li>
-            <li class="category"><span>
-                <div class="arrow arrow-right"></div><span><a href="#XHR">XHR</a></span></span>
-              <ul data-cat="XHR" class="category-methods hidden">
-                <li><a href="#get">get</a></li>
-                <li><a href="#getJSON">getJSON</a></li>
-              </ul>
-            </li>
           </ul>
         </section>
         <section>
@@ -121,7 +103,6 @@
             <li><a href="#Frankie">tooly.Frankie</a></li>
             <li><a href="#Handler">tooly.Handler</a></li>
             <li><a href="#Logger">tooly.Logger</a></li>
-            <li><a href="#Timer">tooly.Timer</a></li>
           </ul>
         </section>
         <section>
@@ -130,7 +111,6 @@
             <li><a href="#Frankie">Frankie</a></li>
             <li><a href="#Handler">Handler</a></li>
             <li><a href="#Logger">Logger</a></li>
-            <li><a href="#Timer">Timer</a></li>
             <li><a href="#addClass">addClass</a></li>
             <li><a href="#append">append</a></li>
             <li><a href="#attr">attr</a></li>
@@ -140,7 +120,6 @@
             <li><a href="#css">css</a></li>
             <li><a href="#each">each</a></li>
             <li><a href="#empty">empty</a></li>
-            <li><a href="#end">end</a></li>
             <li><a href="#endsWith">endsWith</a></li>
             <li><a href="#eq">eq</a></li>
             <li><a href="#executeHandler">executeHandler</a></li>
@@ -152,10 +131,7 @@
             <li><a href="#formatString">formatString</a></li>
             <li><a href="#formatTime">formatTime</a></li>
             <li><a href="#fromPrototype">fromPrototype</a></li>
-            <li><a href="#funkyTime">funkyTime</a></li>
             <li><a href="#get">get</a></li>
-            <li><a href="#get">get</a></li>
-            <li><a href="#getJSON">getJSON</a></li>
             <li><a href="#hasClass">hasClass</a></li>
             <li><a href="#html">html</a></li>
             <li><a href="#inherit">inherit</a></li>
@@ -163,7 +139,6 @@
             <li><a href="#isHash">isHash</a></li>
             <li><a href="#isTruthy">isTruthy</a></li>
             <li><a href="#lPad">lPad</a></li>
-            <li><a href="#log">log</a></li>
             <li><a href="#on">on</a></li>
             <li><a href="#on">on</a></li>
             <li><a href="#parent">parent</a></li>
@@ -178,12 +153,9 @@
             <li><a href="#scale">scale</a></li>
             <li><a href="#sliceRel">sliceRel</a></li>
             <li><a href="#sort">sort</a></li>
-            <li><a href="#start">start</a></li>
             <li><a href="#startsWith">startsWith</a></li>
-            <li><a href="#stop">stop</a></li>
             <li><a href="#stripExtension">stripExtension</a></li>
             <li><a href="#tag">tag</a></li>
-            <li><a href="#toString">toString</a></li>
             <li><a href="#toType">toType</a></li>
             <li><a href="#toggleClass">toggleClass</a></li>
             <li><a href="#trigger">trigger</a></li>
@@ -1654,7 +1626,7 @@ value; //=&gt; 20;
       <div class="method-wrap">
         <header><a name="Logger"></a><span class="parent">tooly</span><span> . </span>
           <div class="name">Logger</div>
-          <div class="signature">(level, name)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Logger instance</small></div>
+          <div class="signature">(name, options)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Logger instance</small></div>
         </header>
         <section class="method-description markdown"><p>Class constructor. Typical logging functionality that wraps around console.log<br />with css coloring and level control. The Logger level hierarchy is as follows:</p><ul>
 <li>-1: off</li>
@@ -1677,24 +1649,32 @@ value; //=&gt; 20;
 </li>
 </ul>
 <h2>Example</h2>
-<pre><code class="language-js">var logger = new tooly.Logger(2, &#39;TEST_LOGGER&#39;);
+<pre><code class="language-js">var logger = new tooly.Logger(&#39;TEST_LOGGER&#39;, { level: 2 });
 logger.trace(logger); // will not output
 </code></pre>
+<h2>Options</h2>
+<ul>
+<li><em><code>level</code></em>: number (default 2: debug)</li>
+<li><em><code>bypassTimestamp</code></em>: boolean (default: false)</li>
+<li><em><code>bypassLine</code></em>: boolean (remove line number from output prefix. default: false)</li>
+<li><em><code>textFormat</code></em>: a css for a <code>%c</code> flag, ie. <code>&#39;color:blue;font-size:22px;&#39;</code></li>
+<li><em><code>lineFormat</code></em>: same as textFormat for line number styling</li>
+</ul>
 <p>All active loggers in the current context can be disabled, regardless of level,<br />by setting the static <code>tooly.Logger.off = true</code>. Setting back to false will resume<br />logging at each loggers previous level.</p></section>
         <div class="tags-wrap">
           <section class="params">
             <h6>parameters:</h6>
             <table>
               <tr>
-                <td><b class="name"> level</b></td>
-                <td><small class="types"> {Number}</small></td>
-                <td><span class="description"><p>set the level of this logger. Defaults to 2 (debug) if no                       arguments are passed.</p>
+                <td><b class="name"> name</b></td>
+                <td><small class="types"> {String}</small></td>
+                <td><span class="description"><p>optional name to identify this instance. The name will preceed any output message</p>
 </span></td>
               </tr>
               <tr>
-                <td><b class="name"> name</b></td>
-                <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>optional name to identify this instance. The name will preceed any                       output message</p>
+                <td><b class="name"> options</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>an object containing this logger&#39;s level and other output options </p>
 </span></td>
               </tr>
             </table>
@@ -1707,16 +1687,25 @@ logger.trace(logger); // will not output
         <section class="code">
           <button>show source</button>
           <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Logger = function(level, name, bypassTimestamp) {
+            <pre><code class="lang-js">tooly.Logger = function(name, options) {
   var logger = this;
   tooly.Logger.loggers = tooly.Logger.loggers || [];
   // enable instantiation without new
   if (!(logger instanceof tooly.Logger)) {
-    logger = new tooly.Logger(level, name);
+    logger = new tooly.Logger(name, options);
     tooly.Logger.loggers.push(logger);
   }
-  logger.level = (level !== undefined) ? level : 2;
-  logger.bypassTimestamp = bypassTimestamp || false;
+  logger.options = {};
+  logger.options.level = options.level !== undefined ? options.level : 2;
+  logger.options.bypassTimestamp = options.bypassTimestamp || false;
+  logger.options.bypassLine = options.bypassLine || false;
+  logger.options.textFormat = options.textFormat || 'color:black;';
+  logger.options.lineFormat = options.lineFormat || 'color:gray;font-size:9px;';
+  // logger.options.groupFormat = options.groupFormat || 
+  //   'color:black;' +
+  //   'font-size:18px;' + 
+  //   'font-weight:bold;' +
+  //   'text-decoration:underline;';
   if (name) logger.name = name;
   return logger;
 };
@@ -1736,7 +1725,23 @@ var _cjs = typeof exports === 'object',
     _o_re = /%o/gi,
     _j_re = /%j/gi; 
     
-function _log(instance, level,</code></pre>
+function _log(instance, level, args) {
+  if (tooly.Logger.off || instance.level === -1 || level &lt; instance.level || instance.level &gt; 5) {
+    return;
+  }
+
+  var format = '%s%s', // &lt;name&gt; &lt;[LEVEL] [HH:mm:ss]&gt;
+      pargs = []; // final args for console call
+
+  args = _slice.call(args);
+  _format_re = _format_re || /\%[ojdifsc]/g;
+
+  if (_cjs) {
+    // TODO: replace match with RegExp#test
+    if (tooly.type(args[0], 'string') &amp;&amp; args[0].match(_format_re)) {
+      format += args.shift().replace(_o_re, '%j');
+    }
+    pargs.unshift(format, _name(instance), _level(level, instance)</code></pre>
           </div>
         </section>
       </div><a name="Object"></a>
@@ -2907,26 +2912,22 @@ formatted; //=&gt; &#39;tooly.js&#39;
           <div class="code-wrapper hidden">
             <pre><code class="lang-js">tooly.stripExtension = function(str) {
   return str.substring(0, str.lastIndexOf('.'));
-};
-
-
-
-var _tag_re, _void_el_re;</code></pre>
+};</code></pre>
           </div>
         </section>
       </div>
       <div class="method-wrap">
         <header><a name="tag"></a><span class="parent">tooly</span><span> . </span>
           <div class="name">tag</div>
-          <div class="signature">(el, content, asHTML)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {String|HTMLElement}</small></div>
+          <div class="signature">(tag, attrs, asString)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {HTMLElement|String}</small></div>
         </header>
-        <section class="method-description markdown"><p><strong>Experimental</strong> - will change in future versions.<br />Wrap a string with html tags, id, classes, and attributes with<br />very simple syntax. Void elements are accounted for.<br />Warning: has not been tested extensively as of yet.</p><h3>Examples</h3>
-<pre><code class="language-js">tooly.tag(&#39;div #my-id .my-class data-mood=&quot;perculatory&quot;&#39;, &#39;Hi&#39;);
-//=&gt; &quot;&lt;div id=&quot;my-id&quot; class=&quot;my-class&quot; data-mood=&quot;perculatory&quot;&gt;Hi&lt;/div&gt;&quot;
-
-// nested:
-tooly.tag(&#39;div&#39;, tooly.tag(&#39;section&#39;, &#39;!&#39;));
-//=&gt; &quot;&lt;div&gt;&lt;section&gt;!&lt;/section&gt;&lt;/div&gt;&quot;
+        <section class="method-description markdown"><p>Simple DOM element creation using jade-like syntax for the element<br />declaration and options hash for attributes. The attribute hash can take a content<br />argument for the element&#39;s innerHTML property, which itself can be another tag</p><h3>Examples</h3>
+<pre><code class="language-js">tag(&#39;a&#39;); //=&gt; &lt;a&gt;&lt;/a&gt;
+tag(&#39;a.link--plain&#39;) //=&gt; &lt;a class=&quot;link--plain&quot;&gt;&lt;/a&gt;
+tag(&#39;a&#39;, &#39;MUSIC!!!&#39;) //=&gt; &lt;a&gt;MUSIC!!!&lt;/a&gt;
+tag(&#39;a#main.link--plain&#39;, { rel: &#39;nofollow&#39;, href: &#39;music&#39;, content: &#39;MUSIC!!!&#39; })
+//=&gt; &lt;a href=&quot;music&quot; rel=&quot;nofollow&quot;&gt;MUSIC!!!&lt;/a&gt;
+tag(&#39;#main&#39;, tag(&#39;.sub&#39;)) //=&gt; &lt;div id=&quot;main&quot;&gt;&lt;div class=&quot;sub&quot;&gt;&lt;/div&gt;&lt;/div&gt;
 </code></pre>
 </section>
         <div class="tags-wrap">
@@ -2934,21 +2935,21 @@ tooly.tag(&#39;div&#39;, tooly.tag(&#39;section&#39;, &#39;!&#39;));
             <h6>parameters:</h6>
             <table>
               <tr>
-                <td><b class="name"> el</b></td>
+                <td><b class="name"> tag</b></td>
                 <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>String of the format &quot;<tag> [.class[...]] [#id] [attribute[...]]&quot;</p>
+                <td><span class="description"><p>jade-like element declaration</p>
 </span></td>
               </tr>
               <tr>
-                <td><b class="name"> content</b></td>
-                <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>[optional] content to be place after the opening HTML tag</p>
+                <td><b class="name"> attrs</b></td>
+                <td><small class="types"> {Object}</small></td>
+                <td><span class="description"><p>options hash of attributes</p>
 </span></td>
               </tr>
               <tr>
-                <td><b class="name"> asHTML</b></td>
+                <td><b class="name"> asString</b></td>
                 <td><small class="types"> {Boolean}</small></td>
-                <td><span class="description"><p>output HTML if true, String otherwise</p>
+                <td><span class="description"><p>returns string representation instead of HTMLElement, defaults to false</p>
 </span></td>
               </tr>
             </table>
@@ -2959,8 +2960,8 @@ tooly.tag(&#39;div&#39;, tooly.tag(&#39;section&#39;, &#39;!&#39;));
                 <td>
                   <h6>returns <span class="return-arrow">&#8594;</span></h6>
                 </td>
-                <td><small class="types"> {String|HTMLElement}</small></td>
-                <td><span class="description"><p>HTML tag <code>el</code> filled with <code>content</code> </p>
+                <td><small class="types"> {HTMLElement|String}</small></td>
+                <td><span class="description"><p>element or string representation </p>
 </span></td>
               </tr>
             </table>
@@ -2971,184 +2972,196 @@ tooly.tag(&#39;div&#39;, tooly.tag(&#39;section&#39;, &#39;!&#39;));
         <section class="code">
           <button>show source</button>
           <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.tag = function(el, content, asHTML) {
-  if (!_tag_re) {
-    _tag_re = /(^[a-z]+\d{1})|[^\s]+[a-z]+(-\w+)?=([&quot;'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi;
-    _void_el_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i; 
-  }
-  var matches = el.match(_tag_re),
-      el = matches.shift(),
-      classes = '', id = '', attrs = '',
-      closingTag, out; 
-  matches.forEach(function(m, i) {
-    var c = m.charAt(0);
-    if (c === '#') {
-      id += m.slice(1) + '&quot;';
-    } else if (c === '.') {
-      classes += ' ' + m.slice(1) + ' ';
-    } else {
-      attrs += ' ' + m;
-    }
+            <pre><code class="lang-js">tooly.tag = function(tag, attrs, asString) {
+
+  var re = /^([^.#]*)|([.#]{1}[^.#]+)/g,
+      segs = tag.match(re),
+      ch = segs[0].charAt(0),
+      el = document.createElement(/[#.]/.test(ch) ? 'div' : segs.shift()),
+      id = '', 
+      classes = [];
+
+  segs.forEach(function(seg) {
+    if (seg.charAt(0) === '.') return classes.push(seg.replace('.', ''));
+    if (seg.charAt(0) === '#') return id = seg.replace('#', '');
   });
-  closingTag = _void_el_re.test(el) ? '' : '&lt;/' + el + '&gt;';
-  out = [
-    '&lt;', el,
-    id ? ' id=&quot;' + id : '',
-    classes? ' class=&quot;' + classes.trim() + '&quot; ' : '',
-    attrs ? attrs : '',
-    '&gt;', content, closingTag
-  ].join('');
-  if (asHTML) {
-    var d = document.createElement('div');
-    d.innerHTML = out;
-    return d.firstChild;
+
+  if (classes.length) el.setAttribute('class', classes.join(' '));
+  if (id !== '') el.setAttribute('id', id);
+
+  if (!attrs.nodeType &amp;&amp; typeof attrs === 'object') {
+    console.log('hello?');
+
+    for (var p in attrs) {
+      if (attrs.hasOwnProperty(p) &amp;&amp; p !== 'content') {
+        el.setAttribute(p, attrs[p]);
+      }
+    }
+    if (attrs.hasOwnProperty('content')) {
+      if (attrs.content.nodeType === undefined) {
+        attrs.content = document.createTextNode(attrs.content);
+      }
+      el.appendChild(attrs.content);
+    }
+
+  } else if (typeof attrs === 'string') {
+    console.log('how the fuck is a document a string?');
+    el.appendChild(document.createTextNode(attrs));
+
+  } else if (attrs.nodeType &amp;&amp; attrs.nodeType === 1 || attrs.nodeType === 9) {
+    console.log('what the fuck?');
+    el.appendChild(attrs);
   }
-  return out;
-};</code></pre>
-          </div>
-        </section>
-      </div><a name="Timer"></a>
-      <div class="method-wrap">
-        <header><a name="Timer"></a><span class="parent">tooly</span><span> . </span>
-          <div class="name">Timer</div>
-          <div class="signature">(name)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> Timer instance</small></div>
-        </header>
-        <section class="method-description markdown"><p>Timer class constructor. Contains basic <code>start</code> and <code>stop</code> methods for timing<br />of code execution. Also see #funkyTime, which is a static method to time<br />function executions and is simpler to use than manually controlling a timer instance.</p></section>
-        <div class="tags-wrap">
-          <section class="params">
-            <h6>parameters:</h6>
-            <table>
-              <tr>
-                <td><b class="name"> name</b></td>
-                <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>[optional] name </p>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="return">
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Timer = function(name) {
+
+  return asString ? el.outerHTML : el;
+};
+
+
+// var _tag_re, _void_el_re;
+
+// /**
+//  * __Experimental__ - will change in future versions.
+//  * Wrap a string with html tags, id, classes, and attributes with 
+//  * very simple syntax. Void elements are accounted for.
+//  * Warning: has not been tested extensively as of yet.
+//  *
+//  * ### Examples
+//  * ```js
+//  * tooly.tag('div #my-id .my-class data-mood=&quot;perculatory&quot;', 'Hi');
+//  * //=&gt; &quot;&lt;div id=&quot;my-id&quot; class=&quot;my-class&quot; data-mood=&quot;perculatory&quot;&gt;Hi&lt;/div&gt;&quot;
+//  * 
+//  * // nested:
+//  * tooly.tag('div', tooly.tag('section', '!'));
+//  * //=&gt; &quot;&lt;div&gt;&lt;section&gt;!&lt;/section&gt;&lt;/div&gt;&quot;
+//  * ```
+//  * 
+//  * @param  {String}  el         String of the format &quot;&lt;tag&gt; [.class[...]] [#id] [attribute[...]]&quot;
+//  * @param  {String}  content    [optional] content to be place after the opening HTML tag
+//  * @param  {Boolean} asHTML     output HTML if true, String otherwise
+//  * @return {String|HTMLElement} HTML tag `el` filled with `content`
+//  *
+//  * @memberOf tooly
+//  * @category String
+//  * @static
+//  */
+// tooly.tag = function(el, content, asHTML) {
+//   if (!_tag_re) {
+//     _tag_re = /(^[a-z]+\d{1})|[^\s]+[a-z]+(-\w+)?=([&quot;'])(?:(?!\3)[^\\]|\\.)*\3|[.#-_a-z][-\w]+/gi;
+//     _void_el_re = /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr/i; 
+//   }
+//   var matches = el.match(_tag_re),
+//       el = matches.shift(),
+//       classes = '', id = '', attrs = '',
+//       closingTag, out; 
+//   matches.forEach(function(m, i) {
+//     var c = m.charAt(0);
+//     if (c === '#') {
+//       id += m.slice(1) + '&quot;';
+//     } else if (c === '.') {
+//       classes += ' ' + m.slice(1) + ' ';
+//     } else {
+//       attrs += ' ' + m;
+//     }
+//   });
+//   closingTag = _void_el_re.test(el) ? '' : '&lt;/' + el + '&gt;';
+//   out = [
+//     '&lt;', el,
+//     id ? ' id=&quot;' + id : '',
+//     classes? ' class=&quot;' + classes.trim() + '&quot; ' : '',
+//     attrs ? attrs : '',
+//     '&gt;', content, closingTag
+//   ].join('');
+//   if (asHTML) {
+//     var d = document.createElement('div');
+//     d.innerHTML = out;
+//     return d.firstChild;
+//   }
+//   return out;
+// };
+
+
+
+/**
+ * Timer class constructor. Contains basic `start` and `stop` methods for timing
+ * of code execution. Also see #funkyTime, which is a static method to time
+ * function executions and is simpler to use than manually controlling a timer instance.
+ *  
+ * @param {String} name [optional] name
+ * 
+ * @category Timer
+ * @class  tooly.Timer
+ * @constructor
+ * @memberOf tooly
+ * @static
+ */
+tooly.Timer = function(name) {
   // enable instantiation without new
   if (!(this instanceof tooly.Timer)) {
     return new tooly.Timer(name);
   }
   this.name = name || 'Timer_instance_' + Date.now();
   return this; 
-};</code></pre>
-          </div>
-        </section>
-      </div>
-      <div class="method-wrap">
-        <header><a name="end"></a><span class="parent">tooly.Timer</span><span> # </span>
-          <div class="name">end</div>
-          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Number}</small></div>
-        </header>
-        <section class="method-description markdown"><p>Stop the timer and log the results to the console.<br />Equivalent of calling #stop then #log</p></section>
-        <div class="tags-wrap">
-          <section class="return">
-            <table>
-              <tr>
-                <td>
-                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
-                </td>
-                <td><small class="types"> {Number}</small></td>
-                <td><span class="description"><p>the time elapsed in milliseconds </p>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Timer.prototype.end = function() {
+};
+
+
+
+/**
+ * Stop the timer and log the results to the console.
+ * Equivalent of calling #stop then #log
+ * 
+ * @return {Number} the time elapsed in milliseconds
+ *
+ * @memberOf  tooly.Timer
+ * @instance
+ * @category Timer
+ */
+tooly.Timer.prototype.end = function() {
   this.stop();
   this.log();
   return this.elapsed;
-};</code></pre>
-          </div>
-        </section>
-      </div>
-      <div class="method-wrap">
-        <header><a name="funkyTime"></a><span class="parent">tooly.Timer</span><span> . </span>
-          <div class="name">funkyTime</div>
-          <div class="signature">(fn, n)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Object}</small></div>
-        </header>
-        <section class="method-description markdown"><p>&quot;funkyTime&quot; - think &quot;Function Execution Time&quot;.<br />Get the total, individual, and average execution times of <code>fn</code> called <code>n</code> times.<br /><code>fn</code> will be passed the iteration number as its first argument.</p></section>
-        <div class="tags-wrap">
-          <section class="params">
-            <h6>parameters:</h6>
-            <table>
-              <tr>
-                <td><b class="name"> fn</b></td>
-                <td><small class="types"> {Function}</small></td>
-                <td><span class="description"><p>the function that will be timed.</p>
-</span></td>
-              </tr>
-              <tr>
-                <td><b class="name"> n</b></td>
-                <td><small class="types"> {number}</small></td>
-                <td><span class="description"><p>the number of times to run the function (defaults to 1) </p>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="return">
-            <table>
-              <tr>
-                <td>
-                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
-                </td>
-                <td><small class="types"> {Object}</small></td>
-                <td><span class="description"><p>a hash of timing results with the following signature: <br></p>
-<ul>
-<li><strong>stack</strong> <Array[Number]>: the time of each iteration </li>
-<li><strong>total</strong> <Number>: the total of all iterations</li>
-<li><strong>average</strong> <Number>: the average of all iterations</li>
-<li><strong>offset</strong> <Number>: the difference between the total time to run 
-the iteration loop and the sum of all iteration times - basically
-the loop and Timer overhead.</li>
-</ul>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="others">
-            <div class="example">
-              <h6>example:</h6>
-              <div class="example-code"><pre><code class="lang-js">// setup code
-var data = [], i = 0, n = 99000;
-for (; i &lt; n; i++) data.push(Math.random()*(1/3));
+};
 
-// run a sort five times
-var results = funkyTime(function() {
-  var rndm = data.sort();
-}, 5);
 
-results;
-// returns something like:
-// { stack: [ 692, 720, 730, 722, 735 ],
-//   total: 735,
-//   average: 147,
-//   offset: 15.2 }
-</code></pre>
-</div>
-            </div>
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.funkyTime = function(fn, n) {
+
+/**
+ * &quot;funkyTime&quot; - think &quot;Function Execution Time&quot;.
+ * Get the total, individual, and average execution times of `fn` called `n` times.
+ * `fn` will be passed the iteration number as its first argument.
+ *
+ * @example
+ * ```js
+ * // setup code
+ * var data = [], i = 0, n = 99000;
+ * for (; i &lt; n; i++) data.push(Math.random()*(1/3));
+ *
+ * // run a sort five times
+ * var results = funkyTime(function() {
+ *   var rndm = data.sort();
+ * }, 5);
+ *
+ * results;
+ * // returns something like:
+ * // { stack: [ 692, 720, 730, 722, 735 ],
+ * //   total: 735,
+ * //   average: 147,
+ * //   offset: 15.2 }
+ * ```
+ * 
+ * @param  {Function} fn the function that will be timed.
+ * @param  {number}   n  the number of times to run the function (defaults to 1)  
+ * @return {Object}      a hash of timing results with the following signature:
+ * &lt;br&gt;
+ * + __stack__ &lt;Array[Number]&gt;: the time of each iteration 
+ * + __total__ &lt;Number&gt;: the total of all iterations
+ * + __average__ &lt;Number&gt;: the average of all iterations
+ * + __offset__ &lt;Number&gt;: the difference between the total time to run 
+ * the iteration loop and the sum of all iteration times - basically
+ * the loop and Timer overhead.
+ * @memberOf  tooly.Timer
+ * @static
+ * @category Timer
+ */
+tooly.funkyTime = function(fn, n) {
   var tx = tooly.Timer(),
       ix = tooly.Timer(),
       stack = [],
@@ -3172,131 +3185,79 @@ results;
       return parseFloat((end - (sum/n)).toFixed(2));
     })()
   };
-};</code></pre>
-          </div>
-        </section>
-      </div>
-      <div class="method-wrap">
-        <header><a name="log"></a><span class="parent">tooly.Timer</span><span> # </span>
-          <div class="name">log</div>
-          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
-        </header>
-        <section class="method-description markdown"><p>log results to the console</p></section>
-        <div class="tags-wrap">
-          <section class="return">
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Timer.prototype.log = function() {
+};
+
+
+
+/**
+ * log results to the console
+ *
+ * @memberOf  tooly.Timer
+ * @instance
+ * @category Timer
+ */
+tooly.Timer.prototype.log = function() {
   console.log(this.name + ' ' + this.elapsed);
-};</code></pre>
-          </div>
-        </section>
-      </div>
-      <div class="method-wrap">
-        <header><a name="start"></a><span class="parent">tooly.Timer</span><span> # </span>
-          <div class="name">start</div>
-          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
-        </header>
-        <section class="method-description markdown"><p>Start the timer</p></section>
-        <div class="tags-wrap">
-          <section class="return">
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Timer.prototype.start = function() { 
+};
+
+
+
+/**
+ * Start the timer
+ *
+ * @memberOf  tooly.Timer
+ * @instance
+ * @category Timer
+ */
+tooly.Timer.prototype.start = function() { 
   this.startTime = Date.now(); 
-};</code></pre>
-          </div>
-        </section>
-      </div>
-      <div class="method-wrap">
-        <header><a name="stop"></a><span class="parent">tooly.Timer</span><span> # </span>
-          <div class="name">stop</div>
-          <div class="signature">()<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> {Number}</small></div>
-        </header>
-        <section class="method-description markdown"><p>Stop the timer</p></section>
-        <div class="tags-wrap">
-          <section class="return">
-            <table>
-              <tr>
-                <td>
-                  <h6>returns <span class="return-arrow">&#8594;</span></h6>
-                </td>
-                <td><small class="types"> {Number}</small></td>
-                <td><span class="description"><p>the time elapsed in milliseconds </p>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.Timer.prototype.stop = function() { 
+};
+  
+
+
+/**
+ * Stop the timer
+ * 
+ * @return {Number} the time elapsed in milliseconds
+ *
+ * @memberOf  tooly.Timer
+ * @instance
+ * @category Timer
+ */
+tooly.Timer.prototype.stop = function() { 
   this.endTime = Date.now();
   this.elapsed = this.endTime - this.startTime;
   return this.elapsed;
-};</code></pre>
-          </div>
-        </section>
-      </div><a name="XHR"></a>
-      <div class="method-wrap">
-        <header><a name="get"></a><span class="parent">tooly</span><span> . </span>
-          <div class="name">get</div>
-          <div class="signature">(url, respType, success, async)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
-        </header>
-        <section class="method-description markdown"><p>perform a xhr <code>GET</code></p></section>
-        <div class="tags-wrap">
-          <section class="params">
-            <h6>parameters:</h6>
-            <table>
-              <tr>
-                <td><b class="name"> url</b></td>
-                <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>url to resource</p>
-</span></td>
-              </tr>
-              <tr>
-                <td><b class="name"> respType</b></td>
-                <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>the request responseType</p>
-</span></td>
-              </tr>
-              <tr>
-                <td><b class="name"> success</b></td>
-                <td><small class="types"> {callback}</small></td>
-                <td><span class="description"><p>function to operate on response data                              if the request is successful. If so, success
-                             takes a single data parameter (the response).</p>
-</span></td>
-              </tr>
-              <tr>
-                <td><b class="name"> async</b></td>
-                <td><small class="types"> {Boolean}</small></td>
-                <td><span class="description"><p>defaults to true </p>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="return">
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.get = function(url, respType, success, async) {
+};
+
+
+
+/**
+ * @return {String}
+ * @memberOf  tooly.Timer
+ * @instance
+ */
+tooly.Timer.prototype.toString = function() { 
+  return this.elapsed + ''; 
+};
+
+
+
+/**
+ * perform a xhr `GET`
+ * 
+ * @param  {String}   url       url to resource
+ * @param  {String}   respType  the request responseType
+ * @param  {callback} success   function to operate on response data
+ *                              if the request is successful. If so, success
+ *                              takes a single data parameter (the response).
+ * @param {Boolean}   async     defaults to true
+ *
+ * @memberOf tooly
+ * @category XHR
+ * @static
+ */
+tooly.get = function(url, respType, success, async) {
   var req = new XMLHttpRequest();
   req.open('get', url, (arguments.length === 3) ? true : async);
   req.reponseType = respType;
@@ -3308,50 +3269,25 @@ results;
     }
   };
   req.send();
-};</code></pre>
-          </div>
-        </section>
-      </div>
-      <div class="method-wrap">
-        <header><a name="getJSON"></a><span class="parent">tooly</span><span> . </span>
-          <div class="name">getJSON</div>
-          <div class="signature">(jsonFile, success, async)<span class="return-arrow">&nbsp;&nbsp;&nbsp; &#8594;</span><small class="types"> undefined</small></div>
-        </header>
-        <section class="method-description markdown"><p>perform a <code>GET</code> xhr request for a JSON file and operate on a <code>JSON.parse</code>&#39;d response with<br />your supplied <code>success</code> callback.</p></section>
-        <div class="tags-wrap">
-          <section class="params">
-            <h6>parameters:</h6>
-            <table>
-              <tr>
-                <td><b class="name"> jsonFile</b></td>
-                <td><small class="types"> {String}</small></td>
-                <td><span class="description"><p>url</p>
-</span></td>
-              </tr>
-              <tr>
-                <td><b class="name"> success</b></td>
-                <td><small class="types"> {callback}</small></td>
-                <td><span class="description"><p>function to operate on response data                              if the request is successful. If so, success
-                             takes a single data parameter (the response).</p>
-</span></td>
-              </tr>
-              <tr>
-                <td><b class="name"> async</b></td>
-                <td><small class="types"> {Boolean}</small></td>
-                <td><span class="description"><p>defaults to true </p>
-</span></td>
-              </tr>
-            </table>
-          </section>
-          <section class="return">
-          </section>
-          <section class="others">
-          </section>
-        </div>
-        <section class="code">
-          <button>show source</button>
-          <div class="code-wrapper hidden">
-            <pre><code class="lang-js">tooly.getJSON = function(jsonFile, success, async) {
+};
+
+
+
+/**
+ * perform a `GET` xhr request for a JSON file and operate on a `JSON.parse`'d response with
+ * your supplied `success` callback.
+ * 
+ * @param  {String}   jsonFile  url
+ * @param  {callback} success   function to operate on response data
+ *                              if the request is successful. If so, success
+ *                              takes a single data parameter (the response).
+ * @param {Boolean}   async     defaults to true
+ *
+ * @memberOf tooly
+ * @category XHR
+ * @static
+ */
+tooly.getJSON = function(jsonFile, success, async) {
   tooly.get(jsonFile, 'json', success, async);
 };
 
