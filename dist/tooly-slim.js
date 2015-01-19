@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.6.1 (built: 2015-01-19)
+ * tooly - version 0.6.2 (built: 2015-01-19)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -1536,7 +1536,7 @@ tooly.stripExtension = function(str) {
  */
 tooly.tag = function(tag, attrs, asString) {
 
-  var re = /^([^.#]*)|([.#]{1}[^.#]+)/g,
+  var re = /([^.#]+)|([.#]{1}[^.#]+)/g,
       segs = tag.match(re),
       ch = segs[0].charAt(0),
       el = document.createElement(/[#.]/.test(ch) ? 'div' : segs.shift()),
