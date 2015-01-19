@@ -25,35 +25,49 @@
  * 
  * ## Example
  * ```js
- * var logger = new tooly.Logger(2, 'TEST_LOGGER');
+ * var logger = new tooly.Logger('TEST_LOGGER', { level: 2 });
  * logger.trace(logger); // will not output
  * ```
+ *
+ * ## Options
+ * + _`level`_: number (default 2: debug)
+ * + _`bypassTimestamp`_: boolean (default: false)
+ * + _`bypassLine`_: boolean (remove line number from output prefix. default: false)
+ * + _`textFormat`_: a css for a `%c` flag, ie. `'color:blue;font-size:22px;'`
+ * + _`lineFormat`_: same as textFormat for line number styling
  * 
  * All active loggers in the current context can be disabled, regardless of level,
  * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
  * logging at each loggers previous level.
  * 
- * @param {Number} level set the level of this logger. Defaults to 2 (debug) if no
- *                       arguments are passed.
- * @param {String} name  optional name to identify this instance. The name will preceed any
- *                       output message
- *
+ * @param {String} name  optional name to identify this instance. The name will preceed any output message
+ * @param {Object} options an object containing this logger's level and other output options
+ * 
  * @category Logger
  * @class  tooly.Logger
  * @constructor
  * @memberOf  tooly
  * @static
  */
-tooly.Logger = function(level, name, bypassTimestamp) {
+tooly.Logger = function(name, options) {
   var logger = this;
   tooly.Logger.loggers = tooly.Logger.loggers || [];
   // enable instantiation without new
   if (!(logger instanceof tooly.Logger)) {
-    logger = new tooly.Logger(level, name);
+    logger = new tooly.Logger(name, options);
     tooly.Logger.loggers.push(logger);
   }
-  logger.level = (level !== undefined) ? level : 2;
-  logger.bypassTimestamp = bypassTimestamp || false;
+  logger.options = {};
+  logger.options.level = options.level !== undefined ? options.level : 2;
+  logger.options.bypassTimestamp = options.bypassTimestamp || false;
+  logger.options.bypassLine = options.bypassLine || false;
+  logger.options.textFormat = options.textFormat || 'color:black;';
+  logger.options.lineFormat = options.lineFormat || 'color:gray;font-size:9px;';
+  // logger.options.groupFormat = options.groupFormat || 
+  //   'color:black;' +
+  //   'font-size:18px;' + 
+  //   'font-weight:bold;' +
+  //   'text-decoration:underline;';
   if (name) logger.name = name;
   return logger;
 };

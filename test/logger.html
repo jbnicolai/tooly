@@ -64,22 +64,37 @@
 
 <script>
   window.onload = function() { 'use strict';
-    var logger = new tooly.Logger(0, 'TOOLY');
-    var str = 'str';
+    var logger = new tooly.Logger('TOOLY', { 
+      level: 0, 
+      bypassTimestamp: false, 
+      bypassLine: false,
+      groupFormat: 'color:black;font-weight:bold;font-size:18px;font-family:verdana;'
+    });
+    var str = 'this is a string';
     var arr = ['a', 'b', 'c'];
     var obj = {name: 'peach', color: 'turquoise'};
-    console.log('%s, %o,  %o', str, obj, arr);
-    logger.log('%s, %o,  %o', str, obj, arr);
-    logger.trace('%s, %o,  %o', str, obj, arr);
-    logger.debug('%s, %o,  %o', str, obj, arr);
-    logger.info('%s, %o,  %o', str, obj, arr);
-    logger.warn('%s, %o,  %o', str, obj, arr);
-    logger.error('%s, %o,  %o', str, obj, arr);
 
-    console.log('%c%s', 'color:#ff0000', obj);
-    logger.info('%c%o', 'color:#ff0000', obj);
-    logger.bypassTimestamp = true;
-    logger.info('timestamp ? %o', logger.bypassTimestamp);
+    logger.group('original console.log:');
+      console.log('%s, %o,  %o', str, obj, arr);
+    logger.groupEnd('');
+
+    logger.group('all logger levels:', 'test multi args');
+      logger.log('%s, %o, %o', str, obj, arr);
+      logger.trace('%s, %o, %o', str, obj, arr);
+      logger.debug('%s, %o, %o', str, obj, arr);
+      logger.info('%s, %o, %o', str, obj, arr);
+      logger.warn('%s, %o, %o', str, obj, arr);
+      logger.error('%s, %o, %o', str, obj, arr);
+    logger.groupEnd('');
+
+    logger.group('\%c arg test (console.log vs logger.log)');
+      console.log('%c%s', 'color:#FF0080', obj);
+      logger.debug('%c%s', 'color:#FF0080', obj);
+    logger.groupEnd('');
+
+    logger.options.bypassTimestamp = true;
+    logger.options.bypassLine = true;
+    logger.info('bypassTimestamp and line ? %o', logger.options);
   }
 </script>
 

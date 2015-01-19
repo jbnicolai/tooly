@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.4.0 (built: 2015-01-03)
+ * tooly - version 0.4.0 (built: 2015-01-19)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -958,35 +958,49 @@ tooly.Handler.prototype.trigger = function(fn) {
  * 
  * ## Example
  * ```js
- * var logger = new tooly.Logger(2, 'TEST_LOGGER');
+ * var logger = new tooly.Logger('TEST_LOGGER', { level: 2 });
  * logger.trace(logger); // will not output
  * ```
+ *
+ * ## Options
+ * + _`level`_: number (default 2: debug)
+ * + _`bypassTimestamp`_: boolean (default: false)
+ * + _`bypassLine`_: boolean (remove line number from output prefix. default: false)
+ * + _`textFormat`_: a css for a `%c` flag, ie. `'color:blue;font-size:22px;'`
+ * + _`lineFormat`_: same as textFormat for line number styling
  * 
  * All active loggers in the current context can be disabled, regardless of level,
  * by setting the static `tooly.Logger.off = true`. Setting back to false will resume
  * logging at each loggers previous level.
  * 
- * @param {Number} level set the level of this logger. Defaults to 2 (debug) if no
- *                       arguments are passed.
- * @param {String} name  optional name to identify this instance. The name will preceed any
- *                       output message
- *
+ * @param {String} name  optional name to identify this instance. The name will preceed any output message
+ * @param {Object} options an object containing this logger's level and other output options
+ * 
  * @category Logger
  * @class  tooly.Logger
  * @constructor
  * @memberOf  tooly
  * @static
  */
-tooly.Logger = function(level, name, bypassTimestamp) {
+tooly.Logger = function(name, options) {
   var logger = this;
   tooly.Logger.loggers = tooly.Logger.loggers || [];
   // enable instantiation without new
   if (!(logger instanceof tooly.Logger)) {
-    logger = new tooly.Logger(level, name);
+    logger = new tooly.Logger(name, options);
     tooly.Logger.loggers.push(logger);
   }
-  logger.level = (level !== undefined) ? level : 2;
-  logger.bypassTimestamp = bypassTimestamp || false;
+  logger.options = {};
+  logger.options.level = options.level !== undefined ? options.level : 2;
+  logger.options.bypassTimestamp = options.bypassTimestamp || false;
+  logger.options.bypassLine = options.bypassLine || false;
+  logger.options.textFormat = options.textFormat || 'color:black;';
+  logger.options.lineFormat = options.lineFormat || 'color:gray;font-size:9px;';
+  // logger.options.groupFormat = options.groupFormat || 
+  //   'color:black;' +
+  //   'font-size:18px;' + 
+  //   'font-weight:bold;' +
+  //   'text-decoration:underline;';
   if (name) logger.name = name;
   return logger;
 };
@@ -1006,35 +1020,39 @@ var _cjs = typeof exports === 'object',
     _o_re = /%o/gi,
     _j_re = /%j/gi; 
     
-function _log(instance, level, /*caller,*/ args) {
+function _log(instance, level, args) {
   if (tooly.Logger.off || instance.level === -1 || level < instance.level || instance.level > 5) {
     return;
   }
 
-  var format = '%s%s', // name, [LEVEL] [HH:mm:ss]
+  var format = '%s%s', // <name> <[LEVEL] [HH:mm:ss]>
       pargs = []; // final args for console call
 
   args = _slice.call(args);
   _format_re = _format_re || /\%[ojdifsc]/g;
 
   if (_cjs) {
-
     // TODO: replace match with RegExp#test
     if (tooly.type(args[0], 'string') && args[0].match(_format_re)) {
       format += args.shift().replace(_o_re, '%j');
     }
-    pargs.unshift(format, _name(instance), _level(level, instance));
+    pargs.unshift(format, _name(instance), _level(level, instance)/*,
+      instance.bypassLine ? '' : _chalk.gray(_getLine(instance)) */);
 
   } else { // window
-    // format = '%c%s%c%s%c%s'; // from when check-caller was included
-    format = '%c%s%c%s';
+    format = '%c%s%c%s%c%s%c';
     if (tooly.type(args[0], 'string') && args[0].match(_format_re)) {
       format += args.shift().replace(_j_re, '%o');
     }
-    // caller = (caller !== undefined && caller.replace(_ws_re, '') === '') ? '' : caller;
     var color = 'color:' + _colors[level] + ';',
-        purple = 'color:purple'/*, black = 'color:black'*/;
-    pargs = [format, purple, _name(instance), color, _level(level, instance)/*, black, caller*/];
+        purple = 'color:purple;';
+    pargs = [
+      format, 
+      purple, _name(instance), 
+      color, _level(level, instance), 
+      instance.options.lineFormat, _getLine(instance),
+      instance.options.textFormat
+    ];
   }
 
   _push.apply(pargs, args);
@@ -1053,7 +1071,7 @@ function _log(instance, level, /*caller,*/ args) {
       console.log.apply(console, pargs); 
       break;
 
-    default: 
+    default:
       // http://stackoverflow.com/
       // questions/8159233/typeerror-illegal-invocation-on-console-log-apply
       try {
@@ -1065,18 +1083,13 @@ function _log(instance, level, /*caller,*/ args) {
   }
 }
 
-// function _checkCaller(args) {
-//   if (!this.traceAnonymous) return '';
-//   var name = ''; 
-//   try { 
-//     name = args.callee.caller.name; 
-//   } catch(ignored) {
-//   }
-//   if (!name) {
-//     return  '<anonymous> ' + args.callee.caller + '\n';
-//   }
-//   return '<'+name+'> ';
-// }
+function _getLine(instance) {
+  var error = new Error(),
+      stack = error.stack.split('\n'),
+      line = stack[stack.length-1];
+  line = line.substring(line.lastIndexOf('/')+1, line.length-1);
+  return instance.options.bypassLine ? '' : '[' + line + '] ';
+}
 
 function _name(instance) {
   var name = instance.name || '';
@@ -1085,7 +1098,7 @@ function _name(instance) {
 
 function _level(level, instance) {
   return _chalkify(level, ' ' + _levels[level].toUpperCase() + ' ') +
-    (instance.bypassTimestamp ? '' : _chalkify(6, '[' + _dateFormatted() + '] '));
+    (instance.options.bypassTimestamp ? '' : _chalkify(6, '[' + _dateFormatted() + '] '));
 }
 
 function _dateFormatted() {
@@ -1103,14 +1116,26 @@ function _chalkify(level, str) {
   return (!_chalk) ? str : _chalk[ _colors[level] ](str);
 }
 
-tooly.Logger.prototype.log   = function() { _log(this, 0, /*_checkCaller(arguments),*/ arguments); };
-tooly.Logger.prototype.trace = function() { _log(this, 1, /*_checkCaller(arguments),*/ arguments); };
-tooly.Logger.prototype.debug = function() { _log(this, 2, /*_checkCaller(arguments),*/ arguments); };
-tooly.Logger.prototype.info  = function() { _log(this, 3, /*_checkCaller(arguments),*/ arguments); };
-tooly.Logger.prototype.warn  = function() { _log(this, 4, /*_checkCaller(arguments),*/ arguments); };
-tooly.Logger.prototype.error = function() { _log(this, 5, /*_checkCaller(arguments),*/ arguments); };
-
-
+tooly.Logger.prototype.group = function() { 
+  if (!arguments.length) {
+    console.group();
+  } else if (arguments.length === 1) {
+    console.group(arguments[0]);
+  } else {
+    console.group.apply(console, _slice.call(arguments, 0));
+  }
+  return this;
+}
+tooly.Logger.prototype.groupEnd = function() { 
+  console.groupEnd(); 
+  return this;
+}
+tooly.Logger.prototype.log   = function() { _log(this, 0, arguments); return this; };
+tooly.Logger.prototype.trace = function() { _log(this, 1, arguments); return this; };
+tooly.Logger.prototype.debug = function() { _log(this, 2, arguments); return this; };
+tooly.Logger.prototype.info  = function() { _log(this, 3, arguments); return this; };
+tooly.Logger.prototype.warn  = function() { _log(this, 4, arguments); return this; };
+tooly.Logger.prototype.error = function() { _log(this, 5, arguments); return this; };
 
 
 

@@ -1,8 +1,10 @@
 var tooly = require('../dist/tooly');
 
-var logger = new tooly.Logger(0, 'BYPASS?', true);
-logger.debug('<<-- timestamp?');
-logger.info('<<-- timestamp?');
+var logger = new tooly.Logger('NODE', { 
+  level: 0, 
+  bypassTimestamp: false,
+  bypassLine: false
+});
 
 logger.log('log');
 logger.debug('debug');
