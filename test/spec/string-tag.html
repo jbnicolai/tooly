@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>TEST</title>
+  <script src="../../dist/tooly.js"></script>
+</head>
+
+<body style="padding:32px"> 
+
+<script>
+
+  var logger = tooly.Logger('TAG', { level: 0 });
+
+  var tag = tooly.tag('a.link--plain', { href: 'http://lokua.net', content: 'LOKUA' });
+  tooly.Frankie('body').append(tag);
+
+</script>
+
+</body>
+</html>
