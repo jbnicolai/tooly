@@ -1,7 +1,7 @@
 var _cjs = typeof exports === 'object',
     _push = _arrayProto.push,
     _chalk = _cjs ? require('chalk') : null,
-    _levels = ['dummy','trace','debug','info','warn','error'],
+    _levels = ['dummy', 'trace', 'debug', 'info', 'warn', 'error'],
     _colors = [
       'gray', // dummy
       'gray',
@@ -15,12 +15,13 @@ var _cjs = typeof exports === 'object',
     _j_re = /%j/gi; 
     
 function _log(instance, level, args) {
-  if (tooly.Logger.off || instance.level === -1 || level < instance.level || instance.level > 5) {
+  var ilevel = instance.options.level;
+  if (tooly.Logger.off || ilevel === -1 || level < ilevel || ilevel > 5) {
     return;
   }
 
   var format = '%s%s', // <name> <[LEVEL] [HH:mm:ss]>
-      pargs = []; // final args for console call
+      pargs = []; // final parsed args for console call
 
   args = _slice.call(args);
   _format_re = _format_re || /\%[ojdifsc]/g;
@@ -107,7 +108,7 @@ function _dateFormatted() {
 }
 
 function _chalkify(level, str) {
-  return (!_chalk) ? str : _chalk[ _colors[level] ](str);
+  return (!_chalk) ? str : _chalk[ _colors[level] ]( str );
 }
 
 tooly.Logger.prototype.group = function() { 

@@ -13,7 +13,7 @@
  * - 4: warn
  * - 5: error
  *
- * Only calls that are greater or equal to the current Logger.level will be run.
+ * Only calls that are greater or equal to the current Logger.options.level will be run.
  *
  * ## Format
  * Format strings follow the same usage as node.js or the web interface, depending
