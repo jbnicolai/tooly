@@ -55,7 +55,7 @@ This should be preferred.
 ## Changelog
 
 + 0.6.4 Logger options `bypassTimestamp` and `bypassLine` now default to true
-+ 0.6.5 Fixed Frankie.find; added Frankie.each
++ 0.6.5 Frankie: fixed .find; minor .attr bugfix; added .each
 
 # License
 

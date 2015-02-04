@@ -1,19 +1,26 @@
 <html>
 <head>
-  <title>TEST</title>
+  <title>tooly.tag</title>
   <script src="../../dist/tooly.js"></script>
 </head>
 
-<body style="padding:32px"> 
+<body style="padding:32px">
 
-<script>
+  <main></main>
 
-  var logger = tooly.Logger('TAG', { level: 0 });
+  <script>
 
-  var tag = tooly.tag('a.link--plain', { href: 'http://lokua.net', content: 'LOKUA' });
-  tooly.Frankie('body').append(tag);
+    var logger = tooly.Logger('TAG', { level: 0 });
 
-</script>
+    var tag = tooly.tag('a#my-id.link--plain', { 
+      href: 'http://lokua.net',
+      target: '_blank' ,
+      'data-random': Math.random() * 100,
+      content: tooly.tag('button.native-button', tooly.tag('h1', 'MUSIC'))
+    });
+    tooly.Frankie('main').append(tag);
+
+  </script>
 
 </body>
 </html>

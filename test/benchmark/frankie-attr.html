@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FIND</title>
+
+  <link rel="stylesheet" type="text/css" href="../normalize.css">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+
+  <script src="../../dist/tooly.js"></script>
+  <script src="../../node_modules/benchmark/benchmark.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
+
+</head>
+
+<body>
+
+  <header><button id="run">Run Suite</button></header>
+
+  <main>
+    <header>
+      <nav>
+        <ul>
+          <li><a class="a1" href="#">1</a></li>
+          <li><a class="a2" href="#">2</a></li>
+          <li><a class="a3" href="#">3</a></li>
+        </ul>
+      </nav>
+      <nav>
+        <ul>
+          <li><a class="a3" href="#">3</a></li>
+          <li><a class="a1" href="#">1</a></li>
+          <li><a class="a2" href="#">2</a></li>
+        </ul>
+      </nav>
+      <nav>
+        <ul>
+          <li><a class="a2" href="#">2</a></li>
+          <li><a class="a3" href="#">3</a></li>
+          <li><a class="a1" href="#">1</a></li>
+        </ul>
+      </nav>        
+    </header>
+  </main>
+
+  <footer>
+    <h2>Results</h2>
+    <div id="results"></div>
+  </footer>
+
+  <script>
+
+    // last edited version 0.6.5
+
+    window.onload = run;
+
+    var _type_re = /\s([a-z]+)/i;
+
+    /*!
+     * @see  tooly#type
+     */
+    function _type(o, klass) {
+      o = ({}).toString.call(o).match(_type_re)[1].toLowerCase();
+      return klass ? o === klass.toLowerCase() : o;
+    }
+
+    /*!
+     * @see  tooly#each
+     */
+    function _each(obj, fn, context) {
+      if (obj.forEach && obj.forEach === _arrayProto.forEach) {
+        obj.forEach(fn, context);
+      } else {
+        var keys = Object.keys(obj), i = 0, len = keys.length;
+        for (; i < len; i++) fn.call(context, obj[keys[i]], keys[i], obj);
+      }
+      return obj;
+    }    
+
+    function run() {
+      var logger = tooly.Logger('<UNNAMED>', { level: 0 }),
+          $results = $('#results'),
+          $main = $('main'),
+          $run = $('#run'),
+          suite = new Benchmark.Suite,
+          Frankie = tooly.Frankie;
+
+      tooly.Frankie.prototype.attr2 = function(/*mixed*/) {
+        var argsLen = arguments.length,
+            attr = arguments[0], 
+            p, i = 0, len = this.els.length;
+        if (argsLen === 1) {
+          if (_type(attr, 'object')) { // SET (hash)
+            for (key in attr) {
+              if (attr.hasOwnProperty(key)) {
+                for (; i < len; i++) {
+                  this.els[i].setAttribute(key, attr[key]);
+                }
+                i = 0;
+              }
+            }
+          } else { // GET
+            return this.els[0].getAttribute(attr);
+          }
+        } else { // SET (single comma sep key-val pair)
+          var value = arguments[1];
+          for (; i < len; i++) {
+            this.els[i].setAttribute(attr, value);
+          }          
+        }
+        return this;
+      };
+
+      // logger.debug(Frankie('body'));
+
+      // Frankie('body').attr2({
+      //   href: '#generated',
+      //   target: '_blank',
+      //   title: 'whatever!!!',
+      //   rel: 'nofollow',
+      //   'data-something': '{something:ruther}'
+      // });
+
+      $run.click(function() {
+
+        var attrs = {
+          href: '#generated',
+          target: '_blank',
+          title: 'whatever!!!',
+          rel: 'nofollow',
+          'data-something': '{something:ruther}'
+        };
+        var test1 = {
+          name: 'jQuery', 
+          fn: function() {
+            jQuery('.a1').attr(attrs).attr('solo', '123456789');
+          }
+        };
+        var test2 = {
+          name: 'FrankieNative',
+          fn: function() {
+            Frankie('.a2').attr(attrs).attr('solo', '123456789');
+          }
+        };
+        var test3 = {
+          name: 'FrankieLoop',
+          fn: function() {
+            Frankie('.a3').attr2(attrs).attr('solo', '123456789');
+          }
+        };
+        runSuite([test1, test2, test3], function() {
+          // logger.debug(jQuery('.a1'));
+          // logger.debug(Frankie('.a2'));
+          // logger.debug(Frankie('.a3'));
+        });
+
+      });
+      
+      function runSuite(tests, callback) {
+        tests.forEach(function(test) {
+          suite.add(test.name, test.fn);
+        });
+        suite.on('cycle', function(e, bench) { 
+          appendResult(String(e.target)); 
+        });
+        suite.on('complete', function() {
+          appendResult('FASTEST: ' + this.filter('fastest').pluck('name'));
+          if (typeof callback === 'function') callback();
+        });
+        suite.run(true);
+      }
+
+      function appendResult(result) {
+        $results.append('<div class="result">' + result + '</div>');
+      }
+    }
+
+  </script>
+</body>
+</html>

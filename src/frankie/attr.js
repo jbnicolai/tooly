@@ -19,8 +19,9 @@ tooly.Frankie.prototype.attr = function(/*mixed*/) {
   if (argsLen === 1) {
     if (_type(attr, 'object')) {
       // SET (hash)
+      var $this = this;
       _each(attr, function(val, key) {
-        this.els.forEach(function(x) { x.setAttribute(key, val); });
+        $this.els.forEach(function(x) { x.setAttribute(key, val); });
       });
     } else {
       // GET

@@ -12,16 +12,12 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-;(function(root, factory) {
+!function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
     define('tooly', [], function() {
       return (root.returnExportsGlobal = factory());
     });
   } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
-    // like Node.
     module.exports = factory();
   } else {
     root['tooly'] = factory();
@@ -62,36 +58,11 @@ function _toArray(obj) {
   return [].map.call(obj, function(el) { return el; });
 }
 
-// /*!
-//  * @see  tooly#basicExtend
-//  */
-// function _extend(dest, src) {
-//   for (var p in src) {
-//     if (src.hasOwnProperty(p)) {
-//       dest[p] = src[p];
-//     }
-//   }
-//   return dest;
-// }
-
-// modified from http://stackoverflow.com/a/9229821/2416000
-// TODO: this modifies original arr, find unaltering way
-function _sortUnique(arr) {
-  return arr.sort().filter(function(item, pos) {
-    return !pos || item != arr[pos-1];
-  });
-}
-
-
-
-
 /**
  * @namespace  tooly
  * @type {Object}
  */
 var tooly = {};
-
-
 
 
 
@@ -361,8 +332,9 @@ tooly.Frankie.prototype.attr = function(/*mixed*/) {
   if (argsLen === 1) {
     if (_type(attr, 'object')) {
       // SET (hash)
+      var $this = this;
       _each(attr, function(val, key) {
-        this.els.forEach(function(x) { x.setAttribute(key, val); });
+        $this.els.forEach(function(x) { x.setAttribute(key, val); });
       });
     } else {
       // GET
@@ -1540,6 +1512,11 @@ tooly.stringFormat = function() {
 tooly.stripExtension = function(str) {
   return str.substring(0, str.lastIndexOf('.'));
 };
+
+
+
+var _tag_re;
+
 /**
  * Simple DOM element creation using jade-like syntax for the element
  * declaration and options hash for attributes. The attribute hash can take a content
@@ -1551,7 +1528,7 @@ tooly.stripExtension = function(str) {
  * tag('a.link--plain') //=> <a class="link--plain"></a>
  * tag('a', 'MUSIC!!!') //=> <a>MUSIC!!!</a>
  * tag('a#main.link--plain', { rel: 'nofollow', href: 'music', content: 'MUSIC!!!' })
- * //=> <a class="link--plain "href="music" rel="nofollow">MUSIC!!!</a>
+ * //=> <a id="main" class="link--plain" href="music" rel="nofollow">MUSIC!!!</a>
  * tag('#main', tag('.sub')) //=> <div id="main"><div class="sub"></div></div>
  * ```
  * 
@@ -1566,8 +1543,9 @@ tooly.stripExtension = function(str) {
  */
 tooly.tag = function(tag, attrs, asString) {
 
-  var re = /([^.#]+)|([.#]{1}[^.#]+)/g,
-      segs = tag.match(re),
+  _tag_re = _tag_re || /([^.#]+)|([.#]{1}[^.#]+)/g;
+  
+  var segs = tag.match(_tag_re),
       ch = segs[0].charAt(0),
       el = document.createElement(/[#.]/.test(ch) ? 'div' : segs.shift()),
       id = '', 
@@ -1659,5 +1637,5 @@ tooly.getJSON = function(jsonFile, success, async) {
 return tooly;
 
 
-}));
+});
 
