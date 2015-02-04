@@ -4,6 +4,8 @@
   <title>FIND</title>
   <link rel="stylesheet" type="text/css" href="../dom/style.css">
   <script src="../../dist/tooly.js"></script>
+  <script src="../../node_modules/benchmark/benchmark.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
 </head>
 <body>
 
@@ -11,37 +13,61 @@
     <h1>FIND</h1>
     <nav>
       <ul>
-        <li>list item #1</li>
-        <li>list item #2</li>
-        <li>list item #3</li>
+        <li><a id="item1"href="/item1">list item #1<div class="ddd">one</div></a></li>
+        <li><a id="item2"href="/item2">list item #2<div class="ddd">two</div></a></li>
+        <li><a id="item3"href="/item3">list item #3<div class="ddd">tre</div></a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <div class="a z">.a .z</div>
-    <div class="b z">.b .z</div>
-    <div class="c z">.c .z</div>
+    <div>
+      <div class="a z">.a .z</div>
+      <div class="b z">.b .z</div>
+      <div class="c z">.c .z</div>
+    </div>
   </main>
 
-  <footer><small>debug:</small></footer>
+  <footer>
+    <div>
+      <small>debug:</small>
+    </div>
+  </footer>
 
 </body>
 <script>
+
+  // last edited version 0.6.4
 
   window.onload = run;
 
   function run() {
     var $ = tooly.Frankie.bind(this);
-    var logger = tooly.Logger(0, 'FIND_TEST');
+    var logger = tooly.Logger('FIND_TEST', { level: 0 });
     var $footer = $('footer');
 
     tooly.Frankie.prototype.find = function(selector) {
-      return new tooly.Frankie(selector, this.els);
+      var $found = tooly.Frankie(selector),
+          $this = this,
+          els = [];
+      $found.els.forEach(function(child) {
+        $this.els.forEach(function(parent) {
+          if (parent.contains(child)) els.push(child);
+        });
+      });
+      $found.els = els;
+      return $found; 
     };
 
-    var divs =  $('main').find('div');
-    logger.debug(divs);
+    $footer.append($('body').children().find('.c'));
+
+    $('a').on('click', function(e) {
+      e.preventDefault();
+      var $this = $(this);
+      logger.debug($this);
+      var $child = $this.find('.ddd');
+      logger.debug($child);
+    });
   }
 
 </script>

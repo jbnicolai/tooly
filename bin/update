@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bin/purge && npm run all
+npm run all
 
 git add -A
 

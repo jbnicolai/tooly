@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FRANKIE#EACH</title>
+
+  <link rel="stylesheet" type="text/css" href="../normalize.css">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+
+  <script src="../../dist/tooly.js"></script>
+  <script src="../../node_modules/benchmark/benchmark.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
+
+</head>
+
+<body>
+
+  <header><button id="run">Run Suite</button></header>
+
+  <main>
+    <header>
+      <nav>
+        <ul>
+            <li><a id="item1" href="#">1</a></li><!--
+         --><li><a id="item2" href="#">2</a></li><!--
+         --><li><a id="item3" href="#">3</a></li><!--
+         --><li><a id="item4" href="#">4</a></li>
+        </ul>
+      </nav>
+    </header>
+  </main>
+
+  <footer>
+    <h2>Results</h2>
+    <div id="results"></div>
+  </footer>
+
+  <script>
+
+    // last edited version 0.6.5
+
+    window.onload = run;
+
+    function run() {
+      var logger = tooly.Logger('<UNNAMED>', { level: 0 }),
+          $results = $('#results'),
+          $main = $('main'),
+          $run = $('#run'),
+          suite = new Benchmark.Suite,
+          Frankie = tooly.Frankie;
+
+      tooly.Frankie.prototype.each = function(fn) {
+        var i = 0, len = this.els.length;
+        for (; i < len; i++) fn(i, this.els[i]);
+      };
+
+      $run.click(function() {
+        var test1 = {
+          name: 'jQuery', 
+          fn: function() {
+            jQuery('li').each(function(i, el) {
+              // whatever
+            });
+          }
+        };
+        var test2 = {
+          name: 'Frankie',
+          fn: function() {
+            Frankie('li').each(function(i, el) {
+              // whatever
+            });
+          }
+        };
+        runSuite([test1, test2], function() {
+          jQuery('li').each(function(i, el) {
+            logger.debug(i, el);
+          });
+          Frankie('li').each(function(i, el) {
+            logger.debug(i, el);
+          });          
+        });
+      });
+      
+      function runSuite(tests, callback) {
+        tests.forEach(function(test) {
+          suite.add(test.name, test.fn);
+        });
+        suite.on('cycle', function(e, bench) { 
+          appendResult(String(e.target)); 
+        })
+        suite.on('complete', function() {
+          appendResult('FASTEST: ' + this.filter('fastest').pluck('name'));
+          if (typeof callback === 'function') callback();
+          $results.append('<div class="hr">');
+        });
+        suite.run(true);
+      }
+
+      function appendResult(result) {
+        $results.append('<div class="result">' + result);
+      }
+    }
+
+  </script>
+</body>
+</html>

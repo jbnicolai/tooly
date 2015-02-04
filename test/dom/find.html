@@ -32,13 +32,12 @@
   window.onload = run;
 
   function run() {
-    var $ = tooly.Frankie.bind(this);
-    var logger = tooly.Logger(0, 'ON_TEST');
+    var $ = tooly.Frankie;
+    var logger = tooly.Logger('FIND_TEST', { level: 0, bypassTimestamp: true, bypassLine: true });
     var $footer = $('footer');
 
-    tooly.Frankie.prototype.on = function(event, fn) {
-      this.els.
-    };
+      var $c = $('main').find('.c');
+      logger.debug('$c: %o', $c);
   }
 
 </script>

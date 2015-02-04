@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.6.3 (built: 2015-01-24)
+ * tooly - version 0.6.5 (built: 2015-02-04)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -459,6 +459,20 @@ tooly.Frankie.prototype.css = function() {
 
 
 /**
+ * execute fn for each index and element
+ * 
+ * @param  {Function} fn the function with signature `fn(index, element)`
+ * @return {this} 
+ */
+tooly.Frankie.prototype.each = function(fn) {
+  var i = 0, len = this.els.length;
+  for (; i < len; i++) fn(i, this.els[i]);
+  return this;
+};
+
+
+
+/**
  * remove all child nodes from the set of matched elements.
  * __TODO__: remove listeners?
  * 
@@ -502,7 +516,23 @@ tooly.Frankie.prototype.eq = function(i) {
  * @return {Frankie}          new Frankie instance
  */
 tooly.Frankie.prototype.find = function(selector) {
-  return new tooly.Frankie(selector, this.els);
+  var $found = tooly.Frankie(selector),
+      $this = this,
+      els = [], 
+      i = j = 0,
+      flen = $found.els.length,
+      tlen = $this.els.length,
+      el;
+  for (; i < flen; i++) {
+    el = $found.els[i];
+    for (; j < tlen; j++) {
+      if ($this.els[j].contains(el)) {
+        els.push(el);
+      }
+    }
+  }
+  $found.els = els;
+  return $found; 
 };
 
 

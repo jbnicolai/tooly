@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FRANKIE#FIND</title>
+
+  <link rel="stylesheet" type="text/css" href="../normalize.css">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+
+  <script src="../../dist/tooly.js"></script>
+  <script src="../../node_modules/benchmark/benchmark.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
+
+</head>
+
+<body>
+
+  <header><button id="run">Run Suite</button></header>
+
+  <main>
+    <header>
+      <nav>
+        <ul>
+            <li><a id="item1" href="#">1</a></li><!--
+         --><li><a id="item2" href="#">2</a></li><!--
+         --><li><a id="item3" href="#">3</a></li><!--
+         --><li><a id="item4" href="#">4</a></li>
+        </ul>
+      </nav>
+    </header>
+  </main>
+
+  <footer>
+    <h2>Results</h2>
+    <div id="results"></div>
+  </footer>
+
+  <script>
+
+    // last edited version 0.6.5
+
+    window.onload = run;
+
+    function run() {
+      var logger = tooly.Logger('<UNNAMED>', { level: 0 }),
+          $results = $('#results'),
+          $main = $('main'),
+          $run = $('#run'),
+          suite = new Benchmark.Suite,
+          Frankie = tooly.Frankie;
+
+      tooly.Frankie.prototype.loopFind = function(selector) {
+        var $found = tooly.Frankie(selector),
+            $this = this,
+            els = [], 
+            i = j = 0,
+            flen = $found.els.length,
+            tlen = $this.els.length,
+            el;
+        for (; i < flen; i++) {
+          el = $found.els[i];
+          for (; j < tlen; j++) {
+            if ($this.els[j].contains(el)) {
+              els.push(el);
+            }
+          }
+        }
+        $found.els = els;
+        return $found; 
+      };
+      tooly.Frankie.prototype.eachFind = function(selector) {
+        var $found = tooly.Frankie(selector),
+            $this = this,
+            els = [];
+        $found.els.forEach(function(child) {
+          $this.els.forEach(function(parent) {
+            if (parent.contains(child)) {
+              els.push(child);
+            }
+          });
+        });
+        $found.els = els;
+        return $found; 
+      };
+
+      $run.click(function() {
+
+        runSuite([{
+          name: 'jQuery', 
+          fn: function() {
+            jQuery('body').find('#item4');
+          }
+        }, {
+          name: 'FrankieLoop',
+          fn: function() {
+            Frankie('body').loopFind('#item4');
+          }
+        }, {
+          name: 'FrankieEach',
+          fn: function() {
+            Frankie('body').eachFind('#item4');
+          }
+        }], function() {
+          // callback...
+        });
+
+      });
+      
+      function runSuite(tests, callback) {
+        tests.forEach(function(test) {
+          suite.add(test.name, test.fn);
+        });
+        suite.on('cycle', function(e, bench) { 
+          appendResult(String(e.target)); 
+        })
+        suite.on('complete', function() {
+          appendResult('FASTEST: ' + this.filter('fastest').pluck('name'));
+          if (typeof callback === 'function') callback();
+          $results.append('<div class="hr">');
+        });
+        suite.run(true);
+      }
+
+      function appendResult(result) {
+        $results.append('<div class="result">' + result);
+      }
+    }
+
+  </script>
+</body>
+</html>

@@ -52,6 +52,11 @@ node bin/build include dom string -o my-custom-tooly-build.js && grunt build
 
 This should be preferred.
 
+## Changelog
+
++ 0.6.4 Logger options `bypassTimestamp` and `bypassLine` now default to true
++ 0.6.5 Fixed Frankie.find; added Frankie.each
+
 # License
 
 The MIT License (MIT)

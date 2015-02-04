@@ -25,24 +25,24 @@ main div, section div {
 }
 
 .red { 
-  color: 'crimson4; 
+  color: crimson; 
 }
 
 .orange {
-  color: 'darkorange';
+  color: darkorange;
 } 
 
 .yellow {
-  color: 'goldenrod';
+  color: goldenrod;
 }
 .green {
-  color: 'forestgreen';
+  color: forestgreen;
 }
 .blue { 
-  color: 'cornflowerblue';
+  color: cornflowerblue;
 }
 .purple {
-  color: 'darkmagenta';
+  color: cornflowerblue;
 }
 
 footer {

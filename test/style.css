@@ -1,0 +1,62 @@
+*, 
+*:before, 
+*:after { 
+  box-sizing: border-box; 
+}
+body {
+  font-family: Monaco, Consolas, Menlo, monospace;
+  color: #444;
+  background: #fbfafa;
+  padding: 32px;
+}
+div {
+  padding: 16px;
+}
+button {
+  border: none;
+  border-radius: 2px;
+  background: #800080;
+  color: #ddd;
+  padding: 8px;
+}
+header {
+  margin-bottom: 16px;
+}
+header button {
+  display: block;
+  margin: 0 auto;
+}
+footer {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+.result {
+  color: #800080;
+  padding: 0;
+}
+.hr {
+  border-bottom: 1px dotted #ddd;
+  padding: 0 8px;
+}
+.loader {
+  animation: loader-anim 0.75s infinite;
+  width: 64px;
+  height: 64px;
+  border-style: dashed;
+  border-color: #666;
+  border-radius: 50%;
+}
+@keyframes loader-anim {
+  0%, 100% {
+    border-top: 16px;
+  }
+  25% {
+    border-right: 16px;
+  }
+  50% {
+    border-bottom: 16px;
+  }
+  75% {
+    border-left: 16px;
+  }
+}

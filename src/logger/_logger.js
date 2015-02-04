@@ -59,8 +59,8 @@ tooly.Logger = function(name, options) {
   }
   logger.options = {};
   logger.options.level = options.level !== undefined ? options.level : 2;
-  logger.options.bypassTimestamp = options.bypassTimestamp || false;
-  logger.options.bypassLine = options.bypassLine || false;
+  logger.options.bypassTimestamp = options.bypassTimestamp || true;
+  logger.options.bypassLine = options.bypassLine || true;
   logger.options.textFormat = options.textFormat || 'color:black;';
   logger.options.lineFormat = options.lineFormat || 'color:gray;font-size:9px;';
   // logger.options.groupFormat = options.groupFormat || 
