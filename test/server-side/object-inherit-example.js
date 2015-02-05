@@ -1,4 +1,4 @@
-var tooly = require('../dist/tooly');
+var tooly = require('../../dist/tooly.js');
 var expect = require('chai').expect;
 
 describe('inherit', function() {

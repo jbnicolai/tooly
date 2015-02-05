@@ -1,0 +1,139 @@
+[36m INFO [39m 
+format x 68,306 ops/sec ±1.74% (97 runs sampled)
+[36m INFO [39m 
+formatCached x 69,017 ops/sec ±0.35% (96 runs sampled)
+[36m INFO [39m 
+formatLazyCached x 67,560 ops/sec ±1.31% (94 runs sampled)
+[32m DEBUG [39m [ 'formatCached', 'format' ]
+cached x 135,870 ops/sec ±0.43% (96 runs sampled)
+lazy x 134,729 ops/sec ±1.19% (98 runs sampled)
+tag x 130,547 ops/sec ±2.18% (95 runs sampled)
+[ 'cached', 'lazy' ]
+ALL LEVELS SHOULD PRINT
+[ 'log' ]
+[35mNODE[39m[32m DEBUG [39m debug
+[35mNODE[39m[36m INFO [39m info
+ONLY ERROR SHOULD PRINT
+ONLY [ERROR,WARNING] SHOULD PRINT
+ONLY [ERROR,WARNING,INFO] SHOULD PRINT
+[35mNODE[39m[36m INFO [39m info
+ONLY [ERROR,WARNING,INFO,DEBUG] SHOULD PRINT
+[35mNODE[39m[32m DEBUG [39m debug
+[35mNODE[39m[36m INFO [39m info
+ONLY [ERROR,WARNING,INFO,DEBUG,TRACE] SHOULD PRINT
+[35mNODE[39m[32m DEBUG [39m debug
+[35mNODE[39m[36m INFO [39m info
+TIMESTAMPS: FALSE
+[ 'log' ]
+[35mNODE[39m[32m DEBUG [39m debug
+[35mNODE[39m[36m INFO [39m info
+[32m DEBUG [39m { plug: { constructor: [Function: Plugin] },
+  plugin: { klass: [Circular] } }
+[32m DEBUG [39mel: 99, i: 0, arr: [99,1,50,13,84]
+[32m DEBUG [39mel: 1, i: 1, arr: [99,1,50,13,84]
+[32m DEBUG [39mel: 50, i: 2, arr: [99,1,50,13,84]
+[32m DEBUG [39mel: 13, i: 3, arr: [99,1,50,13,84]
+[32m DEBUG [39mel: 84, i: 4, arr: [99,1,50,13,84]
+[32m DEBUG [39mnewArr: [99,1,50,13,84]
+[32m DEBUG [39mnewArr+thisArg: [1099,1001,1050,1013,1084]
+[32m DEBUG [39mobj: {"a":9900,"b":100,"c":5000,"d":1300,"e":8400}
+{ a: { a: 'a', b: 'b' }, b: { c: { d: [Object] } } }
+[36m INFO [39m should return true
+[32m DEBUG [39memptyString                : true
+[32m DEBUG [39memptyStringWithWhiteSpaces : true
+[32m DEBUG [39mfalseString                : true
+[32m DEBUG [39mfalseStringWithSpaces      : true
+[32m DEBUG [39mzeroString                 : true
+[32m DEBUG [39mnullString                 : true
+[32m DEBUG [39mundefinedString            : true
+[32m DEBUG [39mnullValue                  : true
+[32m DEBUG [39msetUndefined               : true
+[32m DEBUG [39mundefinedValue             : true
+[32m DEBUG [39mfalseValue                 : true
+[32m DEBUG [39mzero                       : true
+[36m INFO [39m should return false
+[32m DEBUG [39memptyString                : false
+[32m DEBUG [39memptyStringWithWhiteSpaces : false
+[32m DEBUG [39mfalseString                : false
+[32m DEBUG [39mfalseStringWithSpaces      : false
+[32m DEBUG [39mzeroString                 : false
+[32m DEBUG [39mnullString                 : false
+[32m DEBUG [39mundefinedString            : false
+[32m DEBUG [39mnullValue                  : false
+[32m DEBUG [39msetUndefined               : false
+[32m DEBUG [39mundefinedValue             : false
+[32m DEBUG [39mfalseValue                 : false
+[32m DEBUG [39mzero                       : false
+[32m DEBUG [39m true
+[32m DEBUG [39m false
+117.05
+125.65
+112.95
+{ stack: [ 736, 757, 661, 661, 692 ],
+  total: 3507,
+  average: 701.4,
+  offset: 2805.6 }
+chached counter and length: 113ms
+normal loop: 112ms
+cached length: 108ms
+[35m-1[39m[36m INFO [39m { stack: [ 1297, 796, 850, 830, 822 ],
+  total: 4595,
+  average: 919,
+  offset: 3676 }
+
+[0m[0m
+[0m  object-each[0m
+[2K[0G  [32m  √[0m[90m should increase each val in obj by 100 [0m
+[2K[0G  [32m  √[0m[90m should do the same for array [0m
+
+[0m  #sort[0m
+[2K[0G  [32m  √[0m[90m should sort by key default ascending [0m
+[ { name: 'z' },
+  { name: 'c' },
+  { name: 'b' },
+  { name: 'a' },
+  { name: 2 },
+  { name: 1 } ]
+[2K[0G  [32m  √[0m[90m should sort by key descending [0m
+
+[0m  tooly#stripExtension[0m
+[2K[0G  [32m  √[0m[90m should slice the extension from html filename [0m
+
+[0m  tooly#extension[0m
+[2K[0G  [32m  √[0m[90m should return only the file extension (without the dot) [0m
+
+[0m  tooly[0m
+[0m    #scale[0m
+[2K[0G    [32m  √[0m[90m should scale 50 to 0.5 [0m
+[0m    ( inheritance test )[0m
+[2K[0G    [32m  √[0m[90m should create a new "class" with inherited prototype [0m
+
+[0m  Handler[0m
+[0m    #remove[0m
+[2K[0G    [32m  √[0m[90m should remove the correct handlers [0m
+[0m    #removeAll[0m
+[2K[0G    [32m  √[0m[90m should remove ALL handlers [0m
+
+[0m  removeClass[0m
+[2K[0G  [32m  √[0m[90m literal should not match [0m
+[2K[0G  [32m  √[0m[90m RegExp obj should not match [0m
+[2K[0G  [32m  √[0m[90m should match just lap-play [0m
+
+[0m  #extend[0m
+[2K[0G  [32m  √[0m[90m should at least make it this far [0m
+[0m    extended object[0m
+[2K[0G    [32m  √[0m[90m should contain b key [0m
+[2K[0G    [32m  √[0m[90m should copy deep [0m
+
+[0m  Timer[0m
+[2K[0G  [32m  √[0m[90m should be callable [0m
+[2K[0G  [32m  √[0m[90m should create new instance without new [0m
+[2K[0G  [32m  √[0m[90m should create two distinct instances [0m
+[2K[0G  [32m  √[0m[90m should auto gen a name [0m
+[2K[0G  [32m  √[0m[90m should have settable name [0m
+[0m    #stop[0m
+[2K[0G    [32m  √[0m[90m should return a number [0m
+
+
+[92m [0m[32m 22 passing[0m[90m (62ms)[0m
+

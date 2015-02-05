@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FIND</title>
+
+  <link rel="stylesheet" type="text/css" href="../normalize.css">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+
+  <script src="../../dist/tooly.js"></script>
+  <!-- <script src="../../node_modules/benchmark/benchmark.js"></script> -->
+  <!-- <script src="../../node_modules/jquery/dist/jquery.js"></script> -->
+
+</head>
+
+<body>
+
+  <header></header>
+
+  <main>
+    <header>
+      <nav>
+        <ul>
+          <li><a id="item1" href="#"><button>1</button></a><pre><code>codeblock #1</code></pre></li>
+          <li><a id="item2" href="#"><button>2</button></a><pre><code>codeblock #2</code></pre></li>
+          <li><a id="item3" href="#"><button>3</button></a><pre><code>codeblock #3</code></pre></li>
+          <li><a id="item4" href="#"><button>4</button></a><pre><code>codeblock #4</code></pre></li>
+        </ul>
+      </nav>
+    </header>
+  </main>
+
+  <footer>
+<!--     <h2>Results</h2>
+    <div id="results"></div> -->
+  </footer>
+
+  <script>
+
+    // last edited version 0.6.5
+
+    window.onload = run;
+
+    function run() {
+      var logger = tooly.Logger('FIND', { level: 0 }),
+          $ = tooly.Frankie;
+
+      $('a').on('click', function(e) {
+        logger.info('clicked...');
+        logger.debug('e: %o', e);
+        logger.debug('$(this).els: %o', $(this).els);
+        logger.debug('$(this).parent().find(\'pre\').els: %o', $(this).parent().find('pre').els);
+      });
+
+    }
+
+  </script>
+</body>
+</html>

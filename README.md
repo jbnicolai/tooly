@@ -16,7 +16,7 @@ $ npm install tooly
 
 ## Documentation
 
-[lokua.github.io/tooly](http://lokua.github.io/tooly)
+View online at [lokua.github.io/tooly](http://lokua.github.io/tooly) or locally at `./doc/index.html`
 
 ## Custom Build
   
@@ -36,11 +36,11 @@ grunt build
 
 Available categories include:
 + `collections`
-+ `frankie` (jQuery-like dom selection)
++ `frankie` (jQuery-like dom selection) - (__unstable__)
 + `logger`
-+ `object` 
++ `object`
 + `string`
-+ `timer` 
++ `timer`
 + `xhr`
 
 By default the custom build will be located at `./dist/tooly-custom.js`, or alternatively, you
@@ -50,7 +50,9 @@ can specify a custom output file during the build instruction:
 node bin/build include dom string -o my-custom-tooly-build.js && grunt build
 ```
 
-This should be preferred.
+## Development
+
+Testing is done with `grunt-mocha-test`. Run with `npm run test` or `grunt test`.
 
 ## Changelog
 
@@ -61,7 +63,7 @@ This should be preferred.
 
 The MIT License (MIT)
 
-&copy; 2014 Joshua Kleckner
+&copy; 2014, 2015 Joshua Kleckner
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

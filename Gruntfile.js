@@ -4,6 +4,8 @@ var fs = require('fs');
 
 module.exports = function(grunt) {
 
+  require('load-grunt-tasks')(grunt);
+
   var sourcefile = fs.readFileSync('./bin/.log', { encoding: 'utf8' });
 
   grunt.initConfig({
@@ -11,6 +13,19 @@ module.exports = function(grunt) {
     cust: fs.readFileSync('./bin/.custom-comment', { encoding: 'utf8' }),
 
     pkg: grunt.file.readJSON('package.json'),
+
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          // captureFile: 'test/_test-results.log',
+          quiet: false,
+          clearRequireCache: false,
+          colors: true
+        },
+        src: ['test/**/*.js', '!test/{benchmark,manual,frankie,spec}/*.js']
+      }
+    },    
 
     umd: {
       build: {
@@ -61,11 +76,6 @@ module.exports = function(grunt) {
     }
   });
 
-
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-banner');
-  grunt.loadNpmTasks('grunt-umd');
-
+  grunt.registerTask('test', ['mochaTest']);
   grunt.registerTask('build', ['umd:build', 'usebanner:build', 'uglify:build', 'usebanner:post']);
 };

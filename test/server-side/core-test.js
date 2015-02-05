@@ -1,4 +1,4 @@
-var tooly  = require('../dist/tooly'),
+var tooly  = require('../../dist/tooly'),
     chai   = require('chai'),
     expect = chai.expect;
 

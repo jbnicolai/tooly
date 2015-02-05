@@ -1,4 +1,4 @@
-var tooly = require('../dist/tooly'),
+var tooly = require('../../dist/tooly'),
     expect = require('chai').expect,
     logger = tooly.Logger(2, 'REMOVE-TEST');
 
