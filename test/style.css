@@ -9,26 +9,24 @@ body {
   background: #fbfafa;
   padding: 32px;
 }
-div {
-  padding: 16px;
-}
 button {
   border: none;
   border-radius: 2px;
-  background: #800080;
+  background: #0080ff;
   color: #ddd;
   padding: 8px;
+  margin: 6px;
 }
 header {
   margin-bottom: 16px;
 }
-header button {
-  display: block;
-  margin: 0 auto;
-}
 footer {
   border: 1px solid #ddd;
   border-radius: 2px;
+  padding: 8px;
+  background: #444;
+  color: #ddd;
+  margin-top: 32px;
 }
 .result {
   color: #800080;
@@ -37,6 +35,13 @@ footer {
 .hr {
   border-bottom: 1px dotted #ddd;
   padding: 0 8px;
+}
+.border {
+  border: 1px solid #ddd;
+}
+a, a:visited, a:active {
+  color: #0080ff;
+  text-decoration: none;
 }
 .loader {
   animation: loader-anim 0.75s infinite;

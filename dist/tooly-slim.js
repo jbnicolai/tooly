@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.6.5 (built: 2015-02-04)
+ * tooly - version 0.6.6 (built: 2015-02-06)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -298,7 +298,22 @@ tooly.Frankie.prototype.addClass = function(klass) {
 
 
 /**
- * append `content` to all elements in the set of matched elements.
+ * Append `content` to all elements in the set of matched elements.
+ * Note that unlike jQuery, this implementation will clone (instead of moving) 
+ * node(s) being appended.
+ *
+ * @example
+ * ```html
+ * // jQuery
+ * <div class="a"></div>
+ * <div class="b"></div>
+ * <script>$('.b').append('.a');</script>
+ * // results in:
+ * <div class="b"><div class="a"></div></div>
+ * // whereas Frankie results in: 
+ * <div class="a"></div>
+ * <div class="b"><div class="a"></div></div>
+ * ```
  * 
  * @param  {mixed}  content  the content to append
  * @return {tooly.Frankie} `this`
@@ -431,14 +446,19 @@ tooly.Frankie.prototype.css = function() {
 
 
 /**
- * execute fn for each index and element
+ * Execute `fn` for each index in the set of matched elements. The value of `this`
+ * inside the function will be the raw node.
  * 
- * @param  {Function} fn the function with signature `fn(index, element)`
- * @return {this} 
+ * @param  {Function} fn the function with signature `fn(index)`
+ * @return {this}
+ *
+ * @memberOf  tooly.Frankie
+ * @category  Frankie
+ * @instance 
  */
 tooly.Frankie.prototype.each = function(fn) {
   var i = 0, len = this.els.length;
-  for (; i < len; i++) fn(i, this.els[i]);
+  for (; i < len; i++) fn.call(this.els[i], i);
   return this;
 };
 
@@ -484,25 +504,20 @@ tooly.Frankie.prototype.eq = function(i) {
 
 
 /**
+ * Find all descendent elements of all elements in the current set.
+ * 
  * @param  {Mixed} selector  same as #Frankie constructor
  * @return {Frankie}          new Frankie instance
  */
 tooly.Frankie.prototype.find = function(selector) {
   var $found = tooly.Frankie(selector),
       $this = this,
-      els = [], 
-      i = j = 0,
-      flen = $found.els.length,
-      tlen = $this.els.length,
-      el;
-  for (; i < flen; i++) {
-    el = $found.els[i];
-    for (; j < tlen; j++) {
-      if ($this.els[j].contains(el)) {
-        els.push(el);
-      }
-    }
-  }
+      els = [];
+  $found.els.forEach(function(child) {
+    $this.els.forEach(function(parent) {
+      if (parent.contains(child)) els.push(child);
+    });
+  });
   $found.els = els;
   return $found; 
 };
@@ -608,7 +623,22 @@ tooly.Frankie.prototype.parent = function() {
 
 
 /**
- * prepend `content` to all elements in the set of matched elements.
+ * Prepend `content` to all elements in the set of matched elements.
+ * Note that unlike jQuery, this implementation will clone (instead of moving) 
+ * node(s) being appended.
+ *
+ * @example
+ * ```html
+ * // jQuery
+ * <div class="a"></div>
+ * <div class="b"></div>
+ * <script>$('.a').prepend('.b');</script>
+ * // results in:
+ * <div class="a"><div class="b"></div></div>
+ * // whereas Frankie results in: 
+ * <div class="a"><div class="b"></div></div>
+ * <div class="b"></div>
+ * ```
  * 
  * @param  {mixed}  content  the content to prepend
  * @return {tooly.Frankie} `this`

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Frankie#each Test</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../../dist/tooly.js"></script>
+  <script src="../../node_modules/benchmark/benchmark.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Frankie#each Test</h1>
+    ...should iterate over all elements in the set with "this" set to the current raw Frankie element
+    <nav>
+      <ul>
+        <li><a id="item1"href="/item1">.item1<button class="ddd">.ddd (1)</button></a></li>
+        <li><a id="item2"href="/item2">.item2<button class="ddd">.ddd (2)</button></a></li>
+        <li><a id="item3"href="/item3">.item3<button class="ddd">.ddd (3)</button></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div>
+      <div class="a z">.a .z</div>
+      <div class="b z">.b .z</div>
+      <div class="c z">.c .z</div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <small>debug:</small>
+    </div>
+  </footer>
+
+</body>
+<script>
+
+  // last edited version 0.6.4
+
+  window.onload = run;
+
+  function run() {
+    var _ = tooly.Frankie,
+        logger = tooly.Logger('EACH_TEST', { level: 0 }),
+        $footer = $('footer'),
+        _footer = _('footer');
+
+    tooly.Frankie.prototype.each = function(fn) {
+      var i = 0, len = this.els.length;
+      for (; i < len; i++) fn.call(this.els[i], i);
+      return this;
+    };        
+
+    $footer.append('\t\tall .z text (jQuery): <br>');
+    var text = ''
+    $('.z').each(function(i) {
+      logger.debug(tooly.type(this));
+      text += $(this).text();
+    });
+    $footer.append(text + '<br>');
+
+    _footer.append('\t\tall .z text (Frankie): <br>');
+    text = '';
+    _('.z').each(function(i) {
+      logger.debug(tooly.type(this));
+      text += _(this).html();
+    });
+    _footer.append(text);
+  }
+
+</script>
+</html>

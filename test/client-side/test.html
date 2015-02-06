@@ -1,0 +1,105 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="../../node_modules/mocha/mocha.css">
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../../node_modules/chai/chai.js"></script>
+  <script src="../../node_modules/mocha/mocha.js"></script>
+  <script src="../../node_modules/blanket/dist/qunit/blanket.js" 
+    data-cover-flags="branchTracking" 
+    data-cover-adapter="../../node_modules/blanket/src/adapters/mocha-blanket.js"></script>
+  <script src="../../dist/tooly.js" data-cover></script>  
+</head>
+<body>
+
+  <div style="display:none" class="a _1">
+    premier
+    <div class="ab _2">pete rock</div>
+    <div class="ab _3">
+      dj shadow
+      <div class="abc _4">
+        dj krush
+        <div class="abcd _5">the opus</div>
+        <div class="abcd _6">el p</div>
+        <div class="abcd _7">
+          mad lib
+          <div class="abcde _8">j dilla</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mocha"></div>
+  <div id="messages"></div>
+  <div id="fixtures"></div>
+
+  <script>mocha.setup('bdd');</script>
+  <script>
+
+    var expect = chai.expect,
+        assert = chai.assert,
+        _ = tooly.Frankie,
+        logger = tooly.Logger('TEST', { level: 0 });
+
+    describe('tooly.Frankie', function() {
+
+      describe('#addClass', function() {
+        it('should add class to body', function() {
+          // TODO - whitespace should be cleaned up internally.
+          expect(_('body').addClass('klass').attr('class').trim()).to.eql('klass');
+        });
+        it('should add multiple classes', function() {
+          expect(_('body').addClass('one two three').attr('class').trim()).to.eql('klass one two three');
+        });
+      });
+
+      describe('#append', function() {
+        it('should append "<p id=\"__test\">appended!</p>" to ._1', function() {
+          _('._1').append('<p id=\"__test\">appended!</p>');
+          expect(_('#__test').html()).to.eql('appended!');
+        });
+      });
+
+      describe('#children', function() {
+        it('should contain 3 elements', function() {
+          expect(_('.abc').children().els).to.have.length(3);
+        });
+        it('should produce text: el p', function() {
+          expect(_('.abc').children().eq(1).html()).to.eql('el p');
+        });
+        it('should contain an empty element array when no children are present', function() {
+          expect(_('._8').children().els).to.be.empty;
+        });
+      });
+      
+      describe('#each', function() {
+        it('should iterate 3 times', function() {
+          var k = [];
+          _('.abcd').each(function(i) { k.push(i); });
+          expect(k).to.have.length(3);
+        });
+        it('should keep proper "this"', function() {
+          _('.abcd').each(function(i) {
+            expect(tooly.type(this)).to.eql('htmldivelement');
+          })
+        })
+      });
+
+      describe('#find', function() {
+        it('should result in containing 3 .abcd elements', function() {
+          expect(_('body').find('.abcd').els).to.have.length(3);
+        });
+        it('end at square 1 after $(child).parent().find(child)', function() {
+          expect(_('._8').parent().find('._8').html()).to.eql('j dilla');
+        }); 
+      });
+
+    });
+
+    mocha.checkLeaks();
+    mocha.globals(['jQuery', 'tooly', 'chai']);
+    mocha.run();
+  </script>
+</body>
+</html>

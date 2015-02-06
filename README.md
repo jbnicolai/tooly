@@ -52,7 +52,8 @@ node bin/build include dom string -o my-custom-tooly-build.js && grunt build
 
 ## Development
 
-Testing is done with `grunt-mocha-test`. Run with `npm run test` or `grunt test`.
+Test with `npm run test`, or load `test/client-side/test.html` for dom-related functions.
+Build with `npm run all`.
 
 ## Changelog
 

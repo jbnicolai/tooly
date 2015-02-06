@@ -11,7 +11,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     cust: fs.readFileSync('./bin/.custom-comment', { encoding: 'utf8' }),
-
     pkg: grunt.file.readJSON('package.json'),
 
     mochaTest: {
@@ -21,9 +20,10 @@ module.exports = function(grunt) {
           // captureFile: 'test/_test-results.log',
           quiet: false,
           clearRequireCache: false,
-          colors: true
+          colors: true,
+          require: 'blanket'
         },
-        src: ['test/**/*.js', '!test/{benchmark,manual,frankie,spec}/*.js']
+        src: ['test/{server-side,client-side}/*.js']
       }
     },    
 

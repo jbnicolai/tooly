@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Frankie#find Test</title>
+  <link rel="stylesheet" type="text/css" href="../style.css">
+  <script src="../../dist/tooly.js"></script>
+  <script src="../../node_modules/benchmark/benchmark.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.js"></script>
+</head>
+<body>
+
+  <header>
+    <h3>Frankie#find Test</h3>
+    <p>#find should select all descendent elements (unlike children, which only goes 1 level down)</p>
+    <p>each test is paired against jQuery to match functionality</p>
+    <div class="hr"></div>
+    <nav>
+      <ul>
+        <li><a id="item1" href="#">.item1<button class="ddd">.ddd (1)</button></a></li>
+        <li><a id="item2" href="#">.item2<button class="ddd">.ddd (2)</button></a></li>
+        <li><a id="item3" href="#">.item3<button class="ddd">.ddd (3)</button></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div>
+      <div class="a z border">.a .z</div>
+      <div class="b z border">.b .z</div>
+      <div class="c z border">.c .z</div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <small>debug:</small>
+    </div>
+  </footer>
+
+</body>
+<script>
+
+  window.onload = run;
+
+  function run() {
+    var _ = tooly.Frankie,
+        logger = tooly.Logger('FIND_TEST', { level: 0 }),
+        $footer = $('footer'),
+        _footer = _('footer');
+
+    tooly.Frankie.prototype.find = function(selector) {
+      var $found = tooly.Frankie(selector),
+          $this = this,
+          els = [];
+      $found.els.forEach(function(child) {
+        $this.els.forEach(function(parent) {
+          if (parent.contains(child)) els.push(child);
+        });
+      });
+      $found.els = els;
+      return $found; 
+    };
+
+    $footer.append("_('body').find('.z').each(function(i) { html += _(this).html(); });" + '<br>');
+    var html = '';
+    $('body').find('.z').clone().each(function(i) { html += $(this).text() + '<br>'; });
+    $footer.append(html + '<br>');
+    html = '';
+    _('body').find('.z').each(function(i) { html += _(this).html() + '<br>'; });
+    _footer.append(html + '<div class="hr"></div>');
+
+    $footer.append("_('#item2').parent().parent().find('#item3').html().toString();<br>");
+    $footer.append($('#item2').parent().parent().find('#item3').html() + '<br>');
+    $footer.append(_('#item2').parent().parent().find('#item3').html() + '<br>');
+  }
+
+</script>
+</html>
