@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.7.0 (built: 2015-02-08)
+ * tooly - version 0.7.1 (built: 2015-02-08)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -1223,8 +1223,17 @@ tooly.Logger.prototype.error = function() { _log(this, 5, arguments); return thi
 
 
 /**
+ * Construct an instance of an object from a given constructor.
+ * The remaining arguments, if any, will be applied to the given constructor.
+ *
+ * @example
+ * ```js
+ * tooly.construct(Array);          //=> []
+ * tooly.construct(Array, 3);       //=> [ , ,  ]
+ * tooly.construct(Array, 1, 2, 3); //=> [ 1, 2, 3 ]
+ * ```
+ * 
  * @param  {Function} ctor
- * @param  {Object|Array} args
  * @return {Object}
  *
  * @memberOf  tooly
@@ -1327,7 +1336,8 @@ tooly.falsy = tooly.isFalsy = function(obj) {
 /**
  * Object literal assignment results in creating an an object with Object.prototype
  * as the prototype. This allows us to assign a different prototype while keeping 
- * the convenience of literal declaration.
+ * the convenience of literal declaration. Note that the `prototype` parameter should
+ * be an instance, as in the return value of `new Klass()`, not `Klass.prototype`.
  * 
  * @param  {Object} prototype
  * @param  {Object} object    
@@ -1387,28 +1397,6 @@ tooly.inherit = function(Parent, Child, extension) {
       Child.prototype[prop] = extension[prop];
     }
   }
-};
-
-
-
-/**
- * port of is.hash
- *
- * Test if `value` is a hash - a plain object literal.
- *
- * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a hash, false otherwise
- *
- * @see https://github.com/enricomarino/is/blob/master/index.js
- * @author Enrico Marino (with minor edits)
- *
- * @memberOf  tooly
- * @category  Object
- * @static
- */
-tooly.isHash = function(val) {
-  return _type(val, 'object') && val.constructor === Object && 
-    !val.nodeType && !val.setInterval;
 };
 
 
