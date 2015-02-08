@@ -11,6 +11,7 @@
  * ```
  * 
  * @param  {Number|String} n a number or numerical string
+ * @param  {String} symbol optional symbol to prepend to the final output
  * @return {String}   `n` formatted as money (comma separated every three digits)
  * 
  * @see http://stackoverflow.com/a/14428340/2416000 
@@ -19,9 +20,9 @@
  * @category String
  * @static
  */
-tooly.formatMoney = function(n) {
+tooly.formatMoney = function(n, symbol) {
   var number = _type(n, 'number') ? n : +n;
-  return number.toFixed(2).replace(/./g, function(c, i, a) {
+  return (symbol || '') + number.toFixed(2).replace(/./g, function(c, i, a) {
     return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
   });
 };

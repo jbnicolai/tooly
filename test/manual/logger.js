@@ -1,4 +1,4 @@
-var tooly = require('../dist/tooly');
+var tooly = require('../../dist/tooly');
 
 var logger = new tooly.Logger('NODE', { 
   level: 0, 

@@ -8,10 +8,11 @@
  * @param  {String} str the string to copy and strip
  * @return {String}     the copied string with file extension removed
  *
+ * @alias #stringExt
  * @memberOf tooly
  * @category String
  * @static
  */
-tooly.stripExtension = function(str) {
+tooly.stripExtension = tooly.stripExt = function(str) {
   return str.substring(0, str.lastIndexOf('.'));
 };

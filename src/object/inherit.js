@@ -6,6 +6,8 @@
  * Note that this method overwrites the child's original prototype.
  * Also note that the child's constructor needs to call `parent.call(this)`
  *
+ * TODO: eliminate the need for `parent.call(this)` in Child constructor.
+ *
  * @example
  * ```js
  * function Parent() {}
@@ -17,20 +19,20 @@
  * // for a more practical example see the tooly.Handler documentation.
  * ```
  * 
- * @param  {Function} parent
- * @param  {Function} child  
- * @param  {Mixed} extend additional members to the Child's prototype 
+ * @param  {Function} Parent
+ * @param  {Function} Child  
+ * @param  {Object}   extension add additional members to the Child.prototype
  * 
  * @memberOf  tooly
  * @category  Object
  * @static
  */
-tooly.inherit = function(parent, child, extend) {
-  child.prototype = new parent();
-  child.prototype.constructor = child;
-  for (var prop in extend) {
-    if (extend.hasOwnProperty(prop)) {
-      child.prototype[prop] = extend[prop];
+tooly.inherit = function(Parent, Child, extension) {
+  Child.prototype = new Parent();
+  Child.prototype.constructor = Child;
+  for (var prop in extension) {
+    if (extension.hasOwnProperty(prop)) {
+      Child.prototype[prop] = extension[prop];
     }
   }
 };

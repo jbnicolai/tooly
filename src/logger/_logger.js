@@ -1,6 +1,15 @@
 
 
 
+var _defaults = {
+  level: 0, 
+  bypassLevel: false,
+  bypassTimestamp: true,
+  bypassLine: true,
+  textFormat: 'color:black;',
+  lineFormat: 'color:gray;font-size:10px;',
+  nameFormat: 'color:magenta'
+};
 /**
  * Class constructor. Typical logging functionality that wraps around console.log
  * with css coloring and level control. The Logger level hierarchy is as follows:
@@ -41,7 +50,8 @@
  * logging at each loggers previous level.
  * 
  * @param {String} name  optional name to identify this instance. The name will preceed any output message
- * @param {Object} options an object containing this logger's level and other output options
+ * @param {Object|Number} options an object containing this logger's level and other output options, or a 
+ *                                number representing this logger's level
  * 
  * @category Logger
  * @class  tooly.Logger
@@ -57,17 +67,21 @@ tooly.Logger = function(name, options) {
     logger = new tooly.Logger(name, options);
     tooly.Logger.loggers.push(logger);
   }
-  logger.options = {};
-  logger.options.level = options.level !== undefined ? options.level : 2;
-  logger.options.bypassTimestamp = options.bypassTimestamp || true;
-  logger.options.bypassLine = options.bypassLine || true;
-  logger.options.textFormat = options.textFormat || 'color:black;';
-  logger.options.lineFormat = options.lineFormat || 'color:gray;font-size:9px;';
-  // logger.options.groupFormat = options.groupFormat || 
-  //   'color:black;' +
-  //   'font-size:18px;' + 
-  //   'font-weight:bold;' +
-  //   'text-decoration:underline;';
+  if (options) {
+    var type = tooly.type(options);
+    if (type === 'object') {
+      for (var prop in _defaults) {
+        if (!options.hasOwnProperty(prop)) {
+          options[prop] = _defaults[prop];
+        }
+      }  
+      logger.options = options;
+    } else if (type === 'number') {
+      logger.options.level = options;
+    }
+  } else {
+    logger.options = _defaults;
+  }
   if (name) logger.name = name;
   return logger;
 };

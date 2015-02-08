@@ -22,7 +22,7 @@ var _curly_re = /{(\d+)}/g;
  * @category String
  * @static
  */
-tooly.formatString = function(format) {
+tooly.formatString = tooly.stringFormat = function(format) {
   var args = _slice.call(arguments, 1);
   return format.replace(_curly_re, function(match, number) { 
     return typeof args[number] != 'undefined' ? args[number] : match;

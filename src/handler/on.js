@@ -4,7 +4,7 @@
 /**
  * Register an event handler for a named function.
  * 
- * @param  {(String|Function)} fn   the function that will call the handler when executed
+ * @param  {String} fn  the name of the function that will call the handler when executed
  * @param  {callback}   handler the handler that we be called by the named function
  * @return {Object} `this` for chaining
  * 

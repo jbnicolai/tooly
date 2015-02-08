@@ -23,7 +23,7 @@ tooly.Frankie.prototype.children = function() {
     if (_node(c)) {
       frank.els.push(c);
     } else if (_type(c) === 'htmlcollection') {
-      [].push.apply(frank.els, [].slice.call(c).map(function(v) { return v; }));
+      [].push.apply(frank.els, [].slice.call(c).map(_identity));
     }
   });
   return frank;

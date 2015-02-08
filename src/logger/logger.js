@@ -35,17 +35,33 @@ function _log(instance, level, args) {
       instance.bypassLine ? '' : _chalk.gray(_getLine(instance)) */);
 
   } else { // window
-    format = '%c%s%c%s%c%s%c';
-    if (tooly.type(args[0], 'string') && args[0].match(_format_re)) {
-      format += args.shift().replace(_j_re, '%o');
+    // <name-style><name><level-style><level>
+    // format = '%c%s%c%s%c%s%c';
+    format = 
+      '%c' + // nameFormat
+      '%s' + // name
+      '%c' + // levelFormat
+      '%s' + // level
+      '%c' + // lineFormat
+      '%s' + // line
+      '%c' ; // textFormat
+    if (tooly.type(args[0], 'string')) {
+      // if (args[0].match(_format_re)) {
+      if (_format_re.test(args[0])) {
+        format += args.shift().replace(_j_re, '%o');
+      } else {
+        format += args.shift();
+      }
     }
-    var color = 'color:' + _colors[level] + ';',
-        purple = 'color:purple;';
+    var color = 'color:' + _colors[level] + ';'
     pargs = [
       format, 
-      purple, _name(instance), 
-      color, _level(level, instance), 
-      instance.options.lineFormat, _getLine(instance),
+      instance.options.nameFormat, 
+      _name(instance), 
+      instance.options.bypassLevel ? '' : color, 
+      instance.options.bypassLevel ? '' : _level(level, instance), 
+      instance.options.bypassLine  ? '' : instance.options.lineFormat, 
+      _getLine(instance),
       instance.options.textFormat
     ];
   }
@@ -88,7 +104,7 @@ function _getLine(instance) {
 
 function _name(instance) {
   var name = instance.name || '';
-  return (_chalk) ? _chalk.magenta(name) : name;
+  return _chalk ? _chalk.magenta(name) : name;
 }
 
 function _level(level, instance) {

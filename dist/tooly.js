@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.6.6 (built: 2015-02-06)
+ * tooly - version 0.7.0 (built: 2015-02-08)
  * js utility functions
  *
  * https://github.com/Lokua/tooly.git
@@ -28,7 +28,9 @@ var _format_re, // assigned only on first use
     _ws_re = /\s+/,
     _type_re = /\s([a-z]+)/i,
     _arrayProto = Array.prototype,
-    _slice = _arrayProto.slice;
+    _slice = _arrayProto.slice,
+    _noop = function() {},
+    _identity = function(v) { return v; };
 
 /*!
  * @see  tooly#type
@@ -51,8 +53,16 @@ function _each(obj, fn, context) {
   return obj;
 }
 
+/*!
+ * Used internally to convert array-like objects such as HtmlCollection or NodeList into
+ * plain old arrays.
+ *  
+ * @param  {Object} obj An array-like object
+ * @return {Array}      `obj` converted
+ * @private
+ */
 function _toArray(obj) {
-  return [].map.call(obj, function(el) { return el; });
+  return [].map.call(obj, _identity);
 }
 
 /**
@@ -60,6 +70,31 @@ function _toArray(obj) {
  * @type {Object}
  */
 var tooly = {};
+
+/**
+ * "No operation". A function with an empty body
+ * 
+ * @type {Function}
+ * @return {undefined}
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.noop = _noop;
+
+/**
+ * A function that returns its own single argument
+ * 
+ * @type {Function}
+ * @param {Object} value
+ * @return the `value` parameters
+ *
+ * @memberOf tooly
+ * @category String
+ * @static
+ */
+tooly.indentity = _identity;
 
 
 
@@ -383,7 +418,7 @@ tooly.Frankie.prototype.children = function() {
     if (_node(c)) {
       frank.els.push(c);
     } else if (_type(c) === 'htmlcollection') {
-      [].push.apply(frank.els, [].slice.call(c).map(function(v) { return v; }));
+      [].push.apply(frank.els, [].slice.call(c).map(_identity));
     }
   });
   return frank;
@@ -792,7 +827,7 @@ tooly.Frankie.prototype.zilch = function() {
  * 
  * // add all of the tooly.Handler.prototype methods to MyClass.prototype.
  * // third argument also augments MyClass.prototype
- * tooly.inherit(MyClass, tooly.Handler, {
+ * tooly.inherit(tooly.Handler, MyClass, {
  * 
  *   init: function() {
  *     this.on('load', function() {
@@ -831,51 +866,9 @@ tooly.Handler = function(context) {
 
 
 /**
- * Executes all handlers attached to the named function.
- * For `Handler#on(<name>)` to work, `<name>` itself needs to call `#executeHandler`.
- * 
- * ### Example
- * ```js
- * var value = 0;
- * var handler = new tooly.Handler();
- * 
- * function inc() { 
- *   value += 10; 
- *   handler.executeHandler('inc');
- * }
- * 
- * function jump() {
- *   this.value *= 2;
- * }
- *
- * handler.on('inc', announce);
- * inc();
- * value; //=> 20;
- * ```
- * 
- * @param  {String|Object} fn the name of the function that will announce to attached handlers
- * @return {this}
- *
- * @alias #trigger
- * @memberOf  tooly.Handler
- * @category  Handler
- * @instance
- */
-tooly.Handler.prototype.executeHandler = function(fn) {
-  var handler = this.handlers[fn] || [],
-      i = 0, len = handler.length;
-  for (; i < len; i++) {
-    handler[i].apply(this.context, []);
-  }
-  return this;
-};
-
-
-
-/**
  * Register an event handler for a named function.
  * 
- * @param  {(String|Function)} fn   the function that will call the handler when executed
+ * @param  {String} fn  the name of the function that will call the handler when executed
  * @param  {callback}   handler the handler that we be called by the named function
  * @return {Object} `this` for chaining
  * 
@@ -896,7 +889,7 @@ tooly.Handler.prototype.on = function(fn, handler) {
 /**
  * Add callbacks to the list of handlers. The callbacks must be an object collection of 
  * key-value pairs where the identifier key is the name of a function that calls the 
- * `#executeHandler` method with the same name as the key, while the value is the callback 
+ * `#trigger` method with the same name as the key, while the value is the callback 
  * function itself. This method should not be used if only registering a single callback, 
  * for that use [#on](#on).
  * 
@@ -907,8 +900,8 @@ tooly.Handler.prototype.on = function(fn, handler) {
  * @category  Handler
  * @instance
  */
-tooly.Handler.prototype.registerCallbacks = function(callbacks) {
-  var t = this, h = {};
+tooly.Handler.prototype.register = function(callbacks) {
+  var t = this, h;
   if (callbacks !== undefined) {
     for (h in callbacks) {
       if (callbacks.hasOwnProperty(h)) {
@@ -933,14 +926,14 @@ tooly.Handler.prototype.registerCallbacks = function(callbacks) {
  */
 tooly.Handler.prototype.remove = function(fn) {
   if (this.handlers[fn] !== undefined) {
-    this.handlers[fn].length = 0;
+    delete this.handlers[fn];
   }
 };
 
 
 
 /**
- * Remove all handlers. Any subsequent call to `#executeHandler` will have no effect.
+ * Remove all handlers. Any subsequent call to `#trigger` will have no effect.
  *
  * @memberOf  tooly.Handler
  * @category  Handler
@@ -953,19 +946,55 @@ tooly.Handler.prototype.removeAll = function() {
 
 
 /**
- * alias for [#executeHandler](`#executeHandler`)
+ * Executes all handlers attached to the named function.
+ * For `Handler#on(<name>)` to work, `<name>` itself needs to call `#trigger`.
+ * 
+ * ### Example
+ * ```js
+ * var value = 0;
+ * var handler = new tooly.Handler();
+ * 
+ * function inc() { 
+ *   value += 10; 
+ *   handler.trigger('inc');
+ * }
+ * 
+ * function jump() {
+ *   this.value *= 2;
+ * }
  *
- * @alias #executeHandler
+ * handler.on('inc', jump);
+ * inc();
+ * value; //=> 20;
+ * ```
+ * 
+ * @param  {String|Object} fn the name of the function that will announce to attached handlers
+ * @return {this}
+ *
  * @memberOf  tooly.Handler
  * @category  Handler
  * @instance
  */
 tooly.Handler.prototype.trigger = function(fn) {
-  return this.executeHandler(fn);
+  var handler = this.handlers[fn] || [],
+      i = 0, len = handler.length;
+  for (; i < len; i++) {
+    handler[i].apply(this.context, []);
+  }
+  return this;
 };
 
 
 
+var _defaults = {
+  level: 0, 
+  bypassLevel: false,
+  bypassTimestamp: true,
+  bypassLine: true,
+  textFormat: 'color:black;',
+  lineFormat: 'color:gray;font-size:10px;',
+  nameFormat: 'color:magenta'
+};
 /**
  * Class constructor. Typical logging functionality that wraps around console.log
  * with css coloring and level control. The Logger level hierarchy is as follows:
@@ -1006,7 +1035,8 @@ tooly.Handler.prototype.trigger = function(fn) {
  * logging at each loggers previous level.
  * 
  * @param {String} name  optional name to identify this instance. The name will preceed any output message
- * @param {Object} options an object containing this logger's level and other output options
+ * @param {Object|Number} options an object containing this logger's level and other output options, or a 
+ *                                number representing this logger's level
  * 
  * @category Logger
  * @class  tooly.Logger
@@ -1022,17 +1052,21 @@ tooly.Logger = function(name, options) {
     logger = new tooly.Logger(name, options);
     tooly.Logger.loggers.push(logger);
   }
-  logger.options = {};
-  logger.options.level = options.level !== undefined ? options.level : 2;
-  logger.options.bypassTimestamp = options.bypassTimestamp || true;
-  logger.options.bypassLine = options.bypassLine || true;
-  logger.options.textFormat = options.textFormat || 'color:black;';
-  logger.options.lineFormat = options.lineFormat || 'color:gray;font-size:9px;';
-  // logger.options.groupFormat = options.groupFormat || 
-  //   'color:black;' +
-  //   'font-size:18px;' + 
-  //   'font-weight:bold;' +
-  //   'text-decoration:underline;';
+  if (options) {
+    var type = tooly.type(options);
+    if (type === 'object') {
+      for (var prop in _defaults) {
+        if (!options.hasOwnProperty(prop)) {
+          options[prop] = _defaults[prop];
+        }
+      }  
+      logger.options = options;
+    } else if (type === 'number') {
+      logger.options.level = options;
+    }
+  } else {
+    logger.options = _defaults;
+  }
   if (name) logger.name = name;
   return logger;
 };
@@ -1073,17 +1107,33 @@ function _log(instance, level, args) {
       instance.bypassLine ? '' : _chalk.gray(_getLine(instance)) */);
 
   } else { // window
-    format = '%c%s%c%s%c%s%c';
-    if (tooly.type(args[0], 'string') && args[0].match(_format_re)) {
-      format += args.shift().replace(_j_re, '%o');
+    // <name-style><name><level-style><level>
+    // format = '%c%s%c%s%c%s%c';
+    format = 
+      '%c' + // nameFormat
+      '%s' + // name
+      '%c' + // levelFormat
+      '%s' + // level
+      '%c' + // lineFormat
+      '%s' + // line
+      '%c' ; // textFormat
+    if (tooly.type(args[0], 'string')) {
+      // if (args[0].match(_format_re)) {
+      if (_format_re.test(args[0])) {
+        format += args.shift().replace(_j_re, '%o');
+      } else {
+        format += args.shift();
+      }
     }
-    var color = 'color:' + _colors[level] + ';',
-        purple = 'color:purple;';
+    var color = 'color:' + _colors[level] + ';'
     pargs = [
       format, 
-      purple, _name(instance), 
-      color, _level(level, instance), 
-      instance.options.lineFormat, _getLine(instance),
+      instance.options.nameFormat, 
+      _name(instance), 
+      instance.options.bypassLevel ? '' : color, 
+      instance.options.bypassLevel ? '' : _level(level, instance), 
+      instance.options.bypassLine  ? '' : instance.options.lineFormat, 
+      _getLine(instance),
       instance.options.textFormat
     ];
   }
@@ -1126,7 +1176,7 @@ function _getLine(instance) {
 
 function _name(instance) {
   var name = instance.name || '';
-  return (_chalk) ? _chalk.magenta(name) : name;
+  return _chalk ? _chalk.magenta(name) : name;
 }
 
 function _level(level, instance) {
@@ -1192,14 +1242,12 @@ tooly.construct = function(ctor, args) {
 
 
 /**
- * Add the "own properties" of `src` to `dest`.
- * Used throughout the application to add prototype
- * methods to tooly classes without
- * assigning Object as their prototype.
+ * Add the "own properties" of `src` to `dest`. Mutliple src 
+ * arguments can be supplied (ie. `tooly.extend({}, src1, src2, src3))`.
  *
  * @param  {Object} dest the destination object
  * @param  {Object} src  the source object
- * @return {Object}      `dest`
+ * @return {Object} `dest`
  *
  * @category  Object
  * @memberOf tooly
@@ -1207,10 +1255,11 @@ tooly.construct = function(ctor, args) {
  */
 tooly.extend = function(dest, src) {
   var sources = _slice.call(arguments),
-      target = sources.shift();
+      target = sources.shift(),
+      prop;
   target = target || {};
   _each(sources, function(source) {
-    for (var prop in source) {
+    for (prop in source) {
       if (source.hasOwnProperty(prop)) {
         if (_type(source[prop]) === 'object') {
           target[prop] = tooly.extend(target[prop], source[prop]);
@@ -1225,9 +1274,46 @@ tooly.extend = function(dest, src) {
 
 
 
-/*! alias for #isFalsy */
-tooly.falsy = function(obj) {
-  return isFalsy(obj);
+/**
+ * Extensively check if `obj` is "falsy".
+ * <br>
+ * ### tooly.falsy returns true for the following:
+ * ```js
+ * var undefinedValue;
+ * var nullValue             = null;
+ * var setUndefined          = undefined;
+ * var falseValue            = false;
+ * var zero                  = 0;
+ * var emptyString           = ''; // same for ' \n\t   \n'
+ * var falseString           = 'false';
+ * var zeroString            = '0';
+ * var nullString            = 'null';
+ * var undefinedString       = 'undefined';
+ * ```
+ * Note that in the cases of falsy strings, the check is
+ * done after a call to `String.trim`, so surrounding
+ * whitespace is ignored:
+ * `tooly.falsy('\n\t false   \n') //=> true`
+ *
+ * @param  {mixed}  obj the object to check
+ * @return {Boolean}     true if `obj` is "falsy"
+ *
+ * @alias #isFalsy
+ * @see  #truthy
+ * @memberOf tooly
+ * @category Object
+ * @static
+ */
+tooly.isFalsy = function(obj) {
+  // no-strict void 0 covers null as well
+  if (obj == void 0 || obj == false) return true;
+  if (_type(obj, 'string')) {
+    var str = obj.trim();
+    return str === ''
+      || str === 'false'
+      || str === 'undefined'
+      || str === 'null';
+  }
 };
 
 
@@ -1266,6 +1352,8 @@ tooly.fromPrototype = function(prototype, object) {
  * Note that this method overwrites the child's original prototype.
  * Also note that the child's constructor needs to call `parent.call(this)`
  *
+ * TODO: eliminate the need for `parent.call(this)` in Child constructor.
+ *
  * @example
  * ```js
  * function Parent() {}
@@ -1277,65 +1365,21 @@ tooly.fromPrototype = function(prototype, object) {
  * // for a more practical example see the tooly.Handler documentation.
  * ```
  * 
- * @param  {Function} parent
- * @param  {Function} child  
- * @param  {Mixed} extend additional members to the Child's prototype 
+ * @param  {Function} Parent
+ * @param  {Function} Child  
+ * @param  {Object}   extension add additional members to the Child.prototype
  * 
  * @memberOf  tooly
  * @category  Object
  * @static
  */
-tooly.inherit = function(parent, child, extend) {
-  child.prototype = new parent();
-  child.prototype.constructor = child;
-  for (var prop in extend) {
-    if (extend.hasOwnProperty(prop)) {
-      child.prototype[prop] = extend[prop];
+tooly.inherit = function(Parent, Child, extension) {
+  Child.prototype = new Parent();
+  Child.prototype.constructor = Child;
+  for (var prop in extension) {
+    if (extension.hasOwnProperty(prop)) {
+      Child.prototype[prop] = extension[prop];
     }
-  }
-};
-
-
-
-/**
- * Extensively check if `obj` is "falsy".
- * <br>
- * ### isFalsy returns true for the following:
- * ```js
- * var undefinedValue;
- * var nullValue             = null;
- * var setUndefined          = undefined;
- * var falseValue            = false;
- * var zero                  = 0;
- * var emptyString           = ''; // same for ' \n\t   \n'
- * var falseString           = 'false';
- * var zeroString            = '0';
- * var nullString            = 'null';
- * var undefinedString       = 'undefined';
- * ```
- * Note that in the cases of falsy strings, the check is
- * done after a call to `String.trim`, so surrounding
- * whitespace is ignored:
- * `isFalsy('\n\t false   \n') //=> true`
- *
- * @param  {mixed}  obj the object to check
- * @return {Boolean}     true if `obj` is "falsy"
- *
- * @alias #falsy
- * @see  #isTruthy
- * @memberOf tooly
- * @category Object
- * @static
- */
-tooly.isFalsy = function(obj) {
-  // no-strict void 0 covers null as well
-  if (obj == void 0 || obj == false) return true;
-  if (_type(obj, 'string')) {
-    var str = obj.trim();
-    return str === ''
-      || str === 'false'
-      || str === 'undefined'
-      || str === 'null';
   }
 };
 
@@ -1364,24 +1408,6 @@ tooly.isHash = function(val) {
 
 
 /**
- * Opposite of `isFalsy`.
- * 
- * @param  {mixed}  obj the object to check
- * @return {Boolean}     true if `obj` is "truthy"
- *
- * @alias #truthy
- * @see  #isFalsy
- * @memberOf tooly
- * @category Object
- * @static
- */
-tooly.isTruthy = function(obj) {
-  return !tooly.isFalsy(obj);
-};
-
-
-
-/**
  * scale a number from one range to another
  * 
  * @param  {Number} n      the number to scale
@@ -1402,6 +1428,24 @@ tooly.scale = function(n, oldMin, oldMax, min, max) {
 
 
 /**
+ * Opposite of `falsy`.
+ * 
+ * @param  {mixed}  obj the object to check
+ * @return {Boolean}     true if `obj` is "truthy"
+ *
+ * @alias #isTruthy
+ * @see  #falsy
+ * @memberOf tooly
+ * @category Object
+ * @static
+ */
+tooly.truthy = tooly.isTruthy = function(obj) {
+  return !tooly.isFalsy(obj);
+};
+
+
+
+/**
  * A more useful alternative to the typeof operator.
  * If only the `obj` argument is passed, the class of that object is returned.
  * If the second argument `klass` is passed, a boolean indicating whether `obj`
@@ -1412,7 +1456,7 @@ tooly.scale = function(n, oldMin, oldMax, min, max) {
  * @return {String|Boolean} the type of object if only `obj` is passed or 
  *                              true if `obj` is of class `klass`, false otherwise
  *
- * @alias type
+ * @alias #toType
  * @author Angus Croll
  * @see  http://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator
  * 
@@ -1420,22 +1464,8 @@ tooly.scale = function(n, oldMin, oldMax, min, max) {
  * @category Object
  * @static
  */
-tooly.toType = function(obj, klass) {
+tooly.type = tooly.toType = function(obj, klass) {
   return _type(obj, klass);
-};
-
-
-
-/*! alias for #isTruthy */
-tooly.truthy = function(obj) {
-  return !tooly.isFalsy(obj);
-};
-
-
-
-/*! @alias for #toType */
-tooly.type = function(o, k) { 
-  return _type(o, k); 
 };
 
 
@@ -1545,6 +1575,7 @@ tooly.format = function(format) {
  * ```
  * 
  * @param  {Number|String} n a number or numerical string
+ * @param  {String} symbol optional symbol to prepend to the final output
  * @return {String}   `n` formatted as money (comma separated every three digits)
  * 
  * @see http://stackoverflow.com/a/14428340/2416000 
@@ -1553,9 +1584,9 @@ tooly.format = function(format) {
  * @category String
  * @static
  */
-tooly.formatMoney = function(n) {
+tooly.formatMoney = function(n, symbol) {
   var number = _type(n, 'number') ? n : +n;
-  return number.toFixed(2).replace(/./g, function(c, i, a) {
+  return (symbol || '') + number.toFixed(2).replace(/./g, function(c, i, a) {
     return i && c !== '.' && !((a.length - i) % 3) ? ',' + c : c;
   });
 };
@@ -1583,7 +1614,7 @@ var _curly_re = /{(\d+)}/g;
  * @category String
  * @static
  */
-tooly.formatString = function(format) {
+tooly.formatString = tooly.stringFormat = function(format) {
   var args = _slice.call(arguments, 1);
   return format.replace(_curly_re, function(match, number) { 
     return typeof args[number] != 'undefined' ? args[number] : match;
@@ -1616,19 +1647,28 @@ tooly.formatTime = function(time) {
 
 /**
  * left pad
+ * @example   
+ * ```js
+ * tooly.leftPad('99', 4, '*'); //=> "**99"
+ * // works for numbers as well
+ * tooly.leftPad(9, 4, '*'); //=> "***9"
+ * ```
  * 
  * @param  {String} v      the string to pad
- * @param  {Number} len    the length such that len - v = number of padding chars
+ * @param  {Number} len    the length such that len - v = number of padded chars
  * @param  {String} symbol the symbol to use for padding, defaults to single white space
  * @return {String}        the left padded string
  *
- * @see  tooly#rpad
+ * @alias #leftpad
+ * @alias #lPad
+ * @alias #lpad
+ * @see  tooly#rightPad
  * @memberOf tooly
  * @category String
  * @static
  */
-tooly.lPad = function(v, len, symbol) {
-  var n = len - v.length;
+tooly.leftPad = tooly.leftpad = tooly.lpad = tooly.lPad = function(v, len, symbol) {
+  var n = len - (v+'').length;
   return (n > 0) ? tooly.repeat(symbol || ' ', n) + v : v;
 };
 
@@ -1655,19 +1695,28 @@ tooly.repeat = function(str, n) {
 
 /**
  * right pad
+ * @example   
+ * ```js
+ * tooly.rightPad('99', 4, '*'); //=> "99**"
+ * // works for numbers as well
+ * tooly.rightPad(9, 4, '*'); //=> "9***"
+ * ```
  * 
  * @param  {String} v      the string to pad
  * @param  {Number} len    the length such that len - v = number of padding chars
  * @param  {String} symbol the symbol to use for padding, defaults to single white space
  * @return {String}        the right padded string
  *
+ * @alias #rightpad
+ * @alias #rPad
+ * @alias #rpad
  * @see tooly#lpad
  * @memberOf tooly
  * @category String
  * @static
  */
-tooly.rPad = function(v, len, symbol) {
-  var n = len - v.length;
+tooly.rightPad = tooly.rightpad = tooly.rPad = tooly.rpad = function(v, len, symbol) {
+  var n = len - (v+'').length;
   return (n > 0) ? v + tooly.repeat(symbol || ' ', n) : v;
 };
 
@@ -1725,9 +1774,9 @@ tooly.startsWith = function(str, prefix) {
 
 
 /*! alias for #formatString */
-tooly.stringFormat = function() {
-  return tooly.formatString.apply(null, arguments);
-};
+// tooly.stringFormat = function() {
+//   return tooly.formatString.apply(null, arguments);
+// };
 
 
 
@@ -1738,11 +1787,12 @@ tooly.stringFormat = function() {
  * @param  {String} str the string to copy and strip
  * @return {String}     the copied string with file extension removed
  *
+ * @alias #stringExt
  * @memberOf tooly
  * @category String
  * @static
  */
-tooly.stripExtension = function(str) {
+tooly.stripExtension = tooly.stripExt = function(str) {
   return str.substring(0, str.lastIndexOf('.'));
 };
 

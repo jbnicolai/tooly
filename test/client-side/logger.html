@@ -3,99 +3,64 @@
 
 <head>
   <title>test</title>
-  <script src="../dist/tooly.js"></script>
+  <script src="../../dist/tooly.js"></script>
 </head>
-
-<style>
-
-  body {
-    width: 62;
-    padding: 32px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  #a, #b, #c {
-    display: inline-block;
-    width: 25%;
-    color: #666;
-    border: 1px solid #ccc;
-  }
-
-  .d, .e, .f {
-    padding: 16px;
-    font-size: 24px;
-  }
-
-  .d { background: rgba(255, 0, 0, 0.25); }
-  .e { background: rgba(0, 0, 255, 0.25); }
-  .f { background: rgba(0, 255, 0, 0.25); }
-
-  .g {
-    border: 4px solid #888;
-  }
-
-  .hidden {
-    display: none;
-  }
-  
 </style>
 
 <body>
-
-  <main id="main">
-
-    <div id="a">
-      <h2>#a</h2>
-      <div class="d g">.d .g</div>
-    </div>
-
-    <div id="b">
-      <h2>#b</h2>
-      <div class="e g">.e .g</div>
-    </div>
-
-    <div id="c">
-      <h2>#c</h2>
-      <div class="f g">.f .g</div>
-    </div>
-
-  </main>
+<p>Ctrl+Shift+I</p>
 
 <script>
-  window.onload = function() { 'use strict';
-    var logger = new tooly.Logger('TOOLY', { 
-      level: 0, 
-      bypassTimestamp: false, 
-      bypassLine: false,
-      groupFormat: 'color:black;font-weight:bold;font-size:18px;font-family:verdana;'
-    });
-    var str = 'this is a string';
-    var arr = ['a', 'b', 'c'];
-    var obj = {name: 'peach', color: 'turquoise'};
+'use strict';
+window.onload = function() {
+  run();
+  run2();
+};
 
-    logger.group('original console.log:');
-      console.log('%s, %o,  %o', str, obj, arr);
-    logger.groupEnd('');
+function run2() {
+  var logger = tooly.Logger();
+  logger.debug('ctor should have worked without arguments');
+  logger.options.bypassLevel = true;
+  logger.debug('bypassLevel ?');
+  logger.options.textFormat = 'color:darkorange;font-weight:bold';
+  logger.debug('errthang bypassed with formatting');
+}
 
-    logger.group('all logger levels:', 'test multi args');
-      logger.log('%s, %o, %o', str, obj, arr);
-      logger.trace('%s, %o, %o', str, obj, arr);
-      logger.debug('%s, %o, %o', str, obj, arr);
-      logger.info('%s, %o, %o', str, obj, arr);
-      logger.warn('%s, %o, %o', str, obj, arr);
-      logger.error('%s, %o, %o', str, obj, arr);
-    logger.groupEnd('');
+function run() {
+  var logger = new tooly.Logger('TOOLY', { 
+    level: 0, 
+    bypassTimestamp: false, 
+    bypassLine: false,
+    groupFormat: 'color:black;font-weight:bold;font-size:18px;font-family:verdana;'
+  });
+  var str = 'this is a string';
+  var arr = ['a', 'b', 'c'];
+  var obj = {name: 'peach', color: 'turquoise'};
 
-    logger.group('\%c arg test (console.log vs logger.log)');
-      console.log('%c%s', 'color:#FF0080', obj);
-      logger.debug('%c%s', 'color:#FF0080', obj);
-    logger.groupEnd('');
+  logger.group('original console.log:');
+    console.log('%s, %o,  %o', str, obj, arr);
+  logger.groupEnd('');
 
-    logger.options.bypassTimestamp = true;
-    logger.options.bypassLine = true;
-    logger.info('bypassTimestamp and line ? %o', logger.options);
-  }
+  logger.group('all logger levels:', 'test multi args');
+    logger.log('%s, %o, %o', str, obj, arr);
+    logger.trace('%s, %o, %o', str, obj, arr);
+    logger.debug('%s, %o, %o', str, obj, arr);
+    logger.info('%s, %o, %o', str, obj, arr);
+    logger.warn('%s, %o, %o', str, obj, arr);
+    logger.error('%s, %o, %o', str, obj, arr);
+  logger.groupEnd('');
+
+  logger.group('\%c arg test (console.log vs logger.log)');
+    console.log('%c%s', 'color:#FF0080', obj);
+    logger.debug('%c%s', 'color:#FF0080;', obj);
+  logger.groupEnd('');
+
+  logger.options.bypassTimestamp = true;
+  logger.options.bypassLine = true;
+  logger.info('bypassTimestamp and line ? %o', logger.options);
+
+  console.log(tooly.repeat('-', 33));
+}
 </script>
 
 </body>

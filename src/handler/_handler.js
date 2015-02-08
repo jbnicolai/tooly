@@ -39,7 +39,7 @@
  * 
  * // add all of the tooly.Handler.prototype methods to MyClass.prototype.
  * // third argument also augments MyClass.prototype
- * tooly.inherit(MyClass, tooly.Handler, {
+ * tooly.inherit(tooly.Handler, MyClass, {
  * 
  *   init: function() {
  *     this.on('load', function() {

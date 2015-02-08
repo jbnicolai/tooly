@@ -13,6 +13,6 @@
  */
 tooly.Handler.prototype.remove = function(fn) {
   if (this.handlers[fn] !== undefined) {
-    this.handlers[fn].length = 0;
+    delete this.handlers[fn];
   }
 };

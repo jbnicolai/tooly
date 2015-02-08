@@ -2,14 +2,12 @@
 
 
 /**
- * Add the "own properties" of `src` to `dest`.
- * Used throughout the application to add prototype
- * methods to tooly classes without
- * assigning Object as their prototype.
+ * Add the "own properties" of `src` to `dest`. Mutliple src 
+ * arguments can be supplied (ie. `tooly.extend({}, src1, src2, src3))`.
  *
  * @param  {Object} dest the destination object
  * @param  {Object} src  the source object
- * @return {Object}      `dest`
+ * @return {Object} `dest`
  *
  * @category  Object
  * @memberOf tooly
@@ -17,10 +15,11 @@
  */
 tooly.extend = function(dest, src) {
   var sources = _slice.call(arguments),
-      target = sources.shift();
+      target = sources.shift(),
+      prop;
   target = target || {};
   _each(sources, function(source) {
-    for (var prop in source) {
+    for (prop in source) {
       if (source.hasOwnProperty(prop)) {
         if (_type(source[prop]) === 'object') {
           target[prop] = tooly.extend(target[prop], source[prop]);

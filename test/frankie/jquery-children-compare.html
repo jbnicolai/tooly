@@ -8,7 +8,7 @@
 <body>
   <div class="container">
     <div class="list_01">
-      <ul id="li1">
+      <ul id="ul1">
         <li>list_01 item #1</li>
         <li>list_01 item #2</li>
         <li>list_01 item #3</li>
@@ -17,7 +17,7 @@
   </div>
   <!-- not in container -->
   <div class="list_02">
-    <ul id="li2">
+    <ul id="ul2">
       <li>list_02 item #1</li>
       <li>list_02 item #2</li>
       <li>list_02 item #3</li>
@@ -25,7 +25,7 @@
   </div>
   <!-- same parent -->
   <div class="list_03"> 
-    <ul id="li3">
+    <ul id="ul3">
       <li>list_03 item #1<small>_descendent_</small></li>
       <li>list_03 item #2<small>_descendent_</small></li>
       <li>list_03 item #3<small>_descendent_</small></li>
@@ -34,23 +34,23 @@
 </body>
 <script>
   $(function() {
-    var logger = tooly.Logger();
-    var _ = tooly.Frankie.bind(this);
+    var logger = tooly.Logger('CHILDREN', { level: 0 });
+    var _ = tooly.Frankie;
 
     console.group();
-    logger.info('JQUERY');
-    var $lists = $('.list_01, .list_02, .list_03');
-    logger.debug('$lists: %o', $lists);
-    var $children = $lists.children();
-    logger.debug('$children: %o', $children);
+      logger.info('JQUERY');
+      var $lists = $('.list_01, .list_02, .list_03');
+      logger.debug('$lists: %o', $lists);
+      var $children = $lists.children();
+      logger.debug('$children: %o', $children);
     console.groupEnd();
     
     console.group();
-    logger.info('TOOLY.FRANKIE');    
-    var _lists = _('.list_01, .list_02, .list_03');
-    logger.debug('_lists: %o', _lists);
-    var _children = _lists.children();
-    logger.debug('_children: %o', _children);
+      logger.info('TOOLY.FRANKIE');    
+      var _lists = _('.list_01, .list_02, .list_03');
+      logger.debug('_lists: %o', _lists);
+      var _children = _lists.children();
+      logger.debug('_children: %o', _children);
     console.groupEnd();
   });
 </script>

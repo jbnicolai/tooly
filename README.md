@@ -58,7 +58,15 @@ Build with `npm run all`.
 ## Changelog
 
 + 0.6.4 Logger options `bypassTimestamp` and `bypassLine` now default to true
-+ 0.6.5 Frankie: fixed .find; minor .attr bugfix; added .each
++ 0.6.5
+  - `Frankie#find` and `Frankie#attr` bugfix
+  - added `Frankie#each`
++ 0.7.0 
+  - __Breaking change__: Handler is now only `on`, `register`, `remove`, `removeAll`, and `trigger` (no aliases)
+  - __Breaking change__: `Handler#remove(<name>)` now deletes the `<name>` property from the `handlers` object 
+    (instead of just emptying that `<name>`'s array)
+  - __Breaking change__: tooly.Logger now defaults to level 0, and can be instantiated without arguments
+  - added __symbol__ param to `formatMoney`
 
 # License
 
