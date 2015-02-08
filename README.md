@@ -36,7 +36,7 @@ grunt build
 
 Available categories include:
 + `collections`
-+ `frankie` (jQuery-like dom selection) - (__unstable__)
++ `frankie` (jQuery-like dom selection)
 + `logger`
 + `object`
 + `string`
@@ -57,16 +57,19 @@ Build with `npm run all`.
 
 ## Changelog
 
-+ 0.6.4 Logger options `bypassTimestamp` and `bypassLine` now default to true
-+ 0.6.5
-  - `Frankie#find` and `Frankie#attr` bugfix
-  - added `Frankie#each`
-+ 0.7.0 
-  - __Breaking change__: Handler is now only `on`, `register`, `remove`, `removeAll`, and `trigger` (no aliases)
-  - __Breaking change__: `Handler#remove(<name>)` now deletes the `<name>` property from the `handlers` object 
+__0.7.1__
+  + __Breaking Change__: removed `isHash`- no point when we have tooly.type
+__0.7.0__
+  + __Breaking change__: Handler is now only `on`, `register`, `remove`, `removeAll`, and `trigger` (no aliases)
+  + __Breaking change__: `Handler#remove(<name>)` now deletes the `<name>` property from the `handlers` object 
     (instead of just emptying that `<name>`'s array)
-  - __Breaking change__: tooly.Logger now defaults to level 0, and can be instantiated without arguments
-  - added __symbol__ param to `formatMoney`
+  + __Breaking change__: tooly.Logger now defaults to level 0, and can be instantiated without arguments
+  + added __symbol__ param to `formatMoney`
+__0.6.5__
+  + `Frankie#find` and `Frankie#attr` bugfix
+  + added `Frankie#each`
+__0.6.4__ 
+  + Logger options `bypassTimestamp` and `bypassLine` now default to true
 
 # License
 

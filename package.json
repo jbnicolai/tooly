@@ -1,6 +1,6 @@
 {
   "name": "tooly",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "config": {
     "blanket": {
       "pattern": "dist/tooly.js"

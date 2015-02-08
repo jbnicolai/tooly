@@ -1231,14 +1231,20 @@ tooly.Logger.prototype.error = function() { _log(this, 5, arguments); return thi
  * @category  Object
  * @static
  */
-tooly.construct = function(ctor, args) {
-  function F() { 
-    return _type(args) === 'array' ? ctor.apply(this, args) : ctor.call(this, args);
+tooly.construct = function(ctor) {
+  var args = arguments,
+      len = args.length;
+  function F() {
+    if (len > 2)  {
+      return ctor.apply(this, _slice.call(args, 1));
+    } else if (len === 2) {
+      return ctor.call(this, args[1]);
+    }
+    return ctor.call(this);
   }
   F.prototype = ctor.prototype;
   return new F();
 };
-
 
 
 /**
@@ -1304,7 +1310,7 @@ tooly.extend = function(dest, src) {
  * @category Object
  * @static
  */
-tooly.isFalsy = function(obj) {
+tooly.falsy = tooly.isFalsy = function(obj) {
   // no-strict void 0 covers null as well
   if (obj == void 0 || obj == false) return true;
   if (_type(obj, 'string')) {

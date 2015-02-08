@@ -31,7 +31,7 @@
  * @category Object
  * @static
  */
-tooly.isFalsy = function(obj) {
+tooly.falsy = tooly.isFalsy = function(obj) {
   // no-strict void 0 covers null as well
   if (obj == void 0 || obj == false) return true;
   if (_type(obj, 'string')) {

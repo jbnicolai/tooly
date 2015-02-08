@@ -19,10 +19,10 @@ window.onload = function() {
 
 function run2() {
   var logger = tooly.Logger();
+  logger.options.bypassLine = false;
   logger.debug('ctor should have worked without arguments');
-  logger.options.bypassLevel = true;
   logger.debug('bypassLevel ?');
-  logger.options.textFormat = 'color:darkorange;font-weight:bold';
+  logger.options.textFormat = 'color:#804000;font-weight:bold';
   logger.debug('errthang bypassed with formatting');
 }
 

@@ -4,7 +4,8 @@
 /**
  * Object literal assignment results in creating an an object with Object.prototype
  * as the prototype. This allows us to assign a different prototype while keeping 
- * the convenience of literal declaration.
+ * the convenience of literal declaration. Note that the `prototype` parameter should
+ * be an instance, as in the return value of `new Klass()`, not `Klass.prototype`.
  * 
  * @param  {Object} prototype
  * @param  {Object} object    
