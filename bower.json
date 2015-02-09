@@ -1,0 +1,38 @@
+{
+  "name": "tooly",
+  "version": "0.7.1",
+  "homepage": "https://github.com/Lokua/tooly",
+  "authors": [
+    "Lokua <dev@lokua.net>"
+  ],
+  "description": "js utility functions and classes",
+  "main": "dist/tooly.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "general",
+    "js",
+    "utility",
+    "util",
+    "dom",
+    "selector",
+    "micro",
+    "event",
+    "emitter",
+    "handler",
+    "logger",
+    "logging",
+    "log",
+    "timer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}

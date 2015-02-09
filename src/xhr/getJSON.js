@@ -11,10 +11,11 @@
  *                              takes a single data parameter (the response).
  * @param {Boolean}   async     defaults to true
  *
+ * @alias #getJson
  * @memberOf tooly
  * @category XHR
  * @static
  */
-tooly.getJSON = function(jsonFile, success, async) {
+tooly.getJSON = tooly.getJson = function(jsonFile, success, async) {
   tooly.get(jsonFile, 'json', success, async);
 };

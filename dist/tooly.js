@@ -1826,11 +1826,13 @@ tooly.tag = function(tag, attrs, asString) {
       ch = segs[0].charAt(0),
       el = document.createElement(/[#.]/.test(ch) ? 'div' : segs.shift()),
       id = '', 
-      classes = [];
+      classes = [],
+      ch;
 
   segs.forEach(function(seg) {
-    if (seg.charAt(0) === '.') return classes.push(seg.replace('.', ''));
-    if (seg.charAt(0) === '#') return id = seg.replace('#', '');
+    ch = seg.charAt(0);
+    if (ch === '.') return classes.push(seg.replace('.', ''));
+    if (ch === '#') return id = seg.replace('#', '');
   });
 
   if (classes.length) el.setAttribute('class', classes.join(' '));
