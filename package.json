@@ -1,6 +1,6 @@
 {
   "name": "tooly",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "js utility functions",
   "main": "dist/tooly.js",
   "scripts": {

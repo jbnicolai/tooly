@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.8.0 (built: 2015-02-12)
+ * tooly - version 0.8.1 (built: 2015-02-12)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -1219,6 +1219,25 @@ tooly.inherit = function(Parent, Child, extension) {
   }
 };
 
+
+
+/**
+ * Execute `fn` when dom is ready
+ *
+ * @param {Function} fn the function to call when dom is loaded
+ *
+ * @memberOf tooly
+ * @category Object
+ * @static
+ */
+tooly.ready = function(fn) {
+  var readyStateCheckInterval = setInterval(function() {
+    if (document.readyState === 'complete') {
+      clearInterval(readyStateCheckInterval);
+      if (typeof fn === 'function') fn();
+    }
+  }, 10); 
+};
 
 
 /**
