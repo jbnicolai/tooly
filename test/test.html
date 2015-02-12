@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>tooly.js | Mocha Tests</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../dist/tooly.js"></script>
+    <script>
+      mocha.ui('bdd');
+      mocha.reporter('html');
+      var expect = chai.expect,
+          should = chai.should,
+          assert = chai.assert,
+          logger = tooly.Logger('_TEST'),
+          _ = tooly.Frankie;
+    </script>
+    <script src="test.js"></script>
+  </head>
+  <body>
+
+    <div style="display:none" class="a _1">
+      premier
+      <div class="ab _2">pete rock</div>
+      <div class="ab _3">
+        dj shadow
+        <div class="abc _4">
+          dj krush
+          <div class="abcd _5">the opus</div>
+          <div class="abcd _6">el p</div>
+          <div class="abcd _7">
+            mad lib
+            <div class="abcde _8">j dilla</div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    <div id="mocha"></div>
+
+    <script>mocha.run();</script>      
+    
+  </body>
+</html>

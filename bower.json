@@ -1,6 +1,6 @@
 {
   "name": "tooly",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "homepage": "https://github.com/Lokua/tooly",
   "authors": [
     "Lokua <dev@lokua.net>"
@@ -33,6 +33,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test"
+    "test",
+    "coverage"
   ]
 }

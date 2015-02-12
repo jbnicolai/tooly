@@ -2,6 +2,9 @@
 
 
 /**
+ * Check if any of the current set have class `klass`.
+ * Does not currently support checking of multiple classes.
+ * 
  * @memberOf tooly.Frankie
  * @category  Frankie
  * @instance

@@ -1,18 +1,17 @@
 # tooly
 
 > A Javascript utility library covering everything from dom selection and css manipulation,
-> object inheritance and extension, logging, event handling, string formatting, execution timing, etc. 
+> object inheritance and extension, logging, event handling, string formatting, function execution timing, etc. 
 > Basically everything that I usually want/need at my fingertips for any given project.
 > Compatible with node, amd, and modern browsers. 
-> Just under 4kb minified and gzipped 
-> (~3kb without the `logger` and `timer` modules, 
+> 4.6kb minified and gzipped (3.4kb without the `logger` and `timer` modules, 
 > which shouldn't be used in production anyway - see `dist/tooly-slim.js`). 
 
 ## Install
 
-```bash
-$ npm install tooly
-```
+npm: `npm install tooly --save`
+
+bower: `bower install tooly --save`
 
 ## Overview
 
@@ -134,24 +133,30 @@ node bin/build include dom string -o tooly-custom.js && grunt build
 
 ## Development
 "Rough Drafts" are worked out in the `test/_spec` folder, either as .js files for node testing or .html for browser-based 
-code, before being transferred to `src`. Testing is done with Mocha and Chai, run with `npm run test`, 
-or load `test/client-side/test.html` for dom-related functions. Build with `npm run all`.
+code, before being implemented in `src`. Testing is done with Mocha and Chai. Run with `npm run test`, 
+or serve `test/test.html` for dom-related functions. Build with `npm run all`.
 
 ## Changelog
 
-__0.7.1__
-  + __Breaking Change__: removed `isHash`- use `tooly.type(obj, 'object')` instead
+__0.8.0__
++ added `extendTo` function to lend tooly methods to another lib (tested with lodash)
++ __Breaking Change__: removed `isHash`- use `tooly.type(obj, 'object')` instead
++ added `tooly.empty` to collections
++ fixed global leak `_0` in `Frankie#css`
+
 __0.7.0__
-  + __Breaking change__: Handler is now only `on`, `register`, `remove`, `removeAll`, and `trigger` (no aliases)
-  + __Breaking change__: `Handler#remove(<name>)` now deletes the `<name>` property from the `handlers` object 
-    (instead of just emptying that `<name>`'s array)
-  + __Breaking change__: tooly.Logger now defaults to level 0, and can be instantiated without arguments
-  + added __symbol__ param to `formatMoney`
++ __Breaking change__: Handler is now only `on`, `register`, `remove`, `removeAll`, and `trigger` (no aliases)
++ __Breaking change__: `Handler#remove(<name>)` now deletes the `<name>` property from the `handlers` object 
+  (instead of just emptying that `<name>`'s array)
++ __Breaking change__: tooly.Logger now defaults to level 0, and can be instantiated without arguments
++ added __symbol__ param to `formatMoney`
+
 __0.6.5__
-  + `Frankie#find` and `Frankie#attr` bugfix
-  + added `Frankie#each`
++ `Frankie#find` and `Frankie#attr` bugfix
++ added `Frankie#each`
+
 __0.6.4__ 
-  + Logger options `bypassTimestamp` and `bypassLine` now default to true
++ Logger options `bypassTimestamp` and `bypassLine` now default to true
 
 # License
 

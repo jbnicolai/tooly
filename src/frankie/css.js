@@ -31,7 +31,7 @@ tooly.Frankie.prototype.css = function() {
   } else {
     var el = this.els[0];
     if (argsLen === 1) {
-      _0 = arguments[0];
+      var _0 = arguments[0];
       // GET by key
       if (_type(_0, 'string')) {
         return el.style[_0] || undefined;

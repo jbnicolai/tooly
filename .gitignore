@@ -1,4 +1,4 @@
 node_modules
-bin/update
-bin/purge
 npm-debug.log
+coverage
+test/html.html

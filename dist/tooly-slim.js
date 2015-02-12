@@ -1,5 +1,5 @@
 /*!
- * tooly - version 0.7.1 (built: 2015-02-08)
+ * tooly - version 0.8.0 (built: 2015-02-12)
  * js utility functions
  *
  * CUSTOM BUILD
@@ -97,7 +97,7 @@ tooly.noop = _noop;
  * @category String
  * @static
  */
-tooly.indentity = _identity;
+tooly.identity = _identity;
 
 
 
@@ -131,6 +131,26 @@ tooly.each = function(obj, iterator, context) {
 };
 
 
+
+
+/**
+ * Delete all properties from collection.
+ * 
+ * @param {Object|Array} el the array or object to initialize
+ * @return {Object} `tooly` for chaining
+ * 
+ * @memberOf tooly
+ * @category  Collections
+ * @static
+ */
+tooly.empty = function(el) {
+  if (_type(el) === 'object') {
+    _each(el, function(v, k) { delete el[k]; });
+    return tooly;
+  }
+  while (el.length) el.pop();
+  return tooly;
+};
 
 
 var _sort_re, _sort_dig_re;
@@ -459,7 +479,7 @@ tooly.Frankie.prototype.css = function() {
   } else {
     var el = this.els[0];
     if (argsLen === 1) {
-      _0 = arguments[0];
+      var _0 = arguments[0];
       // GET by key
       if (_type(_0, 'string')) {
         return el.style[_0] || undefined;
@@ -573,6 +593,9 @@ tooly.Frankie.prototype.get = function(i) {
 
 
 /**
+ * Check if any of the current set have class `klass`.
+ * Does not currently support checking of multiple classes.
+ * 
  * @memberOf tooly.Frankie
  * @category  Frankie
  * @instance
@@ -1057,6 +1080,36 @@ tooly.extend = function(dest, src) {
 
 
 /**
+ * Rather then compete with other util libs, tooly can lend all of its 
+ * methods to another object conveniently. In the case of duplicated method names,
+ * tooly will forfit its own implementation in favor of the extended.  
+ * Extending Lodash/underscore was the prime motivation for this, as it is quite nice
+ * to only have to use the `_` char for similar utility purposes.
+ *
+ * @example
+ *  ```js
+ *  // as simple as
+ *  tooly.extendTo(_);
+ *  // or alternatively, in node...
+ *  var _ = require('tooly').extendTo(require('lodash'));
+ *  ```
+ *
+ * @param  {Object} dest the destination to add tooly methods to
+ *
+ * @category  Object
+ * @memberOf tooly
+ * @static
+ */
+tooly.extendTo = function(_) {
+  for (var p in tooly) {
+    if (tooly.hasOwnProperty(p) && !_.hasOwnProperty(p)) {
+      _[p] = tooly[p];
+    }
+  }
+};
+
+
+/**
  * Extensively check if `obj` is "falsy".
  * <br>
  * ### tooly.falsy returns true for the following:
@@ -1534,13 +1587,6 @@ tooly.startsWith = function(str, prefix) {
 
 
 
-/*! alias for #formatString */
-// tooly.stringFormat = function() {
-//   return tooly.formatString.apply(null, arguments);
-// };
-
-
-
 /**
  * Get a copy of `str` without file extension, or anything after the last `.`
  * (does not change the original string)
@@ -1671,11 +1717,12 @@ tooly.get = function(url, respType, success, async) {
  *                              takes a single data parameter (the response).
  * @param {Boolean}   async     defaults to true
  *
+ * @alias #getJson
  * @memberOf tooly
  * @category XHR
  * @static
  */
-tooly.getJSON = function(jsonFile, success, async) {
+tooly.getJSON = tooly.getJson = function(jsonFile, success, async) {
   tooly.get(jsonFile, 'json', success, async);
 };
 

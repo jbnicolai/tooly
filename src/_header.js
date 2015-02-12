@@ -71,4 +71,4 @@ tooly.noop = _noop;
  * @category String
  * @static
  */
-tooly.indentity = _identity;
+tooly.identity = _identity;

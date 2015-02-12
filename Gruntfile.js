@@ -13,20 +13,6 @@ module.exports = function(grunt) {
     cust: fs.readFileSync('./bin/.custom-comment', { encoding: 'utf8' }),
     pkg: grunt.file.readJSON('package.json'),
 
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec',
-          // captureFile: 'test/_test-results.log',
-          quiet: false,
-          clearRequireCache: false,
-          colors: true,
-          require: 'blanket'
-        },
-        src: ['test/{server-side,client-side}/*.js']
-      }
-    },    
-
     umd: {
       build: {
         src: sourcefile,
@@ -76,6 +62,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('test', ['mochaTest']);
   grunt.registerTask('build', ['umd:build', 'usebanner:build', 'uglify:build', 'usebanner:post']);
 };
